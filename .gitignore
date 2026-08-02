@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Virtual environment
+.venv/
+
+# Environment variables and secrets
+.env
+
+# macOS
+.DS_Store
+
+# VS Code
+.vscode/
+
+# Uploaded and generated data
+
+# Ignore everything under raw
+data/raw/*
+
+# Keep the knowledge base
+!data/raw/knowledge_base/
+!data/raw/knowledge_base/*.md
+
+# Ignore datasets
+data/raw/datasets/
+
+# Keep gitkeep files
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Logs and experiment outputs
+*.log
+experiments/results/*
+!experiments/results/.gitkeep
+# Local Qdrant database
+qdrant_storage/node_modules/
+.venv/
+qdrant_storage/
+__pycache__/
+*.pyc

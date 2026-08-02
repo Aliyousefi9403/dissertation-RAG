@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dissertation-rag"
+version = "0.1.0"
+description = "Research platform for detecting and mitigating knowledge poisoning in RAG-based cybersecurity systems."
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "langchain",
+    "langchain-community",
+    "langchain-openai",
+    "langchain-huggingface",
+    "langchain-qdrant",
+    "qdrant-client",
+    "sentence-transformers",
+    "streamlit",
+    "requests",
+    "python-dotenv",
+    "pandas",
+    "fastapi",
+    "uvicorn[standard]",
+    "langchain-text-splitters",
+    "textattack",
+    "tensorflow_hub",
+    "tensorflow",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "ruff",
+]
+
+[tool.setuptools]
+package-dir = {"" = "backend"}
+
+[tool.setuptools.packages.find]
+where = ["backend"]

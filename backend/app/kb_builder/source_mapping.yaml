@@ -1,0 +1,439 @@
+version: 1
+
+attacks:
+  tcp_syn_flood:
+    display_name: "TCP SYN Flood"
+    category: "ddos"
+    output_path: "data/raw/knowledge_base/ddos/tcp_syn_flood.md"
+
+    primary_source:
+      system: "CAPEC"
+      id: "CAPEC-482"
+      role: "attack_mechanism"
+      required: true
+
+    supporting_sources:
+      - system: "MITRE_ATTACK_ENTERPRISE"
+        id: "T1498.001"
+        role: "network_dos_context"
+        required: true
+
+      - system: "MITRE_ATTACK_ENTERPRISE"
+        id: "T1499.001"
+        role: "tcp_state_exhaustion_context"
+        required: false
+
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+
+  udp_flood:
+    display_name: "UDP Flood"
+    category: "ddos"
+    output_path: "data/raw/knowledge_base/ddos/udp_flood.md"
+
+    primary_source:
+      system: "CAPEC"
+      id: "CAPEC-486"
+      role: "attack_mechanism"
+      required: true
+
+    supporting_sources:
+      - system: "MITRE_ATTACK_ENTERPRISE"
+        id: "T1498.001"
+        role: "network_dos_context"
+        required: true
+
+      - system: "CAPEC"
+        id: "CAPEC-495"
+        role: "udp_fragmentation_context"
+        required: false
+
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+
+  http_flood:
+    display_name: "HTTP Flood"
+    category: "ddos"
+    output_path: "data/raw/knowledge_base/ddos/http_flood.md"
+
+    primary_source:
+      system: "CAPEC"
+      id: "CAPEC-488"
+      role: "attack_mechanism"
+      required: true
+
+    supporting_sources:
+      - system: "MITRE_ATTACK_ENTERPRISE"
+        id: "T1499.003"
+        role: "application_exhaustion_context"
+        required: true
+
+      - system: "CAPEC"
+        id: "CAPEC-469"
+        role: "http_dos_context"
+        required: false
+
+      - system: "OWASP"
+        document: "Denial of Service Cheat Sheet"
+        role: "prevention_and_mitigation"
+        required: false
+
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+
+  icmp_flood:
+    display_name: "ICMP Flood"
+    category: "ddos"
+    output_path: "data/raw/knowledge_base/ddos/icmp_flood.md"
+
+    primary_source:
+      system: "CAPEC"
+      id: "CAPEC-487"
+      role: "attack_mechanism"
+      required: true
+
+    supporting_sources:
+      - system: "MITRE_ATTACK_ENTERPRISE"
+        id: "T1498.001"
+        role: "network_dos_context"
+        required: true
+
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+
+  port_scanning:
+    display_name: "Port Scanning"
+    category: "reconnaissance"
+    output_path: "data/raw/knowledge_base/reconnaissance/port_scanning.md"
+
+    primary_source:
+      system: "CAPEC"
+      id: "CAPEC-300"
+      role: "attack_mechanism"
+      required: true
+
+    supporting_sources:
+      - system: "MITRE_ATTACK_ENTERPRISE"
+        id: "T1046"
+        role: "network_service_scanning_context"
+        required: true
+
+      - system: "CAPEC"
+        id: "CAPEC-287"
+        role: "tcp_syn_scan_context"
+        required: false
+
+      - system: "CAPEC"
+        id: "CAPEC-308"
+        role: "udp_scan_context"
+        required: false
+
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+
+  vulnerability_scanning:
+    display_name: "Vulnerability Scanning"
+    category: "reconnaissance"
+    output_path: "data/raw/knowledge_base/reconnaissance/vulnerability_scanning.md"
+
+    primary_source:
+      system: "MITRE_ATTACK_ENTERPRISE"
+      id: "T1595.002"
+      role: "attack_mechanism"
+      required: true
+
+    supporting_sources:
+      - system: "MITRE_ATTACK_ENTERPRISE"
+        id: "T1046"
+        role: "network_service_scanning_context"
+        required: false
+
+      - system: "NIST"
+        document: "NIST SP 800-115"
+        role: "testing_and_detection_context"
+        required: true
+
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+
+  os_fingerprinting:
+    display_name: "Operating System Fingerprinting"
+    category: "reconnaissance"
+    output_path: "data/raw/knowledge_base/reconnaissance/os_fingerprinting.md"
+
+    primary_source:
+      system: "CAPEC"
+      id: "CAPEC-312"
+      role: "active_fingerprinting_mechanism"
+      required: true
+
+    supporting_sources:
+      - system: "CAPEC"
+        id: "CAPEC-313"
+        role: "passive_fingerprinting_context"
+        required: true
+
+      - system: "MITRE_ATTACK_ENTERPRISE"
+        id: "T1046"
+        role: "network_reconnaissance_context"
+        required: false
+
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+
+  arp_spoofing:
+    display_name: "ARP Spoofing"
+    category: "spoofing"
+    output_path: "data/raw/knowledge_base/spoofing/arp_spoofing.md"
+
+    primary_source:
+      system: "MITRE_ATTACK_ENTERPRISE"
+      id: "T1557.002"
+      role: "attack_mechanism"
+      required: true
+
+    supporting_sources:
+      - system: "CAPEC"
+        id: "CAPEC-141"
+        role: "cache_poisoning_context"
+        required: false
+
+      - system: "MITRE_ATTACK_ICS"
+        id: "T0830"
+        role: "ics_man_in_the_middle_context"
+        required: false
+
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+
+  dns_spoofing:
+    display_name: "DNS Spoofing"
+    category: "spoofing"
+    output_path: "data/raw/knowledge_base/spoofing/dns_spoofing.md"
+
+    primary_source:
+      system: "CAPEC"
+      id: "CAPEC-598"
+      role: "attack_mechanism"
+      required: true
+
+    supporting_sources:
+      - system: "CAPEC"
+        id: "CAPEC-142"
+        role: "dns_cache_poisoning_context"
+        required: false
+
+      - system: "MITRE_ATTACK_ENTERPRISE"
+        id: "T1557"
+        role: "adversary_in_the_middle_context"
+        required: false
+
+      - system: "NIST"
+        document: "NIST SP 800-81-2"
+        role: "dns_security_guidance"
+        required: true
+
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+
+  xss:
+    display_name: "Cross-Site Scripting"
+    category: "injection"
+    output_path: "data/raw/knowledge_base/injection/xss.md"
+
+    primary_source:
+      system: "CAPEC"
+      id: "CAPEC-63"
+      role: "attack_mechanism"
+      required: true
+
+    supporting_sources:
+      - system: "MITRE_ATTACK_ENTERPRISE"
+        id: "T1190"
+        role: "public_facing_application_context"
+        required: false
+
+      - system: "OWASP"
+        document: "Cross Site Scripting Prevention Cheat Sheet"
+        role: "prevention_and_mitigation"
+        required: true
+
+      - system: "OWASP"
+        document: "Web Security Testing Guide - Testing for XSS"
+        role: "detection_and_testing"
+        required: true
+
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+
+  sql_injection:
+    display_name: "SQL Injection"
+    category: "injection"
+    output_path: "data/raw/knowledge_base/injection/sql_injection.md"
+
+    primary_source:
+      system: "CAPEC"
+      id: "CAPEC-66"
+      role: "attack_mechanism"
+      required: true
+
+    supporting_sources:
+      - system: "MITRE_ATTACK_ENTERPRISE"
+        id: "T1190"
+        role: "adversary_context"
+        required: true
+
+      - system: "MITRE_ATTACK_ICS"
+        id: "T0819"
+        role: "iot_ics_context"
+        required: false
+
+      - system: "OWASP"
+        document: "SQL Injection Prevention Cheat Sheet"
+        role: "prevention_and_mitigation"
+        required: true
+
+      - system: "NIST"
+        document: "NIST SP 800-53 SI-10"
+        role: "input_validation_guidance"
+        required: false
+
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+
+  uploading:
+    display_name: "Malicious File Upload"
+    category: "injection"
+    output_path: "data/raw/knowledge_base/injection/uploading.md"
+
+    primary_source:
+      system: "CAPEC"
+      id: "CAPEC-17"
+      role: "malicious_file_mechanism"
+      required: true
+
+    supporting_sources:
+      - system: "MITRE_ATTACK_ENTERPRISE"
+        id: "T1190"
+        role: "public_facing_application_context"
+        required: false
+
+      - system: "OWASP"
+        document: "File Upload Cheat Sheet"
+        role: "prevention_and_mitigation"
+        required: true
+
+      - system: "CWE"
+        id: "CWE-434"
+        role: "dangerous_file_type_context"
+        required: true
+
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+
+  backdoor:
+    display_name: "Backdoor"
+    category: "malware"
+    output_path: "data/raw/knowledge_base/malware/backdoor.md"
+
+    primary_source:
+      system: "MITRE_ATTACK_ENTERPRISE"
+      id: "T1053"
+      role: "persistence_context"
+      required: false
+
+    supporting_sources:
+      - system: "MITRE_ATTACK_ENTERPRISE"
+        id: "T1543"
+        role: "service_based_persistence_context"
+        required: true
+
+      - system: "MITRE_ATTACK_ENTERPRISE"
+        id: "T1505.003"
+        role: "web_shell_context"
+        required: false
+
+      - system: "CAPEC"
+        id: "CAPEC-523"
+        role: "malicious_software_context"
+        required: false
+
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+
+  password_cracking:
+    display_name: "Password Cracking"
+    category: "malware"
+    output_path: "data/raw/knowledge_base/malware/password_cracking.md"
+
+    primary_source:
+      system: "CAPEC"
+      id: "CAPEC-49"
+      role: "password_brute_force_mechanism"
+      required: true
+
+    supporting_sources:
+      - system: "CAPEC"
+        id: "CAPEC-16"
+        role: "dictionary_attack_context"
+        required: true
+
+      - system: "CAPEC"
+        id: "CAPEC-55"
+        role: "rainbow_table_context"
+        required: false
+
+      - system: "MITRE_ATTACK_ENTERPRISE"
+        id: "T1110"
+        role: "brute_force_context"
+        required: true
+
+      - system: "NIST"
+        document: "NIST SP 800-63B"
+        role: "authentication_mitigation_guidance"
+        required: true
+
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true

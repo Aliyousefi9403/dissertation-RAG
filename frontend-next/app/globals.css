@@ -1,0 +1,2308 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  /* AegisRAG dark/cyan design tokens. The app never toggles the `.dark`
+   * class (it is always presented dark), so these are the tokens every
+   * Tailwind utility (bg-background, bg-primary, border-border, ...) and
+   * every hand-written class in this file resolve against. */
+  --background: #02050a;
+  --foreground: #eef3fb;
+  --card: #0a0f18;
+  --card-foreground: #eef3fb;
+  --popover: #0a0f18;
+  --popover-foreground: #eef3fb;
+  --primary: #38bdf8;
+  --primary-foreground: #02050a;
+  --secondary: #101823;
+  --secondary-foreground: #eef3fb;
+  --muted: #0d131c;
+  --muted-foreground: #9aa7ba;
+  --accent: rgba(56, 189, 248, 0.12);
+  --accent-foreground: #eef3fb;
+  --destructive: #b3554f;
+  --border: rgba(148, 163, 184, 0.16);
+  --input: rgba(148, 163, 184, 0.18);
+  --ring: rgba(56, 189, 248, 0.5);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.5rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+
+  /* Extra quiet text tone for disabled/placeholder copy — distinct from
+   * --muted-foreground and re-checked against every background it is
+   * actually painted on (sidebar, composer) to clear WCAG AA (>=4.5:1). */
+  --text-quiet: #7a828c;
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
+/* AegisRAG application shell
+ *
+ * Visual language: near-black surface (--background), thin low-opacity
+ * hairline borders instead of card shadows, flat opaque panels instead of
+ * stacked backdrop-filter blur, and a single cyan/electric-blue accent
+ * family shared with the living core (see livingCorePalette.ts) — a muted
+ * desaturated red is reserved for error/fault states only, never a bright
+ * alarm red. */
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 80% 0%,
+      rgba(56, 189, 248, 0.05),
+      transparent 40%
+    ),
+    var(--background);
+  color: var(--foreground);
+}
+
+button,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app-shell {
+  position: relative;
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  width: 100%;
+  /* 100dvh (with 100vh as a fallback for older engines) tracks the browser's
+   * *current* visual viewport instead of the large/address-bar-hidden one.
+   * On first paint mobile Safari/Chrome still show their full address bar,
+   * so a plain 100vh shell is taller than what's actually visible and,
+   * combined with `overflow: hidden`, clips the composer at the bottom
+   * edge until the chrome collapses. dvh keeps the shell (and therefore
+   * the composer row) inside the real fold from the first frame. */
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow: hidden;
+  /* Transparent so the page-root DotFieldBackdrop (mounted behind the
+   * whole shell in app/layout.tsx) can show through the workspace region
+   * — the sidebar stays fully opaque via its own background below. */
+  background: transparent;
+}
+
+.sidebar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  min-height: 100vh;
+  min-height: 100dvh;
+  flex-direction: column;
+  padding: 24px 18px;
+  border-right: 1px solid var(--border);
+  background: var(--background);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 8px 26px;
+}
+
+.brand img {
+  object-fit: contain;
+}
+
+.brand h1 {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--foreground);
+}
+
+.brand p {
+  margin-top: 3px;
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+
+.navigation {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nav-item {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted-foreground);
+  font-size: 13.5px;
+  font-weight: 500;
+  text-align: left;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
+}
+
+.nav-item:hover {
+  border-color: var(--border);
+  background: var(--secondary);
+  color: var(--foreground);
+}
+
+/* Assistant stays the clear visual anchor of the sidebar — bolder weight,
+ * cyan tint. The not-yet-available items (below) are deliberately smaller
+ * and lighter so they never compete with it for attention. */
+.nav-item.active {
+  border-color: rgba(56, 189, 248, 0.28);
+  background: rgba(56, 189, 248, 0.1);
+  color: #dff6ff;
+  font-weight: 600;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 18px 8px 4px;
+  border-top: 1px solid var(--border);
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+
+.status-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  color: var(--muted-foreground);
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: #22c55e;
+  box-shadow: 0 0 12px rgba(34, 197, 94, 0.8);
+}
+
+.workspace {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  min-width: 0;
+  height: 100vh;
+  height: 100dvh;
+  /* topbar / platform status bar / scrollable conversation / composer. */
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  overflow: hidden;
+  /* Very subtle, mostly-opaque near-black gradient rather than a flat
+   * solid fill — dark enough to keep answer text at full WCAG AA
+   * contrast (every text-bearing element still sits on its own opaque
+   * .card/.muted surface), but low enough alpha at the edges that the
+   * DotFieldBackdrop's sparse dot grid reads faintly behind the living
+   * core and composer. The sidebar (below) stays fully solid. */
+  background:
+    radial-gradient(
+      ellipse 70% 55% at 50% 38%,
+      rgba(56, 189, 248, 0.06),
+      transparent 72%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(2, 5, 10, 0.78) 0%,
+      rgba(2, 5, 10, 0.88) 55%,
+      rgba(2, 5, 10, 0.95) 100%
+    );
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 70px;
+  padding: 16px 32px;
+  border-bottom: 1px solid var(--border);
+  background: var(--background);
+}
+
+.eyebrow {
+  color: var(--muted-foreground);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.topbar h2 {
+  margin-top: 4px;
+  color: var(--foreground);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* --- Platform status bar (Task 1) ---
+ * Horizontal strip of platform-wide stats above the conversation stage.
+ * Distinct from `.status-row`/`.status-dot` (the sidebar-footer backend
+ * indicator) — see `components/status/PlatformStatusBar.tsx`. Same dark/
+ * graphite/cyan language as the rest of the shell. */
+.platform-status-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+  padding: 12px 32px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(10, 13, 19, 0.5);
+}
+
+.platform-status-bar--error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #e2b3af;
+  font-size: 12.5px;
+}
+
+.platform-status-item {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.platform-status-label {
+  color: var(--text-quiet);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.platform-status-value {
+  overflow: hidden;
+  max-width: 220px;
+  color: var(--foreground);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.platform-status-value--accent {
+  color: #7dd3fc;
+}
+
+.platform-status-value--ok {
+  color: #7fd99a;
+}
+
+.platform-status-value--warn {
+  color: #e2b3af;
+}
+
+.platform-status-value--icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.platform-status-skeleton-label {
+  width: 72px;
+  height: 9px;
+}
+
+.platform-status-skeleton-value {
+  width: 92px;
+  height: 14px;
+  margin-top: 2px;
+}
+
+/* --- Conversation stage ---
+ * Idle: the living core, quiet prompt and the composer/status below it
+ * carry all the visual weight and are vertically centered in the
+ * available space, with the core sized to dominate the main visual area
+ * (see .living-core-stage--hero and the hero-scoped
+ * .living-core-canvas-wrap sizing further down). Once a question has been
+ * asked (submitting/success/noSources/error) the stage switches to a
+ * top-aligned flow: the living-core-stage wrapper shrinks to a smaller,
+ * secondary/compact role (see .living-core-stage--compact) and the
+ * answer/evidence stack becomes the dominant element. */
+
+/* `.conversation` is the scrollable row that holds the main
+ * living-core/answer column (`.conversation-main`) side-by-side with the
+ * evidence column (`.evidence-column`, see Task 2's EvidencePanel) on wide
+ * viewports, and stacks them vertically below `--conversation-two-col-bp`
+ * (matches the existing sidebar-collapse convention of adapting layout by
+ * width rather than duplicating markup per breakpoint). */
+.conversation {
+  display: flex;
+  min-height: 0;
+  /* `stretch` (the flex default) so `.conversation-main` and
+   * `.evidence-column` both take the row's full cross-axis height —
+   * required for `.conversation--idle .conversation-main`'s
+   * `justify-content: center` (below) to actually center vertically
+   * rather than collapsing to content height. */
+  flex-direction: row;
+  align-items: stretch;
+  gap: 24px;
+  overflow-y: auto;
+  padding: 24px 34px 40px;
+  scroll-behavior: smooth;
+}
+
+.conversation-main {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 auto;
+  flex-direction: column;
+}
+
+.conversation--idle .conversation-main {
+  justify-content: center;
+}
+
+.conversation--active .conversation-main {
+  justify-content: flex-start;
+}
+
+@media (max-width: 1180px) {
+  .conversation {
+    flex-direction: column;
+  }
+}
+
+.idle-hint {
+  width: min(460px, 100%);
+  margin: 20px auto 0;
+  color: var(--muted-foreground);
+  font-size: 13px;
+  line-height: 1.65;
+  text-align: center;
+}
+
+.living-core-stage {
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Hero (idle): the core is the dominant element on the page — sized to
+ * read as roughly 35-50% of the main visual area on desktop, with real
+ * vertical room for its foreground/middle/background point-cloud depth
+ * (see the hero-scoped .living-core-canvas-wrap override below), not
+ * cropped by a small fixed-height wrapper. */
+.living-core-stage--hero {
+  max-width: min(880px, 92%);
+}
+
+/* Compact (active): the core shrinks and steps back into a secondary role
+ * once an answer/evidence stack needs the space, while staying visible
+ * and legible rather than disappearing.
+ *
+ * Deliberately NOT a `transition` on `max-width` (and `.living-core-canvas-
+ * wrap` below deliberately has no `transition` on its height either): the
+ * r3f `<Canvas>` inside resizes via an async `ResizeObserver`, which can't
+ * keep up with a continuously-interpolating CSS layout transition — mid-
+ * transition, the canvas's actual pixel size lags several frames behind
+ * the shrinking wrapper, so the WebGL content (sized/positioned for a much
+ * larger box) overflows and gets clipped by `overflow: hidden` into the
+ * wrapper's top-left corner (confirmed live: canvas stuck at its old
+ * hero-sized `878x638` for ~350ms while the wrapper animated down through
+ * `472x354` -> `315x236`). Snapping the real layout size instantly avoids
+ * that class of bug outright (matching the existing prefers-reduced-motion
+ * fallback, which already disabled this transition), while the short
+ * `living-core-settle` keyframe below still gives compact entry a soft
+ * visual cue — purely `opacity`/`transform`, which never triggers
+ * `ResizeObserver` and so never re-introduces the stale-canvas clip. */
+.living-core-stage--compact {
+  max-width: 440px;
+  animation: living-core-settle 320ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .living-core-stage--compact {
+    animation: none;
+  }
+}
+
+@keyframes living-core-settle {
+  from {
+    opacity: 0.5;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.response-stack {
+  display: flex;
+  width: min(880px, 100%);
+  margin: 0 auto;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Staged, non-streaming reveal: each top-level section (question, answer,
+ * evidence) fades/rises in with a short, increasing delay, so the surface
+ * arrives as a brief, legible sequence rather than one flat pop-in — the
+ * answer text itself still arrives whole and atomically (see
+ * .answer-reveal below), this only staggers which *section* becomes
+ * visible first. Capped well under 1s total and disabled entirely under
+ * reduced motion, never a substitute for real loading state. */
+.response-stack > * {
+  animation: panel-enter 360ms ease-out both;
+}
+
+.response-stack > *:nth-child(2) {
+  animation-delay: 70ms;
+}
+
+.response-stack > *:nth-child(3) {
+  animation-delay: 140ms;
+}
+
+.response-stack > *:nth-child(4) {
+  animation-delay: 210ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .response-stack > * {
+    animation: none;
+  }
+}
+
+/* --- Answer surface: dark titanium panels ---
+ * Layered graphite gradient (matching the composer's material language)
+ * instead of a flat single-tone card, with a hairline border and a soft
+ * drop shadow for depth. Every text-bearing surface stays fully opaque so
+ * contrast is unaffected by the faint DotFieldBackdrop now visible behind
+ * `.workspace`. */
+.user-card,
+.assistant-card,
+.evidence-section {
+  position: relative;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 14px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.028) 0%, rgba(255, 255, 255, 0) 18%),
+    linear-gradient(160deg, #10141b 0%, #0a0d13 55%, #12151c 100%);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.22);
+}
+
+.user-card {
+  padding: 16px 20px;
+}
+
+.user-card > p:last-child {
+  margin-top: 6px;
+  color: var(--foreground);
+  font-size: 15px;
+}
+
+.assistant-card {
+  padding: 22px 24px;
+}
+
+/* Narrow specular top edge, echoing the composer surface immediately
+ * below it in the layout, so the answer panel and composer read as one
+ * connected material rather than two unrelated components. */
+.assistant-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 20px;
+  left: 20px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(125, 211, 252, 0.32) 50%,
+    transparent
+  );
+  pointer-events: none;
+}
+
+.assistant-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.assistant-heading img {
+  object-fit: contain;
+}
+
+.assistant-heading h3,
+.section-heading h3 {
+  margin-top: 2px;
+  color: var(--foreground);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.answer-text {
+  color: var(--foreground);
+  font-size: 15.5px;
+  line-height: 1.75;
+}
+
+.answer-text > *:first-child {
+  margin-top: 0;
+}
+
+.answer-text > *:last-child {
+  margin-bottom: 0;
+}
+
+.answer-text p {
+  margin: 0 0 14px;
+}
+
+.answer-text h1,
+.answer-text h2,
+.answer-text h3,
+.answer-text h4,
+.answer-text h5,
+.answer-text h6 {
+  margin: 22px 0 10px;
+  color: var(--foreground);
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.answer-text h1 {
+  font-size: 20px;
+}
+
+.answer-text h2 {
+  font-size: 18px;
+}
+
+.answer-text h3 {
+  font-size: 16px;
+}
+
+.answer-text h4,
+.answer-text h5,
+.answer-text h6 {
+  font-size: 15px;
+}
+
+.answer-text ul,
+.answer-text ol {
+  display: flex;
+  margin: 0 0 14px;
+  flex-direction: column;
+  gap: 6px;
+  padding-left: 22px;
+}
+
+.answer-text ul {
+  list-style: disc;
+}
+
+.answer-text ol {
+  list-style: decimal;
+}
+
+.answer-text li {
+  line-height: 1.65;
+}
+
+.answer-text li::marker {
+  color: rgba(125, 211, 252, 0.75);
+}
+
+.answer-text a {
+  color: #7dd3fc;
+  text-decoration-color: rgba(125, 211, 252, 0.45);
+  text-underline-offset: 3px;
+}
+
+.answer-text a:hover,
+.answer-text a:focus-visible {
+  text-decoration-color: currentColor;
+}
+
+.answer-text strong {
+  color: var(--foreground);
+  font-weight: 700;
+}
+
+.answer-text code {
+  padding: 2px 6px;
+  border: 1px solid rgba(56, 189, 248, 0.16);
+  border-radius: 5px;
+  background: rgba(56, 189, 248, 0.1);
+  color: #bfeeff;
+  font-size: 0.88em;
+}
+
+.answer-text pre {
+  margin: 0 0 16px;
+  padding: 14px 16px;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 10px;
+  background: #0a0d13;
+  overflow-x: auto;
+}
+
+.answer-text pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #d7e6f2;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.answer-text blockquote {
+  margin: 0 0 14px;
+  padding: 4px 16px;
+  border-left: 2px solid rgba(56, 189, 248, 0.4);
+  color: var(--muted-foreground);
+}
+
+.answer-text table {
+  width: 100%;
+  margin: 0 0 16px;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.answer-text th,
+.answer-text td {
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  text-align: left;
+}
+
+.answer-text th {
+  color: var(--foreground);
+  background: rgba(56, 189, 248, 0.06);
+  font-weight: 600;
+}
+
+.answer-text hr {
+  margin: 18px 0;
+  border: 0;
+  border-top: 1px solid var(--border);
+}
+
+/* Single reveal-on-arrival animation for the (already complete, non-
+ * streamed) answer text — a fade + slight rise capped under 600ms. It is
+ * keyed by the answer content in AnswerPanel so it replays once per new
+ * answer, never continuously, and it never reveals the text progressively
+ * over time in a way that implies live token generation. */
+.answer-reveal {
+  opacity: 1;
+  transform: translateY(0);
+  animation: answer-reveal-in 480ms ease-out;
+}
+
+@keyframes answer-reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .answer-reveal {
+    animation: none;
+  }
+}
+
+/* --- Report metrics (Task 3 "security report" strip) ---
+ * Compact badge row (Confidence/Trust Score/Latency/source count) plus an
+ * expandable `<details>` for the denser secondary figures, appended to the
+ * bottom of the assistant's answer card. See `ReportMetrics.tsx`. */
+.report-metrics {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.report-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.report-chip {
+  gap: 5px;
+  color: var(--muted-foreground);
+  font-weight: 500;
+}
+
+.report-chip strong {
+  color: #7dd3fc;
+  font-weight: 700;
+}
+
+.report-details {
+  margin-top: 12px;
+}
+
+.report-details summary {
+  color: var(--muted-foreground);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+
+.report-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.report-details summary:hover {
+  color: var(--foreground);
+}
+
+.report-details summary:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.report-details-grid {
+  display: grid;
+  margin: 12px 0 0;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px 16px;
+}
+
+.report-details-grid dt {
+  margin: 0;
+  color: var(--text-quiet);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.report-details-grid dd {
+  margin: 2px 0 0;
+  color: var(--muted-foreground);
+  font-size: 12.5px;
+}
+
+.report-evidence-summary {
+  margin: 12px 0 0;
+  color: var(--muted-foreground);
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+
+.loading-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.loading-orb {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+  border: 2px solid rgba(56, 189, 248, 0.18);
+  border-top-color: #38bdf8;
+  border-radius: 999px;
+  animation: spin 800ms linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading-orb {
+    animation: none;
+  }
+}
+
+/* --- Evidence column (Task 2) ---
+ * The right-hand column next to the assistant conversation. Reuses
+ * `.evidence-section`/`.section-heading`/`.source-list` verbatim for the
+ * retrieved-chunks list (below) so the same evidence-chain presentation
+ * that used to render inline via `SourceEvidenceRail` now renders here
+ * instead, without introducing a second, differently-styled source list. */
+.evidence-column {
+  display: flex;
+  width: 340px;
+  flex: 0 0 340px;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 0;
+}
+
+@media (max-width: 1180px) {
+  .evidence-column {
+    width: 100%;
+    flex: 1 1 auto;
+  }
+}
+
+.evidence-empty {
+  padding: 18px 20px;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 14px;
+  background: rgba(10, 13, 19, 0.6);
+  color: var(--muted-foreground);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.evidence-empty .eyebrow {
+  margin-bottom: 6px;
+}
+
+.evidence-metrics {
+  display: grid;
+  margin: 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.evidence-metric {
+  padding: 12px 14px;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 12px;
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.018) 0%, rgba(255, 255, 255, 0) 40%),
+    rgba(10, 13, 19, 0.78);
+}
+
+.evidence-metric dt {
+  margin: 0;
+  color: var(--text-quiet);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.evidence-metric dd {
+  margin: 4px 0 0;
+  color: #7dd3fc;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.evidence-metric-hint {
+  margin: 4px 0 0;
+  color: var(--text-quiet);
+  font-size: 10.5px;
+  line-height: 1.4;
+}
+
+.evidence-section {
+  padding: 20px 22px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.section-heading > span {
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+
+/* --- Evidence rows (expandable <details>/<summary> disclosures) ---
+ * Same titanium/cyan language as the answer surface and composer: a
+ * layered dark-graphite row that gains a cyan-tinted sheen once expanded,
+ * so "open" reads as the row catching light rather than just a border
+ * color swap. Source numbering here (`source.source_number`) is the same
+ * real field `SourceNodes.tsx` labels its 3D nodes with — "Source N" in
+ * this list always corresponds to node N in the living core. */
+
+.source-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.source-row {
+  position: relative;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 11px;
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.018) 0%, rgba(255, 255, 255, 0) 40%),
+    rgba(10, 13, 19, 0.78);
+  overflow: hidden;
+  transition:
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+.source-row[open] {
+  border-color: rgba(56, 189, 248, 0.36);
+  background:
+    linear-gradient(160deg, rgba(56, 189, 248, 0.06) 0%, rgba(255, 255, 255, 0) 46%),
+    rgba(10, 13, 19, 0.82);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .source-row {
+    transition: none;
+  }
+}
+
+.source-row-summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  color: var(--muted-foreground);
+  cursor: pointer;
+  list-style: none;
+  transition: color 160ms ease;
+}
+
+.source-row-summary:hover {
+  color: var(--foreground);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .source-row-summary {
+    transition: none;
+  }
+}
+
+.source-row-summary::-webkit-details-marker {
+  display: none;
+}
+
+.source-row-summary::marker {
+  content: "";
+}
+
+.source-row-summary:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+}
+
+.source-row-number {
+  display: inline-flex;
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(125, 211, 252, 0.45);
+  border-radius: 999px;
+  background: rgba(56, 189, 248, 0.14);
+  color: var(--foreground);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.source-row-name {
+  overflow: hidden;
+  flex: 1 1 auto;
+  color: var(--foreground);
+  font-size: 13px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.source-row-score {
+  flex: 0 0 auto;
+  color: var(--muted-foreground);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.source-row-score strong {
+  color: #7dd3fc;
+  font-weight: 600;
+}
+
+.source-row-marker {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 auto;
+  border-right: 1.5px solid var(--muted-foreground);
+  border-bottom: 1.5px solid var(--muted-foreground);
+  transform: rotate(-45deg);
+  transition: transform 200ms ease;
+}
+
+.source-row[open] .source-row-marker {
+  transform: rotate(45deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .source-row-marker {
+    transition: none;
+  }
+}
+
+.source-row-body {
+  padding: 4px 14px 16px 48px;
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+}
+
+.source-row-content {
+  color: var(--muted-foreground);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+/* Source excerpts arrive from the backend as raw Markdown (same as the
+ * main answer, see `.answer-text` above) and are rendered through the
+ * shared `<Markdown>` component — style the resulting elements at a
+ * smaller, secondary scale appropriate to a collapsed evidence row. */
+.source-row-content > *:first-child {
+  margin-top: 0;
+}
+
+.source-row-content > *:last-child {
+  margin-bottom: 0;
+}
+
+.source-row-content p {
+  margin: 0 0 10px;
+}
+
+.source-row-content h1,
+.source-row-content h2,
+.source-row-content h3,
+.source-row-content h4,
+.source-row-content h5,
+.source-row-content h6 {
+  margin: 14px 0 6px;
+  color: var(--foreground);
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.source-row-content h1 {
+  font-size: 15px;
+}
+
+.source-row-content h2 {
+  font-size: 14px;
+}
+
+.source-row-content h3,
+.source-row-content h4,
+.source-row-content h5,
+.source-row-content h6 {
+  font-size: 13px;
+}
+
+.source-row-content ul,
+.source-row-content ol {
+  display: flex;
+  margin: 0 0 10px;
+  flex-direction: column;
+  gap: 4px;
+  padding-left: 18px;
+}
+
+.source-row-content ul {
+  list-style: disc;
+}
+
+.source-row-content ol {
+  list-style: decimal;
+}
+
+.source-row-content li {
+  line-height: 1.6;
+}
+
+.source-row-content li::marker {
+  color: rgba(125, 211, 252, 0.6);
+}
+
+.source-row-content a {
+  color: #7dd3fc;
+  text-decoration-color: rgba(125, 211, 252, 0.45);
+  text-underline-offset: 3px;
+}
+
+.source-row-content a:hover,
+.source-row-content a:focus-visible {
+  text-decoration-color: currentColor;
+}
+
+.source-row-content strong {
+  color: var(--foreground);
+  font-weight: 700;
+}
+
+.source-row-content code {
+  padding: 1px 5px;
+  border: 1px solid rgba(56, 189, 248, 0.16);
+  border-radius: 4px;
+  background: rgba(56, 189, 248, 0.1);
+  color: #bfeeff;
+  font-size: 0.9em;
+}
+
+.source-row-content pre {
+  margin: 0 0 10px;
+  padding: 10px 12px;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 8px;
+  background: #0a0d13;
+  overflow-x: auto;
+}
+
+.source-row-content pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #d7e6f2;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.source-row-content blockquote {
+  margin: 0 0 10px;
+  padding: 3px 12px;
+  border-left: 2px solid rgba(56, 189, 248, 0.4);
+  color: var(--muted-foreground);
+}
+
+.source-row-meta {
+  display: grid;
+  margin: 12px 0 0;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 8px 16px;
+}
+
+.source-row-meta-item dt {
+  margin: 0;
+  color: var(--text-quiet);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.source-row-meta-item dd {
+  margin: 2px 0 0;
+  overflow-wrap: anywhere;
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+
+.error-card {
+  padding: 20px 22px;
+  border: 1px solid rgba(179, 85, 79, 0.35);
+  border-radius: 14px;
+  background: rgba(179, 85, 79, 0.07);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.22);
+}
+
+.error-card strong {
+  color: #e2b3af;
+}
+
+.error-card p {
+  margin-top: 6px;
+  color: var(--muted-foreground);
+}
+
+/* --- Composer: polished dark "titanium" surface ---
+ * A layered surface (soft top sheen + diagonal graphite gradient) with a
+ * hairline border, a narrow specular highlight along the top edge (the
+ * ::before pseudo-element below), a precise cyan focus ring, and an
+ * integrated submit control that visually continues the same surface
+ * rather than reading as a separate button. Sits directly beneath the
+ * living core in the layout so the two visually connect (the core's own
+ * "submitting" animation lives in LivingCoreScene, this only supplies the
+ * still surface it energizes into). All original CSS — gradients/
+ * box-shadow/pseudo-elements only, no new dependency. */
+
+/* Aligns the composer's left/right edges with `.living-core-slot`'s above
+ * it: `.composer-row` reproduces `.conversation`'s main-column/evidence-
+ * column split (same 34px horizontal padding, same 340px spacer standing in
+ * for `.evidence-column`) purely for alignment -- the composer itself stays
+ * outside the scrollable `.conversation`/grid row it always was, so it's
+ * still pinned at the bottom of the viewport, not scrolled with content. */
+.composer-row {
+  display: flex;
+  gap: 24px;
+  padding: 0 34px;
+}
+
+.composer-column {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.composer-spacer {
+  flex: 0 0 340px;
+  width: 340px;
+}
+
+@media (max-width: 1180px) {
+  .composer-spacer {
+    display: none;
+  }
+}
+
+.composer {
+  position: relative;
+  right: auto;
+  bottom: auto;
+  left: auto;
+
+  display: flex;
+  /* Matches `.living-core-stage--hero`'s `max-width: min(880px, 92%)` --
+   * the actual binding constraint on the box above (not `.living-core-
+   * slot`'s own wider 900px cap, which never binds since it's always
+   * inside the hero stage's tighter one) -- so the two align exactly. */
+  width: min(880px, 92%);
+  margin: 0 auto 24px;
+  align-items: flex-end;
+  gap: 10px;
+
+  padding: 10px 10px 10px 18px;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 16px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035) 0%, rgba(255, 255, 255, 0) 16%),
+    linear-gradient(155deg, #12161d 0%, #0b0e14 48%, #141922 100%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.04) inset,
+    0 18px 40px rgba(0, 0, 0, 0.35);
+  transition:
+    border-color 200ms ease,
+    box-shadow 200ms ease,
+    opacity 200ms ease;
+}
+
+/* Narrow specular edge — a thin, center-bright highlight line, as if a
+ * single light source is catching the top bevel of a machined surface. */
+.composer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 14px;
+  left: 14px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.32) 50%,
+    transparent
+  );
+  pointer-events: none;
+}
+
+.composer:focus-within {
+  border-color: rgba(56, 189, 248, 0.6);
+  box-shadow:
+    0 0 0 3px rgba(56, 189, 248, 0.14),
+    0 18px 40px rgba(0, 0, 0, 0.35);
+}
+
+/* Specular rim-light sheen, design language adapted from react-bits'
+ * `SpecularButton` donor (a rotating-angle specular streak hugging a
+ * rounded edge) -- implemented in pure CSS via a rotating conic-gradient
+ * masked to a thin border band rather than the donor's WebGL/`ogl` shader,
+ * since this is a 2D form control. Only visible on `:focus-within`, never
+ * at rest, so the composer stays quiet until the user is actually
+ * interacting with it. */
+.composer::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(186, 230, 253, 0.75) 10deg,
+    transparent 34deg,
+    transparent 326deg
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 220ms ease;
+  animation: composer-sheen-spin 3.4s linear infinite paused;
+  pointer-events: none;
+}
+
+.composer:focus-within::after {
+  opacity: 1;
+  animation-play-state: running;
+}
+
+@keyframes composer-sheen-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.composer[data-state="disabled"] {
+  opacity: 0.66;
+}
+
+.composer[data-state="submitting"] {
+  border-color: rgba(56, 189, 248, 0.3);
+}
+
+/* Restrained travelling highlight while a request is in flight — painted
+ * only onto a 1px border band via a mask (not the whole surface), so it
+ * reads as energy moving along the edge rather than a loud pulse. */
+.composer[data-state="submitting"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgba(125, 211, 252, 0.6) 10%,
+    transparent 22%
+  );
+  background-size: 240% 100%;
+  animation: composer-sweep 2.6s linear infinite;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+@keyframes composer-sweep {
+  0% {
+    background-position: 130% 0;
+  }
+  100% {
+    background-position: -130% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .composer,
+  .composer[data-state="submitting"]::after {
+    transition: none;
+  }
+
+  .composer[data-state="submitting"]::after {
+    animation: none;
+    background-position: 0 0;
+    opacity: 0.5;
+  }
+
+  .composer::after {
+    animation: none;
+    transition: none;
+  }
+
+  .composer:focus-within::after {
+    /* A still specular highlight rather than a spinning one -- the ring
+     * still communicates focus without any motion. */
+    opacity: 0.6;
+  }
+}
+
+/* shadcn's `Skeleton` uses Tailwind's `animate-pulse` unconditionally —
+ * this app otherwise disables every non-essential animation under
+ * `prefers-reduced-motion: reduce` (see the composer/answer/living-core
+ * rules throughout this file), so extend that same guarantee to it here
+ * rather than special-casing loading skeletons. */
+@media (prefers-reduced-motion: reduce) {
+  [data-slot="skeleton"] {
+    animation: none;
+  }
+}
+
+.composer textarea {
+  min-height: 40px;
+  max-height: 180px;
+  flex: 1;
+  padding: 8px 2px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--foreground);
+  font-size: 14.5px;
+  line-height: 1.55;
+  resize: none;
+}
+
+.composer textarea::placeholder {
+  color: var(--text-quiet);
+}
+
+.composer textarea:disabled {
+  cursor: not-allowed;
+}
+
+/* Integrated submit control — reads as the same machined surface as the
+ * composer, not a bolted-on generic button: a soft top sheen over a cyan-
+ * tinted graphite gradient, with a precise focus ring matching the
+ * composer's own focus treatment. */
+.composer-submit {
+  position: relative;
+  display: grid;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid rgba(125, 211, 252, 0.3);
+  border-radius: 11px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0) 45%),
+    linear-gradient(160deg, rgba(56, 189, 248, 0.26), rgba(13, 27, 38, 0.92));
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.12) inset,
+    0 8px 18px rgba(56, 189, 248, 0.14);
+  color: #d9f4ff;
+  transition:
+    transform 140ms ease,
+    box-shadow 160ms ease,
+    border-color 160ms ease;
+}
+
+.composer-submit:hover:not(:disabled) {
+  border-color: rgba(125, 211, 252, 0.55);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.16) inset,
+    0 10px 22px rgba(56, 189, 248, 0.22);
+}
+
+.composer-submit:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.composer-submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.35;
+  box-shadow: none;
+}
+
+.composer-submit:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 3px rgba(56, 189, 248, 0.45),
+    0 1px 0 rgba(255, 255, 255, 0.12) inset;
+}
+
+/* Specular rim-light sheen (same react-bits `SpecularButton`-derived
+ * technique as `.composer::after` above) -- only visible on hover/
+ * focus-visible, never at rest, and never on a `:disabled` button. */
+.composer-submit::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(224, 246, 255, 0.9) 14deg,
+    transparent 42deg,
+    transparent 318deg
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 200ms ease;
+  animation: composer-sheen-spin 2.8s linear infinite paused;
+  pointer-events: none;
+}
+
+.composer-submit:hover:not(:disabled)::after,
+.composer-submit:focus-visible::after {
+  opacity: 1;
+  animation-play-state: running;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .composer-submit {
+    transition: none;
+  }
+
+  .composer-submit::after {
+    animation: none;
+    transition: none;
+  }
+
+  .composer-submit:hover:not(:disabled)::after,
+  .composer-submit:focus-visible::after {
+    opacity: 0.7;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes panel-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 900px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .conversation {
+    padding-top: 20px;
+    padding-right: 18px;
+    padding-bottom: 16px;
+    padding-left: 18px;
+  }
+
+  .topbar {
+    padding-right: 18px;
+    padding-left: 18px;
+  }
+
+  .composer-row {
+    padding: 0 18px;
+  }
+
+  .composer {
+    /* Guarantee clearance above the home indicator / gesture bar on
+     * notched phones without relying on viewport-fit=cover; falls back to
+     * the flat 12px margin on engines that don't support env(). */
+    margin-bottom: 12px;
+    margin-bottom: max(12px, env(safe-area-inset-bottom, 12px));
+  }
+
+  .living-core-stage--hero .living-core-canvas-wrap {
+    min-height: 280px;
+    max-height: 420px;
+  }
+
+  .living-core-stage--hero .living-core-fallback {
+    min-height: 240px;
+  }
+}
+body {
+  font-family: var(--font-inter), system-ui, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+.brand h1 {
+  font-family: var(--font-display), system-ui, sans-serif;
+}
+
+code,
+pre {
+  font-family: var(--font-mono), monospace;
+}
+
+/* --- Status indicator variants --- */
+
+.status-dot--online {
+  background: #22c55e;
+  box-shadow: 0 0 12px rgba(34, 197, 94, 0.8);
+}
+
+.status-dot--offline {
+  background: #c96b64;
+  box-shadow: 0 0 12px rgba(201, 107, 100, 0.65);
+  animation: none;
+}
+
+.status-dot--checking {
+  background: #facc15;
+  box-shadow: 0 0 12px rgba(250, 204, 21, 0.7);
+  animation: pulse-dot 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-dot--checking {
+    animation: none;
+  }
+}
+
+/* --- Disabled navigation items ---
+ * #7a828c (--text-quiet) verified >= 4.5:1 against both the sidebar
+ * surface and the app background — see globals.css contrast notes in the
+ * frontend implementation report. Previously #5a6577 (~3.4:1, fails AA). */
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.nav-item[aria-disabled="true"] {
+  cursor: not-allowed;
+  color: var(--text-quiet);
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.nav-item[aria-disabled="true"]:hover {
+  border-color: transparent;
+  background: transparent;
+  color: var(--text-quiet);
+}
+
+.nav-lock-icon {
+  flex: 0 0 auto;
+  color: var(--text-quiet);
+}
+
+/* --- Composer helper text --- */
+
+.composer-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.composer-hint {
+  width: min(880px, 92%);
+  margin: -12px auto 16px;
+  color: #e2b3af;
+  font-size: 12px;
+}
+
+/* --- No-sources state (distinct from both success and error) --- */
+
+.no-sources-card {
+  width: min(880px, 100%);
+  padding: 16px 20px;
+  border: 1px solid rgba(250, 204, 21, 0.24);
+  border-radius: 14px;
+  background: rgba(250, 204, 21, 0.06);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.22);
+}
+
+.no-sources-card strong {
+  color: #fde68a;
+}
+
+.no-sources-card p {
+  margin-top: 6px;
+  color: var(--muted-foreground);
+}
+
+/* --- Living core (3D hero + no-WebGL/reduced-motion fallback) ---
+ *
+ * Classes for `components/living-core/*` and
+ * `components/backdrop/DotFieldBackdrop.tsx` — this fully supersedes the
+ * retired `.shield-core-*` block (deleted alongside
+ * `components/shield-core/**`/`lib/shield-core/**` once `app/page.tsx`
+ * switched to `LivingCoreStage`). Visual language: near-black surface,
+ * thin hairline borders, restrained cyan accent, muted desaturated red
+ * reserved for fault/error only. The canvas wrapper is not capped at a
+ * flat 220px like the old shield-core stage — the point cloud needs real
+ * vertical room to read as volumetric, not a small badge; hero/compact
+ * sizing is layered on top via `.living-core-stage--hero`/`--compact`
+ * below. */
+
+.living-core-slot {
+  width: min(900px, 100%);
+  margin: 0 auto 16px;
+}
+
+/* Plain positioning shell around `.living-core-canvas-wrap` -- see the
+ * comment in `LivingCoreStage.tsx` for why the metallic emblem badge is a
+ * DOM sibling of the wrap (and therefore of this frame) rather than a
+ * child inside it. Contributes no sizing/border/background of its own. */
+.living-core-canvas-frame {
+  position: relative;
+  width: 100%;
+}
+
+.living-core-canvas-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  min-height: 280px;
+  max-height: 560px;
+  border: 1px solid rgba(148, 163, 184, 0.13);
+  border-radius: 20px;
+  background: rgba(13, 20, 32, 0.62);
+  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+  /* No `transition` on height here — see the long comment on
+   * `.living-core-stage--compact` above for why animating a WebGL-canvas-
+   * containing box's real layout size is unsafe with r3f's async
+   * `ResizeObserver`-driven resize. */
+}
+
+/* Hero (idle): the core occupies a dominant, but no longer page-filling,
+ * share of the main visual area — shrunk ~30% from its original
+ * 380px/640px sizing (CSS-only; the r3f camera/particle geometry is
+ * untouched, see components/living-core/*) so the idle Assistant page has
+ * real visible room for the Platform Status Bar (Task 1) above and the
+ * Evidence Panel (Task 2) beside it, without the core dominating the
+ * entire viewport. Layout-only override (height/max-height) — the base
+ * rule above still owns border/background/shadow. */
+.living-core-stage--hero .living-core-canvas-wrap {
+  min-height: 266px;
+  max-height: 448px;
+}
+
+/* Compact (active): steps back into a secondary role once the answer/
+ * evidence stack needs the space, while staying legible and present. */
+.living-core-stage--compact .living-core-canvas-wrap {
+  min-height: 260px;
+  max-height: 340px;
+}
+
+.living-core-canvas-wrap canvas {
+  display: block;
+}
+
+/* Thin metallic "shell" badge -- a secondary framing element (see
+ * `AegisMetallicLogo.tsx`), deliberately a small corner emblem rather than
+ * anything competing with the particle field for center-frame attention.
+ * `pointer-events: none` since it's decorative-only (`aria-hidden` on the
+ * canvas itself), matching the r3f canvas' own `aria-hidden` treatment. */
+.living-core-metallic-shell {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  border-radius: 999px;
+  opacity: 0.82;
+  pointer-events: none;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.35));
+}
+
+.living-core-canvas-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.living-core-canvas-loading::before {
+  content: "";
+  width: 34px;
+  height: 34px;
+  border: 2px solid rgba(56, 189, 248, 0.18);
+  border-top-color: #38bdf8;
+  border-radius: 999px;
+  animation: spin 800ms linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .living-core-canvas-loading::before {
+    animation: none;
+  }
+}
+
+/* Deliberately in normal document flow below `.living-core-canvas-wrap`
+ * (a sibling, not an absolutely-positioned overlay inside it — see the
+ * `<>...</>` fragment in `LivingCoreStage.tsx`) so it always reads as
+ * clearly separate from the shield/point-cloud visual and can never
+ * overlap it, at any wrapper size: the compact wrapper is short enough
+ * that a bottom-overlaid caption used to collide with the shield's lower
+ * point. */
+.living-core-status-caption {
+  margin: 10px 0 0;
+  padding: 0 20px;
+  color: #9fb0c6;
+  font-size: 12px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.living-core-fallback {
+  display: flex;
+  min-height: 280px;
+  align-items: center;
+  gap: 20px;
+  padding: 24px 28px;
+  border: 1px solid rgba(148, 163, 184, 0.13);
+  border-radius: 20px;
+  background: rgba(13, 20, 32, 0.62);
+  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.18);
+}
+
+/* Same hero/compact sizing intent as `.living-core-canvas-wrap` above, so
+ * the no-WebGL/reduced-motion fallback grows and shrinks in step with the
+ * real 3D stage rather than staying a fixed size regardless of phase. */
+.living-core-stage--hero .living-core-fallback {
+  min-height: 320px;
+}
+
+.living-core-stage--compact .living-core-fallback {
+  min-height: 220px;
+}
+
+/* An inline SVG traced from the same shield silhouette `ShieldOutline`
+ * draws in 3D (see `lib/living-core/shieldGeometry.ts`), not a generic
+ * hexagon clip-path — the no-WebGL/reduced-motion glyph and the 3D outline
+ * now agree on the actual shape, not just the color. Fill/stroke (rather
+ * than background/border-color) key off `data-phase` since the glyph is an
+ * `<svg><path>` pair. */
+.living-core-glyph {
+  width: 52px;
+  height: 63px;
+  flex: 0 0 auto;
+  transition: fill 300ms ease, stroke 300ms ease;
+}
+
+.living-core-glyph path {
+  stroke-width: 2.5;
+  vector-effect: non-scaling-stroke;
+}
+
+/* Graphite/silver/cool-white/restrained-cyan spectrum only — matching
+ * `LIVING_CORE_SHIELD_COLOR` in `livingCorePalette.ts`. "fault" is the one
+ * phase allowed to use red, and it's a muted, desaturated red — never a
+ * neon alarm color. */
+.living-core-glyph[data-phase="dormant"] path {
+  fill: rgba(69, 77, 87, 0.4);
+  stroke: rgba(148, 163, 184, 0.4);
+}
+
+.living-core-glyph[data-phase="idle"] path {
+  fill: rgba(159, 180, 196, 0.14);
+  stroke: rgba(159, 180, 196, 0.55);
+}
+
+.living-core-glyph[data-phase="submitting"] path {
+  fill: rgba(191, 227, 242, 0.2);
+  stroke: rgba(34, 211, 238, 0.85);
+}
+
+.living-core-glyph[data-phase="converged"] path {
+  fill: rgba(207, 234, 245, 0.2);
+  stroke: rgba(139, 233, 253, 0.75);
+}
+
+.living-core-glyph[data-phase="unresolved"] path {
+  fill: rgba(107, 127, 140, 0.26);
+  stroke: rgba(107, 127, 140, 0.7);
+}
+
+.living-core-glyph[data-phase="fault"] path {
+  fill: rgba(156, 107, 103, 0.26);
+  stroke: rgba(156, 107, 103, 0.75);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .living-core-glyph {
+    transition: none;
+  }
+}
+
+.living-core-fallback-text h3 {
+  margin: 0 0 6px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #f4f7fb;
+}
+
+.living-core-fallback-text p {
+  margin: 0;
+  color: #9fb0c6;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* Same per-source correspondence the 3D layer's numbered nodes and
+ * `RetrievalScan` markers show, expressed as real accessible DOM text —
+ * critical information never depends on WebGL succeeding. */
+.living-core-source-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.living-core-source-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #9fb0c6;
+}
+
+.living-core-source-number {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: rgba(56, 189, 248, 0.14);
+  border: 1px solid rgba(125, 211, 252, 0.5);
+  color: #e6f6ff;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.living-core-source-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* --- Dot field backdrop (page-layout-root ambient canvas) ---
+ *
+ * Mounted once in `app/layout.tsx`, behind `.app-shell` and everything
+ * else, via a negative z-index rather than relying on DOM order — see
+ * `components/backdrop/DotFieldBackdrop.tsx`. `.app-shell` is transparent
+ * and `.workspace` paints only a low-alpha gradient (see the app-shell
+ * section near the top of this file), so this backdrop reads faintly
+ * through the main content area; `.sidebar` stays fully opaque by design
+ * (see its own rule) so the dot field never shows through it. */
+.dot-field-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* --- Knowledge Base page (Task 4) ---
+ * Reuses the same titanium/cyan surface language as the assistant
+ * workspace (`.evidence-section`/`.source-row`/`.source-row-summary` etc.
+ * are shared verbatim by `DocumentRow` via the `kb-doc-row*` modifiers
+ * below) rather than introducing a second visual language for a second
+ * route. */
+
+.kb-content {
+  display: flex;
+  min-height: 0;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 18px;
+  overflow-y: auto;
+  padding: 28px 34px 40px;
+}
+
+.kb-dropzone {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 24px;
+  border: 1px dashed rgba(148, 163, 184, 0.28);
+  border-radius: 16px;
+  background: rgba(10, 13, 19, 0.5);
+  color: #9fb0c6;
+  transition: border-color 180ms ease, background 180ms ease;
+}
+
+.kb-dropzone--active {
+  border-color: rgba(56, 189, 248, 0.55);
+  background: rgba(56, 189, 248, 0.06);
+}
+
+/* The real file input is visually hidden (see `.kb-dropzone-input`) in
+ * favor of the "browse files" label — keyboard focus is still surfaced by
+ * ringing the whole dropzone rather than an invisible element. */
+.kb-dropzone:focus-within {
+  border-color: rgba(56, 189, 248, 0.6);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.14);
+}
+
+.kb-dropzone[data-state="uploading"] {
+  opacity: 0.75;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kb-dropzone {
+    transition: none;
+  }
+}
+
+.kb-dropzone-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.kb-dropzone-title {
+  color: var(--foreground);
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.kb-dropzone-hint {
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+
+.kb-dropzone-browse {
+  color: #7dd3fc;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Visually hidden but keyboard/screen-reader accessible — the visible
+ * "browse files" affordance is the `<label>` above via `htmlFor`. */
+.kb-dropzone-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.kb-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.kb-search {
+  display: flex;
+  width: min(420px, 100%);
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 10px;
+  background: rgba(10, 13, 19, 0.6);
+  color: var(--text-quiet);
+}
+
+.kb-search input {
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--foreground);
+  font-size: 13px;
+}
+
+.kb-search input::placeholder {
+  color: var(--text-quiet);
+}
+
+.kb-count {
+  flex: 0 0 auto;
+  color: var(--muted-foreground);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.kb-empty {
+  padding: 20px;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 14px;
+  background: rgba(10, 13, 19, 0.5);
+  color: var(--muted-foreground);
+  font-size: 13px;
+}
+
+.kb-empty--error {
+  border-color: rgba(179, 85, 79, 0.35);
+  background: rgba(179, 85, 79, 0.07);
+  color: #e2b3af;
+}
+
+.kb-doc-row-summary {
+  flex-wrap: wrap;
+}
+
+.kb-doc-row-name {
+  overflow: hidden;
+  flex: 1 1 220px;
+  min-width: 0;
+  color: var(--foreground);
+  font-size: 13px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.kb-doc-row-stat {
+  flex: 0 0 auto;
+  color: var(--muted-foreground);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.kb-doc-row-actions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 4px;
+}
+
+.kb-status-badge {
+  flex: 0 0 auto;
+}
+
+.kb-status-badge--ok {
+  border-color: rgba(34, 197, 94, 0.35);
+  color: #7fd99a;
+}
+
+.kb-status-badge--pending {
+  border-color: rgba(250, 204, 21, 0.35);
+  color: #fde68a;
+}
+
+.kb-status-badge--failed {
+  border-color: rgba(179, 85, 79, 0.4);
+  color: #e2b3af;
+}
+
+.kb-spin-icon {
+  animation: spin 900ms linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kb-spin-icon {
+    animation: none;
+  }
+}
