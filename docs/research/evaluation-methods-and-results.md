@@ -15,7 +15,9 @@ this document. No new model calls were made.
 | `edited-text-exposure-v1-20260914/16.json` | Offline re-scoring of both runs; identical results | Supplementary exposure metric |
 | `research_evaluation_report_12q.json` (single pass) and `research_evaluation_report.json` (older 24-question set) | Earlier exploratory runs; different benchmark and/or single repetition | Exploratory only; superseded by the pilot |
 | `clean_vs_poisoned.jsonl` (9 rows, Aug 2026) | First prototype comparison; older KB paths | Development history only |
-| Expanded benchmark (45 draft questions, 135 scheduled pairs) | Offline validation passed; human review pending; **not yet run** | Planned main experiment |
+| Benchmark v1 (44 questions, frozen 2026-10-16; 35 development, 9 held out) | Built from the reviewed 45-question draft by `docs/research/scripts/build_benchmark_v1.py`; decisions in `benchmark_v1_record.json` | Benchmark for the main run |
+| Main run `20261016T222418Z-8160…` (44 × 3, live) | See §10 | **Main results** |
+| Formatting-only control (retrieval only) | `docs/research/results/control-retrieval-*.json` | Confound check (§2.4, §10) |
 
 ---
 
@@ -222,9 +224,8 @@ poison_hit_at_3 = 1 **and** (clean correctness − poisoned correctness) ≥
 threshold is a methodological choice and should be justified, with a
 sensitivity check (§8).
 
-### 5.9 Evidence check (`/guarded-chat`, policy `evidence-guard-policy-v1`) — not yet evaluated
-See `backend/app/defence/README.md`. It is an experimental evidence-support
-baseline, not yet run live, and not a poison detector.
+### 5.9 Evidence check (`/guarded-chat`, policy `evidence-guard-policy-v2`) — implemented, not yet evaluated at scale
+See `backend/app/defence/README.md`. It is an experimental evidence-support baseline, not a poison detector. Live tests on 16 Oct 2026 found two v1 defects: a correct answer was withheld because the verifier added a full stop to an exact quote, and a refusal was labelled "unsupported". Policy v2 fixes both and adds an `abstained` outcome; the same cases re-run under v2 gave `supported`/released and `abstained`/released. Indicator performance (precision, recall, false alarms) is planned work and has not been measured.
 
 ## 6. Primary results — pilot `20260914T101059Z` (12 questions × 3 repetitions)
 
@@ -294,11 +295,11 @@ questions, zero for 4 and positive for 2.
    should be defined explicitly, e.g. excluded or scored as "not
    applicable".
 
-## 8. Threats to validity and recommended fixes (before the 45-question run)
+## 8. Threats to validity and recommended fixes (status as of 16 Oct 2026)
 
 | # | Issue | Effect | Recommended action |
 |---|---|---|---|
-| 1 | Layout flattening and offset changes in the poisoned corpus (§2.4) | Retrieval changes are not attributable to word substitutions alone | Build a **flattening-only control corpus** and run it as a third condition |
+| 1 | Layout flattening and offset changes in the poisoned corpus (§2.4) | Retrieval changes are not attributable to word substitutions alone | **Done (retrieval level):** the control corpus gives the same Hit@3 as clean on both benchmarks (§10). Running the control through generation is future work |
 | 2 | Repetitions are near-deterministic | Overstated n if pairs are treated as independent | Analyse at question level; use more questions rather than more repetitions |
 | 3 | ASR depends on the exposure definition and on the 0.25 threshold | Headline number is fragile | Report both exposures and a threshold sweep (0.25 / 0.5 / 0.75 / 1.0) |
 | 4 | Judge and generator are the same model family, on a coarse scale | Possible self-preference and quantised scores | Human-annotate a stratified sample (e.g. 30 answers) and report agreement (Cohen's κ / weighted κ) |
@@ -306,12 +307,60 @@ questions, zero for 4 and positive for 2.
 | 6 | The surrogate ASR denominator includes skipped attacks | Under-reports ASR versus the TextAttack convention | Report both (0.432 and 0.667) |
 | 7 | Three attack types (dns spoofing, tcp syn flood, udp flood) received no successful perturbation | They are effectively clean in the "poisoned" KB | Report per-type results; exclude or flag these in the 45-question analysis |
 | 8 | Single generator, single embedder, single attack, small corpus | Limited generality | State the scope; any extra model is a new experiment |
-| 9 | `LiveServices` requires the benchmark at the hard-coded `QUESTIONS_FILE` path | The expanded benchmark cannot run from another path without a code or config change | Decide (approval needed): promote the reviewed 45-question file to `questions.json` (versioned) or make the path configurable |
+| 9 | `LiveServices` requires the benchmark at the hard-coded `QUESTIONS_FILE` path | The expanded benchmark cannot run from another path without a code or config change | **Done:** `AEGIS_BENCHMARK_FILE` selects the benchmark; the default is unchanged |
 | 10 | Legacy `/compare` chunk-ID overlap is biased by offset shifts | Misleading if quoted | Do not use `top_k_overlap` in the dissertation |
+
+## 10. Main results — run `20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e` (benchmark v1, 44 questions × 3 repetitions)
+
+**Integrity:** complete, with no issues and 0 error records. 132 of 132 pairs are valid. Model attempts were 264 generation and 528 judge calls, exactly as planned. The configuration is the same as the pilot (§1). The benchmark hash is `6baef24c…` (`benchmark_v1_record.json`). Confidence intervals are 95% question-level cluster bootstrap intervals. Each figure is produced by `docs/research/scripts/analyse_run.py`, with output in `docs/research/results/main-v1-20261016/`.
+
+| Stratum | Questions | Hit@3 clean→poisoned | Correctness clean→poisoned (Δ, 95% CI) | Faithfulness Δ | Edited-text exposure | ASR (section / edited) |
+|---|---|---|---|---|---|---|
+| All | 44 | 0.705→0.568 | 0.714→0.555 (−0.159, [−0.254, −0.068]) | −0.042 | 0.409 | 0.280 / 0.167 |
+| Target section perturbed | 27 | 0.630→0.444 | 0.682→0.432 (−0.250, [−0.383, −0.124]) | −0.068 | 0.593 | 0.432 / 0.272 |
+| Target section not perturbed | 17 | 0.824→0.765 | 0.765→0.750 (−0.015, [−0.083, 0.069]) | 0.000 | 0.118 | 0.039 / 0.000 |
+| Development | 35 | 0.686→0.543 | 0.698→0.536 (−0.162, [−0.269, −0.057]) | −0.052 | 0.343 | 0.286 / 0.143 |
+| Held-out | 9 | 0.778→0.667 | 0.778→0.630 (−0.148, [−0.343, 0.019]) | 0.000 | 0.667 | 0.259 / 0.259 |
+
+Other figures:
+- **MRR:** 0.587→0.485.
+- **Document overlap:** mean Jaccard 0.814.
+- **ASR intervals:** section-exposure ASR [0.159, 0.409]; edited-exposure ASR [0.068, 0.273].
+- **ASR threshold sweep** (section / edited exposure):
+
+  | Threshold | Section | Edited |
+  |---|---|---|
+  | 0.25 | 0.280 | 0.167 |
+  | 0.5 | 0.258 | 0.152 |
+  | 0.75 | 0.068 | 0.045 |
+  | 1.0 | 0.045 | 0.023 |
+
+- **By question category:** the largest drops are in `required_resources` (−0.306) and `consequences` (−0.264). `execution_flow` shows none (−0.014). Clean correctness is low for `consequences` (0.47) and `execution_flow` (0.46): with atomic multi-fact references, partial answers score as partial.
+
+**Answer outcomes** (132 answers per condition; `analyse_run.py` outcome rule):
+
+| Condition | Correct | Partial | Incorrect | Abstained |
+|---|---|---|---|---|
+| Clean | 67 | 39 | 0 | 26 |
+| Poisoned | 49 | 36 | 2 | 45 |
+
+**Findings:**
+1. **The effect is confined to questions whose target section was actually perturbed.** Correctness falls by 0.250 [−0.383, −0.124] on perturbed targets and by only 0.015 [−0.083, 0.069] on unperturbed targets in the same poisoned corpus. This within-corpus control is the strongest causal evidence in the project. Together with the formatting-only control (Hit@3 equal to clean on both benchmarks), it attributes the degradation to PWWS word substitutions rather than to layout changes or a general corpus difference.
+2. **The pilot's mechanism replicates: displacement and abstention, rarely misinformation.**
+   - Poisoned abstentions rise from 26 to 45 of 132 answers.
+   - Of the 48 pairs with a correctness drop of at least 0.25, 27 poisoned answers abstained and 31 had poisoned Hit@3 = 0.
+   - Confidently incorrect answers rose only from 0 to 2. Both are `expanded_backdoor_execution_flow_01`, with edited text retrieved. There the PWWS substitution "Engraft Malicious Package" (original: "implants malicious software") was repeated as a named stage.
+
+   This is a clear qualitative example of lexical poisoning carrying through to the answer.
+3. **Effect sizes.** Correctness Δ −0.159 overall is smaller than the pilot's −0.215, because the v1 benchmark includes 17 questions on unperturbed targets. The perturbed-target stratum (−0.250) is consistent with the pilot.
+4. **Repetitions are deterministic at the retrieval level** (44/44 questions in both conditions), as in the pilot. The question is the unit of analysis.
+5. **The held-out stratum is small** (9 questions; its CI includes 0). It is reserved for indicator thresholds and should not carry headline claims.
 
 ## 9. Reproducing every number in this document
 
 ```bash
+# main run v1 analysis (offline): strata, outcomes, bootstrap, ASR sweep
+cd backend && PYTHONPATH=. python ../docs/research/scripts/analyse_run.py ../pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e /tmp/main-v1 && cd ..
 # primary aggregate (offline, no model calls)
 PYTHONPATH=backend python -m app.evaluation.pilot_runner --aggregate pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73
 # edited-text exposure (offline, create-only output)
