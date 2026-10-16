@@ -46,7 +46,7 @@ logger = logging.getLogger(__name__)
 # Versioned experimental policy
 # ============================================================
 
-POLICY_VERSION = "evidence-guard-policy-v1"
+POLICY_VERSION = "evidence-guard-policy-v2"
 AUDIT_SCHEMA_VERSION = 1
 
 EXPERIMENT_LABEL = (
@@ -60,11 +60,15 @@ POLICY_DESCRIPTION = (
     "verbatim in a cited retrieved source. Withhold the draft if any claim "
     "is 'contradicted' or 'unsupported'. Missing evidence, failed or "
     "malformed verification, fabricated quotations or zero checkable claims "
-    "are 'unavailable' and are never treated as a pass."
+    "are 'unavailable' and are never treated as a pass. v2: a draft that only "
+    "declines to answer because the sources are insufficient is 'abstained' "
+    "and is released as a refusal, provided none of its claims is "
+    "contradicted, unsupported or unverifiable; quotation matching ignores "
+    "leading/trailing punctuation."
 )
 
 VERDICTS = ("supported", "unsupported", "contradicted")
-OUTCOMES = ("supported", "unsupported", "contradicted", "unavailable")
+OUTCOMES = ("supported", "unsupported", "contradicted", "unavailable", "abstained")
 
 # Bounded, explicit model-call settings for THIS route only. Existing
 # callers of `create_llm()` keep their defaults.
@@ -109,8 +113,11 @@ Retrieved sources (the ONLY evidence you may use):
 
 Instructions:
 1. Split the draft into its distinct factual claims. Ignore citation markers
-   such as [Source 1], greetings and statements that the context is
-   insufficient. Do not invent claims that the draft does not make.
+   such as [Source 1] and greetings. Statements that the context or sources
+   are insufficient, or that the draft cannot answer, are NOT claims.
+   Do not invent claims that the draft does not make.
+   Set "abstention" to true if the draft declines to answer the question
+   because the sources are insufficient, otherwise false.
 2. For each claim choose exactly one verdict:
    - "supported": a source explicitly states it.
    - "contradicted": a source explicitly states something incompatible.
@@ -121,7 +128,7 @@ Instructions:
 4. Use only the source IDs listed above (S1, S2, ...).
 
 Respond with JSON ONLY, no prose and no code fences, in exactly this shape:
-{{"claims": [{{"claim": "<claim text>", "verdict": "supported|unsupported|contradicted", "source_ids": ["S1"], "quotes": [{{"source_id": "S1", "text": "<exact quotation>"}}], "explanation": "<one sentence>"}}]}}
+{{"abstention": false, "claims": [{{"claim": "<claim text>", "verdict": "supported|unsupported|contradicted", "source_ids": ["S1"], "quotes": [{{"source_id": "S1", "text": "<exact quotation>"}}], "explanation": "<one sentence>"}}]}}
 """.strip()
 
 
@@ -170,8 +177,13 @@ def _normalise(text: str) -> str:
     return " ".join(text.split()).casefold()
 
 
+_QUOTE_EDGE_CHARS = " \t\n.,;:!?\"'()[]{}-\u2026"
+
+
 def quote_in_source(quote: str, source_text: str) -> bool:
-    needle = _normalise(quote)
+    # Words must still match verbatim; only punctuation at the quotation's
+    # edges is ignored (verifiers often add a closing full stop).
+    needle = _normalise(quote).strip(_QUOTE_EDGE_CHARS)
     return len(needle) >= MIN_QUOTE_CHARS and needle in _normalise(source_text)
 
 
@@ -184,6 +196,14 @@ def parse_verifier_output(
     raw_text: str,
     sources: list[dict[str, Any]],
 ) -> list[dict[str, Any]]:
+    """Claims only; see `parse_verification` for the abstention flag."""
+    return parse_verification(raw_text, sources)[1]
+
+
+def parse_verification(
+    raw_text: str,
+    sources: list[dict[str, Any]],
+) -> tuple[bool, list[dict[str, Any]]]:
     """
     Parse and validate the verifier's JSON. Raises VerifierOutputError for any
     structural problem (whole response unusable). Per-claim evidence problems
@@ -202,7 +222,11 @@ def parse_verifier_output(
         raise VerifierOutputError(f"not valid JSON ({error.msg})") from error
 
     _require(isinstance(payload, dict), "top level must be a JSON object")
-    _require(set(payload) == {"claims"}, "top level must contain only 'claims'")
+    _require(
+        set(payload) == {"claims", "abstention"},
+        "top level must contain exactly 'abstention' and 'claims'",
+    )
+    _require(isinstance(payload["abstention"], bool), "'abstention' must be a boolean")
     claims = payload["claims"]
     _require(isinstance(claims, list), "'claims' must be a list")
     _require(len(claims) <= MAX_CLAIMS, f"more than {MAX_CLAIMS} claims")
@@ -281,7 +305,7 @@ def parse_verifier_output(
             }
         )
 
-    return findings
+    return payload["abstention"], findings
 
 
 # ============================================================
@@ -300,6 +324,7 @@ def decide(
     sources: list[dict[str, Any]],
     findings: Optional[list[dict[str, Any]]],
     failure_stage: Optional[str] = None,
+    abstention: bool = False,
 ) -> Decision:
     if failure_stage == "retrieval":
         return Decision("unavailable", False, "Retrieval failed, so there is no evidence to check against.")
@@ -309,11 +334,18 @@ def decide(
         return Decision("unavailable", False, "The draft answer could not be generated.")
     if failure_stage == "verification" or findings is None:
         return Decision("unavailable", False, "The evidence check could not be completed, so the draft is withheld.")
-    if not findings:
-        return Decision("unavailable", False, "The verifier found no checkable claims in the draft.")
-
     statuses = [finding["status"] for finding in findings]
     count = lambda status: statuses.count(status)  # noqa: E731
+
+    if abstention and not (count("contradicted") or count("unsupported") or count("unavailable")):
+        return Decision(
+            "abstained",
+            True,
+            "The draft declines to answer because the retrieved sources are "
+            "insufficient; it is released as a refusal, not as an answer.",
+        )
+    if not findings:
+        return Decision("unavailable", False, "The verifier found no checkable claims in the draft.")
 
     if count("contradicted"):
         return Decision("contradicted", False, f"{count('contradicted')} claim(s) are contradicted by the retrieved sources.")
@@ -523,6 +555,7 @@ def run_guarded_chat(
     raw_verifier: Optional[str] = None
     verifier_metadata: dict[str, Any] = {}
     findings: Optional[list[dict[str, Any]]] = None
+    abstention = False
     verifier_status = "not_run"
 
     if failure_stage is None and sources and draft:
@@ -539,7 +572,7 @@ def run_guarded_chat(
                     for key in ("model_name", "model", "system_fingerprint")
                     if key in metadata
                 }
-            findings = parse_verifier_output(raw_verifier, sources)
+            abstention, findings = parse_verification(raw_verifier, sources)
             verifier_status = "ok"
         except VerifierOutputError as error:
             failure_stage = "verification"
@@ -552,7 +585,9 @@ def run_guarded_chat(
         timings["verification_ms"] = round((time.perf_counter() - verify_started) * 1000, 1)
 
     # ---- 3. Policy ----------------------------------------------------
-    decision = decide(sources=sources, findings=findings, failure_stage=failure_stage)
+    decision = decide(
+        sources=sources, findings=findings, failure_stage=failure_stage, abstention=abstention
+    )
     timings["total_ms"] = round((time.perf_counter() - started) * 1000, 1)
 
     if settings is None:
@@ -582,6 +617,7 @@ def run_guarded_chat(
             "status": verifier_status,
             "prompt": verifier_prompt,
             "raw_response": raw_verifier,
+            "abstention": abstention,
             "model_metadata": verifier_metadata,
         },
         "findings": findings,

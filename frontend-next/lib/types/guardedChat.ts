@@ -10,7 +10,12 @@
 
 import type { SourceItem, SystemState } from "@/lib/types/chat";
 
-export type EvidenceOutcome = "supported" | "unsupported" | "contradicted" | "unavailable";
+export type EvidenceOutcome =
+  | "supported"
+  | "unsupported"
+  | "contradicted"
+  | "unavailable"
+  | "abstained";
 export type EvidenceVerdict = "supported" | "unsupported" | "contradicted";
 export type ReleaseDecision = "released" | "withheld";
 

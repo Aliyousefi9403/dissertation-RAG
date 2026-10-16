@@ -39,8 +39,8 @@ def _sources():
     ]
 
 
-def _verifier_json(*claims):
-    return json.dumps({"claims": list(claims)})
+def _verifier_json(*claims, abstention=False):
+    return json.dumps({"abstention": abstention, "claims": list(claims)})
 
 
 def _claim(verdict="supported", source_ids=("S1",), quote="Parameterized queries prevent SQL injection", quote_source="S1"):
@@ -135,7 +135,9 @@ def test_code_fenced_json_is_accepted():
         "Everything looks supported.",
         "Sure! " + _verifier_json(_claim()),
         json.dumps([_claim()]),
-        json.dumps({"claims": [_claim()], "confidence": 0.9}),
+        json.dumps({"abstention": False, "claims": [_claim()], "confidence": 0.9}),
+        json.dumps({"claims": [_claim()]}),
+        json.dumps({"abstention": "no", "claims": [_claim()]}),
         json.dumps({"claims": [{**_claim(), "verdict": "probably"}]}),
         json.dumps({"claims": [{**_claim(), "claim": ""}]}),
         json.dumps({"claims": [{**_claim(), "quotes": [{"source_id": "S1"}]}]}),
@@ -317,3 +319,59 @@ def test_guarded_llm_has_timeout_and_bounded_retries(monkeypatch):
     assert llm.request_timeout == 7
     assert llm.max_retries == guard.MODEL_MAX_RETRIES
     assert os.environ.get("OPENAI_API_KEY") != "sk-test-not-real-000000000000"
+
+
+# ---------------------------------------------------------------- policy v2 fixes
+
+@pytest.mark.parametrize(
+    "quote",
+    [
+        "Parameterized queries prevent SQL injection.",
+        '"Parameterized queries prevent SQL injection"',
+        "...parameterized queries prevent SQL injection",
+        "Parameterized queries prevent SQL injection\u2026",
+    ],
+)
+def test_quote_edge_punctuation_is_ignored(quote):
+    assert guard.quote_in_source(quote, SQLI)
+
+
+def test_inner_words_must_still_match_verbatim():
+    assert not guard.quote_in_source("Parameterized queries stop SQL injection.", SQLI)
+    assert not guard.quote_in_source("... SQL ...", SQLI)
+
+
+def test_trailing_full_stop_regression_from_live_run():
+    source = "with the intent to deny legitimate users access to a service by consuming resources"
+    assert guard.quote_in_source("with the intent to deny legitimate users access to a service.", source)
+
+
+def test_abstention_is_released_as_refusal():
+    decision = guard.decide(sources=_sources(), findings=[], abstention=True)
+    assert decision.outcome == "abstained" and decision.released
+
+
+def test_abstention_with_supported_meta_claims_is_abstained():
+    decision = guard.decide(sources=_sources(), findings=[{"status": "supported"}], abstention=True)
+    assert decision.outcome == "abstained"
+
+
+@pytest.mark.parametrize("bad", ["contradicted", "unsupported", "unavailable"])
+def test_abstention_flag_cannot_launder_bad_claims(bad):
+    decision = guard.decide(sources=_sources(), findings=[{"status": "supported"}, {"status": bad}], abstention=True)
+    assert decision.outcome == bad and not decision.released
+
+
+def test_abstention_without_evidence_is_still_unavailable():
+    decision = guard.decide(sources=[], findings=[], abstention=True)
+    assert decision.outcome == "unavailable"
+
+
+def test_end_to_end_abstention_releases_refusal_and_records_flag(tmp_path):
+    refusal = "The retrieved context does not describe HTTP floods."
+    result = _run(tmp_path, verifier=FakeVerifier(_verifier_json(abstention=True)), draft=refusal)
+    assert result["outcome"] == "abstained" and result["decision"] == "released"
+    assert result["answer"] == refusal
+    record = json.loads(Path(result["audit"]["location"]).read_text())
+    assert record["verifier"]["abstention"] is True
+    assert record["policy_version"] == "evidence-guard-policy-v2"

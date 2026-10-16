@@ -64,7 +64,7 @@ class GuardedChatResponse(BaseModel):
     system_state: Literal["clean", "poisoned"]
     policy_version: str
     label: str
-    outcome: Literal["supported", "unsupported", "contradicted", "unavailable"]
+    outcome: Literal["supported", "unsupported", "contradicted", "unavailable", "abstained"]
     decision: Literal["released", "withheld"]
     answer: Optional[str]
     explanation: str

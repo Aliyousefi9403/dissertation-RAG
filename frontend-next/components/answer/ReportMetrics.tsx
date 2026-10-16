@@ -16,6 +16,7 @@ export const EVIDENCE_OUTCOME_LABELS: Record<EvidenceOutcome, string> = {
   unsupported: "Unsupported",
   contradicted: "Contradicted",
   unavailable: "Unavailable",
+  abstained: "Abstained",
 };
 
 /**

@@ -9,6 +9,7 @@ const HEADLINES: Record<EvidenceOutcome, string> = {
   unsupported: "Draft withheld — claims not found in the sources",
   contradicted: "Draft withheld — sources contradict the draft",
   unavailable: "Draft withheld — evidence check unavailable",
+  abstained: "The answer declines — sources were insufficient",
 };
 
 const STATUS_LABELS: Record<EvidenceOutcome, string> = {
@@ -16,6 +17,7 @@ const STATUS_LABELS: Record<EvidenceOutcome, string> = {
   unsupported: "Unsupported",
   contradicted: "Contradicted",
   unavailable: "Unavailable",
+  abstained: "Abstained",
 };
 
 const FAILURE_STAGES: Record<string, string> = {

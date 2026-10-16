@@ -11,10 +11,17 @@ detector**. "Supported" only means that the retrieved text states the claim.
 A poisoned source can support a false answer, and support is not evidence
 that the corpus is clean. No confidence percentage is produced.
 
-## Policy `evidence-guard-policy-v1`
+## Policy `evidence-guard-policy-v2`
+
+v2 (approved 16 Oct 2026, after the first live test) changes two things:
+- quotation matching ignores punctuation at the start or end of a quote, because verifiers often add a closing full stop;
+- a draft that only declines to answer for lack of evidence is `abstained`.
+
+Both fixes were added in response to the first live test.
 
 | Situation | Outcome | Draft |
 |---|---|---|
+| verifier flags the draft as an abstention, and no claim is contradicted, unsupported or unverifiable | `abstained` | released (as a refusal) |
 | ≥1 claim, every claim supported by a quotation found verbatim in a cited source | `supported` | released |
 | any claim contradicted | `contradicted` | withheld |
 | any claim unsupported | `unsupported` | withheld |
