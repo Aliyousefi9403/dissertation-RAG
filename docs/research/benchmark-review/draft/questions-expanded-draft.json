@@ -1,0 +1,992 @@
+[
+  {
+    "id": "expanded_http_flood_attack_description_01",
+    "question": "How does HTTP Flood work, according to the knowledge base?",
+    "expected_attack_type": "http_flood",
+    "expected_sections": [
+      "attack_description"
+    ],
+    "reference_facts": [
+      "An adversary may execute a flooding attack using the HTTP protocol with the intent to deny legitimate users access to a service by consuming resources at the application layer such as web services and their infrastructure. These attacks use legitimate session-based HTTP GET requests designed to consume large amounts of a server's resources. Since these are legitimate sessions this attack is very difficult to detect."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "ddos/http_flood.md",
+      "file_sha256": "0dbc512a903612a89864cb3dbd830c4d0eed603e79ca2e1248068857536426f3",
+      "heading": "Attack description",
+      "start_char": 222,
+      "end_char": 641,
+      "exact_excerpt": "An adversary may execute a flooding attack using the HTTP protocol with the intent to deny legitimate users access to a service by consuming resources at the application layer such as web services and their infrastructure. These attacks use legitimate session-based HTTP GET requests designed to consume large amounts of a server's resources. Since these are legitimate sessions this attack is very difficult to detect."
+    },
+    "question_category": "attack_description"
+  },
+  {
+    "id": "expanded_http_flood_prerequisites_01",
+    "question": "What conditions are required for HTTP Flood in the knowledge base?",
+    "expected_attack_type": "http_flood",
+    "expected_sections": [
+      "prerequisites"
+    ],
+    "reference_facts": [
+      "This type of an attack requires the ability to generate a large amount of HTTP traffic to send to a target server."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "ddos/http_flood.md",
+      "file_sha256": "0dbc512a903612a89864cb3dbd830c4d0eed603e79ca2e1248068857536426f3",
+      "heading": "Prerequisites",
+      "start_char": 661,
+      "end_char": 775,
+      "exact_excerpt": "This type of an attack requires the ability to generate a large amount of HTTP traffic to send to a target server."
+    },
+    "question_category": "prerequisites"
+  },
+  {
+    "id": "expanded_icmp_flood_attack_description_01",
+    "question": "How does ICMP Flood work, according to the knowledge base?",
+    "expected_attack_type": "icmp_flood",
+    "expected_sections": [
+      "attack_description"
+    ],
+    "reference_facts": [
+      "An adversary may execute a flooding attack using the ICMP protocol with the intent to deny legitimate users access to a service by consuming the available network bandwidth. A typical attack involves a victim server receiving ICMP packets at a high rate from a wide range of source addresses. Additionally, due to the session-less nature of the ICMP protocol, the source of a packet is easily spoofed making it difficult to find the source of the attack."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "ddos/icmp_flood.md",
+      "file_sha256": "f0f82ea48eac2db64e0bcbd09d6e2bc845bb70455ea8c3353a4ccfc20db2efe6",
+      "heading": "Attack description",
+      "start_char": 222,
+      "end_char": 676,
+      "exact_excerpt": "An adversary may execute a flooding attack using the ICMP protocol with the intent to deny legitimate users access to a service by consuming the available network bandwidth. A typical attack involves a victim server receiving ICMP packets at a high rate from a wide range of source addresses. Additionally, due to the session-less nature of the ICMP protocol, the source of a packet is easily spoofed making it difficult to find the source of the attack."
+    },
+    "question_category": "attack_description"
+  },
+  {
+    "id": "expanded_icmp_flood_prerequisites_01",
+    "question": "What conditions are required for ICMP Flood in the knowledge base?",
+    "expected_attack_type": "icmp_flood",
+    "expected_sections": [
+      "prerequisites"
+    ],
+    "reference_facts": [
+      "This type of an attack requires the ability to generate a large amount of ICMP traffic to send to the target server."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "ddos/icmp_flood.md",
+      "file_sha256": "f0f82ea48eac2db64e0bcbd09d6e2bc845bb70455ea8c3353a4ccfc20db2efe6",
+      "heading": "Prerequisites",
+      "start_char": 696,
+      "end_char": 812,
+      "exact_excerpt": "This type of an attack requires the ability to generate a large amount of ICMP traffic to send to the target server."
+    },
+    "question_category": "prerequisites"
+  },
+  {
+    "id": "expanded_tcp_syn_flood_attack_description_01",
+    "question": "How does TCP SYN Flood work, according to the knowledge base?",
+    "expected_attack_type": "tcp_syn_flood",
+    "expected_sections": [
+      "attack_description"
+    ],
+    "reference_facts": [
+      "An adversary may execute a flooding attack using the TCP protocol with the intent to deny legitimate users access to a service. These attacks exploit the weakness within the TCP protocol where there is some state information for the connection the server needs to maintain. This often involves the use of TCP SYN messages."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "ddos/tcp_syn_flood.md",
+      "file_sha256": "b123f934dcb0abb3c5631d21dcf9dfbdd95d48e4584c707f8303074d8c3d4a56",
+      "heading": "Attack description",
+      "start_char": 228,
+      "end_char": 550,
+      "exact_excerpt": "An adversary may execute a flooding attack using the TCP protocol with the intent to deny legitimate users access to a service. These attacks exploit the weakness within the TCP protocol where there is some state information for the connection the server needs to maintain. This often involves the use of TCP SYN messages."
+    },
+    "question_category": "attack_description"
+  },
+  {
+    "id": "expanded_tcp_syn_flood_prerequisites_01",
+    "question": "What conditions are required for TCP SYN Flood in the knowledge base?",
+    "expected_attack_type": "tcp_syn_flood",
+    "expected_sections": [
+      "prerequisites"
+    ],
+    "reference_facts": [
+      "This type of an attack requires the ability to generate a large amount of TCP traffic to send to the target port of a functioning server."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "ddos/tcp_syn_flood.md",
+      "file_sha256": "b123f934dcb0abb3c5631d21dcf9dfbdd95d48e4584c707f8303074d8c3d4a56",
+      "heading": "Prerequisites",
+      "start_char": 570,
+      "end_char": 707,
+      "exact_excerpt": "This type of an attack requires the ability to generate a large amount of TCP traffic to send to the target port of a functioning server."
+    },
+    "question_category": "prerequisites"
+  },
+  {
+    "id": "expanded_udp_flood_attack_description_01",
+    "question": "How does UDP Flood work, according to the knowledge base?",
+    "expected_attack_type": "udp_flood",
+    "expected_sections": [
+      "attack_description"
+    ],
+    "reference_facts": [
+      "An adversary may execute a flooding attack using the UDP protocol with the intent to deny legitimate users access to a service by consuming the available network bandwidth. Additionally, firewalls often open a port for each UDP connection destined for a service with an open UDP port, meaning the firewalls in essence save the connection state thus the high packet nature of a UDP flood can also overwhelm resources allocated to the firewall. UDP attacks can also target services like DNS or VoIP which utilize these protocols. Additionally, due to the session-less nature of the UDP protocol, the source of a packet is easily spoofed making it difficult to find the source of the attack."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "ddos/udp_flood.md",
+      "file_sha256": "9490fc73377849ba721df1b21463899dea452972d3ec176cfdd707ed59ea1485",
+      "heading": "Attack description",
+      "start_char": 220,
+      "end_char": 908,
+      "exact_excerpt": "An adversary may execute a flooding attack using the UDP protocol with the intent to deny legitimate users access to a service by consuming the available network bandwidth. Additionally, firewalls often open a port for each UDP connection destined for a service with an open UDP port, meaning the firewalls in essence save the connection state thus the high packet nature of a UDP flood can also overwhelm resources allocated to the firewall. UDP attacks can also target services like DNS or VoIP which utilize these protocols. Additionally, due to the session-less nature of the UDP protocol, the source of a packet is easily spoofed making it difficult to find the source of the attack."
+    },
+    "question_category": "attack_description"
+  },
+  {
+    "id": "expanded_udp_flood_prerequisites_01",
+    "question": "What conditions are required for UDP Flood in the knowledge base?",
+    "expected_attack_type": "udp_flood",
+    "expected_sections": [
+      "prerequisites"
+    ],
+    "reference_facts": [
+      "This type of an attack requires the ability to generate a large amount of UDP traffic to send to the desired port of a target service using UDP."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "ddos/udp_flood.md",
+      "file_sha256": "9490fc73377849ba721df1b21463899dea452972d3ec176cfdd707ed59ea1485",
+      "heading": "Prerequisites",
+      "start_char": 928,
+      "end_char": 1072,
+      "exact_excerpt": "This type of an attack requires the ability to generate a large amount of UDP traffic to send to the desired port of a target service using UDP."
+    },
+    "question_category": "prerequisites"
+  },
+  {
+    "id": "expanded_sql_injection_attack_description_01",
+    "question": "How does SQL Injection work, according to the knowledge base?",
+    "expected_attack_type": "sql_injection",
+    "expected_sections": [
+      "attack_description"
+    ],
+    "reference_facts": [
+      "This attack exploits target software that constructs SQL statements based on user input. An attacker crafts input strings so that when the target software constructs SQL statements based on the input, the resulting SQL statement performs actions other than those the application intended. SQL Injection results from failure of the application to appropriately validate input."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "injection/sql_injection.md",
+      "file_sha256": "2afd49752c451d06083952494129f7e9c8f9ceceb31fb070e092714e51e8d085",
+      "heading": "Attack description",
+      "start_char": 228,
+      "end_char": 603,
+      "exact_excerpt": "This attack exploits target software that constructs SQL statements based on user input. An attacker crafts input strings so that when the target software constructs SQL statements based on the input, the resulting SQL statement performs actions other than those the application intended. SQL Injection results from failure of the application to appropriately validate input."
+    },
+    "question_category": "attack_description"
+  },
+  {
+    "id": "expanded_sql_injection_execution_flow_01",
+    "question": "What main stages does the knowledge base describe for SQL Injection?",
+    "expected_attack_type": "sql_injection",
+    "expected_sections": [
+      "execution_flow"
+    ],
+    "reference_facts": [
+      "Execution Flow Explore Survey application: The attacker first takes an inventory of the functionality exposed by the application. Techniques Spider web sites for all available links Sniff network communications with application using a utility such as WireShark. Experiment Determine user-controllable input susceptible to injection: Determine the user-controllable input susceptible to injection. For each user-controllable input that the attacker suspects is vulnerable to SQL injection, attempt to inject characters that have special meaning in SQL (such as a single quote character, a double quote character, two hyphens, a parenthesis, etc.). The goal is to create a SQL query with an invalid syntax. Techniques Use web browser to inject input through text fields or through HTTP GET parameters. Use a web application debugging tool such as Tamper Data, TamperIE, WebScarab,etc. to modify HTTP POST parameters, hidden fields, non-freeform fields, etc. Use network-level packet injection tools such as netcat to inject input Use modified client (modified by reverse engineering) to inject input. Experiment with SQL Injection vulnerabilities: After determining that a given input is vulnerable to SQL Injection, hypothesize what the underlying query looks like. Iteratively try to add logic to the query to extract information from the database, or to modify or delete information in the database. Techniques Use public resources such as \"SQL Injection Cheat Sheet\" at http://ferruh.mavituna.com/makale/sql-injection-cheatsheet/, and try different approaches for adding logic to SQL queries. Add logic to query, and use detailed error messages from the server to debug the query. For example, if adding a single quote to a query causes an error message, try : \"' OR 1=1; --\", or something else that would syntactically complete a hypothesized query. Iteratively refine the query. Use \"Blind SQL Injection\" techniques to extract information about the database schema. If a denial of service attack is the goal, try stacking queries. This does not work on all platforms (most notably, it does not work on Oracle or MySQL). Examples of inputs to try include: \"'; DROP TABLE SYSOBJECTS; --\" and \"'); DROP TABLE SYSOBJECTS; --\". These particular queries will likely not work because the SYSOBJECTS table is generally protected. Exploit Exploit SQL Injection vulnerability: After refining and adding various logic to SQL queries, craft and execute the underlying SQL query that will be used to attack the target system. The goal is to reveal, modify, and/or delete database data, using the knowledge obtained in the previous step. This could entail crafting and executing multiple SQL queries if a denial of service attack is the intent. Techniques Craft and Execute underlying SQL query"
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "injection/sql_injection.md",
+      "file_sha256": "2afd49752c451d06083952494129f7e9c8f9ceceb31fb070e092714e51e8d085",
+      "heading": "Execution flow",
+      "start_char": 624,
+      "end_char": 3975,
+      "exact_excerpt": "<h2> Execution Flow </h2><div><h3>Explore</h3><ol><li> <p> <b>Survey application: </b>The attacker first takes an inventory of the functionality exposed by the application.</p></li><table><tbody><tr><th>Techniques</th></tr><tr><td>Spider web sites for all available links</td></tr><tr><td>Sniff network communications with application using a utility such as WireShark.</td></tr></tbody></table></ol></div><div><h3>Experiment</h3><ol><li> <p> <b>Determine user-controllable input susceptible to injection: </b>Determine the user-controllable input susceptible to injection. For each user-controllable input that the attacker suspects is vulnerable to SQL injection, attempt to inject characters that have special meaning in SQL (such as a single quote character, a double quote character, two hyphens, a parenthesis, etc.). The goal is to create a SQL query with an invalid syntax.</p></li><table><tbody><tr><th>Techniques</th></tr><tr><td>Use web browser to inject input through text fields or through HTTP GET parameters.</td></tr><tr><td>Use a web application debugging tool such as Tamper Data, TamperIE, WebScarab,etc. to modify HTTP POST parameters, hidden fields, non-freeform fields, etc.</td></tr><tr><td>Use network-level packet injection tools such as netcat to inject input</td></tr><tr><td>Use modified client (modified by reverse engineering) to inject input.</td></tr></tbody></table><li> <p> <b>Experiment with SQL Injection vulnerabilities: </b>After determining that a given input is vulnerable to SQL Injection, hypothesize what the underlying query looks like. Iteratively try to add logic to the query to extract information from the database, or to modify or delete information in the database.</p></li><table><tbody><tr><th>Techniques</th></tr><tr><td>Use public resources such as \"SQL Injection Cheat Sheet\" at http://ferruh.mavituna.com/makale/sql-injection-cheatsheet/, and try different approaches for adding logic to SQL queries.</td></tr><tr><td>Add logic to query, and use detailed error messages from the server to debug the query. For example, if adding a single quote to a query causes an error message, try : \"' OR 1=1; --\", or something else that would syntactically complete a hypothesized query. Iteratively refine the query.</td></tr><tr><td>Use \"Blind SQL Injection\" techniques to extract information about the database schema.</td></tr><tr><td>If a denial of service attack is the goal, try stacking queries. This does not work on all platforms (most notably, it does not work on Oracle or MySQL). Examples of inputs to try include: \"'; DROP TABLE SYSOBJECTS; --\" and \"'); DROP TABLE SYSOBJECTS; --\". These particular queries will likely not work because the SYSOBJECTS table is generally protected.</td></tr></tbody></table></ol></div><div><h3>Exploit</h3><ol><li> <p> <b>Exploit SQL Injection vulnerability: </b>After refining and adding various logic to SQL queries, craft and execute the underlying SQL query that will be used to attack the target system. The goal is to reveal, modify, and/or delete database data, using the knowledge obtained in the previous step. This could entail crafting and executing multiple SQL queries if a denial of service attack is the intent.</p></li><table><tbody><tr><th>Techniques</th></tr><tr><td>Craft and Execute underlying SQL query</td></tr></tbody></table></ol></div>"
+    },
+    "question_category": "execution_flow"
+  },
+  {
+    "id": "expanded_sql_injection_prerequisites_01",
+    "question": "What conditions are required for SQL Injection in the knowledge base?",
+    "expected_attack_type": "sql_injection",
+    "expected_sections": [
+      "prerequisites"
+    ],
+    "reference_facts": [
+      "- SQL queries used by the application to store, retrieve or modify data. - User-controllable input that is not properly validated by the application as part of SQL queries."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "injection/sql_injection.md",
+      "file_sha256": "2afd49752c451d06083952494129f7e9c8f9ceceb31fb070e092714e51e8d085",
+      "heading": "Prerequisites",
+      "start_char": 3995,
+      "end_char": 4167,
+      "exact_excerpt": "- SQL queries used by the application to store, retrieve or modify data.\n- User-controllable input that is not properly validated by the application as part of SQL queries."
+    },
+    "question_category": "prerequisites"
+  },
+  {
+    "id": "expanded_sql_injection_required_resources_01",
+    "question": "What resources or tools does the knowledge base say are needed for SQL Injection?",
+    "expected_attack_type": "sql_injection",
+    "expected_sections": [
+      "required_resources"
+    ],
+    "reference_facts": [
+      "None: No specialized resources are required to execute this type of attack."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "injection/sql_injection.md",
+      "file_sha256": "2afd49752c451d06083952494129f7e9c8f9ceceb31fb070e092714e51e8d085",
+      "heading": "Required resources",
+      "start_char": 4192,
+      "end_char": 4267,
+      "exact_excerpt": "None: No specialized resources are required to execute this type of attack."
+    },
+    "question_category": "required_resources"
+  },
+  {
+    "id": "expanded_sql_injection_consequences_01",
+    "question": "What consequences does the knowledge base list for SQL Injection?",
+    "expected_attack_type": "sql_injection",
+    "expected_sections": [
+      "consequences"
+    ],
+    "reference_facts": [
+      "Access_Control: ['Gain Privileges']; Authorization: ['Gain Privileges']; Availability: ['Execute Unauthorized Commands (Run Arbitrary Code)']; Confidentiality: ['Read Data', 'Execute Unauthorized Commands (Run Arbitrary Code)', 'Gain Privileges']; Integrity: ['Modify Data', 'Execute Unauthorized Commands (Run Arbitrary Code)']"
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "injection/sql_injection.md",
+      "file_sha256": "2afd49752c451d06083952494129f7e9c8f9ceceb31fb070e092714e51e8d085",
+      "heading": "Consequences",
+      "start_char": 4499,
+      "end_char": 4827,
+      "exact_excerpt": "Access_Control: ['Gain Privileges']; Authorization: ['Gain Privileges']; Availability: ['Execute Unauthorized Commands (Run Arbitrary Code)']; Confidentiality: ['Read Data', 'Execute Unauthorized Commands (Run Arbitrary Code)', 'Gain Privileges']; Integrity: ['Modify Data', 'Execute Unauthorized Commands (Run Arbitrary Code)']"
+    },
+    "question_category": "consequences"
+  },
+  {
+    "id": "expanded_uploading_attack_description_01",
+    "question": "How does Malicious File Upload work, according to the knowledge base?",
+    "expected_attack_type": "uploading",
+    "expected_sections": [
+      "attack_description"
+    ],
+    "reference_facts": [
+      "An attack of this type exploits a system's configuration that allows an adversary to either directly access an executable file, for example through shell access; or in a possible worst case allows an adversary to upload a file and then execute it. Web servers, ftp servers, and message oriented middleware systems which have many integration points are particularly vulnerable, because both the programmers and the administrators must be in synch regarding the interfaces and the correct privileges for each interface."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "injection/uploading.md",
+      "file_sha256": "fd6cf91f332be08954926492084c2a9da685dd31dcfe19649ba881f4e3437190",
+      "heading": "Attack description",
+      "start_char": 232,
+      "end_char": 750,
+      "exact_excerpt": "An attack of this type exploits a system's configuration that allows an adversary to either directly access an executable file, for example through shell access; or in a possible worst case allows an adversary to upload a file and then execute it. Web servers, ftp servers, and message oriented middleware systems which have many integration points are particularly vulnerable, because both the programmers and the administrators must be in synch regarding the interfaces and the correct privileges for each interface."
+    },
+    "question_category": "attack_description"
+  },
+  {
+    "id": "expanded_uploading_execution_flow_01",
+    "question": "What main stages does the knowledge base describe for Malicious File Upload?",
+    "expected_attack_type": "uploading",
+    "expected_sections": [
+      "execution_flow"
+    ],
+    "reference_facts": [
+      "Execution Flow Explore Determine File/Directory Configuration: The adversary looks for misconfigured files or directories on a system that might give executable access to an overly broad group of users. Techniques Through shell access to a system, use the command \"ls -l\" to view permissions for files and directories. Experiment Upload Malicious Files: If the adversary discovers a directory that has executable permissions, they will attempt to upload a malicious file to execute. Techniques Upload a malicious file through a misconfigured FTP server. Exploit Execute Malicious File: The adversary either executes the uploaded malicious file, or executes an existing file that has been misconfigured to allow executable access to the adversary."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "injection/uploading.md",
+      "file_sha256": "fd6cf91f332be08954926492084c2a9da685dd31dcfe19649ba881f4e3437190",
+      "heading": "Execution flow",
+      "start_char": 771,
+      "end_char": 1812,
+      "exact_excerpt": "<h2> Execution Flow </h2><div><h3>Explore</h3><ol><li> <p> <b>Determine File/Directory Configuration: </b>The adversary looks for misconfigured files or directories on a system that might give executable access to an overly broad group of users.</p></li><table><tbody><tr><th>Techniques</th></tr><tr><td>Through shell access to a system, use the command \"ls -l\" to view permissions for files and directories.</td></tr></tbody></table></ol></div><div><h3>Experiment</h3><ol><li> <p> <b>Upload Malicious Files: </b>If the adversary discovers a directory that has executable permissions, they will attempt to upload a malicious file to execute.</p></li><table><tbody><tr><th>Techniques</th></tr><tr><td>Upload a malicious file through a misconfigured FTP server.</td></tr></tbody></table></ol></div><div><h3>Exploit</h3><ol><li> <p> <b>Execute Malicious File: </b>The adversary either executes the uploaded malicious file, or executes an existing file that has been misconfigured to allow executable access to the adversary.</p></li></ol></div>"
+    },
+    "question_category": "execution_flow"
+  },
+  {
+    "id": "expanded_uploading_prerequisites_01",
+    "question": "What conditions are required for Malicious File Upload in the knowledge base?",
+    "expected_attack_type": "uploading",
+    "expected_sections": [
+      "prerequisites"
+    ],
+    "reference_facts": [
+      "System's configuration must allow an attacker to directly access executable files or upload files to execute. This means that any access control system that is supposed to mediate communications between the subject and the object is set incorrectly or assumes a benign environment."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "injection/uploading.md",
+      "file_sha256": "fd6cf91f332be08954926492084c2a9da685dd31dcfe19649ba881f4e3437190",
+      "heading": "Prerequisites",
+      "start_char": 1832,
+      "end_char": 2113,
+      "exact_excerpt": "System's configuration must allow an attacker to directly access executable files or upload files to execute. This means that any access control system that is supposed to mediate communications between the subject and the object is set incorrectly or assumes a benign environment."
+    },
+    "question_category": "prerequisites"
+  },
+  {
+    "id": "expanded_uploading_required_resources_01",
+    "question": "What resources or tools does the knowledge base say are needed for Malicious File Upload?",
+    "expected_attack_type": "uploading",
+    "expected_sections": [
+      "required_resources"
+    ],
+    "reference_facts": [
+      "Ability to communicate synchronously or asynchronously with server that publishes an over-privileged directory, program, or interface. Optionally, ability to capture output directly through synchronous communication or other method such as FTP."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "injection/uploading.md",
+      "file_sha256": "fd6cf91f332be08954926492084c2a9da685dd31dcfe19649ba881f4e3437190",
+      "heading": "Required resources",
+      "start_char": 2138,
+      "end_char": 2382,
+      "exact_excerpt": "Ability to communicate synchronously or asynchronously with server that publishes an over-privileged directory, program, or interface. Optionally, ability to capture output directly through synchronous communication or other method such as FTP."
+    },
+    "question_category": "required_resources"
+  },
+  {
+    "id": "expanded_uploading_consequences_01",
+    "question": "What consequences does the knowledge base list for Malicious File Upload?",
+    "expected_attack_type": "uploading",
+    "expected_sections": [
+      "consequences"
+    ],
+    "reference_facts": [
+      "Access_Control: ['Gain Privileges']; Authorization: ['Gain Privileges']; Availability: ['Execute Unauthorized Commands (Run Arbitrary Code)']; Confidentiality: ['Execute Unauthorized Commands (Run Arbitrary Code)', 'Read Data', 'Gain Privileges']; Integrity: ['Execute Unauthorized Commands (Run Arbitrary Code)', 'Modify Data']"
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "injection/uploading.md",
+      "file_sha256": "fd6cf91f332be08954926492084c2a9da685dd31dcfe19649ba881f4e3437190",
+      "heading": "Consequences",
+      "start_char": 2495,
+      "end_char": 2823,
+      "exact_excerpt": "Access_Control: ['Gain Privileges']; Authorization: ['Gain Privileges']; Availability: ['Execute Unauthorized Commands (Run Arbitrary Code)']; Confidentiality: ['Execute Unauthorized Commands (Run Arbitrary Code)', 'Read Data', 'Gain Privileges']; Integrity: ['Execute Unauthorized Commands (Run Arbitrary Code)', 'Modify Data']"
+    },
+    "question_category": "consequences"
+  },
+  {
+    "id": "expanded_xss_attack_description_01",
+    "question": "How does Cross-Site Scripting work, according to the knowledge base?",
+    "expected_attack_type": "xss",
+    "expected_sections": [
+      "attack_description"
+    ],
+    "reference_facts": [
+      "An adversary embeds malicious scripts in content that will be served to web browsers. The goal of the attack is for the target software, the client-side browser, to execute the script with the users' privilege level. An attack of this type exploits a programs' vulnerabilities that are brought on by allowing remote hosts to execute code and scripts. Web browsers, for example, have some simple security controls in place, but if a remote attacker is allowed to execute scripts (through injecting them in to user-generated content like bulletin boards) then these controls may be bypassed. Further, these attacks are very difficult for an end user to detect."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "injection/xss.md",
+      "file_sha256": "b631d87b48b9fddeb42d8696a48a1eb7f8581dc216a11cb889546a9548528fbb",
+      "heading": "Attack description",
+      "start_char": 225,
+      "end_char": 883,
+      "exact_excerpt": "An adversary embeds malicious scripts in content that will be served to web browsers. The goal of the attack is for the target software, the client-side browser, to execute the script with the users' privilege level. An attack of this type exploits a programs' vulnerabilities that are brought on by allowing remote hosts to execute code and scripts. Web browsers, for example, have some simple security controls in place, but if a remote attacker is allowed to execute scripts (through injecting them in to user-generated content like bulletin boards) then these controls may be bypassed. Further, these attacks are very difficult for an end user to detect."
+    },
+    "question_category": "attack_description"
+  },
+  {
+    "id": "expanded_xss_execution_flow_01",
+    "question": "What main stages does the knowledge base describe for Cross-Site Scripting?",
+    "expected_attack_type": "xss",
+    "expected_sections": [
+      "execution_flow"
+    ],
+    "reference_facts": [
+      "Execution Flow Explore Survey the application for user-controllable inputs: Using a browser or an automated tool, an attacker follows all public links and actions on a web site. They record all the links, the forms, the resources accessed and all other potential entry-points for the web application. Techniques Use a spidering tool to follow and record all links and analyze the web pages to find entry points. Make special note of any links that include parameters in the URL. Use a proxy tool to record all links visited during a manual traversal of the web application. Use a browser to manually explore the website and analyze how it is constructed. Many browsers' plugins are available to facilitate the analysis or automate the discovery. Experiment Probe identified potential entry points for XSS vulnerability: The attacker uses the entry points gathered in the \"Explore\" phase as a target list and injects various common script payloads to determine if an entry point actually represents a vulnerability and to characterize the extent to which the vulnerability can be exploited. Techniques Use a list of XSS probe strings to inject script in parameters of known URLs. If possible, the probe strings contain a unique identifier. Use a proxy tool to record results of manual input of XSS probes in known URLs. Use a list of XSS probe strings to inject script into UI entry fields. If possible, the probe strings contain a unique identifier. Use a list of XSS probe strings to inject script into resources accessed by the application. If possible, the probe strings contain a unique identifier. Exploit Steal session IDs, credentials, page content, etc.: As the attacker succeeds in exploiting the vulnerability, they can choose to steal user's credentials in order to reuse or to analyze them later on. Techniques Develop malicious JavaScript that is injected through vectors identified during the Experiment Phase and loaded by the victim's browser and sends document information to the attacker. Develop malicious JavaScript that injected through vectors identified during the Experiment Phase and takes commands from an attacker's server and then causes the browser to execute appropriately. Forceful browsing: When the attacker targets the current application or another one (through CSRF vulnerabilities), the user will then be the one who perform the attacks without being aware of it. These attacks are mostly targeting application logic flaws, but it can also be used to create a widespread attack against a particular website on the user's current network (Internet or not). Techniques Develop malicious JavaScript that is injected through vectors identified during the Experiment Phase and loaded by the victim's browser and performs actions on the same web site Develop malicious JavaScript that injected through vectors identified during the Experiment Phase and takes commands from an attacker's server and then causes the browser to execute request to other web sites (especially the web applications that have CSRF vulnerabilities). Content spoofing: By manipulating the content, the attacker targets the information that the user would like to get from the website. Techniques Develop malicious JavaScript that is injected through vectors identified during the Experiment Phase and loaded by the victim's browser and exposes attacker-modified invalid information to the user on the current web page."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "injection/xss.md",
+      "file_sha256": "b631d87b48b9fddeb42d8696a48a1eb7f8581dc216a11cb889546a9548528fbb",
+      "heading": "Execution flow",
+      "start_char": 904,
+      "end_char": 4982,
+      "exact_excerpt": "<h2> Execution Flow </h2><div><h3>Explore</h3><ol><li> <p> <b>Survey the application for user-controllable inputs: </b>Using a browser or an automated tool, an attacker follows all public links and actions on a web site. They record all the links, the forms, the resources accessed and all other potential entry-points for the web application.</p></li><table><tbody><tr><th>Techniques</th></tr><tr><td>Use a spidering tool to follow and record all links and analyze the web pages to find entry points. Make special note of any links that include parameters in the URL.</td></tr><tr><td>Use a proxy tool to record all links visited during a manual traversal of the web application.</td></tr><tr><td>Use a browser to manually explore the website and analyze how it is constructed. Many browsers' plugins are available to facilitate the analysis or automate the discovery.</td></tr></tbody></table></ol></div><div><h3>Experiment</h3><ol><li> <p> <b>Probe identified potential entry points for XSS vulnerability: </b>The attacker uses the entry points gathered in the \"Explore\" phase as a target list and injects various common script payloads to determine if an entry point actually represents a vulnerability and to characterize the extent to which the vulnerability can be exploited.</p></li><table><tbody><tr><th>Techniques</th></tr><tr><td>Use a list of XSS probe strings to inject script in parameters of known URLs. If possible, the probe strings contain a unique identifier.</td></tr><tr><td>Use a proxy tool to record results of manual input of XSS probes in known URLs.</td></tr><tr><td>Use a list of XSS probe strings to inject script into UI entry fields. If possible, the probe strings contain a unique identifier.</td></tr><tr><td>Use a list of XSS probe strings to inject script into resources accessed by the application. If possible, the probe strings contain a unique identifier.</td></tr></tbody></table></ol></div><div><h3>Exploit</h3><ol><li> <p> <b>Steal session IDs, credentials, page content, etc.: </b>As the attacker succeeds in exploiting the vulnerability, they can choose to steal user's credentials in order to reuse or to analyze them later on.</p></li><table><tbody><tr><th>Techniques</th></tr><tr><td>Develop malicious JavaScript that is injected through vectors identified during the Experiment Phase and loaded by the victim's browser and sends document information to the attacker.</td></tr><tr><td>Develop malicious JavaScript that injected through vectors identified during the Experiment Phase and takes commands from an attacker's server and then causes the browser to execute appropriately.</td></tr></tbody></table><li> <p> <b>Forceful browsing: </b>When the attacker targets the current application or another one (through CSRF vulnerabilities), the user will then be the one who perform the attacks without being aware of it. These attacks are mostly targeting application logic flaws, but it can also be used to create a widespread attack against a particular website on the user's current network (Internet or not).</p></li><table><tbody><tr><th>Techniques</th></tr><tr><td>Develop malicious JavaScript that is injected through vectors identified during the Experiment Phase and loaded by the victim's browser and performs actions on the same web site</td></tr><tr><td>Develop malicious JavaScript that injected through vectors identified during the Experiment Phase and takes commands from an attacker's server and then causes the browser to execute request to other web sites (especially the web applications that have CSRF vulnerabilities).</td></tr></tbody></table><li> <p> <b>Content spoofing: </b>By manipulating the content, the attacker targets the information that the user would like to get from the website.</p></li><table><tbody><tr><th>Techniques</th></tr><tr><td>Develop malicious JavaScript that is injected through vectors identified during the Experiment Phase and loaded by the victim's browser and exposes attacker-modified invalid information to the user on the current web page.</td></tr></tbody></table></ol></div>"
+    },
+    "question_category": "execution_flow"
+  },
+  {
+    "id": "expanded_xss_prerequisites_01",
+    "question": "What conditions are required for Cross-Site Scripting in the knowledge base?",
+    "expected_attack_type": "xss",
+    "expected_sections": [
+      "prerequisites"
+    ],
+    "reference_facts": [
+      "Target client software must be a client that allows scripting communication from remote hosts, such as a JavaScript-enabled Web Browser."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "injection/xss.md",
+      "file_sha256": "b631d87b48b9fddeb42d8696a48a1eb7f8581dc216a11cb889546a9548528fbb",
+      "heading": "Prerequisites",
+      "start_char": 5002,
+      "end_char": 5138,
+      "exact_excerpt": "Target client software must be a client that allows scripting communication from remote hosts, such as a JavaScript-enabled Web Browser."
+    },
+    "question_category": "prerequisites"
+  },
+  {
+    "id": "expanded_xss_required_resources_01",
+    "question": "What resources or tools does the knowledge base say are needed for Cross-Site Scripting?",
+    "expected_attack_type": "xss",
+    "expected_sections": [
+      "required_resources"
+    ],
+    "reference_facts": [
+      "Ability to deploy a custom hostile service for access by targeted clients. Ability to communicate synchronously or asynchronously with client machine."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "injection/xss.md",
+      "file_sha256": "b631d87b48b9fddeb42d8696a48a1eb7f8581dc216a11cb889546a9548528fbb",
+      "heading": "Required resources",
+      "start_char": 5163,
+      "end_char": 5313,
+      "exact_excerpt": "Ability to deploy a custom hostile service for access by targeted clients. Ability to communicate synchronously or asynchronously with client machine."
+    },
+    "question_category": "required_resources"
+  },
+  {
+    "id": "expanded_xss_consequences_01",
+    "question": "What consequences does the knowledge base list for Cross-Site Scripting?",
+    "expected_attack_type": "xss",
+    "expected_sections": [
+      "consequences"
+    ],
+    "reference_facts": [
+      "Availability: ['Execute Unauthorized Commands (Run Arbitrary Code)']; Confidentiality: ['Execute Unauthorized Commands (Run Arbitrary Code)', 'Read Data']; Integrity: ['Execute Unauthorized Commands (Run Arbitrary Code)', 'Modify Data']"
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "injection/xss.md",
+      "file_sha256": "b631d87b48b9fddeb42d8696a48a1eb7f8581dc216a11cb889546a9548528fbb",
+      "heading": "Consequences",
+      "start_char": 5681,
+      "end_char": 5917,
+      "exact_excerpt": "Availability: ['Execute Unauthorized Commands (Run Arbitrary Code)']; Confidentiality: ['Execute Unauthorized Commands (Run Arbitrary Code)', 'Read Data']; Integrity: ['Execute Unauthorized Commands (Run Arbitrary Code)', 'Modify Data']"
+    },
+    "question_category": "consequences"
+  },
+  {
+    "id": "expanded_backdoor_attack_description_01",
+    "question": "How does Backdoor work, according to the knowledge base?",
+    "expected_attack_type": "backdoor",
+    "expected_sections": [
+      "attack_description"
+    ],
+    "reference_facts": [
+      "An attacker implants malicious software into the system in the supply chain distribution channel, with purpose of causing malicious disruption or allowing for additional compromise when the system is deployed."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "malware/backdoor.md",
+      "file_sha256": "a3102aae7af4de48525ced013e0f98c885d40be7eb080e9a5a642b61c2b62f4f",
+      "heading": "Attack description",
+      "start_char": 217,
+      "end_char": 426,
+      "exact_excerpt": "An attacker implants malicious software into the system in the supply chain distribution channel, with purpose of causing malicious disruption or allowing for additional compromise when the system is deployed."
+    },
+    "question_category": "attack_description"
+  },
+  {
+    "id": "expanded_backdoor_execution_flow_01",
+    "question": "What main stages does the knowledge base describe for Backdoor?",
+    "expected_attack_type": "backdoor",
+    "expected_sections": [
+      "execution_flow"
+    ],
+    "reference_facts": [
+      "Execution Flow Explore Determine Entry Point: The adversary must first identify a system that they wish to target and search for an entry point they can use to install the malicious software. This could be a system which they have prior knowledge of, giving them insight into the software and environment. Techniques Use a JTAGulator to identify exposed JTAG and UART interfaces in smaller embedded systems. Identify exposed USB connectors that could be used to load software. Discover Vulnerability in Supply Chain: The adversary maps out the supply chain for the targeted system. They look for ooportunities to gain physical access to the system after it has left the manufacturer, but before it is deployed to the victim. Techniques Procure a system and observe the steps it takes in the shipment process. Identify possible warehouses that systems are stored after manufacturing. Experiment Test Malicious Software: Before performing the attack in the wild, an adversary will test the attack on a system they have procured to ensure that the desired outcome will be achieved. Techniques Design malicious software that will give an adversary a backdoor into the system once it is deployed to the victim. Obtain already designed malicious software that just need to be placed into the system. Exploit Implant Software in the Supply Chain: Using the vulnerability in the supply chain of the system discovered in the explore phase, the adversary implants the malicious software into the system. This results in the adversary gaining unintended access to systems once they reach the victim and can lead to a variety of follow up attacks."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "malware/backdoor.md",
+      "file_sha256": "a3102aae7af4de48525ced013e0f98c885d40be7eb080e9a5a642b61c2b62f4f",
+      "heading": "Execution flow",
+      "start_char": 447,
+      "end_char": 2516,
+      "exact_excerpt": "<h2> Execution Flow </h2><div><h3>Explore</h3><ol><li> <p> <b>Determine Entry Point: </b>The adversary must first identify a system that they wish to target and search for an entry point they can use to install the malicious software. This could be a system which they have prior knowledge of, giving them insight into the software and environment.</p></li><table><tbody><tr><th>Techniques</th></tr><tr><td>Use a JTAGulator to identify exposed JTAG and UART interfaces in smaller embedded systems.</td></tr><tr><td>Identify exposed USB connectors that could be used to load software.</td></tr></tbody></table><li> <p> <b>Discover Vulnerability in Supply Chain: </b>The adversary maps out the supply chain for the targeted system. They look for ooportunities to gain physical access to the system after it has left the manufacturer, but before it is deployed to the victim.</p></li><table><tbody><tr><th>Techniques</th></tr><tr><td>Procure a system and observe the steps it takes in the shipment process.</td></tr><tr><td>Identify possible warehouses that systems are stored after manufacturing.</td></tr></tbody></table></ol></div><div><h3>Experiment</h3><ol><li> <p> <b>Test Malicious Software: </b>Before performing the attack in the wild, an adversary will test the attack on a system they have procured to ensure that the desired outcome will be achieved.</p></li><table><tbody><tr><th>Techniques</th></tr><tr><td>Design malicious software that will give an adversary a backdoor into the system once it is deployed to the victim.</td></tr><tr><td>Obtain already designed malicious software that just need to be placed into the system.</td></tr></tbody></table></ol></div><div><h3>Exploit</h3><ol><li> <p> <b>Implant Software in the Supply Chain: </b>Using the vulnerability in the supply chain of the system discovered in the explore phase, the adversary implants the malicious software into the system. This results in the adversary gaining unintended access to systems once they reach the victim and can lead to a variety of follow up attacks.</p></li></ol></div>"
+    },
+    "question_category": "execution_flow"
+  },
+  {
+    "id": "expanded_backdoor_prerequisites_01",
+    "question": "What conditions are required for Backdoor in the knowledge base?",
+    "expected_attack_type": "backdoor",
+    "expected_sections": [
+      "prerequisites"
+    ],
+    "reference_facts": [
+      "Physical access to the system after it has left the manufacturer but before it is deployed at the victim location."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "malware/backdoor.md",
+      "file_sha256": "a3102aae7af4de48525ced013e0f98c885d40be7eb080e9a5a642b61c2b62f4f",
+      "heading": "Prerequisites",
+      "start_char": 2536,
+      "end_char": 2650,
+      "exact_excerpt": "Physical access to the system after it has left the manufacturer but before it is deployed at the victim location."
+    },
+    "question_category": "prerequisites"
+  },
+  {
+    "id": "expanded_password_cracking_attack_description_01",
+    "question": "How does Password Cracking work, according to the knowledge base?",
+    "expected_attack_type": "password_cracking",
+    "expected_sections": [
+      "attack_description"
+    ],
+    "reference_facts": [
+      "An adversary tries every possible value for a password until they succeed. A brute force attack, if feasible computationally, will always be successful because it will essentially go through all possible passwords given the alphabet used (lower case letters, upper case letters, numbers, symbols, etc.) and the maximum length of the password."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "malware/password_cracking.md",
+      "file_sha256": "1a599d11d40968ded3937e6599da061f35f69a8f527b3764834c4971e329c2bc",
+      "heading": "Attack description",
+      "start_char": 234,
+      "end_char": 576,
+      "exact_excerpt": "An adversary tries every possible value for a password until they succeed. A brute force attack, if feasible computationally, will always be successful because it will essentially go through all possible passwords given the alphabet used (lower case letters, upper case letters, numbers, symbols, etc.) and the maximum length of the password."
+    },
+    "question_category": "attack_description"
+  },
+  {
+    "id": "expanded_password_cracking_execution_flow_01",
+    "question": "What main stages does the knowledge base describe for Password Cracking?",
+    "expected_attack_type": "password_cracking",
+    "expected_sections": [
+      "execution_flow"
+    ],
+    "reference_facts": [
+      "Execution Flow Explore Determine application's/system's password policy: Determine the password policies of the target application/system. Techniques Determine minimum and maximum allowed password lengths. Determine format of allowed passwords (whether they are required or allowed to contain numbers, special characters, etc.). Determine account lockout policy (a strict account lockout policy will prevent brute force attacks). Exploit Brute force password: Given the finite space of possible passwords dictated by the password policy determined in the previous step, try all possible passwords for a known user ID until application/system grants access. Techniques Manually or automatically enter all possible passwords through the application/system's interface. In most systems, start with the shortest and simplest possible passwords, because most users tend to select such passwords if allowed to do so. Perform an offline dictionary attack or a rainbow table attack against a known password hash."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "malware/password_cracking.md",
+      "file_sha256": "1a599d11d40968ded3937e6599da061f35f69a8f527b3764834c4971e329c2bc",
+      "heading": "Execution flow",
+      "start_char": 597,
+      "end_char": 1895,
+      "exact_excerpt": "<h2> Execution Flow </h2><div><h3>Explore</h3><ol><li> <p> <b>Determine application's/system's password policy: </b>Determine the password policies of the target application/system.</p></li><table><tbody><tr><th>Techniques</th></tr><tr><td>Determine minimum and maximum allowed password lengths.</td></tr><tr><td>Determine format of allowed passwords (whether they are required or allowed to contain numbers, special characters, etc.).</td></tr><tr><td>Determine account lockout policy (a strict account lockout policy will prevent brute force attacks).</td></tr></tbody></table></ol></div><div><h3>Exploit</h3><ol><li> <p> <b>Brute force password: </b>Given the finite space of possible passwords dictated by the password policy determined in the previous step, try all possible passwords for a known user ID until application/system grants access.</p></li><table><tbody><tr><th>Techniques</th></tr><tr><td>Manually or automatically enter all possible passwords through the application/system's interface. In most systems, start with the shortest and simplest possible passwords, because most users tend to select such passwords if allowed to do so.</td></tr><tr><td>Perform an offline dictionary attack or a rainbow table attack against a known password hash.</td></tr></tbody></table></ol></div>"
+    },
+    "question_category": "execution_flow"
+  },
+  {
+    "id": "expanded_password_cracking_prerequisites_01",
+    "question": "What conditions are required for Password Cracking in the knowledge base?",
+    "expected_attack_type": "password_cracking",
+    "expected_sections": [
+      "prerequisites"
+    ],
+    "reference_facts": [
+      "- An adversary needs to know a username to target. - The system uses password based authentication as the one factor authentication mechanism. - An application does not have a password throttling mechanism in place. A good password throttling mechanism will make it almost impossible computationally to brute force a password as it may either lock out the user after a certain number of incorrect attempts or introduce time out periods. Both of these would make a brute force attack impractical."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "malware/password_cracking.md",
+      "file_sha256": "1a599d11d40968ded3937e6599da061f35f69a8f527b3764834c4971e329c2bc",
+      "heading": "Prerequisites",
+      "start_char": 1915,
+      "end_char": 2410,
+      "exact_excerpt": "- An adversary needs to know a username to target.\n- The system uses password based authentication as the one factor authentication mechanism.\n- An application does not have a password throttling mechanism in place. A good password throttling mechanism will make it almost impossible computationally to brute force a password as it may either lock out the user after a certain number of incorrect attempts or introduce time out periods. Both of these would make a brute force attack impractical."
+    },
+    "question_category": "prerequisites"
+  },
+  {
+    "id": "expanded_password_cracking_required_resources_01",
+    "question": "What resources or tools does the knowledge base say are needed for Password Cracking?",
+    "expected_attack_type": "password_cracking",
+    "expected_sections": [
+      "required_resources"
+    ],
+    "reference_facts": [
+      "A powerful enough computer for the job with sufficient CPU, RAM and HD. Exact requirements will depend on the size of the brute force job and the time requirement for completion. Some brute forcing jobs may require grid or distributed computing (e.g. DES Challenge)."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "malware/password_cracking.md",
+      "file_sha256": "1a599d11d40968ded3937e6599da061f35f69a8f527b3764834c4971e329c2bc",
+      "heading": "Required resources",
+      "start_char": 2435,
+      "end_char": 2701,
+      "exact_excerpt": "A powerful enough computer for the job with sufficient CPU, RAM and HD. Exact requirements will depend on the size of the brute force job and the time requirement for completion. Some brute forcing jobs may require grid or distributed computing (e.g. DES Challenge)."
+    },
+    "question_category": "required_resources"
+  },
+  {
+    "id": "expanded_password_cracking_consequences_01",
+    "question": "What consequences does the knowledge base list for Password Cracking?",
+    "expected_attack_type": "password_cracking",
+    "expected_sections": [
+      "consequences"
+    ],
+    "reference_facts": [
+      "Access_Control: ['Gain Privileges']; Authorization: ['Gain Privileges']; Confidentiality: ['Gain Privileges', 'Read Data']; Integrity: ['Modify Data']"
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "malware/password_cracking.md",
+      "file_sha256": "1a599d11d40968ded3937e6599da061f35f69a8f527b3764834c4971e329c2bc",
+      "heading": "Consequences",
+      "start_char": 2851,
+      "end_char": 3001,
+      "exact_excerpt": "Access_Control: ['Gain Privileges']; Authorization: ['Gain Privileges']; Confidentiality: ['Gain Privileges', 'Read Data']; Integrity: ['Modify Data']"
+    },
+    "question_category": "consequences"
+  },
+  {
+    "id": "expanded_os_fingerprinting_attack_description_01",
+    "question": "How does Operating System Fingerprinting work, according to the knowledge base?",
+    "expected_attack_type": "os_fingerprinting",
+    "expected_sections": [
+      "attack_description"
+    ],
+    "reference_facts": [
+      "An adversary engages in activity to detect the operating system or firmware version of a remote target by interrogating a device, server, or platform with a probe designed to solicit behavior that will reveal information about the operating systems or firmware in the environment. Operating System detection is possible because implementations of common protocols (Such as IP or TCP) differ in distinct ways. While the implementation differences are not sufficient to 'break' compatibility with the protocol the differences are detectable because the target will respond in unique ways to specific probing activity that breaks the semantic or logical rules of packet construction for a protocol. Different operating systems will have a unique response to the anomalous input, providing the basis to fingerprint the OS behavior. This type of OS fingerprinting can distinguish between operating system types and versions."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "reconnaissance/os_fingerprinting.md",
+      "file_sha256": "f036f4f0ead5f18f521e051fbf80a3cdcce60d71d0268768a3be3466fca1a395",
+      "heading": "Attack description",
+      "start_char": 256,
+      "end_char": 1175,
+      "exact_excerpt": "An adversary engages in activity to detect the operating system or firmware version of a remote target by interrogating a device, server, or platform with a probe designed to solicit behavior that will reveal information about the operating systems or firmware in the environment. Operating System detection is possible because implementations of common protocols (Such as IP or TCP) differ in distinct ways. While the implementation differences are not sufficient to 'break' compatibility with the protocol the differences are detectable because the target will respond in unique ways to specific probing activity that breaks the semantic or logical rules of packet construction for a protocol. Different operating systems will have a unique response to the anomalous input, providing the basis to fingerprint the OS behavior. This type of OS fingerprinting can distinguish between operating system types and versions."
+    },
+    "question_category": "attack_description"
+  },
+  {
+    "id": "expanded_os_fingerprinting_prerequisites_01",
+    "question": "What conditions are required for Operating System Fingerprinting in the knowledge base?",
+    "expected_attack_type": "os_fingerprinting",
+    "expected_sections": [
+      "prerequisites"
+    ],
+    "reference_facts": [
+      "The ability to monitor and interact with network communications.Access to at least one host, and the privileges to interface with the network interface card."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "reconnaissance/os_fingerprinting.md",
+      "file_sha256": "f036f4f0ead5f18f521e051fbf80a3cdcce60d71d0268768a3be3466fca1a395",
+      "heading": "Prerequisites",
+      "start_char": 1195,
+      "end_char": 1352,
+      "exact_excerpt": "The ability to monitor and interact with network communications.Access to at least one host, and the privileges to interface with the network interface card."
+    },
+    "question_category": "prerequisites"
+  },
+  {
+    "id": "expanded_os_fingerprinting_required_resources_01",
+    "question": "What resources or tools does the knowledge base say are needed for Operating System Fingerprinting?",
+    "expected_attack_type": "os_fingerprinting",
+    "expected_sections": [
+      "required_resources"
+    ],
+    "reference_facts": [
+      "Any type of active probing that involves non-standard packet headers requires the use of raw sockets, which is not available on particular operating systems (Microsoft Windows XP SP 2, for example). Raw socket manipulation on Unix/Linux requires root privileges. A tool capable of sending and receiving packets from a remote system."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "reconnaissance/os_fingerprinting.md",
+      "file_sha256": "f036f4f0ead5f18f521e051fbf80a3cdcce60d71d0268768a3be3466fca1a395",
+      "heading": "Required resources",
+      "start_char": 1377,
+      "end_char": 1762,
+      "exact_excerpt": "<xhtml:p>Any type of active probing that involves non-standard packet headers requires the use of raw sockets, which is not available on particular operating systems (Microsoft Windows XP SP 2, for example). Raw socket manipulation on Unix/Linux requires root privileges.</xhtml:p>\n               <xhtml:p>A tool capable of sending and receiving packets from a remote system.</xhtml:p>"
+    },
+    "question_category": "required_resources"
+  },
+  {
+    "id": "expanded_os_fingerprinting_consequences_01",
+    "question": "What consequences does the knowledge base list for Operating System Fingerprinting?",
+    "expected_attack_type": "os_fingerprinting",
+    "expected_sections": [
+      "consequences"
+    ],
+    "reference_facts": [
+      "Access_Control: ['Hide Activities']; Authorization: ['Hide Activities']; Confidentiality: ['Read Data', 'Hide Activities']"
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "reconnaissance/os_fingerprinting.md",
+      "file_sha256": "f036f4f0ead5f18f521e051fbf80a3cdcce60d71d0268768a3be3466fca1a395",
+      "heading": "Consequences",
+      "start_char": 1781,
+      "end_char": 1903,
+      "exact_excerpt": "Access_Control: ['Hide Activities']; Authorization: ['Hide Activities']; Confidentiality: ['Read Data', 'Hide Activities']"
+    },
+    "question_category": "consequences"
+  },
+  {
+    "id": "expanded_port_scanning_attack_description_01",
+    "question": "How does Port Scanning work, according to the knowledge base?",
+    "expected_attack_type": "port_scanning",
+    "expected_sections": [
+      "attack_description"
+    ],
+    "reference_facts": [
+      "An adversary uses a combination of techniques to determine the state of the ports on a remote target. Any service or application available for TCP or UDP networking will have a port open for communications over the network."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "reconnaissance/port_scanning.md",
+      "file_sha256": "cbd6b48ca86ba0635432c9056691455955b78b559f60c7616f2334c7769b676a",
+      "heading": "Attack description",
+      "start_char": 234,
+      "end_char": 457,
+      "exact_excerpt": "An adversary uses a combination of techniques to determine the state of the ports on a remote target. Any service or application available for TCP or UDP networking will have a port open for communications over the network."
+    },
+    "question_category": "attack_description"
+  },
+  {
+    "id": "expanded_port_scanning_prerequisites_01",
+    "question": "What conditions are required for Port Scanning in the knowledge base?",
+    "expected_attack_type": "port_scanning",
+    "expected_sections": [
+      "prerequisites"
+    ],
+    "reference_facts": [
+      "The adversary requires logical access to the target's network in order to carry out this type of attack."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "reconnaissance/port_scanning.md",
+      "file_sha256": "cbd6b48ca86ba0635432c9056691455955b78b559f60c7616f2334c7769b676a",
+      "heading": "Prerequisites",
+      "start_char": 477,
+      "end_char": 581,
+      "exact_excerpt": "The adversary requires logical access to the target's network in order to carry out this type of attack."
+    },
+    "question_category": "prerequisites"
+  },
+  {
+    "id": "expanded_port_scanning_required_resources_01",
+    "question": "What resources or tools does the knowledge base say are needed for Port Scanning?",
+    "expected_attack_type": "port_scanning",
+    "expected_sections": [
+      "required_resources"
+    ],
+    "reference_facts": [
+      "The adversary requires a network mapping/scanning tool, or must conduct socket programming on the command line. Packet injection tools are also useful for this purpose. Depending upon the method used it may be necessary to sniff the network in order to see the response."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "reconnaissance/port_scanning.md",
+      "file_sha256": "cbd6b48ca86ba0635432c9056691455955b78b559f60c7616f2334c7769b676a",
+      "heading": "Required resources",
+      "start_char": 606,
+      "end_char": 876,
+      "exact_excerpt": "The adversary requires a network mapping/scanning tool, or must conduct socket programming on the command line. Packet injection tools are also useful for this purpose. Depending upon the method used it may be necessary to sniff the network in order to see the response."
+    },
+    "question_category": "required_resources"
+  },
+  {
+    "id": "expanded_port_scanning_consequences_01",
+    "question": "What consequences does the knowledge base list for Port Scanning?",
+    "expected_attack_type": "port_scanning",
+    "expected_sections": [
+      "consequences"
+    ],
+    "reference_facts": [
+      "Access_Control: ['Bypass Protection Mechanism', 'Hide Activities']; Authorization: ['Bypass Protection Mechanism', 'Hide Activities']; Confidentiality: ['Other', 'Bypass Protection Mechanism', 'Hide Activities']"
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "reconnaissance/port_scanning.md",
+      "file_sha256": "cbd6b48ca86ba0635432c9056691455955b78b559f60c7616f2334c7769b676a",
+      "heading": "Consequences",
+      "start_char": 895,
+      "end_char": 1106,
+      "exact_excerpt": "Access_Control: ['Bypass Protection Mechanism', 'Hide Activities']; Authorization: ['Bypass Protection Mechanism', 'Hide Activities']; Confidentiality: ['Other', 'Bypass Protection Mechanism', 'Hide Activities']"
+    },
+    "question_category": "consequences"
+  },
+  {
+    "id": "expanded_vulnerability_scanning_att_ck_adversary_context_01",
+    "question": "What information does vulnerability scanning collect, and how can it support later targeting?",
+    "expected_attack_type": "vulnerability_scanning",
+    "expected_sections": [
+      "att_ck_adversary_context"
+    ],
+    "reference_facts": [
+      "**Technique:** Vulnerability Scanning Adversaries may scan victims for vulnerabilities that can be used during targeting. Vulnerability scans typically check if the configuration of a target host/application (ex: software and version) potentially aligns with the target of a specific exploit the adversary may seek to use. These scans may also include more broad attempts to [Gather Victim Host Information](https://attack.mitre.org/techniques/T1592) that can be used to identify more commonly known, exploitable vulnerabilities. Vulnerability scans typically harvest running software and version numbers via server banners, listening ports, or other network artifacts.(Citation: OWASP Vuln Scanning) Information from these scans may reveal opportunities for other forms of reconnaissance (ex: [Search Open Websites/Domains](https://attack.mitre.org/techniques/T1593) or [Search Open Technical Databases](https://attack.mitre.org/techniques/T1596)), establishing operational resources (ex: [Develop Capabilities](https://attack.mitre.org/techniques/T1587) or [Obtain Capabilities](https://attack.mitre.org/techniques/T1588)), and/or initial access (ex: [Exploit Public-Facing Application](https://attack.mitre.org/techniques/T1190))."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "reconnaissance/vulnerability_scanning.md",
+      "file_sha256": "2df35151c54d1898c9bbd1b27a3ff8a56703960ef4acc4357699251240b6e71d",
+      "heading": "ATT&CK adversary context",
+      "start_char": 238,
+      "end_char": 1473,
+      "exact_excerpt": "**Technique:** Vulnerability Scanning\n\nAdversaries may scan victims for vulnerabilities that can be used during targeting. Vulnerability scans typically check if the configuration of a target host/application (ex: software and version) potentially aligns with the target of a specific exploit the adversary may seek to use.\n\nThese scans may also include more broad attempts to [Gather Victim Host Information](https://attack.mitre.org/techniques/T1592) that can be used to identify more commonly known, exploitable vulnerabilities. Vulnerability scans typically harvest running software and version numbers via server banners, listening ports, or other network artifacts.(Citation: OWASP Vuln Scanning) Information from these scans may reveal opportunities for other forms of reconnaissance (ex: [Search Open Websites/Domains](https://attack.mitre.org/techniques/T1593) or [Search Open Technical Databases](https://attack.mitre.org/techniques/T1596)), establishing operational resources (ex: [Develop Capabilities](https://attack.mitre.org/techniques/T1587) or [Obtain Capabilities](https://attack.mitre.org/techniques/T1588)), and/or initial access (ex: [Exploit Public-Facing Application](https://attack.mitre.org/techniques/T1190))."
+    },
+    "question_category": "att_ck_adversary_context"
+  },
+  {
+    "id": "expanded_arp_spoofing_attack_description_01",
+    "question": "How does ARP Spoofing work, according to the knowledge base?",
+    "expected_attack_type": "arp_spoofing",
+    "expected_sections": [
+      "attack_description"
+    ],
+    "reference_facts": [
+      "An attacker exploits the functionality of cache technologies to cause specific data to be cached that aids the attackers' objectives. This describes any attack whereby an attacker places incorrect or harmful material in cache. The targeted cache can be an application's cache (e.g. a web browser cache) or a public cache (e.g. a DNS or ARP cache). Until the cache is refreshed, most applications or clients will treat the corrupted cache value as valid. This can lead to a wide range of exploits including redirecting web browsers towards sites that install malware and repeatedly incorrect calculations based on the incorrect value."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "spoofing/arp_spoofing.md",
+      "file_sha256": "78e135f0626688a4f5acea00108aba84dfaed7f13fbb4aece7b7fd6bac70f45c",
+      "heading": "Attack description",
+      "start_char": 230,
+      "end_char": 863,
+      "exact_excerpt": "An attacker exploits the functionality of cache technologies to cause specific data to be cached that aids the attackers' objectives. This describes any attack whereby an attacker places incorrect or harmful material in cache. The targeted cache can be an application's cache (e.g. a web browser cache) or a public cache (e.g. a DNS or ARP cache). Until the cache is refreshed, most applications or clients will treat the corrupted cache value as valid. This can lead to a wide range of exploits including redirecting web browsers towards sites that install malware and repeatedly incorrect calculations based on the incorrect value."
+    },
+    "question_category": "attack_description"
+  },
+  {
+    "id": "expanded_arp_spoofing_execution_flow_01",
+    "question": "What main stages does the knowledge base describe for ARP Spoofing?",
+    "expected_attack_type": "arp_spoofing",
+    "expected_sections": [
+      "execution_flow"
+    ],
+    "reference_facts": [
+      "Execution Flow Explore Identify and explore caches: Use tools to sniff traffic and scan a network in order to locate application's cache (e.g. a web browser cache) or a public cache (e.g. a DNS or ARP cache) that may have vulnerabilities. Look for poisoning point in cache table entries. Techniques Run tools that check available entries in the cache. Experiment Cause specific data to be cached: An attacker sends bogus request to the target, and then floods responses that trick a cache to remember malicious responses, which are wrong answers of queries. Techniques Intercept or modify a query, or send a bogus query with known credentials (such as transaction ID). Exploit Redirect users to malicious website: As the attacker succeeds in exploiting the vulnerability, they are able to manipulate and interpose malicious response data to targeted victim queries. Techniques Intercept or modify a query, or send a bogus query with known credentials (such as transaction ID). Adversary-in-the-Middle attacks (CAPEC-94) intercept secure communication between two parties."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "spoofing/arp_spoofing.md",
+      "file_sha256": "78e135f0626688a4f5acea00108aba84dfaed7f13fbb4aece7b7fd6bac70f45c",
+      "heading": "Execution flow",
+      "start_char": 884,
+      "end_char": 2331,
+      "exact_excerpt": "<h2> Execution Flow </h2><div><h3>Explore</h3><ol><li> <p> <b>Identify and explore caches: </b>Use tools to sniff traffic and scan a network in order to locate application's cache (e.g. a web browser cache) or a public cache (e.g. a DNS or ARP cache) that may have vulnerabilities. Look for poisoning point in cache table entries.</p></li><table><tbody><tr><th>Techniques</th></tr><tr><td>Run tools that check available entries in the cache.</td></tr></tbody></table></ol></div><div><h3>Experiment</h3><ol><li> <p> <b>Cause specific data to be cached: </b>An attacker sends bogus request to the target, and then floods responses that trick a cache to remember malicious responses, which are wrong answers of queries.</p></li><table><tbody><tr><th>Techniques</th></tr><tr><td>Intercept or modify a query, or send a bogus query with known credentials (such as transaction ID).</td></tr></tbody></table></ol></div><div><h3>Exploit</h3><ol><li> <p> <b>Redirect users to malicious website: </b>As the attacker succeeds in exploiting the vulnerability, they are able to manipulate and interpose malicious response data to targeted victim queries.</p></li><table><tbody><tr><th>Techniques</th></tr><tr><td>Intercept or modify a query, or send a bogus query with known credentials (such as transaction ID).</td></tr><tr><td>Adversary-in-the-Middle attacks (CAPEC-94) intercept secure communication between two parties.</td></tr></tbody></table></ol></div>"
+    },
+    "question_category": "execution_flow"
+  },
+  {
+    "id": "expanded_arp_spoofing_prerequisites_01",
+    "question": "What conditions are required for ARP Spoofing in the knowledge base?",
+    "expected_attack_type": "arp_spoofing",
+    "expected_sections": [
+      "prerequisites"
+    ],
+    "reference_facts": [
+      "- The attacker must be able to modify the value stored in a cache to match a desired value. - The targeted application must not be able to detect the illicit modification of the cache and must trust the cache value in its calculations."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "spoofing/arp_spoofing.md",
+      "file_sha256": "78e135f0626688a4f5acea00108aba84dfaed7f13fbb4aece7b7fd6bac70f45c",
+      "heading": "Prerequisites",
+      "start_char": 2351,
+      "end_char": 2586,
+      "exact_excerpt": "- The attacker must be able to modify the value stored in a cache to match a desired value.\n- The targeted application must not be able to detect the illicit modification of the cache and must trust the cache value in its calculations."
+    },
+    "question_category": "prerequisites"
+  },
+  {
+    "id": "expanded_dns_spoofing_attack_description_01",
+    "question": "How does DNS Spoofing work, according to the knowledge base?",
+    "expected_attack_type": "dns_spoofing",
+    "expected_sections": [
+      "attack_description"
+    ],
+    "reference_facts": [
+      "An adversary sends a malicious (\"NXDOMAIN\" (\"No such domain\") code, or DNS A record) response to a target's route request before a legitimate resolver can. This technique requires an On-path or In-path device that can monitor and respond to the target's DNS requests. This attack differs from BGP Tampering in that it directly responds to requests made by the target instead of polluting the routing the target's infrastructure uses."
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "spoofing/dns_spoofing.md",
+      "file_sha256": "0f5bdddd8a5bc6bde25a80f2b97d928306ce6bda6c0eda11bc7da51e75de12cc",
+      "heading": "Attack description",
+      "start_char": 226,
+      "end_char": 659,
+      "exact_excerpt": "An adversary sends a malicious (\"NXDOMAIN\" (\"No such domain\") code, or DNS A record) response to a target's route request before a legitimate resolver can. This technique requires an On-path or In-path device that can monitor and respond to the target's DNS requests. This attack differs from BGP Tampering in that it directly responds to requests made by the target instead of polluting the routing the target's infrastructure uses."
+    },
+    "question_category": "attack_description"
+  },
+  {
+    "id": "expanded_dns_spoofing_prerequisites_01",
+    "question": "What conditions are required for DNS Spoofing in the knowledge base?",
+    "expected_attack_type": "dns_spoofing",
+    "expected_sections": [
+      "prerequisites"
+    ],
+    "reference_facts": [
+      "On/In Path Device"
+    ],
+    "review_status": "draft_requires_human_review",
+    "benchmark_role": "development_expansion_not_held_out",
+    "source_evidence": {
+      "corpus_relative_path": "spoofing/dns_spoofing.md",
+      "file_sha256": "0f5bdddd8a5bc6bde25a80f2b97d928306ce6bda6c0eda11bc7da51e75de12cc",
+      "heading": "Prerequisites",
+      "start_char": 679,
+      "end_char": 696,
+      "exact_excerpt": "On/In Path Device"
+    },
+    "question_category": "prerequisites"
+  }
+]

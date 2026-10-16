@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "benchmark": "backend/data/evaluation/questions_v1.json",
+  "repetitions": 3,
+  "dataset_namespace": "aegisrag.cybersecurity",
+  "corpus_roots": {
+    "clean": "backend/data/raw/knowledge_base",
+    "poisoned": "backend/data/poisoned/knowledge_base"
+  },
+  "source_group_policy": "shared_documented_ids_v1",
+  "attack_manifest": "backend/data/poisoned/pwws_attack_manifest.jsonl",
+  "attack_summary": null,
+  "expected_config": {
+    "LLM_PROVIDER": "openai",
+    "LLM_MODEL": "gpt-4o-mini",
+    "LLM_TEMPERATURE": 0,
+    "EMBEDDING_MODEL": "sentence-transformers/all-MiniLM-L6-v2",
+    "CHUNK_SIZE": 500,
+    "CHUNK_OVERLAP": 100,
+    "RETRIEVAL_TOP_K": 3,
+    "QDRANT_URL": "http://localhost:6333",
+    "QDRANT_COLLECTIONS": {
+      "clean": "cybersecurity_knowledge_base",
+      "poisoned": "cybersecurity_knowledge_base_poisoned",
+      "defended": "cybersecurity_knowledge_base_defended"
+    }
+  },
+  "requests": {
+    "timeout_seconds": 60,
+    "max_retries": 0,
+    "retrieval_timeout_seconds": 15
+  }
+}

@@ -1,0 +1,296 @@
+{
+  "benchmark_version": "v1",
+  "frozen_on": "2026-10-16",
+  "draft_sha256": "43a7c2bc80b6c563622756ba629afd5f5b944d59658ec0c4cb4891e7c732e1aa",
+  "questions_v1_sha256": "6baef24c0513406b90a6517223440fa4f62b9dbd12d4ad8fa4e4023cbdce4c6d",
+  "question_count": 44,
+  "dropped": [
+    {
+      "id": "expanded_dns_spoofing_prerequisites_01",
+      "changes": [],
+      "decision": "dropped",
+      "reason": "Reference 'On/In Path Device' is too thin to separate correct from partial answers."
+    }
+  ],
+  "split_rule": "Held-out = one source document per category among documents not used by the 12-question pilot, random.Random(20261016).choice over sorted candidates; malware has no eligible document.",
+  "pilot_documents": [
+    "ddos/http_flood.md",
+    "injection/sql_injection.md",
+    "injection/xss.md",
+    "malware/backdoor.md",
+    "malware/password_cracking.md",
+    "reconnaissance/port_scanning.md"
+  ],
+  "held_out_documents": [
+    "ddos/icmp_flood.md",
+    "injection/uploading.md",
+    "reconnaissance/vulnerability_scanning.md",
+    "spoofing/dns_spoofing.md"
+  ],
+  "split_counts": {
+    "development": 35,
+    "held_out": 9
+  },
+  "decisions": [
+    {
+      "id": "expanded_http_flood_attack_description_01",
+      "changes": [],
+      "decision": "accepted"
+    },
+    {
+      "id": "expanded_http_flood_prerequisites_01",
+      "changes": [],
+      "decision": "accepted"
+    },
+    {
+      "id": "expanded_icmp_flood_attack_description_01",
+      "changes": [],
+      "decision": "accepted"
+    },
+    {
+      "id": "expanded_icmp_flood_prerequisites_01",
+      "changes": [],
+      "decision": "accepted"
+    },
+    {
+      "id": "expanded_tcp_syn_flood_attack_description_01",
+      "changes": [],
+      "decision": "accepted"
+    },
+    {
+      "id": "expanded_tcp_syn_flood_prerequisites_01",
+      "changes": [],
+      "decision": "accepted"
+    },
+    {
+      "id": "expanded_udp_flood_attack_description_01",
+      "changes": [],
+      "decision": "accepted"
+    },
+    {
+      "id": "expanded_udp_flood_prerequisites_01",
+      "changes": [],
+      "decision": "accepted"
+    },
+    {
+      "id": "expanded_sql_injection_attack_description_01",
+      "changes": [],
+      "decision": "accepted"
+    },
+    {
+      "id": "expanded_sql_injection_execution_flow_01",
+      "changes": [
+        "reference split into 4 verbatim step facts"
+      ],
+      "decision": "revised"
+    },
+    {
+      "id": "expanded_sql_injection_prerequisites_01",
+      "changes": [],
+      "decision": "accepted"
+    },
+    {
+      "id": "expanded_sql_injection_required_resources_01",
+      "changes": [],
+      "decision": "accepted"
+    },
+    {
+      "id": "expanded_sql_injection_consequences_01",
+      "changes": [
+        "CAPEC consequence dictionary rewritten as plain impact facts (derived)"
+      ],
+      "decision": "revised"
+    },
+    {
+      "id": "expanded_uploading_attack_description_01",
+      "changes": [],
+      "decision": "accepted"
+    },
+    {
+      "id": "expanded_uploading_execution_flow_01",
+      "changes": [
+        "reference split into 3 verbatim step facts"
+      ],
+      "decision": "revised"
+    },
+    {
+      "id": "expanded_uploading_prerequisites_01",
+      "changes": [],
+      "decision": "accepted"
+    },
+    {
+      "id": "expanded_uploading_required_resources_01",
+      "changes": [],
+      "decision": "accepted"
+    },
+    {
+      "id": "expanded_uploading_consequences_01",
+      "changes": [
+        "CAPEC consequence dictionary rewritten as plain impact facts (derived)"
+      ],
+      "decision": "revised"
+    },
+    {
+      "id": "expanded_xss_attack_description_01",
+      "changes": [],
+      "decision": "accepted"
+    },
+    {
+      "id": "expanded_xss_execution_flow_01",
+      "changes": [
+        "reference split into 5 verbatim step facts"
+      ],
+      "decision": "revised"
+    },
+    {
+      "id": "expanded_xss_prerequisites_01",
+      "changes": [],
+      "decision": "accepted"
+    },
+    {
+      "id": "expanded_xss_required_resources_01",
+      "changes": [],
+      "decision": "accepted"
+    },
+    {
+      "id": "expanded_xss_consequences_01",
+      "changes": [
+        "CAPEC consequence dictionary rewritten as plain impact facts (derived)"
+      ],
+      "decision": "revised"
+    },
+    {
+      "id": "expanded_backdoor_attack_description_01",
+      "changes": [],
+      "decision": "accepted"
+    },
+    {
+      "id": "expanded_backdoor_execution_flow_01",
+      "changes": [
+        "reference split into 4 verbatim step facts"
+      ],
+      "decision": "revised"
+    },
+    {
+      "id": "expanded_backdoor_prerequisites_01",
+      "changes": [],
+      "decision": "accepted"
+    },
+    {
+      "id": "expanded_password_cracking_attack_description_01",
+      "changes": [],
+      "decision": "accepted"
+    },
+    {
+      "id": "expanded_password_cracking_execution_flow_01",
+      "changes": [
+        "reference split into 2 verbatim step facts"
+      ],
+      "decision": "revised"
+    },
+    {
+      "id": "expanded_password_cracking_prerequisites_01",
+      "changes": [],
+      "decision": "accepted"
+    },
+    {
+      "id": "expanded_password_cracking_required_resources_01",
+      "changes": [],
+      "decision": "accepted"
+    },
+    {
+      "id": "expanded_password_cracking_consequences_01",
+      "changes": [
+        "CAPEC consequence dictionary rewritten as plain impact facts (derived)"
+      ],
+      "decision": "revised"
+    },
+    {
+      "id": "expanded_os_fingerprinting_attack_description_01",
+      "changes": [],
+      "decision": "accepted"
+    },
+    {
+      "id": "expanded_os_fingerprinting_prerequisites_01",
+      "changes": [],
+      "decision": "accepted"
+    },
+    {
+      "id": "expanded_os_fingerprinting_required_resources_01",
+      "changes": [],
+      "decision": "accepted"
+    },
+    {
+      "id": "expanded_os_fingerprinting_consequences_01",
+      "changes": [
+        "CAPEC consequence dictionary rewritten as plain impact facts (derived)"
+      ],
+      "decision": "revised"
+    },
+    {
+      "id": "expanded_port_scanning_attack_description_01",
+      "changes": [],
+      "decision": "accepted"
+    },
+    {
+      "id": "expanded_port_scanning_prerequisites_01",
+      "changes": [],
+      "decision": "accepted"
+    },
+    {
+      "id": "expanded_port_scanning_required_resources_01",
+      "changes": [],
+      "decision": "accepted"
+    },
+    {
+      "id": "expanded_port_scanning_consequences_01",
+      "changes": [
+        "CAPEC consequence dictionary rewritten as plain impact facts (derived)"
+      ],
+      "decision": "revised"
+    },
+    {
+      "id": "expanded_vulnerability_scanning_att_ck_adversary_context_01",
+      "changes": [
+        "section slug fixed to normalize_heading() output",
+        "reference reduced to 4 verbatim key sentences"
+      ],
+      "decision": "revised"
+    },
+    {
+      "id": "expanded_arp_spoofing_attack_description_01",
+      "changes": [],
+      "decision": "accepted"
+    },
+    {
+      "id": "expanded_arp_spoofing_execution_flow_01",
+      "changes": [
+        "reference split into 3 verbatim step facts"
+      ],
+      "decision": "revised"
+    },
+    {
+      "id": "expanded_arp_spoofing_prerequisites_01",
+      "changes": [],
+      "decision": "accepted"
+    },
+    {
+      "id": "expanded_dns_spoofing_attack_description_01",
+      "changes": [],
+      "decision": "accepted"
+    },
+    {
+      "id": "expanded_dns_spoofing_prerequisites_01",
+      "changes": [],
+      "decision": "dropped",
+      "reason": "Reference 'On/In Path Device' is too thin to separate correct from partial answers."
+    }
+  ],
+  "known_limitations": [
+    "Development questions share documents and sections with the 12-question pilot.",
+    "Consequence facts are derived from CAPEC's structured field, not verbatim prose.",
+    "13 questions miss the target section in clean top-3 retrieval (pre-check 2026-10-16); kept and reported as a stratum.",
+    "Four flood prerequisite references differ only by protocol name.",
+    "Questions were drafted from templates and reviewed by the author; no second annotator."
+  ]
+}

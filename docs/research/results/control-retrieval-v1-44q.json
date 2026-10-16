@@ -1,0 +1,504 @@
+{
+ "benchmark": "data/evaluation/questions_v1.json",
+ "n": 44,
+ "summary": {
+  "clean": {
+   "hit_at_3": 0.7045,
+   "mrr": 0.5871
+  },
+  "control": {
+   "hit_at_3": 0.7045,
+   "mrr": 0.6136
+  },
+  "poisoned": {
+   "hit_at_3": 0.5682,
+   "mrr": 0.4848
+  }
+ },
+ "rows": [
+  {
+   "id": "expanded_http_flood_attack_description_01",
+   "split": "development",
+   "category": "attack_description",
+   "clean_hit": 1,
+   "clean_rr": 1.0,
+   "control_hit": 1,
+   "control_rr": 1.0,
+   "poisoned_hit": 0,
+   "poisoned_rr": 0.0
+  },
+  {
+   "id": "expanded_http_flood_prerequisites_01",
+   "split": "development",
+   "category": "prerequisites",
+   "clean_hit": 1,
+   "clean_rr": 1.0,
+   "control_hit": 1,
+   "control_rr": 1.0,
+   "poisoned_hit": 0,
+   "poisoned_rr": 0.0
+  },
+  {
+   "id": "expanded_icmp_flood_attack_description_01",
+   "split": "held_out",
+   "category": "attack_description",
+   "clean_hit": 1,
+   "clean_rr": 1.0,
+   "control_hit": 1,
+   "control_rr": 1.0,
+   "poisoned_hit": 1,
+   "poisoned_rr": 1.0
+  },
+  {
+   "id": "expanded_icmp_flood_prerequisites_01",
+   "split": "held_out",
+   "category": "prerequisites",
+   "clean_hit": 1,
+   "clean_rr": 1.0,
+   "control_hit": 1,
+   "control_rr": 1.0,
+   "poisoned_hit": 1,
+   "poisoned_rr": 1.0
+  },
+  {
+   "id": "expanded_tcp_syn_flood_attack_description_01",
+   "split": "development",
+   "category": "attack_description",
+   "clean_hit": 1,
+   "clean_rr": 1.0,
+   "control_hit": 1,
+   "control_rr": 1.0,
+   "poisoned_hit": 1,
+   "poisoned_rr": 1.0
+  },
+  {
+   "id": "expanded_tcp_syn_flood_prerequisites_01",
+   "split": "development",
+   "category": "prerequisites",
+   "clean_hit": 1,
+   "clean_rr": 1.0,
+   "control_hit": 1,
+   "control_rr": 1.0,
+   "poisoned_hit": 1,
+   "poisoned_rr": 1.0
+  },
+  {
+   "id": "expanded_udp_flood_attack_description_01",
+   "split": "development",
+   "category": "attack_description",
+   "clean_hit": 1,
+   "clean_rr": 1.0,
+   "control_hit": 1,
+   "control_rr": 1.0,
+   "poisoned_hit": 1,
+   "poisoned_rr": 1.0
+  },
+  {
+   "id": "expanded_udp_flood_prerequisites_01",
+   "split": "development",
+   "category": "prerequisites",
+   "clean_hit": 1,
+   "clean_rr": 0.5,
+   "control_hit": 1,
+   "control_rr": 0.5,
+   "poisoned_hit": 1,
+   "poisoned_rr": 0.5
+  },
+  {
+   "id": "expanded_sql_injection_attack_description_01",
+   "split": "development",
+   "category": "attack_description",
+   "clean_hit": 0,
+   "clean_rr": 0.0,
+   "control_hit": 0,
+   "control_rr": 0.0,
+   "poisoned_hit": 0,
+   "poisoned_rr": 0.0
+  },
+  {
+   "id": "expanded_sql_injection_execution_flow_01",
+   "split": "development",
+   "category": "execution_flow",
+   "clean_hit": 1,
+   "clean_rr": 1.0,
+   "control_hit": 1,
+   "control_rr": 1.0,
+   "poisoned_hit": 1,
+   "poisoned_rr": 1.0
+  },
+  {
+   "id": "expanded_sql_injection_prerequisites_01",
+   "split": "development",
+   "category": "prerequisites",
+   "clean_hit": 1,
+   "clean_rr": 0.3333,
+   "control_hit": 1,
+   "control_rr": 0.3333,
+   "poisoned_hit": 1,
+   "poisoned_rr": 0.3333
+  },
+  {
+   "id": "expanded_sql_injection_required_resources_01",
+   "split": "development",
+   "category": "required_resources",
+   "clean_hit": 1,
+   "clean_rr": 1.0,
+   "control_hit": 1,
+   "control_rr": 1.0,
+   "poisoned_hit": 1,
+   "poisoned_rr": 1.0
+  },
+  {
+   "id": "expanded_sql_injection_consequences_01",
+   "split": "development",
+   "category": "consequences",
+   "clean_hit": 1,
+   "clean_rr": 0.5,
+   "control_hit": 1,
+   "control_rr": 0.5,
+   "poisoned_hit": 1,
+   "poisoned_rr": 0.5
+  },
+  {
+   "id": "expanded_uploading_attack_description_01",
+   "split": "held_out",
+   "category": "attack_description",
+   "clean_hit": 1,
+   "clean_rr": 0.3333,
+   "control_hit": 1,
+   "control_rr": 0.3333,
+   "poisoned_hit": 1,
+   "poisoned_rr": 1.0
+  },
+  {
+   "id": "expanded_uploading_execution_flow_01",
+   "split": "held_out",
+   "category": "execution_flow",
+   "clean_hit": 1,
+   "clean_rr": 1.0,
+   "control_hit": 1,
+   "control_rr": 1.0,
+   "poisoned_hit": 0,
+   "poisoned_rr": 0.0
+  },
+  {
+   "id": "expanded_uploading_prerequisites_01",
+   "split": "held_out",
+   "category": "prerequisites",
+   "clean_hit": 1,
+   "clean_rr": 0.3333,
+   "control_hit": 1,
+   "control_rr": 0.3333,
+   "poisoned_hit": 1,
+   "poisoned_rr": 1.0
+  },
+  {
+   "id": "expanded_uploading_required_resources_01",
+   "split": "held_out",
+   "category": "required_resources",
+   "clean_hit": 0,
+   "clean_rr": 0.0,
+   "control_hit": 0,
+   "control_rr": 0.0,
+   "poisoned_hit": 0,
+   "poisoned_rr": 0.0
+  },
+  {
+   "id": "expanded_uploading_consequences_01",
+   "split": "held_out",
+   "category": "consequences",
+   "clean_hit": 0,
+   "clean_rr": 0.0,
+   "control_hit": 0,
+   "control_rr": 0.0,
+   "poisoned_hit": 0,
+   "poisoned_rr": 0.0
+  },
+  {
+   "id": "expanded_xss_attack_description_01",
+   "split": "development",
+   "category": "attack_description",
+   "clean_hit": 1,
+   "clean_rr": 0.5,
+   "control_hit": 1,
+   "control_rr": 0.5,
+   "poisoned_hit": 1,
+   "poisoned_rr": 0.5
+  },
+  {
+   "id": "expanded_xss_execution_flow_01",
+   "split": "development",
+   "category": "execution_flow",
+   "clean_hit": 0,
+   "clean_rr": 0.0,
+   "control_hit": 0,
+   "control_rr": 0.0,
+   "poisoned_hit": 1,
+   "poisoned_rr": 0.5
+  },
+  {
+   "id": "expanded_xss_prerequisites_01",
+   "split": "development",
+   "category": "prerequisites",
+   "clean_hit": 1,
+   "clean_rr": 1.0,
+   "control_hit": 1,
+   "control_rr": 1.0,
+   "poisoned_hit": 0,
+   "poisoned_rr": 0.0
+  },
+  {
+   "id": "expanded_xss_required_resources_01",
+   "split": "development",
+   "category": "required_resources",
+   "clean_hit": 1,
+   "clean_rr": 1.0,
+   "control_hit": 1,
+   "control_rr": 1.0,
+   "poisoned_hit": 0,
+   "poisoned_rr": 0.0
+  },
+  {
+   "id": "expanded_xss_consequences_01",
+   "split": "development",
+   "category": "consequences",
+   "clean_hit": 1,
+   "clean_rr": 1.0,
+   "control_hit": 1,
+   "control_rr": 1.0,
+   "poisoned_hit": 1,
+   "poisoned_rr": 1.0
+  },
+  {
+   "id": "expanded_backdoor_attack_description_01",
+   "split": "development",
+   "category": "attack_description",
+   "clean_hit": 1,
+   "clean_rr": 0.5,
+   "control_hit": 1,
+   "control_rr": 0.5,
+   "poisoned_hit": 1,
+   "poisoned_rr": 0.5
+  },
+  {
+   "id": "expanded_backdoor_execution_flow_01",
+   "split": "development",
+   "category": "execution_flow",
+   "clean_hit": 1,
+   "clean_rr": 1.0,
+   "control_hit": 1,
+   "control_rr": 1.0,
+   "poisoned_hit": 1,
+   "poisoned_rr": 1.0
+  },
+  {
+   "id": "expanded_backdoor_prerequisites_01",
+   "split": "development",
+   "category": "prerequisites",
+   "clean_hit": 1,
+   "clean_rr": 0.3333,
+   "control_hit": 1,
+   "control_rr": 1.0,
+   "poisoned_hit": 1,
+   "poisoned_rr": 0.5
+  },
+  {
+   "id": "expanded_password_cracking_attack_description_01",
+   "split": "development",
+   "category": "attack_description",
+   "clean_hit": 1,
+   "clean_rr": 1.0,
+   "control_hit": 1,
+   "control_rr": 1.0,
+   "poisoned_hit": 0,
+   "poisoned_rr": 0.0
+  },
+  {
+   "id": "expanded_password_cracking_execution_flow_01",
+   "split": "development",
+   "category": "execution_flow",
+   "clean_hit": 1,
+   "clean_rr": 1.0,
+   "control_hit": 1,
+   "control_rr": 1.0,
+   "poisoned_hit": 1,
+   "poisoned_rr": 1.0
+  },
+  {
+   "id": "expanded_password_cracking_prerequisites_01",
+   "split": "development",
+   "category": "prerequisites",
+   "clean_hit": 0,
+   "clean_rr": 0.0,
+   "control_hit": 0,
+   "control_rr": 0.0,
+   "poisoned_hit": 0,
+   "poisoned_rr": 0.0
+  },
+  {
+   "id": "expanded_password_cracking_required_resources_01",
+   "split": "development",
+   "category": "required_resources",
+   "clean_hit": 1,
+   "clean_rr": 0.5,
+   "control_hit": 1,
+   "control_rr": 1.0,
+   "poisoned_hit": 0,
+   "poisoned_rr": 0.0
+  },
+  {
+   "id": "expanded_password_cracking_consequences_01",
+   "split": "development",
+   "category": "consequences",
+   "clean_hit": 0,
+   "clean_rr": 0.0,
+   "control_hit": 0,
+   "control_rr": 0.0,
+   "poisoned_hit": 0,
+   "poisoned_rr": 0.0
+  },
+  {
+   "id": "expanded_os_fingerprinting_attack_description_01",
+   "split": "development",
+   "category": "attack_description",
+   "clean_hit": 1,
+   "clean_rr": 1.0,
+   "control_hit": 1,
+   "control_rr": 1.0,
+   "poisoned_hit": 1,
+   "poisoned_rr": 1.0
+  },
+  {
+   "id": "expanded_os_fingerprinting_prerequisites_01",
+   "split": "development",
+   "category": "prerequisites",
+   "clean_hit": 0,
+   "clean_rr": 0.0,
+   "control_hit": 0,
+   "control_rr": 0.0,
+   "poisoned_hit": 0,
+   "poisoned_rr": 0.0
+  },
+  {
+   "id": "expanded_os_fingerprinting_required_resources_01",
+   "split": "development",
+   "category": "required_resources",
+   "clean_hit": 0,
+   "clean_rr": 0.0,
+   "control_hit": 0,
+   "control_rr": 0.0,
+   "poisoned_hit": 0,
+   "poisoned_rr": 0.0
+  },
+  {
+   "id": "expanded_os_fingerprinting_consequences_01",
+   "split": "development",
+   "category": "consequences",
+   "clean_hit": 0,
+   "clean_rr": 0.0,
+   "control_hit": 0,
+   "control_rr": 0.0,
+   "poisoned_hit": 0,
+   "poisoned_rr": 0.0
+  },
+  {
+   "id": "expanded_port_scanning_attack_description_01",
+   "split": "development",
+   "category": "attack_description",
+   "clean_hit": 1,
+   "clean_rr": 1.0,
+   "control_hit": 1,
+   "control_rr": 1.0,
+   "poisoned_hit": 1,
+   "poisoned_rr": 1.0
+  },
+  {
+   "id": "expanded_port_scanning_prerequisites_01",
+   "split": "development",
+   "category": "prerequisites",
+   "clean_hit": 1,
+   "clean_rr": 1.0,
+   "control_hit": 1,
+   "control_rr": 1.0,
+   "poisoned_hit": 1,
+   "poisoned_rr": 1.0
+  },
+  {
+   "id": "expanded_port_scanning_required_resources_01",
+   "split": "development",
+   "category": "required_resources",
+   "clean_hit": 0,
+   "clean_rr": 0.0,
+   "control_hit": 0,
+   "control_rr": 0.0,
+   "poisoned_hit": 0,
+   "poisoned_rr": 0.0
+  },
+  {
+   "id": "expanded_port_scanning_consequences_01",
+   "split": "development",
+   "category": "consequences",
+   "clean_hit": 0,
+   "clean_rr": 0.0,
+   "control_hit": 0,
+   "control_rr": 0.0,
+   "poisoned_hit": 0,
+   "poisoned_rr": 0.0
+  },
+  {
+   "id": "expanded_vulnerability_scanning_att_ck_adversary_context_01",
+   "split": "held_out",
+   "category": "att_ck_adversary_context",
+   "clean_hit": 1,
+   "clean_rr": 1.0,
+   "control_hit": 1,
+   "control_rr": 1.0,
+   "poisoned_hit": 1,
+   "poisoned_rr": 1.0
+  },
+  {
+   "id": "expanded_arp_spoofing_attack_description_01",
+   "split": "development",
+   "category": "attack_description",
+   "clean_hit": 1,
+   "clean_rr": 1.0,
+   "control_hit": 1,
+   "control_rr": 1.0,
+   "poisoned_hit": 1,
+   "poisoned_rr": 1.0
+  },
+  {
+   "id": "expanded_arp_spoofing_execution_flow_01",
+   "split": "development",
+   "category": "execution_flow",
+   "clean_hit": 0,
+   "clean_rr": 0.0,
+   "control_hit": 0,
+   "control_rr": 0.0,
+   "poisoned_hit": 0,
+   "poisoned_rr": 0.0
+  },
+  {
+   "id": "expanded_arp_spoofing_prerequisites_01",
+   "split": "development",
+   "category": "prerequisites",
+   "clean_hit": 0,
+   "clean_rr": 0.0,
+   "control_hit": 0,
+   "control_rr": 0.0,
+   "poisoned_hit": 0,
+   "poisoned_rr": 0.0
+  },
+  {
+   "id": "expanded_dns_spoofing_attack_description_01",
+   "split": "held_out",
+   "category": "attack_description",
+   "clean_hit": 1,
+   "clean_rr": 1.0,
+   "control_hit": 1,
+   "control_rr": 1.0,
+   "poisoned_hit": 1,
+   "poisoned_rr": 1.0
+  }
+ ]
+}

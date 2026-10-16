@@ -1,0 +1,152 @@
+{
+ "benchmark": "data/evaluation/questions.json",
+ "n": 12,
+ "summary": {
+  "clean": {
+   "hit_at_3": 0.9167,
+   "mrr": 0.6806
+  },
+  "control": {
+   "hit_at_3": 0.9167,
+   "mrr": 0.6806
+  },
+  "poisoned": {
+   "hit_at_3": 0.5,
+   "mrr": 0.3333
+  }
+ },
+ "rows": [
+  {
+   "id": "sql_injection_description_01",
+   "split": null,
+   "category": null,
+   "clean_hit": 1,
+   "clean_rr": 1.0,
+   "control_hit": 1,
+   "control_rr": 1.0,
+   "poisoned_hit": 1,
+   "poisoned_rr": 1.0
+  },
+  {
+   "id": "sql_injection_consequences_01",
+   "split": null,
+   "category": null,
+   "clean_hit": 1,
+   "clean_rr": 1.0,
+   "control_hit": 1,
+   "control_rr": 1.0,
+   "poisoned_hit": 1,
+   "poisoned_rr": 1.0
+  },
+  {
+   "id": "xss_description_01",
+   "split": null,
+   "category": null,
+   "clean_hit": 1,
+   "clean_rr": 0.3333,
+   "control_hit": 1,
+   "control_rr": 0.3333,
+   "poisoned_hit": 1,
+   "poisoned_rr": 0.3333
+  },
+  {
+   "id": "xss_consequences_01",
+   "split": null,
+   "category": null,
+   "clean_hit": 1,
+   "clean_rr": 0.5,
+   "control_hit": 1,
+   "control_rr": 0.5,
+   "poisoned_hit": 0,
+   "poisoned_rr": 0.0
+  },
+  {
+   "id": "http_flood_description_01",
+   "split": null,
+   "category": null,
+   "clean_hit": 1,
+   "clean_rr": 1.0,
+   "control_hit": 1,
+   "control_rr": 1.0,
+   "poisoned_hit": 0,
+   "poisoned_rr": 0.0
+  },
+  {
+   "id": "http_flood_impact_01",
+   "split": null,
+   "category": null,
+   "clean_hit": 1,
+   "clean_rr": 1.0,
+   "control_hit": 1,
+   "control_rr": 1.0,
+   "poisoned_hit": 0,
+   "poisoned_rr": 0.0
+  },
+  {
+   "id": "password_cracking_description_01",
+   "split": null,
+   "category": null,
+   "clean_hit": 1,
+   "clean_rr": 1.0,
+   "control_hit": 1,
+   "control_rr": 1.0,
+   "poisoned_hit": 0,
+   "poisoned_rr": 0.0
+  },
+  {
+   "id": "password_cracking_consequences_01",
+   "split": null,
+   "category": null,
+   "clean_hit": 0,
+   "clean_rr": 0.0,
+   "control_hit": 0,
+   "control_rr": 0.0,
+   "poisoned_hit": 0,
+   "poisoned_rr": 0.0
+  },
+  {
+   "id": "port_scanning_description_01",
+   "split": null,
+   "category": null,
+   "clean_hit": 1,
+   "clean_rr": 1.0,
+   "control_hit": 1,
+   "control_rr": 1.0,
+   "poisoned_hit": 1,
+   "poisoned_rr": 1.0
+  },
+  {
+   "id": "port_scanning_consequences_01",
+   "split": null,
+   "category": null,
+   "clean_hit": 1,
+   "clean_rr": 0.3333,
+   "control_hit": 1,
+   "control_rr": 0.3333,
+   "poisoned_hit": 0,
+   "poisoned_rr": 0.0
+  },
+  {
+   "id": "backdoor_description_01",
+   "split": null,
+   "category": null,
+   "clean_hit": 1,
+   "clean_rr": 0.5,
+   "control_hit": 1,
+   "control_rr": 0.5,
+   "poisoned_hit": 1,
+   "poisoned_rr": 0.3333
+  },
+  {
+   "id": "backdoor_impact_01",
+   "split": null,
+   "category": null,
+   "clean_hit": 1,
+   "clean_rr": 0.5,
+   "control_hit": 1,
+   "control_rr": 0.5,
+   "poisoned_hit": 1,
+   "poisoned_rr": 0.3333
+  }
+ ]
+}

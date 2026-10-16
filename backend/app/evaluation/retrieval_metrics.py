@@ -21,6 +21,7 @@ no changes to the live collections.
 from __future__ import annotations
 
 import json
+import os
 import re
 from functools import lru_cache
 from pathlib import Path
@@ -30,7 +31,11 @@ from app.config import PROJECT_ROOT, get_knowledge_base_path
 from app.evaluation.pwws_manifest import get_successful_entries_by_file
 from app.ingestion.section_metadata import normalize_heading, sections_overlapping
 
-QUESTIONS_FILE = PROJECT_ROOT / "data" / "evaluation" / "questions.json"
+# Benchmark file. Defaults to the original 12-question pilot set; the frozen
+# v1 benchmark (or any reviewed set) is selected with AEGIS_BENCHMARK_FILE so
+# recorded pilot runs keep pointing at the unchanged questions.json.
+DEFAULT_QUESTIONS_FILE = PROJECT_ROOT / "data" / "evaluation" / "questions.json"
+QUESTIONS_FILE = Path(os.getenv("AEGIS_BENCHMARK_FILE") or DEFAULT_QUESTIONS_FILE)
 
 # Unicode-aware: also collapses non-breaking spaces, tabs, and other
 # whitespace variants that plain str.split()/.strip() alone would miss.
