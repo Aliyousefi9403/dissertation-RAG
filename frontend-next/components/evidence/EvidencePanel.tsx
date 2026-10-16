@@ -1,5 +1,6 @@
 import type { ChatState } from "@/lib/state/chatMachine";
-import { computeReportMetrics } from "@/lib/mock/reportMetrics";
+import { countCitations, formatLatency } from "@/lib/evidence/citations";
+import { EVIDENCE_OUTCOME_LABELS } from "@/components/answer/ReportMetrics";
 import { SourceCard } from "@/components/answer/SourceCard";
 
 interface EvidencePanelProps {
@@ -24,13 +25,6 @@ function EvidenceMetric({
   );
 }
 
-function formatLatency(latencyMs: number): string {
-  if (latencyMs < 1000) {
-    return `${Math.round(latencyMs)} ms`;
-  }
-  return `${(latencyMs / 1000).toFixed(2)} s`;
-}
-
 /**
  * Right-hand evidence column for the Assistant workspace. Always mounted
  * (idle included) so it reads as a real, wired-up part of the interface
@@ -38,10 +32,10 @@ function formatLatency(latencyMs: number): string {
  * question.
  *
  * Retrieved documents/chunks, similarity scores and metadata are all real
- * data reused from `SourceCard` (`chatState.sources`). Confidence and
- * Trust Score are illustrative mock figures derived from those real
- * sources — see `lib/mock/reportMetrics.ts`. Latency is real, threaded
- * through `ChatState` by `hooks/useChatSession.ts`.
+ * data reused from `SourceCard` (`chatState.sources`). Latency is real,
+ * threaded through `ChatState` by `hooks/useChatSession.ts`. The evidence
+ * check shows the real outcome when one ran and "Not assessed" otherwise;
+ * no confidence or trust figure is shown because none is measured.
  */
 export function EvidencePanel({ chatState }: EvidencePanelProps) {
   if (chatState.status === "idle") {
@@ -79,18 +73,21 @@ export function EvidencePanel({ chatState }: EvidencePanelProps) {
 
   // success | noSources
   const sources = chatState.status === "success" ? chatState.sources : [];
-  const metrics = computeReportMetrics(sources);
+  const check = chatState.evidenceCheck;
 
   return (
     <aside className="evidence-column" aria-label="Evidence panel">
       <dl className="evidence-metrics">
         <EvidenceMetric
-          label="Confidence"
-          value={`${metrics.confidencePercent}%`}
-          hint="Illustrative — derived from retrieval scores, not a calibrated metric."
+          label="Evidence check"
+          value={check ? EVIDENCE_OUTCOME_LABELS[check.outcome] : "Not assessed"}
+          hint={
+            check
+              ? "Experimental: whether the sources state the claims — not proof they are true."
+              : undefined
+          }
         />
-        <EvidenceMetric label="Trust score" value={`${metrics.trustScorePercent}%`} />
-        <EvidenceMetric label="Citations" value={String(metrics.citationCount)} />
+        <EvidenceMetric label="Citations" value={String(countCitations(sources))} />
         <EvidenceMetric label="Latency" value={formatLatency(chatState.latencyMs)} />
       </dl>
 

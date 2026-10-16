@@ -1,4 +1,5 @@
 import type { ChatResponse, SourceItem } from "@/lib/types/chat";
+import type { EvidenceCheckResult } from "@/lib/types/guardedChat";
 
 export type ChatState =
   | { status: "idle" }
@@ -9,9 +10,11 @@ export type ChatState =
       answer: string;
       sources: SourceItem[];
       /** Real, measured round-trip time for the `POST /chat` call (see
-       * `hooks/useChatSession.ts`) — not mocked, unlike Confidence/Trust
-       * Score elsewhere in the UI. */
+       * `hooks/useChatSession.ts`). */
       latencyMs: number;
+      /** Result of the experimental evidence check (`POST /guarded-chat`),
+       * or null when the plain `/chat` route was used ("Not assessed"). */
+      evidenceCheck: EvidenceCheckResult | null;
     }
   | {
       status: "noSources";
@@ -20,12 +23,18 @@ export type ChatState =
       /** Real, measured round-trip time for the `POST /chat` call — see
        * the "success" variant above. */
       latencyMs: number;
+      evidenceCheck: EvidenceCheckResult | null;
     }
   | { status: "error"; question: string; message: string };
 
 export type ChatEvent =
   | { type: "SUBMIT_QUESTION"; question: string }
-  | { type: "RESPONSE_RECEIVED"; response: ChatResponse; latencyMs: number }
+  | {
+      type: "RESPONSE_RECEIVED";
+      response: ChatResponse;
+      latencyMs: number;
+      evidenceCheck?: EvidenceCheckResult | null;
+    }
   | { type: "REQUEST_FAILED"; message: string }
   | { type: "RESET" };
 
@@ -46,6 +55,7 @@ export function chatReducer(state: ChatState, event: ChatEvent): ChatState {
       }
 
       const { question, answer, sources } = event.response;
+      const evidenceCheck = event.evidenceCheck ?? null;
 
       if (sources.length > 0) {
         return {
@@ -54,6 +64,7 @@ export function chatReducer(state: ChatState, event: ChatEvent): ChatState {
           answer,
           sources,
           latencyMs: event.latencyMs,
+          evidenceCheck,
         };
       }
 
@@ -62,6 +73,7 @@ export function chatReducer(state: ChatState, event: ChatEvent): ChatState {
         question,
         answer,
         latencyMs: event.latencyMs,
+        evidenceCheck,
       };
     }
 

@@ -3,6 +3,7 @@
 import { useCallback, useReducer } from "react";
 
 import { postChat } from "@/lib/api/chat";
+import { postGuardedChat } from "@/lib/api/guardedChat";
 import type { ApiFailureResult } from "@/lib/api/client";
 import type { SystemState } from "@/lib/types/chat";
 import {
@@ -39,9 +40,19 @@ export function describeFailure(failure: ApiFailureResult): string {
   }
 }
 
+export interface SubmitOptions {
+  /** Route the question through the experimental `POST /guarded-chat`
+   * evidence check instead of plain `POST /chat`. */
+  evidenceCheck?: boolean;
+}
+
 export interface UseChatSessionResult {
   state: ChatState;
-  submitQuestion: (question: string, systemState?: SystemState) => Promise<void>;
+  submitQuestion: (
+    question: string,
+    systemState?: SystemState,
+    options?: SubmitOptions,
+  ) => Promise<void>;
   reset: () => void;
 }
 
@@ -49,7 +60,11 @@ export function useChatSession(): UseChatSessionResult {
   const [state, dispatch] = useReducer(chatReducer, initialChatState);
 
   const submitQuestion = useCallback(
-    async (question: string, systemState: SystemState = "clean") => {
+    async (
+      question: string,
+      systemState: SystemState = "clean",
+      options: SubmitOptions = {},
+    ) => {
       const trimmed = question.trim();
 
       if (!trimmed) {
@@ -58,11 +73,30 @@ export function useChatSession(): UseChatSessionResult {
 
       dispatch({ type: "SUBMIT_QUESTION", question: trimmed });
 
-      // Real, measured latency for the `POST /chat` round trip — never
-      // mocked (see the boundary rules in the frontend implementation
-      // brief). Everything else surfaced from this call (Confidence, Trust
-      // Score, etc.) is illustrative mock data computed elsewhere.
+      // Real, measured latency for the round trip — never mocked.
       const startedAt = performance.now();
+
+      if (options.evidenceCheck) {
+        const guarded = await postGuardedChat(trimmed, systemState);
+        const latencyMs = performance.now() - startedAt;
+
+        if (guarded.kind === "ok") {
+          const { question: q, answer, sources, ...evidenceCheck } = guarded.data;
+          dispatch({
+            type: "RESPONSE_RECEIVED",
+            // A withheld draft is never sent to the client, so `answer`
+            // is empty and the UI renders the withheld explanation instead.
+            response: { question: q, answer: answer ?? "", sources },
+            latencyMs,
+            evidenceCheck,
+          });
+          return;
+        }
+
+        dispatch({ type: "REQUEST_FAILED", message: describeFailure(guarded) });
+        return;
+      }
+
       const result = await postChat(trimmed, systemState);
       const latencyMs = performance.now() - startedAt;
 

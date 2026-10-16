@@ -16,6 +16,7 @@ import {
   ExperimentModeSelector,
   type ExperimentMode,
 } from "@/components/experiment/ExperimentModeSelector";
+import { EvidenceCheckToggle } from "@/components/experiment/EvidenceCheckToggle";
 import { getLivingCorePhase } from "@/lib/living-core/livingCoreState";
 import { getLivingCoreStatusText } from "@/lib/living-core/livingCoreCopy";
 import { initialChatState } from "@/lib/state/chatMachine";
@@ -25,6 +26,7 @@ export default function Home() {
   const { state, submitQuestion } = useChatSession();
   const { state: compareState, submitComparison } = useCompareSession();
   const [experimentMode, setExperimentMode] = useState<ExperimentMode>("clean");
+  const [evidenceCheckEnabled, setEvidenceCheckEnabled] = useState(false);
 
   const isComparing = experimentMode === "compare";
   const composerBusy = isComparing
@@ -78,7 +80,9 @@ export default function Home() {
       return;
     }
 
-    void submitQuestion(question, experimentMode === "poisoned" ? "poisoned" : "clean");
+    void submitQuestion(question, experimentMode === "poisoned" ? "poisoned" : "clean", {
+      evidenceCheck: evidenceCheckEnabled,
+    });
   }
 
   return (
@@ -89,10 +93,22 @@ export default function Home() {
           <h2>Ask a grounded cybersecurity question</h2>
         </div>
 
-        <ExperimentModeSelector mode={experimentMode} onChange={setExperimentMode} />
+        <div className="topbar-controls">
+          <ExperimentModeSelector mode={experimentMode} onChange={setExperimentMode} />
+          <EvidenceCheckToggle
+            enabled={evidenceCheckEnabled}
+            onChange={setEvidenceCheckEnabled}
+            disabled={isComparing}
+          />
+        </div>
       </header>
 
-      <PlatformStatusBar livingCoreStatusText={livingCoreStatusText} />
+      <PlatformStatusBar
+        livingCoreStatusText={livingCoreStatusText}
+        healthStatus={healthStatus}
+        experimentMode={experimentMode}
+        evidenceCheckEnabled={evidenceCheckEnabled}
+      />
 
       <div
         className={cn(

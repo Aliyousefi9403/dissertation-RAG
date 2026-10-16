@@ -4,6 +4,7 @@ import type { ChatState } from "@/lib/state/chatMachine";
 import { Button } from "@/components/ui/button";
 import { Markdown } from "@/components/answer/Markdown";
 import { ReportMetrics } from "@/components/answer/ReportMetrics";
+import { EvidenceCheckCard } from "@/components/answer/EvidenceCheckCard";
 
 interface AnswerPanelProps {
   chatState: ChatState;
@@ -76,23 +77,54 @@ export function AnswerPanel({ chatState, onRetry }: AnswerPanelProps) {
         </div>
       );
 
-    case "success":
+    case "success": {
+      const check = chatState.evidenceCheck;
+      const withheld = check?.decision === "withheld";
+
       return (
         <div className="response-stack" key="success">
           <UserQuestionCard question={chatState.question} />
 
           <section className="assistant-card">
             <AnswerHeading />
-            <AnswerMarkdown answer={chatState.answer} />
+            {withheld ? (
+              <p className="answer-withheld">
+                The draft answer was withheld by the experimental evidence
+                check. See the result below.
+              </p>
+            ) : (
+              <AnswerMarkdown answer={chatState.answer} />
+            )}
+            {check && <EvidenceCheckCard result={check} />}
             <ReportMetrics
               sources={chatState.sources}
               latencyMs={chatState.latencyMs}
+              evidenceCheck={check}
             />
           </section>
         </div>
       );
+    }
 
     case "noSources":
+      if (chatState.evidenceCheck) {
+        return (
+          <div className="response-stack" key="noSources">
+            <UserQuestionCard question={chatState.question} />
+
+            <section className="assistant-card">
+              <AnswerHeading />
+              <EvidenceCheckCard result={chatState.evidenceCheck} />
+              <ReportMetrics
+                sources={[]}
+                latencyMs={chatState.latencyMs}
+                evidenceCheck={chatState.evidenceCheck}
+              />
+            </section>
+          </div>
+        );
+      }
+
       return (
         <div className="response-stack" key="noSources">
           <UserQuestionCard question={chatState.question} />

@@ -1,0 +1,232 @@
+import { test, expect, type Page, type Route } from "@playwright/test";
+
+import { askQuestion, waitForBackendOnline } from "./utils";
+
+/**
+ * UI-state tests for the experimental Evidence check. The backend is
+ * mocked at the browser level (`page.route`), so these prove only that the
+ * interface renders each real response shape honestly — they do NOT
+ * demonstrate live verification. Needs only the Next.js dev server.
+ */
+
+const QUESTION = "How can SQL injection be prevented?";
+const SQLI = "Parameterized queries prevent SQL injection.";
+
+function guardedResponse(overrides: Record<string, unknown> = {}) {
+  return {
+    run_id: "20261016T220000Z-test",
+    question: QUESTION,
+    system_state: "clean",
+    policy_version: "evidence-guard-policy-v1",
+    label:
+      "Experimental evidence-support baseline. Not a validated poison detector: a poisoned source can support a false answer.",
+    outcome: "supported",
+    decision: "released",
+    answer: "Use parameterized queries [Source 1].",
+    explanation: "All 1 claim(s) are stated in the retrieved sources.",
+    claims: [
+      {
+        claim: "Parameterized queries prevent SQL injection.",
+        status: "supported",
+        verifier_verdict: "supported",
+        source_ids: ["S1"],
+        quotes: [{ source_id: "S1", text: SQLI, verified: true }],
+        explanation: "S1 states this.",
+        problems: [],
+      },
+    ],
+    sources: [
+      {
+        source_id: "S1",
+        source_number: 1,
+        source: "injection/sql_injection.md",
+        score: 0.82,
+        content: SQLI,
+        metadata: {},
+      },
+    ],
+    failures: [],
+    audit: { saved: true, run_id: "20261016T220000Z-test", location: "/x.json", error: null },
+    timings_ms: { retrieval_ms: 10, draft_ms: 900, verification_ms: 800, total_ms: 1710 },
+    ...overrides,
+  };
+}
+
+async function mockBackend(
+  page: Page,
+  guarded: (route: Route) => Promise<void> | void,
+  calls: string[] = [],
+) {
+  await page.route("**/health", (route) =>
+    route.fulfill({ json: { status: "healthy" } }),
+  );
+  await page.route("**/guarded-chat", async (route) => {
+    calls.push("guarded-chat");
+    await guarded(route);
+  });
+  await page.route("**/chat", (route) => {
+    calls.push("chat");
+    return route.fulfill({
+      json: {
+        question: QUESTION,
+        answer: "Plain baseline answer.",
+        sources: guardedResponse().sources,
+        system_state: "clean",
+      },
+    });
+  });
+}
+
+async function enableEvidenceCheck(page: Page) {
+  const toggle = page.getByRole("switch", { name: "Evidence check" });
+  await toggle.click();
+  await expect(toggle).toHaveAttribute("aria-checked", "true");
+}
+
+const resolved = (page: Page) =>
+  expect(page.locator(".evidence-check-card, .error-card, .answer-text").first()).toBeVisible({
+    timeout: 15_000,
+  });
+
+test.describe("Evidence check (mocked backend)", () => {
+  test("supported: draft released with the real outcome and no invented scores", async ({ page }) => {
+    const calls: string[] = [];
+    await mockBackend(page, (route) => route.fulfill({ json: guardedResponse() }), calls);
+    await page.goto("/");
+    await waitForBackendOnline(page);
+    await enableEvidenceCheck(page);
+    await askQuestion(page, QUESTION);
+    await resolved(page);
+
+    await expect(page.locator(".answer-text")).toContainText("Use parameterized queries");
+    const card = page.locator(".evidence-check-card");
+    await expect(card).toHaveAttribute("data-outcome", "supported");
+    await expect(card).toContainText("Claims are stated in the retrieved sources");
+    await expect(card).toContainText("Not a validated poison detector");
+    await expect(card).toContainText("Audit record saved");
+    await expect(page.locator(".report-chip-row")).toContainText("Supported");
+    expect(calls).toEqual(["guarded-chat"]);
+
+    const body = await page.locator("body").innerText();
+    expect(body).not.toMatch(/confidence|trust score|documents indexed/i);
+    expect(body).not.toMatch(/\d+%/);
+  });
+
+  test("unsupported/contradicted: draft withheld with explanation and failed quotes", async ({ page }) => {
+    await mockBackend(page, (route) =>
+      route.fulfill({
+        json: guardedResponse({
+          outcome: "contradicted",
+          decision: "withheld",
+          answer: null,
+          explanation: "1 claim(s) are contradicted by the retrieved sources.",
+          claims: [
+            {
+              claim: "Input validation alone always stops SQL injection.",
+              status: "unavailable",
+              verifier_verdict: "contradicted",
+              source_ids: ["S1"],
+              quotes: [{ source_id: "S1", text: "validation is always enough", verified: false }],
+              explanation: "",
+              problems: ["a quotation was not found verbatim in the cited source"],
+            },
+          ],
+        }),
+      }),
+    );
+    await page.goto("/");
+    await waitForBackendOnline(page);
+    await enableEvidenceCheck(page);
+    await askQuestion(page, QUESTION);
+    await resolved(page);
+
+    await expect(page.locator(".answer-text")).toHaveCount(0);
+    await expect(page.locator(".answer-withheld")).toBeVisible();
+    const card = page.locator(".evidence-check-card");
+    await expect(card).toHaveAttribute("data-outcome", "contradicted");
+    await expect(card).toContainText("Draft withheld");
+    await expect(card).toContainText("Input validation alone always stops SQL injection.");
+    await expect(card).toContainText("Not found in source");
+    await expect(card).toContainText("not found verbatim");
+  });
+
+  test("unavailable: verifier timeout and unsaved audit are shown as warnings", async ({ page }) => {
+    await mockBackend(page, (route) =>
+      route.fulfill({
+        json: guardedResponse({
+          outcome: "unavailable",
+          decision: "withheld",
+          answer: null,
+          claims: [],
+          explanation: "The evidence check could not be completed, so the draft is withheld.",
+          failures: [{ stage: "verification", type: "APITimeoutError", timeout: true }],
+          audit: {
+            saved: false,
+            run_id: "r",
+            location: null,
+            error: "PermissionError: audit record was NOT saved",
+          },
+        }),
+      }),
+    );
+    await page.goto("/");
+    await waitForBackendOnline(page);
+    await enableEvidenceCheck(page);
+    await askQuestion(page, QUESTION);
+    await resolved(page);
+
+    const card = page.locator(".evidence-check-card");
+    await expect(card).toHaveAttribute("data-outcome", "unavailable");
+    await expect(card).toContainText("evidence check unavailable");
+    await expect(card).toContainText("Verification failed (timed out)");
+    await expect(card.locator(".evidence-check-audit")).toHaveAttribute("data-saved", "false");
+    await expect(card).toContainText("Audit record NOT saved");
+    await expect(page.locator(".report-chip-row")).toContainText("Unavailable");
+    await expect(page.locator(".answer-text")).toHaveCount(0);
+  });
+
+  test("failure: a backend error renders the error card, not a result", async ({ page }) => {
+    await mockBackend(page, (route) =>
+      route.fulfill({ status: 500, json: { detail: "The evidence-checked request failed unexpectedly." } }),
+    );
+    await page.goto("/");
+    await waitForBackendOnline(page);
+    await enableEvidenceCheck(page);
+    await askQuestion(page, QUESTION);
+    await resolved(page);
+
+    await expect(page.locator(".error-card")).toContainText("failed unexpectedly");
+    await expect(page.locator(".evidence-check-card")).toHaveCount(0);
+  });
+
+  test("toggle off: plain /chat is used and the check reads Not assessed", async ({ page }) => {
+    const calls: string[] = [];
+    await mockBackend(page, (route) => route.fulfill({ json: guardedResponse() }), calls);
+    await page.goto("/");
+    await waitForBackendOnline(page);
+    await askQuestion(page, QUESTION);
+    await resolved(page);
+
+    await expect(page.locator(".answer-text")).toContainText("Plain baseline answer.");
+    await expect(page.locator(".report-chip-row")).toContainText("Not assessed");
+    await expect(page.locator(".evidence-metrics")).toContainText("Not assessed");
+    await expect(page.locator(".evidence-check-card")).toHaveCount(0);
+    expect(calls).toEqual(["chat"]);
+  });
+
+  test("compare mode disables the toggle; status bar shows only real values", async ({ page }) => {
+    await mockBackend(page, (route) => route.fulfill({ json: guardedResponse() }));
+    await page.goto("/");
+    await waitForBackendOnline(page);
+
+    const bar = page.getByRole("status", { name: "Platform status" });
+    await expect(bar).toContainText("Reachable");
+    await expect(bar).toContainText("Clean baseline");
+    await expect(bar).toContainText("Not assessed");
+    await expect(bar).not.toContainText("%");
+
+    await page.getByRole("radio", { name: "Compare" }).click();
+    await expect(page.getByRole("switch", { name: "Evidence check" })).toBeDisabled();
+    await expect(bar).toContainText("Not available in Compare");
+  });
+});

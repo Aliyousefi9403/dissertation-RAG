@@ -1,149 +1,104 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { ShieldCheck, ShieldAlert } from "lucide-react";
-
-import { Skeleton } from "@/components/ui/skeleton";
-import {
-  getPlatformStatus,
-  type PlatformStatus,
-} from "@/lib/mock/platformStatus";
+import type { HealthStatus } from "@/lib/types/health";
+import type { ExperimentMode } from "@/components/experiment/ExperimentModeSelector";
 
 interface PlatformStatusBarProps {
   /** The living core's real status line (`getLivingCoreStatusText`),
-   * rendered as a small top-right pill -- moved here from underneath the
-   * old bordered particle canvas now that the canvas is a fullscreen
-   * backdrop layer (see `LivingCoreStage.tsx`/`app/page.tsx`). Keeps the
-   * exact className/role/aria attributes the previous location used, so
-   * `e2e/desktop.spec.ts`'s existing `.living-core-status-caption` locator
-   * still resolves. */
+   * rendered as a small top-right pill. Keeps the exact className/role/aria
+   * attributes so `e2e/desktop.spec.ts`'s `.living-core-status-caption`
+   * locator still resolves. */
   livingCoreStatusText: string;
+  /** Real backend reachability from `useHealthStatus` (`GET /health`). */
+  healthStatus: HealthStatus;
+  /** The knowledge base the next question will actually use. */
+  experimentMode: ExperimentMode;
+  /** Whether the next Clean/Poisoned question goes through the evidence
+   * check (`POST /guarded-chat`). */
+  evidenceCheckEnabled: boolean;
 }
 
+const HEALTH_LABELS: Record<HealthStatus, string> = {
+  checking: "Checking…",
+  online: "Reachable",
+  offline: "Unreachable",
+};
+
+const MODE_LABELS: Record<ExperimentMode, string> = {
+  clean: "Clean baseline",
+  poisoned: "PWWS poisoned",
+  compare: "Clean vs PWWS poisoned",
+  defended: "Defended",
+};
+
 /**
- * Top-of-workspace platform status bar — Trust Score, Knowledge Base
- * Health, Documents Indexed, Active LLM and Security Status.
- *
- * Distinct from `components/StatusBar.tsx` (the existing sidebar-footer
- * backend online/offline dot indicator) — this is a separate, wider
- * summary strip for the Assistant workspace, backed by
- * `lib/mock/platformStatus.ts` (mock pending a real endpoint).
+ * Top-of-workspace status strip. Shows only values the interface actually
+ * knows: backend reachability (real `GET /health`), the selected knowledge
+ * base and whether the evidence check is on. Platform-wide trust, security
+ * and knowledge-base health are not measured anywhere, so they read
+ * "Not assessed" rather than showing invented figures.
  */
-export function PlatformStatusBar({ livingCoreStatusText }: PlatformStatusBarProps) {
-  const [status, setStatus] = useState<PlatformStatus | null>(null);
-  const [failed, setFailed] = useState(false);
-
-  const livingCoreStatusPill = (
-    <p
-      className="living-core-status-caption"
-      role="status"
-      aria-live="polite"
-      aria-atomic="true"
-    >
-      {livingCoreStatusText}
-    </p>
-  );
-
-  useEffect(() => {
-    let cancelled = false;
-
-    getPlatformStatus()
-      .then((result) => {
-        if (!cancelled) {
-          setStatus(result);
-        }
-      })
-      .catch(() => {
-        if (!cancelled) {
-          setFailed(true);
-        }
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  if (failed) {
-    return (
-      <div className="platform-status-bar platform-status-bar--error" role="status">
-        <ShieldAlert aria-hidden="true" size={15} />
-        <span>Platform status is temporarily unavailable.</span>
-        {livingCoreStatusPill}
-      </div>
-    );
-  }
-
-  if (!status) {
-    return (
-      <div
-        className="platform-status-bar"
-        aria-busy="true"
-        aria-label="Loading platform status"
-      >
-        {Array.from({ length: 5 }).map((_, index) => (
-          <div className="platform-status-item" key={index}>
-            <Skeleton className="platform-status-skeleton-label" />
-            <Skeleton className="platform-status-skeleton-value" />
-          </div>
-        ))}
-        {livingCoreStatusPill}
-      </div>
-    );
-  }
-
-  const isHealthy = status.knowledgeBaseHealth === "Healthy";
-  const isSecure = status.securityStatus === "Nominal";
+export function PlatformStatusBar({
+  livingCoreStatusText,
+  healthStatus,
+  experimentMode,
+  evidenceCheckEnabled,
+}: PlatformStatusBarProps) {
+  const evidenceCheckLabel =
+    experimentMode === "compare"
+      ? "Not available in Compare"
+      : evidenceCheckEnabled
+        ? "On (experimental)"
+        : "Off";
 
   return (
-    <div className="platform-status-bar" role="status">
+    <div className="platform-status-bar" role="status" aria-label="Platform status">
       <div className="platform-status-item">
-        <span className="platform-status-label">Trust score</span>
-        <span className="platform-status-value platform-status-value--accent">
-          {status.trustScorePercent}%
+        <span className="platform-status-label">Backend</span>
+        <span
+          className={
+            healthStatus === "online"
+              ? "platform-status-value platform-status-value--ok"
+              : healthStatus === "offline"
+                ? "platform-status-value platform-status-value--warn"
+                : "platform-status-value"
+          }
+        >
+          {HEALTH_LABELS[healthStatus]}
         </span>
       </div>
 
       <div className="platform-status-item">
         <span className="platform-status-label">Knowledge base</span>
+        <span className="platform-status-value">{MODE_LABELS[experimentMode]}</span>
+      </div>
+
+      <div className="platform-status-item">
+        <span className="platform-status-label">Evidence check</span>
         <span
           className={
-            isHealthy
-              ? "platform-status-value platform-status-value--ok"
-              : "platform-status-value platform-status-value--warn"
+            evidenceCheckEnabled && experimentMode !== "compare"
+              ? "platform-status-value platform-status-value--accent"
+              : "platform-status-value"
           }
         >
-          {status.knowledgeBaseHealth}
+          {evidenceCheckLabel}
         </span>
       </div>
 
       <div className="platform-status-item">
-        <span className="platform-status-label">Documents indexed</span>
-        <span className="platform-status-value">
-          {status.documentsIndexed.toLocaleString()}
-        </span>
+        <span className="platform-status-label">Corpus integrity</span>
+        <span className="platform-status-value platform-status-value--muted">Not assessed</span>
       </div>
 
-      <div className="platform-status-item">
-        <span className="platform-status-label">Active LLM</span>
-        <span className="platform-status-value" title={status.activeLlm}>
-          {status.activeLlm}
-        </span>
-      </div>
-
-      <div className="platform-status-item">
-        <span className="platform-status-label">Security</span>
-        <span className="platform-status-value platform-status-value--icon">
-          {isSecure ? (
-            <ShieldCheck aria-hidden="true" size={14} />
-          ) : (
-            <ShieldAlert aria-hidden="true" size={14} />
-          )}
-          {status.securityStatus}
-        </span>
-      </div>
-
-      {livingCoreStatusPill}
+      <p
+        className="living-core-status-caption"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        {livingCoreStatusText}
+      </p>
     </div>
   );
 }

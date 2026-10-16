@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from app.config import KNOWLEDGE_BASE_PATHS
+from app.defence.router import router as evidence_guard_router
 from app.evaluation.compare_metrics import build_research_metrics
 from app.evaluation.source_identity import (
     CYBERSECURITY_DATASET_NAMESPACE,
@@ -51,6 +52,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Experimental evidence-check route (POST /guarded-chat); see app/defence/.
+app.include_router(evidence_guard_router)
 
 
 # ============================================================
