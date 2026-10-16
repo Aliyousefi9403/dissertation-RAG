@@ -9,6 +9,17 @@ import {
   type PlatformStatus,
 } from "@/lib/mock/platformStatus";
 
+interface PlatformStatusBarProps {
+  /** The living core's real status line (`getLivingCoreStatusText`),
+   * rendered as a small top-right pill -- moved here from underneath the
+   * old bordered particle canvas now that the canvas is a fullscreen
+   * backdrop layer (see `LivingCoreStage.tsx`/`app/page.tsx`). Keeps the
+   * exact className/role/aria attributes the previous location used, so
+   * `e2e/desktop.spec.ts`'s existing `.living-core-status-caption` locator
+   * still resolves. */
+  livingCoreStatusText: string;
+}
+
 /**
  * Top-of-workspace platform status bar — Trust Score, Knowledge Base
  * Health, Documents Indexed, Active LLM and Security Status.
@@ -18,9 +29,20 @@ import {
  * summary strip for the Assistant workspace, backed by
  * `lib/mock/platformStatus.ts` (mock pending a real endpoint).
  */
-export function PlatformStatusBar() {
+export function PlatformStatusBar({ livingCoreStatusText }: PlatformStatusBarProps) {
   const [status, setStatus] = useState<PlatformStatus | null>(null);
   const [failed, setFailed] = useState(false);
+
+  const livingCoreStatusPill = (
+    <p
+      className="living-core-status-caption"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      {livingCoreStatusText}
+    </p>
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -47,6 +69,7 @@ export function PlatformStatusBar() {
       <div className="platform-status-bar platform-status-bar--error" role="status">
         <ShieldAlert aria-hidden="true" size={15} />
         <span>Platform status is temporarily unavailable.</span>
+        {livingCoreStatusPill}
       </div>
     );
   }
@@ -64,6 +87,7 @@ export function PlatformStatusBar() {
             <Skeleton className="platform-status-skeleton-value" />
           </div>
         ))}
+        {livingCoreStatusPill}
       </div>
     );
   }
@@ -118,6 +142,8 @@ export function PlatformStatusBar() {
           {status.securityStatus}
         </span>
       </div>
+
+      {livingCoreStatusPill}
     </div>
   );
 }

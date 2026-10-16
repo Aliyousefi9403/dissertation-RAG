@@ -7,8 +7,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
   --font-heading: var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -55,6 +55,22 @@
    * every hand-written class in this file resolve against. */
   --background: #02050a;
   --foreground: #eef3fb;
+  --color-bg-void: #050810;
+  --color-bg-canvas: #0a1220;
+  --color-bg-elevated: #101a2e;
+  --color-border-subtle: rgba(74, 159, 255, 0.08);
+  --color-border-default: rgba(74, 159, 255, 0.15);
+  --color-border-strong: rgba(74, 159, 255, 0.3);
+  --color-text-primary: #e8ecf3;
+  --color-text-secondary: #8892a6;
+  --color-text-tertiary: #4a5468;
+  --color-accent-primary: #4a9fff;
+  --color-accent-active: #00e5ff;
+  --color-accent-warning: #ffb84a;
+  --color-accent-danger: #ff4a6b;
+  --color-accent-success: #00ffa3;
+  --color-glow-primary: 0 0 40px rgba(74, 159, 255, 0.4);
+  --color-glow-active: 0 0 60px rgba(0, 229, 255, 0.5);
   --card: #0a0f18;
   --card-foreground: #eef3fb;
   --popover: #0a0f18;
@@ -202,8 +218,11 @@ button {
   min-height: 100dvh;
   flex-direction: column;
   padding: 24px 18px;
-  border-right: 1px solid var(--border);
-  background: var(--background);
+  /* Fully opaque by design -- prevents the fixed fullscreen particle
+   * backdrop (`.living-core-canvas-frame`, z-index: 0) from bleeding into
+   * the nav column. */
+  border-right: 1px solid var(--color-border-subtle);
+  background: var(--color-bg-canvas);
 }
 
 .brand {
@@ -353,12 +372,29 @@ button {
  * indicator) — see `components/status/PlatformStatusBar.tsx`. Same dark/
  * graphite/cyan language as the rest of the shell. */
 .platform-status-bar {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 10px 28px;
   padding: 12px 32px;
-  border-bottom: 1px solid var(--border);
-  background: rgba(10, 13, 19, 0.5);
+  border-bottom: 1px solid var(--color-border-subtle);
+  background: rgba(10, 18, 32, 0.38);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05) inset;
+}
+
+/* Living-core status pill -- pushed to the far right of the bar via flex's
+ * `margin-left: auto`, present in every render branch below (see
+ * `livingCoreStatusPill` in `PlatformStatusBar.tsx`). */
+.platform-status-bar .living-core-status-caption {
+  margin-left: auto;
+  color: var(--color-text-tertiary);
+  font-size: 10px;
+  line-height: 1.4;
+  white-space: nowrap;
 }
 
 .platform-status-bar--error {
@@ -531,14 +567,16 @@ button {
   }
 }
 
+/* opacity-only -- a `transform` here would establish a containing block for
+ * `.living-core-canvas-frame`'s `position: fixed` (a descendant via
+ * `.living-core-slot`), hijacking the fullscreen particle backdrop's
+ * viewport-relative positioning for the animation's duration. */
 @keyframes living-core-settle {
   from {
     opacity: 0.5;
-    transform: scale(0.96);
   }
   to {
     opacity: 1;
-    transform: scale(1);
   }
 }
 
@@ -609,6 +647,11 @@ button {
 
 .assistant-card {
   padding: 22px 24px;
+  border: 1px solid var(--color-border-default);
+  border-radius: 12px;
+  background: rgba(10, 18, 32, 0.5);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
 }
 
 /* Narrow specular top edge, echoing the composer surface immediately
@@ -973,11 +1016,12 @@ button {
 
 .evidence-metric {
   padding: 12px 14px;
-  border: 1px solid rgba(148, 163, 184, 0.14);
+  border: 1px solid var(--color-border-default);
   border-radius: 12px;
-  background:
-    linear-gradient(160deg, rgba(255, 255, 255, 0.018) 0%, rgba(255, 255, 255, 0) 40%),
-    rgba(10, 13, 19, 0.78);
+  background: rgba(10, 18, 32, 0.85);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
 }
 
 .evidence-metric dt {
@@ -1035,11 +1079,14 @@ button {
 
 .source-row {
   position: relative;
-  border: 1px solid rgba(148, 163, 184, 0.14);
-  border-radius: 11px;
-  background:
-    linear-gradient(160deg, rgba(255, 255, 255, 0.018) 0%, rgba(255, 255, 255, 0) 40%),
-    rgba(10, 13, 19, 0.78);
+  border: 1px solid var(--color-border-default);
+  border-radius: 12px;
+  /* 0.85 (up from 0.5) + a solid inset shadow -- text must stay fully
+   * readable over the dense particle field now visible behind it. */
+  background: rgba(10, 18, 32, 0.85);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   overflow: hidden;
   transition:
     border-color 180ms ease,
@@ -1318,43 +1365,40 @@ button {
   color: var(--muted-foreground);
 }
 
-/* --- Composer: polished dark "titanium" surface ---
- * A layered surface (soft top sheen + diagonal graphite gradient) with a
- * hairline border, a narrow specular highlight along the top edge (the
- * ::before pseudo-element below), a precise cyan focus ring, and an
- * integrated submit control that visually continues the same surface
- * rather than reading as a separate button. Sits directly beneath the
- * living core in the layout so the two visually connect (the core's own
- * "submitting" animation lives in LivingCoreScene, this only supplies the
- * still surface it energizes into). All original CSS — gradients/
- * box-shadow/pseudo-elements only, no new dependency. */
+/* --- Composer: frosted glass over the particle field ---
+ * A translucent, blurred pill (`backdrop-filter: blur`) floating over the
+ * now-fullscreen living-core backdrop, with a hairline border, a narrow
+ * specular highlight along the top edge (the ::before pseudo-element
+ * below), a precise cyan focus ring, and an integrated submit control that
+ * visually continues the same surface rather than reading as a separate
+ * button. All original CSS — gradients/box-shadow/pseudo-elements only, no
+ * new dependency. */
 
-/* Aligns the composer's left/right edges with `.living-core-slot`'s above
- * it: `.composer-row` reproduces `.conversation`'s main-column/evidence-
- * column split (same 34px horizontal padding, same 340px spacer standing in
- * for `.evidence-column`) purely for alignment -- the composer itself stays
- * outside the scrollable `.conversation`/grid row it always was, so it's
- * still pinned at the bottom of the viewport, not scrolled with content. */
+/* Always bottom-anchored and centered across the full workspace width --
+ * `.composer` itself (width:100%; max-width:1100px; margin:0 auto) does the
+ * centering, so this just needs to span edge-to-edge with no phantom
+ * columns pulling the midpoint off-center. The composer stays outside the
+ * scrollable `.conversation`/grid row it always was, so it's pinned at the
+ * bottom of the viewport, not scrolled with content. */
 .composer-row {
-  display: flex;
-  gap: 24px;
   padding: 0 34px;
-}
-
-.composer-column {
-  flex: 1 1 auto;
-  min-width: 0;
-}
-
-.composer-spacer {
-  flex: 0 0 340px;
-  width: 340px;
-}
-
-@media (max-width: 1180px) {
-  .composer-spacer {
-    display: none;
-  }
+  /* Breathing room above the viewport edge -- with the particle backdrop
+   * now filling the whole viewport, the composer needs to visibly float
+   * above the bottom edge rather than sit flush against it. */
+  padding-bottom: 32px;
+  /* Taken out of `.workspace`'s grid flow (was its 4th row) so it doesn't
+   * consume a grid row -- `top: 100%; translateY(-100%)` anchors the box's
+   * bottom edge exactly at the container's bottom regardless of the box's
+   * own height (no hardcoded height guess needed); the existing
+   * `padding-bottom` above then supplies the visual gap, so this isn't
+   * stacked on top of a second offset. Reverted back to normal grid flow at
+   * <=768px (see that breakpoint below). */
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  top: 100%;
+  transform: translateY(-100%);
 }
 
 .composer {
@@ -1364,21 +1408,25 @@ button {
   left: auto;
 
   display: flex;
-  /* Matches `.living-core-stage--hero`'s `max-width: min(880px, 92%)` --
-   * the actual binding constraint on the box above (not `.living-core-
-   * slot`'s own wider 900px cap, which never binds since it's always
-   * inside the hero stage's tighter one) -- so the two align exactly. */
-  width: min(880px, 92%);
+  /* Standalone width -- no longer aligned to a visible hero-stage box
+   * above; the living core is now a fixed fullscreen backdrop rather than
+   * an inline hero element with its own max-width (see
+   * `.living-core-canvas-frame`). Capped at 1100px so the pill reads as
+   * substantial against the full-viewport particle field; the <=1200px
+   * override below shrinks it gracefully with a fixed 32px inset on each
+   * side once the viewport itself is narrower than the cap. */
+  width: 100%;
+  max-width: 1100px;
   margin: 0 auto 24px;
   align-items: flex-end;
   gap: 10px;
 
   padding: 10px 10px 10px 18px;
-  border: 1px solid rgba(148, 163, 184, 0.16);
-  border-radius: 16px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.035) 0%, rgba(255, 255, 255, 0) 16%),
-    linear-gradient(155deg, #12161d 0%, #0b0e14 48%, #141922 100%);
+  border: 1px solid var(--color-border-default);
+  border-radius: 999px;
+  background: rgba(10, 18, 32, 0.6);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   box-shadow:
     0 1px 0 rgba(255, 255, 255, 0.04) inset,
     0 18px 40px rgba(0, 0, 0, 0.35);
@@ -1386,6 +1434,15 @@ button {
     border-color 200ms ease,
     box-shadow 200ms ease,
     opacity 200ms ease;
+}
+
+@media (max-width: 1200px) {
+  .composer {
+    /* Shrinks gracefully once the viewport is narrower than the 1100px
+     * cap itself -- a fixed 32px inset on each side rather than a percent
+     * width, so it never gets uncomfortably close to the screen edge. */
+    max-width: min(1100px, calc(100% - 64px));
+  }
 }
 
 /* Narrow specular edge — a thin, center-bright highlight line, as if a
@@ -1671,14 +1728,6 @@ button {
 }
 
 @media (max-width: 900px) {
-  .app-shell {
-    grid-template-columns: 1fr;
-  }
-
-  .sidebar {
-    display: none;
-  }
-
   .conversation {
     padding-top: 20px;
     padding-right: 18px;
@@ -1687,6 +1736,7 @@ button {
   }
 
   .topbar {
+    margin-top: 12px;
     padding-right: 18px;
     padding-left: 18px;
   }
@@ -1703,17 +1753,212 @@ button {
     margin-bottom: max(12px, env(safe-area-inset-bottom, 12px));
   }
 
-  .living-core-stage--hero .living-core-canvas-wrap {
-    min-height: 280px;
-    max-height: 420px;
-  }
-
   .living-core-stage--hero .living-core-fallback {
     min-height: 240px;
   }
+
+  /* Row, not column -- a column stack of 5 items pushed all main content
+   * off-screen. Horizontal scroll instead, with the scrollbar itself
+   * hidden (still fully scrollable via touch/trackpad/shift-wheel). */
+  .platform-status-bar {
+    position: sticky;
+    top: 0;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    min-height: 48px;
+    scrollbar-width: none;
+  }
+
+  .platform-status-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .platform-status-item {
+    flex: 0 0 auto;
+    padding: 8px 12px;
+  }
+
+  .platform-status-label {
+    font-size: 10px;
+  }
+
+  .platform-status-value {
+    font-size: 16px;
+  }
+
+  /* True empty states only (idle/submitting/error -- a lone
+   * `.evidence-empty` with no preceding `.evidence-metrics`) collapse to a
+   * compact pill instead of a tall, full-width placeholder card. The
+   * "success but no sources" case keeps its real metrics grid, so
+   * `.evidence-empty` isn't its only child there and this doesn't match. */
+  .evidence-column:has(> .evidence-empty:only-child) {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+
+  .evidence-empty:only-child {
+    padding: 10px 16px;
+    text-align: center;
+  }
+}
+
+/* `.composer-row` is `position: absolute` (see above) everywhere except
+ * <=768px, so `.conversation` no longer has a reserved grid row beneath it
+ * and expands to fill that space -- without extra bottom clearance, a long
+ * scrolled conversation's last message could end up permanently hidden
+ * behind the floating composer. Scoped to desktop/hero-eligible widths
+ * only (min-width, not max-width) and placed after the max-width:900px
+ * block above so it correctly wins in the 769-900px overlap instead of
+ * being clobbered by that block's own `padding-bottom: 16px`. */
+@media (min-width: 769px) {
+  .conversation {
+    padding-bottom: 140px;
+  }
+}
+
+/* --- Sidebar responsive collapse ---
+ * <=1024px: icons-only rail (60px). <=768px: a slide-in drawer instead
+ * (`.sidebar-toggle`/`.sidebar-backdrop`, see `AppSidebar.tsx`), since a
+ * 60px rail has no room for touch-comfortable nav targets. The 768px
+ * block is written after the 1024px one so its overrides win at the
+ * narrower widths where both match. */
+.sidebar-toggle {
+  display: none;
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 3;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--color-border-default);
+  border-radius: 10px;
+  background: var(--color-bg-canvas);
+  color: var(--color-text-primary);
+}
+
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  background: rgba(5, 8, 16, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+@media (max-width: 1024px) {
+  .app-shell {
+    grid-template-columns: 60px minmax(0, 1fr);
+  }
+
+  .sidebar {
+    padding: 16px 8px;
+  }
+
+  .brand {
+    justify-content: center;
+    padding: 6px 0 20px;
+  }
+
+  .brand > div,
+  .nav-label,
+  .sidebar-footer p {
+    display: none;
+  }
+
+  .nav-item {
+    justify-content: center;
+  }
+
+  .nav-lock-icon {
+    display: none;
+  }
+
+  .living-core-canvas-frame {
+    left: 60px;
+    -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 90%);
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 90%);
+  }
+}
+
+@media (max-width: 768px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar-toggle {
+    display: flex;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 2;
+    width: 260px;
+    padding: 24px 18px;
+    transform: translateX(-100%);
+    transition: transform 220ms ease;
+    /* Dark elevation shadow (lift off the page) plus a subtle accent glow
+     * along the same right edge. */
+    box-shadow:
+      20px 0 60px rgba(0, 0, 0, 0.4),
+      2px 0 40px rgba(74, 159, 255, 0.15);
+  }
+
+  .sidebar--open {
+    transform: translateX(0);
+  }
+
+  .brand {
+    justify-content: flex-start;
+    padding: 6px 8px 26px;
+  }
+
+  .brand > div,
+  .nav-label,
+  .sidebar-footer p {
+    display: block;
+  }
+
+  .nav-item {
+    justify-content: flex-start;
+  }
+
+  .nav-lock-icon {
+    display: block;
+  }
+
+  .sidebar-backdrop {
+    display: block;
+  }
+
+  .living-core-canvas-frame {
+    left: 0;
+    -webkit-mask-image: radial-gradient(ellipse at center, black 25%, transparent 85%);
+    mask-image: radial-gradient(ellipse at center, black 25%, transparent 85%);
+  }
+
+  .composer-row {
+    position: static;
+    transform: none;
+    transition: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar {
+    transition: none;
+  }
 }
 body {
-  font-family: var(--font-inter), system-ui, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  background-color: var(--color-bg-void);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
 }
 
 h1,
@@ -1772,7 +2017,10 @@ pre {
 .nav-item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  /* `flex-start` (not `space-between`) now that every item has a leading
+   * icon -- `.nav-lock-icon`'s own `margin-left: auto` below pins it to
+   * the far right regardless of how many items precede it. */
+  justify-content: flex-start;
   gap: 8px;
 }
 
@@ -1789,8 +2037,13 @@ pre {
   color: var(--text-quiet);
 }
 
+.nav-icon {
+  flex: 0 0 auto;
+}
+
 .nav-lock-icon {
   flex: 0 0 auto;
+  margin-left: auto;
   color: var(--text-quiet);
 }
 
@@ -1843,74 +2096,162 @@ pre {
  * sizing is layered on top via `.living-core-stage--hero`/`--compact`
  * below. */
 
+/* Used to reserve document-flow width/height for the hero-sized canvas
+ * box; now that `.living-core-canvas-frame` below is `position: fixed`
+ * (out of flow entirely), this collapses to a zero-height marker -- kept
+ * only so `e2e/desktop.spec.ts`'s existing `.living-core-slot` locator
+ * still resolves to a real element. */
 .living-core-slot {
   width: min(900px, 100%);
-  margin: 0 auto 16px;
+  margin: 0;
 }
 
-/* Plain positioning shell around `.living-core-canvas-wrap` -- see the
- * comment in `LivingCoreStage.tsx` for why the metallic emblem badge is a
- * DOM sibling of the wrap (and therefore of this frame) rather than a
- * child inside it. Contributes no sizing/border/background of its own. */
+/* The living core is now a fixed, fullscreen ambient background layer
+ * rather than a bordered hero box: it sits behind every route's content
+ * (z-index: 0, below `.workspace`'s z-index: 1, above `DotFieldBackdrop`'s
+ * z-index: -1) and fades to nothing at the screen edges via `mask-image`
+ * instead of a hard rectangular cutoff. `left: 260px` matches
+ * `.app-shell`'s actual sidebar column width (`grid-template-columns:
+ * 260px minmax(0, 1fr)`), keeping the backdrop clear of the opaque
+ * sidebar. Fixed size regardless of hero/compact now -- see
+ * `.living-core-canvas-wrap` below, which no longer has hero/compact
+ * height overrides (those still apply to `.living-core-fallback` only). */
 .living-core-canvas-frame {
-  position: relative;
-  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 260px;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 95%);
+  mask-image: radial-gradient(ellipse at center, black 40%, transparent 95%);
 }
 
 .living-core-canvas-wrap {
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 3;
-  min-height: 280px;
-  max-height: 560px;
-  border: 1px solid rgba(148, 163, 184, 0.13);
-  border-radius: 20px;
-  background: rgba(13, 20, 32, 0.62);
-  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.18);
+  height: 100%;
   overflow: hidden;
-  /* No `transition` on height here — see the long comment on
-   * `.living-core-stage--compact` above for why animating a WebGL-canvas-
-   * containing box's real layout size is unsafe with r3f's async
-   * `ResizeObserver`-driven resize. */
-}
-
-/* Hero (idle): the core occupies a dominant, but no longer page-filling,
- * share of the main visual area — shrunk ~30% from its original
- * 380px/640px sizing (CSS-only; the r3f camera/particle geometry is
- * untouched, see components/living-core/*) so the idle Assistant page has
- * real visible room for the Platform Status Bar (Task 1) above and the
- * Evidence Panel (Task 2) beside it, without the core dominating the
- * entire viewport. Layout-only override (height/max-height) — the base
- * rule above still owns border/background/shadow. */
-.living-core-stage--hero .living-core-canvas-wrap {
-  min-height: 266px;
-  max-height: 448px;
-}
-
-/* Compact (active): steps back into a secondary role once the answer/
- * evidence stack needs the space, while staying legible and present. */
-.living-core-stage--compact .living-core-canvas-wrap {
-  min-height: 260px;
-  max-height: 340px;
+  /* Belt-and-suspenders: `.living-core-canvas-frame` (ancestor) already
+   * sets `pointer-events: none`, which this wrap and its r3f `<canvas>`
+   * inherit -- restated explicitly here (and on `canvas`/`.energy-beams`/
+   * `.source-pins` below) so this purely decorative, fullscreen-fixed
+   * layer never depends on inheritance surviving the mask-image/
+   * backdrop-filter compositing above it. No visual effect either way. */
+  pointer-events: none;
 }
 
 .living-core-canvas-wrap canvas {
   display: block;
+  pointer-events: none;
 }
 
-/* Thin metallic "shell" badge -- a secondary framing element (see
- * `AegisMetallicLogo.tsx`), deliberately a small corner emblem rather than
- * anything competing with the particle field for center-frame attention.
- * `pointer-events: none` since it's decorative-only (`aria-hidden` on the
- * canvas itself), matching the r3f canvas' own `aria-hidden` treatment. */
-.living-core-metallic-shell {
+/* Faint radial "energy tendril" beams (see `EnergyBeams.tsx`) -- a fixed
+ * fan of thin gradient lines rotating as one group, slow enough to never
+ * read as spinning. */
+.energy-beams {
   position: absolute;
-  right: 14px;
-  bottom: 14px;
-  border-radius: 999px;
-  opacity: 0.82;
+  inset: 0;
+  animation: energy-beams-rotate 75s linear infinite;
   pointer-events: none;
-  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.35));
+}
+
+@keyframes energy-beams-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.energy-beam {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 140vmax;
+  height: 1px;
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg, rgba(74, 159, 255, 0.08), transparent 65%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .energy-beams {
+    animation: none;
+  }
+}
+
+/* Floating numbered source pins + their evidence-column connector lines
+ * (see `SourcePins.tsx`). */
+.source-pins {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.source-pin-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.source-pin-line {
+  fill: none;
+  stroke: var(--color-accent-primary);
+  stroke-opacity: 0.2;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: source-pin-line-draw 600ms ease-out forwards;
+}
+
+@keyframes source-pin-line-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.source-pin {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin: -18px 0 0 -18px;
+  border-radius: 999px;
+  background: var(--color-accent-primary);
+  color: #fff;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: var(--color-glow-primary);
+  animation: source-pin-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes source-pin-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .source-pin-line {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+
+  .source-pin {
+    animation: none;
+  }
 }
 
 .living-core-canvas-loading {
@@ -1937,21 +2278,9 @@ pre {
   }
 }
 
-/* Deliberately in normal document flow below `.living-core-canvas-wrap`
- * (a sibling, not an absolutely-positioned overlay inside it — see the
- * `<>...</>` fragment in `LivingCoreStage.tsx`) so it always reads as
- * clearly separate from the shield/point-cloud visual and can never
- * overlap it, at any wrapper size: the compact wrapper is short enough
- * that a bottom-overlaid caption used to collide with the shield's lower
- * point. */
-.living-core-status-caption {
-  margin: 10px 0 0;
-  padding: 0 20px;
-  color: #9fb0c6;
-  font-size: 12px;
-  line-height: 1.4;
-  text-align: center;
-}
+/* `.living-core-status-caption` now renders inside `.platform-status-bar`
+ * as a small top-right pill instead of below the canvas frame -- see that
+ * rule further down this file and `PlatformStatusBar.tsx`. */
 
 .living-core-fallback {
   display: flex;
@@ -2297,6 +2626,207 @@ pre {
   color: #e2b3af;
 }
 
+/* --- Experiment mode selector (Experiment states) ---
+ * Small additive control in the topbar for switching between the clean
+ * baseline, the PWWS-poisoned knowledge base, a side-by-side comparison of
+ * both, and the not-yet-available defended pipeline. Purely a mode
+ * switch — see `components/experiment/ExperimentModeSelector.tsx`. */
+.experiment-mode {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.experiment-mode-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.experiment-mode-button {
+  padding: 6px 12px;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 999px;
+  background: rgba(10, 18, 32, 0.5);
+  color: var(--muted-foreground);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease;
+}
+
+.experiment-mode-button:hover:not(:disabled) {
+  color: var(--foreground);
+  border-color: var(--color-border-default);
+}
+
+.experiment-mode-button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.experiment-mode-button[data-active="true"] {
+  color: #7dd3fc;
+  border-color: rgba(125, 211, 252, 0.4);
+  background: rgba(56, 189, 248, 0.1);
+}
+
+.experiment-mode-button[data-mode="poisoned"][data-active="true"] {
+  color: #e2b3af;
+  border-color: rgba(226, 179, 175, 0.4);
+  background: rgba(179, 85, 79, 0.12);
+}
+
+.experiment-mode-button:disabled {
+  color: var(--color-text-tertiary);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.experiment-mode-badge {
+  margin-left: 6px;
+  color: var(--color-text-tertiary);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+
+.experiment-mode-caption {
+  margin: 0;
+  color: var(--color-text-tertiary);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.experiment-mode-caption--poisoned {
+  color: #e2b3af;
+}
+
+@media (max-width: 768px) {
+  .topbar {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .experiment-mode {
+    align-items: flex-start;
+  }
+}
+
+/* --- Comparison view (Compare mode) ---
+ * Side-by-side clean/poisoned answer panels plus the Attack Impact metrics
+ * strip below, rendered in place of `AnswerPanel`/`EvidencePanel` only
+ * while Compare mode is selected. Reuses `.assistant-card`/`.answer-text`/
+ * `.source-list`/`.evidence-metric`'s layout language verbatim so it reads
+ * as a natural extension of the normal answer/evidence surfaces — see
+ * `components/experiment/ComparisonView.tsx` and `AttackMetrics.tsx`. */
+.comparison-stack {
+  display: flex;
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.comparison-stack > * {
+  animation: panel-enter 360ms ease-out both;
+}
+
+.comparison-stack > *:nth-child(2) {
+  animation-delay: 70ms;
+}
+
+.comparison-stack > *:nth-child(3) {
+  animation-delay: 140ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .comparison-stack > * {
+    animation: none;
+  }
+}
+
+.comparison-grid {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+@media (max-width: 1180px) {
+  .comparison-grid {
+    flex-direction: column;
+  }
+}
+
+.comparison-side {
+  min-width: 0;
+  flex: 1 1 0;
+}
+
+.comparison-side .answer-text {
+  margin-bottom: 16px;
+}
+
+.comparison-no-sources {
+  margin: 0;
+  color: var(--muted-foreground);
+  font-size: 12.5px;
+}
+
+.attack-metrics {
+  padding: 22px 24px;
+  border: 1px solid var(--color-border-default);
+  border-radius: 12px;
+  background: rgba(10, 18, 32, 0.5);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+.attack-metrics-grid {
+  display: grid;
+  margin: 14px 0 0;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px;
+}
+
+.attack-metric {
+  padding: 12px 14px;
+  border: 1px solid var(--color-border-default);
+  border-radius: 12px;
+  background: rgba(10, 18, 32, 0.85);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.attack-metric dt {
+  margin: 0;
+  color: var(--text-quiet);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.attack-metric dd {
+  margin: 4px 0 0;
+  color: #7dd3fc;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.research-metric-group-label {
+  margin: 18px 0 0;
+}
+
 .kb-spin-icon {
   animation: spin 900ms linear infinite;
 }
@@ -2305,4 +2835,100 @@ pre {
   .kb-spin-icon {
     animation: none;
   }
+}
+
+/* --- Experiment History (/history, /history/[id]) ---
+ * List cards reuse `.assistant-card`'s surface verbatim (see
+ * `ExperimentCard.tsx`) with only layout-only additions here; the detail
+ * page's compare view reuses `.comparison-stack`/`.comparison-grid`/
+ * `.comparison-side` and `AttackMetrics` from the live Compare mode
+ * directly, no new CSS needed for that case. */
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.history-card {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 160ms ease;
+}
+
+.history-card:hover,
+.history-card:focus-visible {
+  border-color: rgba(125, 211, 252, 0.35);
+}
+
+.history-card-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.history-card-question {
+  margin: 0;
+  color: var(--foreground);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.history-card-timestamp {
+  flex: 0 0 auto;
+  color: var(--text-quiet);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.history-card-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.history-card-metrics {
+  display: grid;
+  margin: 12px 0 0;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 8px;
+}
+
+.history-card-metrics dt {
+  margin: 0;
+  color: var(--text-quiet);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.history-card-metrics dd {
+  margin: 2px 0 0;
+  color: var(--muted-foreground);
+  font-size: 12.5px;
+}
+
+.history-card-link {
+  display: inline-block;
+  margin-top: 14px;
+  color: #7dd3fc;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.history-detail-back {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted-foreground);
+  font-size: 12.5px;
+  text-decoration: none;
+}
+
+.history-detail-back:hover,
+.history-detail-back:focus-visible {
+  color: var(--foreground);
 }

@@ -25,6 +25,10 @@ interface LivingCoreSceneProps {
    * within the 15,000-30,000 range. */
   particleCount: number;
   onRuntimeFailure: () => void;
+  /** Forwarded to `IntelligentParticleField` — see its own doc comment. */
+  attackDetected?: boolean;
+  /** Forwarded to `IntelligentParticleField` — see its own doc comment. */
+  compareMode?: boolean;
 }
 
 /**
@@ -75,6 +79,22 @@ function FrameLoopDriver({ active }: { active: boolean }) {
 // to this same offset made r3f's one-time lookAt tilt to compensate,
 // silently cancelling the shift entirely.)
 const CAMERA_BASE_POSITION = new THREE.Vector3(0, -0.14, 4.8);
+
+// Phase-driven bloom targets -- `BloomComposer` damps toward whichever of
+// these is passed each frame, so switching phases here reads as a smooth
+// cinematic ramp rather than a pop. Base idle/dormant/unresolved/fault
+// values match `BloomComposer`'s own defaults.
+const BLOOM_BY_PHASE: Record<
+  LivingCorePhase,
+  { strength: number; radius: number; threshold: number }
+> = {
+  dormant: { strength: 1.2, radius: 0.8, threshold: 0.2 },
+  idle: { strength: 1.2, radius: 0.8, threshold: 0.2 },
+  submitting: { strength: 1.6, radius: 0.85, threshold: 0.16 },
+  converged: { strength: 1.5, radius: 0.82, threshold: 0.18 },
+  unresolved: { strength: 1.2, radius: 0.8, threshold: 0.2 },
+  fault: { strength: 1.2, radius: 0.8, threshold: 0.2 },
+};
 
 /**
  * The only camera motion anywhere in the scene: a very slow, subtle
@@ -128,6 +148,8 @@ export function LivingCoreScene({
   maxDpr,
   particleCount,
   onRuntimeFailure,
+  attackDetected = false,
+  compareMode = false,
 }: LivingCoreSceneProps) {
   const visibleSources = phase === "converged" ? sources : [];
 
@@ -142,6 +164,18 @@ export function LivingCoreScene({
   return (
     <Canvas
       aria-hidden="true"
+      // r3f's <Canvas> defaults its wrapper div to inline `pointer-events:
+      // auto` (see CanvasImpl in @react-three/fiber) whenever no
+      // `eventSource` is supplied, specifically so raycasting/pointer
+      // events reach the 3D scene. That inline style wins over any CSS
+      // class rule (including `.living-core-canvas-frame`'s `pointer-
+      // events: none`), which was silently capturing clicks meant for the
+      // topbar/experiment-mode selector above this fullscreen ambient
+      // backdrop. This scene has no interactive 3D pointer handling, so
+      // it's overridden back to `none` here (r3f spreads a `style` prop
+      // after its own defaults, so this wins cleanly, no `!important`
+      // needed) — purely non-visual, no effect on the rendered scene.
+      style={{ pointerEvents: "none" }}
       dpr={[1, maxDpr]}
       frameloop="demand"
       gl={{ antialias: false, powerPreference: "high-performance" }}
@@ -179,10 +213,15 @@ export function LivingCoreScene({
       <IdleCameraDrift active={phase === "idle"} />
       <RetrievalScan phase={phase} sources={visibleSources} />
       <NeuralConnections phase={phase} />
-      <IntelligentParticleField phase={phase} particleCount={particleCount} />
+      <IntelligentParticleField
+        phase={phase}
+        particleCount={particleCount}
+        attackDetected={attackDetected}
+        compareMode={compareMode}
+      />
       <SourceNodes sources={visibleSources} beat={beat} beatStartedAt={beatStartedAt} />
       <SourceLinkPaths sources={visibleSources} beat={beat} beatStartedAt={beatStartedAt} />
-      <BloomComposer strength={0.5} radius={0.38} threshold={0.62} />
+      <BloomComposer {...BLOOM_BY_PHASE[phase]} />
     </Canvas>
   );
 }

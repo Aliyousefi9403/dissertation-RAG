@@ -1,0 +1,131 @@
+[
+  {
+    "id": "sql_injection_description_01",
+    "question": "How does a SQL injection attack work?",
+    "expected_attack_type": "sql_injection",
+    "expected_sections": ["attack_description"],
+    "reference_facts": [
+      "SQL injection exploits software that constructs SQL statements based on user input.",
+      "The attacker crafts input strings so the resulting SQL statement performs actions the application did not intend.",
+      "SQL injection results from the application's failure to properly validate user-controlled input."
+    ]
+  },
+  {
+    "id": "sql_injection_consequences_01",
+    "question": "What are the consequences of a successful SQL injection attack?",
+    "expected_attack_type": "sql_injection",
+    "expected_sections": ["consequences"],
+    "reference_facts": [
+      "A successful SQL injection attack can allow the attacker to gain privileges.",
+      "It can allow unauthorized reading of data and execution of unauthorized commands.",
+      "It can allow unauthorized modification of data."
+    ]
+  },
+  {
+    "id": "xss_description_01",
+    "question": "How does a cross-site scripting (XSS) attack work?",
+    "expected_attack_type": "xss",
+    "expected_sections": ["attack_description"],
+    "reference_facts": [
+      "In XSS, an adversary embeds malicious scripts in content that is served to web browsers.",
+      "The goal is for the client-side browser to execute the script with the user's privilege level.",
+      "The attack exploits vulnerabilities that arise from allowing remote hosts to execute code and scripts, and is very difficult for an end user to detect."
+    ]
+  },
+  {
+    "id": "xss_consequences_01",
+    "question": "What are the consequences of a successful cross-site scripting attack?",
+    "expected_attack_type": "xss",
+    "expected_sections": ["consequences"],
+    "reference_facts": [
+      "A successful XSS attack can allow execution of unauthorized commands (arbitrary code) in the victim's browser.",
+      "It can allow unauthorized reading of data (confidentiality impact).",
+      "It can allow unauthorized modification of data (integrity impact)."
+    ]
+  },
+  {
+    "id": "http_flood_description_01",
+    "question": "How does an HTTP flood attack work?",
+    "expected_attack_type": "http_flood",
+    "expected_sections": ["attack_description"],
+    "reference_facts": [
+      "An HTTP flood uses legitimate session-based HTTP GET requests to consume large amounts of a server's resources at the application layer.",
+      "The intent is to deny legitimate users access to a service.",
+      "Because the requests are legitimate sessions, this attack is very difficult to detect."
+    ]
+  },
+  {
+    "id": "http_flood_impact_01",
+    "question": "What is the impact of a successful HTTP flood attack?",
+    "expected_attack_type": "http_flood",
+    "expected_sections": ["attack_description"],
+    "reference_facts": [
+      "A successful HTTP flood attack denies legitimate users access to a service by consuming resources at the application layer.",
+      "This knowledge base document has no dedicated Consequences section for HTTP flood, unlike some other attack types in this KB; the impact statement above is the only impact-relevant content present, and it lives in Attack description."
+    ]
+  },
+  {
+    "id": "password_cracking_description_01",
+    "question": "How does a password cracking (brute force) attack work?",
+    "expected_attack_type": "password_cracking",
+    "expected_sections": ["attack_description"],
+    "reference_facts": [
+      "In a password cracking attack, an adversary tries every possible value for a password until they succeed.",
+      "A brute force attack will always eventually succeed if computationally feasible, given the alphabet used and the maximum password length."
+    ]
+  },
+  {
+    "id": "password_cracking_consequences_01",
+    "question": "What are the consequences of a successful password cracking attack?",
+    "expected_attack_type": "password_cracking",
+    "expected_sections": ["consequences"],
+    "reference_facts": [
+      "A successful password cracking attack can allow the attacker to gain privileges.",
+      "It can allow unauthorized reading of data (confidentiality impact).",
+      "It can allow unauthorized modification of data (integrity impact)."
+    ],
+    "known_limitation": "The clean KB's Consequences section for this attack type contains real content, but it is not retrieved in the clean top-3 (Clean Hit@3 = 0) due to a pre-existing retrieval-ranking behavior unrelated to PWWS poisoning. Poisoned-side score changes on this question should not be attributed to the attack without first addressing this ranking gap."
+  },
+  {
+    "id": "port_scanning_description_01",
+    "question": "How does a port scanning attack work?",
+    "expected_attack_type": "port_scanning",
+    "expected_sections": ["attack_description"],
+    "reference_facts": [
+      "In port scanning, an adversary uses a combination of techniques to determine the state of the ports on a remote target.",
+      "Any service or application available for TCP or UDP networking will have a port open for communications over the network."
+    ]
+  },
+  {
+    "id": "port_scanning_consequences_01",
+    "question": "What are the consequences of a successful port scanning attack?",
+    "expected_attack_type": "port_scanning",
+    "expected_sections": ["consequences"],
+    "reference_facts": [
+      "A successful port scan can allow the attacker to bypass protection mechanisms (an access control and authorization impact).",
+      "It can allow the attacker to hide their activities.",
+      "It has a confidentiality impact, listed in the knowledge base as 'Other', alongside bypassing protection mechanisms and hiding activities."
+    ]
+  },
+  {
+    "id": "backdoor_description_01",
+    "question": "How does a backdoor supply-chain implant attack work?",
+    "expected_attack_type": "backdoor",
+    "expected_sections": ["attack_description"],
+    "reference_facts": [
+      "In this attack, an attacker implants malicious software into the system in the supply chain distribution channel.",
+      "The purpose is to cause malicious disruption or allow additional compromise when the system is deployed."
+    ]
+  },
+  {
+    "id": "backdoor_impact_01",
+    "question": "What is the impact of a successful backdoor implant?",
+    "expected_attack_type": "backdoor",
+    "expected_sections": ["attack_description"],
+    "reference_facts": [
+      "A successful backdoor implant can cause malicious disruption to the system.",
+      "It can allow additional compromise of the system once deployed to the victim.",
+      "This knowledge base document has no dedicated Consequences section for backdoor, unlike some other attack types in this KB; the impact statement above is the only impact-relevant content present, and it lives in Attack description."
+    ]
+  }
+]

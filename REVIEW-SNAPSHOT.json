@@ -1,0 +1,3583 @@
+{
+  "created_at": "2026-10-16T21:42:27.310378+01:00",
+  "branch": "feature/experiment-states",
+  "commit": "9ddb09617be88e8defc3fa1ecc069644e9f22c12",
+  "working_tree_status": "M backend/app/generation/llm_factory.py\n M backend/app/generation/rag_chain.py\n M backend/app/history/database.py\n M backend/app/history/models.py\n M backend/app/history/service.py\n M backend/app/ingestion/load_documents.py\n M backend/app/main.py\n M backend/data/aegisrag_history.db\n M frontend-next/app/globals.css\n M frontend-next/components/experiment/AttackMetrics.tsx\n M frontend-next/components/experiment/ComparisonView.tsx\n M frontend-next/components/history/ExperimentDetail.tsx\n M frontend-next/graphify-out/cache/last_query_stamp\n M frontend-next/lib/types/compare.ts\n M frontend-next/lib/types/history.ts\n M graphify-out/cache/last_query_stamp\n?? backend/app/evaluation/compare_metrics.py\n?? backend/app/evaluation/edited_text_exposure.py\n?? backend/app/evaluation/llm_judge.py\n?? backend/app/evaluation/paired_metrics.py\n?? backend/app/evaluation/pilot_records.py\n?? backend/app/evaluation/pilot_runner.py\n?? backend/app/evaluation/pwws_manifest.py\n?? backend/app/evaluation/retrieval_metrics.py\n?? backend/app/evaluation/run_research_evaluation.py\n?? backend/app/evaluation/source_identity.py\n?? backend/app/ingestion/section_metadata.py\n?? backend/data/evaluation/questions.json\n?? backend/data/evaluation/research_evaluation_report.json\n?? backend/data/evaluation/research_evaluation_report_12q.json\n?? backend/data/poisoned/pwws_attack_manifest_metrics.jsonl\n?? backend/data/poisoned/pwws_attack_manifest_summary.json\n?? backend/tests/\n?? frontend-next/.next-backup-20260916-155001/\n?? pilot-config/\n?? pilot-runs/",
+  "included_files": [
+    {
+      "path": "backend/app/config.py",
+      "bytes": 1757
+    },
+    {
+      "path": "backend/app/__init__.py",
+      "bytes": 0
+    },
+    {
+      "path": "backend/app/main.py",
+      "bytes": 16751
+    },
+    {
+      "path": "backend/app/kb_builder/build_knowledge_base.py",
+      "bytes": 14407
+    },
+    {
+      "path": "backend/app/kb_builder/source_mapping.yaml",
+      "bytes": 10707
+    },
+    {
+      "path": "backend/app/kb_builder/__init__.py",
+      "bytes": 0
+    },
+    {
+      "path": "backend/app/ingestion/inspect_dataset.py",
+      "bytes": 832
+    },
+    {
+      "path": "backend/app/ingestion/__init__.py",
+      "bytes": 0
+    },
+    {
+      "path": "backend/app/ingestion/section_metadata.py",
+      "bytes": 3896
+    },
+    {
+      "path": "backend/app/ingestion/load_documents.py",
+      "bytes": 3615
+    },
+    {
+      "path": "backend/app/attack/poison_kb.py",
+      "bytes": 1052
+    },
+    {
+      "path": "backend/app/attack/pwws_poc.py",
+      "bytes": 1844
+    },
+    {
+      "path": "backend/app/attack/prepare_dataset.py",
+      "bytes": 3957
+    },
+    {
+      "path": "backend/app/attack/finetune_bert.py",
+      "bytes": 4288
+    },
+    {
+      "path": "backend/app/attack/augment_dataset.py",
+      "bytes": 3988
+    },
+    {
+      "path": "backend/app/attack/__init__.py",
+      "bytes": 0
+    },
+    {
+      "path": "backend/app/attack/pwws_poison_kb.py",
+      "bytes": 8010
+    },
+    {
+      "path": "backend/app/attack/generate_poisoned_kb.py",
+      "bytes": 1454
+    },
+    {
+      "path": "backend/app/attack/textfooler_poc.py",
+      "bytes": 1856
+    },
+    {
+      "path": "backend/app/retrieval/__init__.py",
+      "bytes": 0
+    },
+    {
+      "path": "backend/app/retrieval/search.py",
+      "bytes": 893
+    },
+    {
+      "path": "backend/app/history/service.py",
+      "bytes": 4447
+    },
+    {
+      "path": "backend/app/history/models.py",
+      "bytes": 1682
+    },
+    {
+      "path": "backend/app/history/database.py",
+      "bytes": 2938
+    },
+    {
+      "path": "backend/app/history/__init__.py",
+      "bytes": 0
+    },
+    {
+      "path": "backend/app/evaluation/paired_metrics.py",
+      "bytes": 4242
+    },
+    {
+      "path": "backend/app/evaluation/edited_text_exposure.py",
+      "bytes": 18924
+    },
+    {
+      "path": "backend/app/evaluation/run_research_evaluation.py",
+      "bytes": 10662
+    },
+    {
+      "path": "backend/app/evaluation/pwws_manifest.py",
+      "bytes": 7216
+    },
+    {
+      "path": "backend/app/evaluation/source_identity.py",
+      "bytes": 5226
+    },
+    {
+      "path": "backend/app/evaluation/pilot_runner.py",
+      "bytes": 24919
+    },
+    {
+      "path": "backend/app/evaluation/compare_states.py",
+      "bytes": 3332
+    },
+    {
+      "path": "backend/app/evaluation/__init__.py",
+      "bytes": 0
+    },
+    {
+      "path": "backend/app/evaluation/compare_metrics.py",
+      "bytes": 8564
+    },
+    {
+      "path": "backend/app/evaluation/llm_judge.py",
+      "bytes": 5530
+    },
+    {
+      "path": "backend/app/evaluation/retrieval_metrics.py",
+      "bytes": 8772
+    },
+    {
+      "path": "backend/app/evaluation/pilot_records.py",
+      "bytes": 10615
+    },
+    {
+      "path": "backend/app/generation/rag_chain.py",
+      "bytes": 4501
+    },
+    {
+      "path": "backend/app/generation/__init__.py",
+      "bytes": 0
+    },
+    {
+      "path": "backend/app/generation/prompt.py",
+      "bytes": 694
+    },
+    {
+      "path": "backend/app/generation/llm_factory.py",
+      "bytes": 1035
+    },
+    {
+      "path": "backend/app/vectorstore/qdrant_store.py",
+      "bytes": 708
+    },
+    {
+      "path": "backend/app/vectorstore/__init__.py",
+      "bytes": 0
+    },
+    {
+      "path": "backend/tests/test_retrieval_metrics.py",
+      "bytes": 6088
+    },
+    {
+      "path": "backend/tests/test_pilot_runner.py",
+      "bytes": 16247
+    },
+    {
+      "path": "backend/tests/test_edited_text_exposure.py",
+      "bytes": 18702
+    },
+    {
+      "path": "backend/tests/test_section_metadata.py",
+      "bytes": 2470
+    },
+    {
+      "path": "backend/tests/test_paired_metrics.py",
+      "bytes": 14295
+    },
+    {
+      "path": "backend/tests/test_pilot_records.py",
+      "bytes": 5651
+    },
+    {
+      "path": "backend/tests/test_compare_metrics.py",
+      "bytes": 4574
+    },
+    {
+      "path": "backend/tests/test_source_identity.py",
+      "bytes": 12204
+    },
+    {
+      "path": "backend/tests/test_rag_chain.py",
+      "bytes": 4218
+    },
+    {
+      "path": "backend/data/poisoned/pwws_attack_manifest_metrics.jsonl",
+      "bytes": 8061
+    },
+    {
+      "path": "backend/data/poisoned/pwws_attack_manifest_summary.json",
+      "bytes": 207
+    },
+    {
+      "path": "backend/data/poisoned/pwws_attack_manifest.jsonl",
+      "bytes": 65062
+    },
+    {
+      "path": "backend/data/evaluation/questions.json",
+      "bytes": 6901
+    },
+    {
+      "path": "backend/data/evaluation/research_evaluation_report.json",
+      "bytes": 31868
+    },
+    {
+      "path": "backend/data/evaluation/research_evaluation_report_12q.json",
+      "bytes": 16144
+    },
+    {
+      "path": "backend/data/evaluation/clean_vs_poisoned.jsonl",
+      "bytes": 60938
+    },
+    {
+      "path": "backend/data/external/stix-capec.json",
+      "bytes": 4480297
+    },
+    {
+      "path": "backend/data/raw/knowledge_base/ddos/http_flood.md",
+      "bytes": 2238
+    },
+    {
+      "path": "backend/data/raw/knowledge_base/ddos/udp_flood.md",
+      "bytes": 3493
+    },
+    {
+      "path": "backend/data/raw/knowledge_base/ddos/tcp_syn_flood.md",
+      "bytes": 3149
+    },
+    {
+      "path": "backend/data/raw/knowledge_base/ddos/icmp_flood.md",
+      "bytes": 3168
+    },
+    {
+      "path": "backend/data/raw/knowledge_base/malware/password_cracking.md",
+      "bytes": 5763
+    },
+    {
+      "path": "backend/data/raw/knowledge_base/malware/backdoor.md",
+      "bytes": 4874
+    },
+    {
+      "path": "backend/data/raw/knowledge_base/injection/sql_injection.md",
+      "bytes": 8052
+    },
+    {
+      "path": "backend/data/raw/knowledge_base/injection/uploading.md",
+      "bytes": 5985
+    },
+    {
+      "path": "backend/data/raw/knowledge_base/injection/xss.md",
+      "bytes": 9124
+    },
+    {
+      "path": "backend/data/raw/knowledge_base/reconnaissance/port_scanning.md",
+      "bytes": 3297
+    },
+    {
+      "path": "backend/data/raw/knowledge_base/reconnaissance/vulnerability_scanning.md",
+      "bytes": 2374
+    },
+    {
+      "path": "backend/data/raw/knowledge_base/reconnaissance/os_fingerprinting.md",
+      "bytes": 4061
+    },
+    {
+      "path": "backend/data/raw/knowledge_base/spoofing/dns_spoofing.md",
+      "bytes": 3935
+    },
+    {
+      "path": "backend/data/raw/knowledge_base/spoofing/arp_spoofing.md",
+      "bytes": 5651
+    },
+    {
+      "path": "backend/data/raw/knowledge_base/devices/generic_ip_camera.md",
+      "bytes": 0
+    },
+    {
+      "path": "backend/data/raw/knowledge_base/devices/smart_speaker.md",
+      "bytes": 0
+    },
+    {
+      "path": "backend/data/raw/knowledge_base/devices/modbus_controller.md",
+      "bytes": 0
+    },
+    {
+      "path": "backend/data/raw/knowledge_base/devices/raspberry_pi.md",
+      "bytes": 0
+    },
+    {
+      "path": "backend/data/processed/bert_dataset/train.jsonl",
+      "bytes": 351995
+    },
+    {
+      "path": "backend/data/processed/bert_dataset/val.jsonl",
+      "bytes": 79396
+    },
+    {
+      "path": "backend/data/processed/bert_dataset/label_map.json",
+      "bytes": 300
+    },
+    {
+      "path": "backend/data/poisoned/knowledge_base/ddos/http_flood.md",
+      "bytes": 2255
+    },
+    {
+      "path": "backend/data/poisoned/knowledge_base/ddos/udp_flood.md",
+      "bytes": 3511
+    },
+    {
+      "path": "backend/data/poisoned/knowledge_base/ddos/tcp_syn_flood.md",
+      "bytes": 3167
+    },
+    {
+      "path": "backend/data/poisoned/knowledge_base/ddos/icmp_flood.md",
+      "bytes": 3187
+    },
+    {
+      "path": "backend/data/poisoned/knowledge_base/malware/password_cracking.md",
+      "bytes": 5826
+    },
+    {
+      "path": "backend/data/poisoned/knowledge_base/malware/backdoor.md",
+      "bytes": 4956
+    },
+    {
+      "path": "backend/data/poisoned/knowledge_base/injection/sql_injection.md",
+      "bytes": 8075
+    },
+    {
+      "path": "backend/data/poisoned/knowledge_base/injection/uploading.md",
+      "bytes": 6091
+    },
+    {
+      "path": "backend/data/poisoned/knowledge_base/injection/xss.md",
+      "bytes": 9145
+    },
+    {
+      "path": "backend/data/poisoned/knowledge_base/reconnaissance/port_scanning.md",
+      "bytes": 3307
+    },
+    {
+      "path": "backend/data/poisoned/knowledge_base/reconnaissance/vulnerability_scanning.md",
+      "bytes": 2374
+    },
+    {
+      "path": "backend/data/poisoned/knowledge_base/reconnaissance/os_fingerprinting.md",
+      "bytes": 4067
+    },
+    {
+      "path": "backend/data/poisoned/knowledge_base/spoofing/dns_spoofing.md",
+      "bytes": 3955
+    },
+    {
+      "path": "backend/data/poisoned/knowledge_base/spoofing/arp_spoofing.md",
+      "bytes": 5672
+    },
+    {
+      "path": "backend/data/poisoned/knowledge_base/devices/generic_ip_camera.md",
+      "bytes": 0
+    },
+    {
+      "path": "backend/data/poisoned/knowledge_base/devices/smart_speaker.md",
+      "bytes": 0
+    },
+    {
+      "path": "backend/data/poisoned/knowledge_base/devices/modbus_controller.md",
+      "bytes": 0
+    },
+    {
+      "path": "backend/data/poisoned/knowledge_base/devices/raspberry_pi.md",
+      "bytes": 0
+    },
+    {
+      "path": "data/processed/.gitkeep",
+      "bytes": 0
+    },
+    {
+      "path": "data/raw/.gitkeep",
+      "bytes": 0
+    },
+    {
+      "path": "frontend-next/postcss.config.mjs",
+      "bytes": 94
+    },
+    {
+      "path": "frontend-next/tsconfig.tsbuildinfo",
+      "bytes": 412549
+    },
+    {
+      "path": "frontend-next/next-env.d.ts",
+      "bytes": 251
+    },
+    {
+      "path": "frontend-next/README.md",
+      "bytes": 1450
+    },
+    {
+      "path": "frontend-next/.gitignore",
+      "bytes": 480
+    },
+    {
+      "path": "frontend-next/package-lock.json",
+      "bytes": 425288
+    },
+    {
+      "path": "frontend-next/package.json",
+      "bytes": 1026
+    },
+    {
+      "path": "frontend-next/components.json",
+      "bytes": 516
+    },
+    {
+      "path": "frontend-next/tsconfig.json",
+      "bytes": 666
+    },
+    {
+      "path": "frontend-next/playwright.config.ts",
+      "bytes": 902
+    },
+    {
+      "path": "frontend-next/AGENTS.md",
+      "bytes": 327
+    },
+    {
+      "path": "frontend-next/eslint.config.mjs",
+      "bytes": 465
+    },
+    {
+      "path": "frontend-next/next.config.ts",
+      "bytes": 153
+    },
+    {
+      "path": "frontend-next/app/favicon.ico",
+      "bytes": 25931
+    },
+    {
+      "path": "frontend-next/app/layout.tsx",
+      "bytes": 2214
+    },
+    {
+      "path": "frontend-next/app/page.tsx",
+      "bytes": 6015
+    },
+    {
+      "path": "frontend-next/app/globals.css",
+      "bytes": 70386
+    },
+    {
+      "path": "frontend-next/graphify-out/.graphify_labels.json.sig",
+      "bytes": 562
+    },
+    {
+      "path": "frontend-next/graphify-out/graph.html",
+      "bytes": 373094
+    },
+    {
+      "path": "frontend-next/graphify-out/GRAPH_REPORT.md",
+      "bytes": 7146
+    },
+    {
+      "path": "frontend-next/graphify-out/.graphify_root",
+      "bytes": 13
+    },
+    {
+      "path": "frontend-next/graphify-out/.graphify_analysis.json",
+      "bytes": 19662
+    },
+    {
+      "path": "frontend-next/graphify-out/.graphify_labels.json",
+      "bytes": 610
+    },
+    {
+      "path": "frontend-next/graphify-out/manifest.json",
+      "bytes": 13642
+    },
+    {
+      "path": "frontend-next/graphify-out/graph.json",
+      "bytes": 427146
+    },
+    {
+      "path": "frontend-next/components/smooth-scroll-provider.tsx",
+      "bytes": 1294
+    },
+    {
+      "path": "frontend-next/components/StatusBar.tsx",
+      "bytes": 784
+    },
+    {
+      "path": "frontend-next/public/file.svg",
+      "bytes": 391
+    },
+    {
+      "path": "frontend-next/public/aegisrag-logo.png",
+      "bytes": 1526601
+    },
+    {
+      "path": "frontend-next/public/vercel.svg",
+      "bytes": 128
+    },
+    {
+      "path": "frontend-next/public/next.svg",
+      "bytes": 1375
+    },
+    {
+      "path": "frontend-next/public/globe.svg",
+      "bytes": 1035
+    },
+    {
+      "path": "frontend-next/public/window.svg",
+      "bytes": 385
+    },
+    {
+      "path": "frontend-next/hooks/useCompareSession.ts",
+      "bytes": 1396
+    },
+    {
+      "path": "frontend-next/hooks/useDeviceTier.ts",
+      "bytes": 2549
+    },
+    {
+      "path": "frontend-next/hooks/useHealthStatus.ts",
+      "bytes": 927
+    },
+    {
+      "path": "frontend-next/hooks/useWebGLSupport.ts",
+      "bytes": 1746
+    },
+    {
+      "path": "frontend-next/hooks/useIsNarrowViewport.ts",
+      "bytes": 1406
+    },
+    {
+      "path": "frontend-next/hooks/useChatSession.ts",
+      "bytes": 2471
+    },
+    {
+      "path": "frontend-next/lib/utils.ts",
+      "bytes": 166
+    },
+    {
+      "path": "frontend-next/lib/design-tokens.ts",
+      "bytes": 1132
+    },
+    {
+      "path": "frontend-next/e2e/reduced-motion.spec.ts",
+      "bytes": 2635
+    },
+    {
+      "path": "frontend-next/e2e/responsive.spec.ts",
+      "bytes": 2812
+    },
+    {
+      "path": "frontend-next/e2e/desktop.spec.ts",
+      "bytes": 4859
+    },
+    {
+      "path": "frontend-next/e2e/utils.ts",
+      "bytes": 1832
+    },
+    {
+      "path": "frontend-next/e2e/accessibility.spec.ts",
+      "bytes": 3507
+    },
+    {
+      "path": "frontend-next/e2e/error-state.spec.ts",
+      "bytes": 2781
+    },
+    {
+      "path": "frontend-next/e2e/offline.spec.ts",
+      "bytes": 1856
+    },
+    {
+      "path": "frontend-next/lib/living-core/particleBudget.ts",
+      "bytes": 1670
+    },
+    {
+      "path": "frontend-next/lib/living-core/scoreToVisual.ts",
+      "bytes": 1302
+    },
+    {
+      "path": "frontend-next/lib/living-core/shieldGeometry.ts",
+      "bytes": 7051
+    },
+    {
+      "path": "frontend-next/lib/living-core/damp.ts",
+      "bytes": 566
+    },
+    {
+      "path": "frontend-next/lib/living-core/particleFieldLayout.ts",
+      "bytes": 7803
+    },
+    {
+      "path": "frontend-next/lib/living-core/sourceLayout.ts",
+      "bytes": 2875
+    },
+    {
+      "path": "frontend-next/lib/living-core/livingCoreActivityStore.ts",
+      "bytes": 1804
+    },
+    {
+      "path": "frontend-next/lib/living-core/useLivingCoreChoreography.ts",
+      "bytes": 7009
+    },
+    {
+      "path": "frontend-next/lib/living-core/livingCoreCopy.ts",
+      "bytes": 1799
+    },
+    {
+      "path": "frontend-next/lib/living-core/livingCoreState.ts",
+      "bytes": 2501
+    },
+    {
+      "path": "frontend-next/lib/living-core/livingCorePalette.ts",
+      "bytes": 1662
+    },
+    {
+      "path": "frontend-next/lib/types/history.ts",
+      "bytes": 2125
+    },
+    {
+      "path": "frontend-next/lib/types/compare.ts",
+      "bytes": 2333
+    },
+    {
+      "path": "frontend-next/lib/types/chat.ts",
+      "bytes": 779
+    },
+    {
+      "path": "frontend-next/lib/types/health.ts",
+      "bytes": 213
+    },
+    {
+      "path": "frontend-next/lib/mock/platformStatus.ts",
+      "bytes": 1848
+    },
+    {
+      "path": "frontend-next/lib/mock/reportMetrics.ts",
+      "bytes": 2463
+    },
+    {
+      "path": "frontend-next/lib/mock/documents.ts",
+      "bytes": 5933
+    },
+    {
+      "path": "frontend-next/lib/state/compareMachine.ts",
+      "bytes": 1395
+    },
+    {
+      "path": "frontend-next/lib/state/chatMachine.ts",
+      "bytes": 2189
+    },
+    {
+      "path": "frontend-next/lib/api/history.ts",
+      "bytes": 1312
+    },
+    {
+      "path": "frontend-next/lib/api/compare.ts",
+      "bytes": 593
+    },
+    {
+      "path": "frontend-next/lib/api/chat.ts",
+      "bytes": 506
+    },
+    {
+      "path": "frontend-next/lib/api/client.ts",
+      "bytes": 2880
+    },
+    {
+      "path": "frontend-next/lib/api/health.ts",
+      "bytes": 343
+    },
+    {
+      "path": "frontend-next/components/ui/tooltip.tsx",
+      "bytes": 2846
+    },
+    {
+      "path": "frontend-next/components/ui/badge.tsx",
+      "bytes": 1925
+    },
+    {
+      "path": "frontend-next/components/ui/button.tsx",
+      "bytes": 3236
+    },
+    {
+      "path": "frontend-next/components/ui/skeleton.tsx",
+      "bytes": 275
+    },
+    {
+      "path": "frontend-next/components/living-core/NeuralConnections.tsx",
+      "bytes": 4681
+    },
+    {
+      "path": "frontend-next/components/living-core/SourceNodes.tsx",
+      "bytes": 5427
+    },
+    {
+      "path": "frontend-next/components/living-core/BloomComposer.tsx",
+      "bytes": 3566
+    },
+    {
+      "path": "frontend-next/components/living-core/EnergyBeams.tsx",
+      "bytes": 865
+    },
+    {
+      "path": "frontend-next/components/living-core/SourcePins.tsx",
+      "bytes": 2338
+    },
+    {
+      "path": "frontend-next/components/living-core/LivingCoreScene.tsx",
+      "bytes": 10575
+    },
+    {
+      "path": "frontend-next/components/living-core/IntelligentParticleField.tsx",
+      "bytes": 15187
+    },
+    {
+      "path": "frontend-next/components/living-core/LivingCoreStage.tsx",
+      "bytes": 7143
+    },
+    {
+      "path": "frontend-next/components/living-core/RetrievalScan.tsx",
+      "bytes": 8501
+    },
+    {
+      "path": "frontend-next/components/living-core/SourceLinkPaths.tsx",
+      "bytes": 4344
+    },
+    {
+      "path": "frontend-next/components/living-core/AegisMetallicLogo.tsx",
+      "bytes": 18848
+    },
+    {
+      "path": "frontend-next/components/living-core/LivingCoreStaticFallback.tsx",
+      "bytes": 3218
+    },
+    {
+      "path": "frontend-next/components/answer/ReportMetrics.tsx",
+      "bytes": 2987
+    },
+    {
+      "path": "frontend-next/components/answer/Markdown.tsx",
+      "bytes": 918
+    },
+    {
+      "path": "frontend-next/components/answer/AnswerPanel.tsx",
+      "bytes": 4362
+    },
+    {
+      "path": "frontend-next/components/answer/SourceCard.tsx",
+      "bytes": 2944
+    },
+    {
+      "path": "frontend-next/components/backdrop/DotFieldBackdrop.tsx",
+      "bytes": 6667
+    },
+    {
+      "path": "frontend-next/components/evidence/EvidencePanel.tsx",
+      "bytes": 3959
+    },
+    {
+      "path": "frontend-next/components/composer/QueryComposer.tsx",
+      "bytes": 3055
+    },
+    {
+      "path": "frontend-next/components/status/PlatformStatusBar.tsx",
+      "bytes": 4522
+    },
+    {
+      "path": "frontend-next/components/knowledge-base/DocumentSearchInput.tsx",
+      "bytes": 726
+    },
+    {
+      "path": "frontend-next/components/knowledge-base/DocumentRow.tsx",
+      "bytes": 4798
+    },
+    {
+      "path": "frontend-next/components/knowledge-base/DocumentUpload.tsx",
+      "bytes": 2150
+    },
+    {
+      "path": "frontend-next/components/knowledge-base/DocumentList.tsx",
+      "bytes": 847
+    },
+    {
+      "path": "frontend-next/components/history/ExperimentDetail.tsx",
+      "bytes": 7553
+    },
+    {
+      "path": "frontend-next/components/history/ExperimentCard.tsx",
+      "bytes": 2850
+    },
+    {
+      "path": "frontend-next/components/experiment/ExperimentModeSelector.tsx",
+      "bytes": 2352
+    },
+    {
+      "path": "frontend-next/components/experiment/AttackMetrics.tsx",
+      "bytes": 6869
+    },
+    {
+      "path": "frontend-next/components/experiment/ComparisonView.tsx",
+      "bytes": 4020
+    },
+    {
+      "path": "frontend-next/components/nav/AppSidebar.tsx",
+      "bytes": 6087
+    },
+    {
+      "path": "frontend-next/components/living-core/gpu-particles/intelligentCloudGLSL.ts",
+      "bytes": 4005
+    },
+    {
+      "path": "frontend-next/components/living-core/gpu-particles/noiseGLSL.ts",
+      "bytes": 4295
+    },
+    {
+      "path": "frontend-next/graphify-out/cache/last_query_stamp",
+      "bytes": 17
+    },
+    {
+      "path": "frontend-next/graphify-out/cache/stat-index.json",
+      "bytes": 8720
+    },
+    {
+      "path": "frontend-next/graphify-out/2026-08-01/GRAPH_REPORT.md",
+      "bytes": 6495
+    },
+    {
+      "path": "frontend-next/graphify-out/2026-08-01/.graphify_analysis.json",
+      "bytes": 19662
+    },
+    {
+      "path": "frontend-next/graphify-out/2026-08-01/.graphify_labels.json",
+      "bytes": 543
+    },
+    {
+      "path": "frontend-next/graphify-out/2026-08-01/manifest.json",
+      "bytes": 11677
+    },
+    {
+      "path": "frontend-next/graphify-out/2026-08-01/graph.json",
+      "bytes": 343297
+    },
+    {
+      "path": "frontend-next/graphify-out/cache/ast/v0.9.32/f56c045273213f32f4acd96e98dfb664cfc7c3f71d6775317d19c60d38439655.json",
+      "bytes": 617
+    },
+    {
+      "path": "frontend-next/graphify-out/cache/ast/v0.9.32/5be15f0ae20eadf9db7240a9431d8dd88c30ecff1c1e637590d297e5044ad298.json",
+      "bytes": 8058
+    },
+    {
+      "path": "frontend-next/graphify-out/cache/ast/v0.9.32/b3e6704b60624a725feaba3205977bbb62fb749cf5560bca134af2e54ee4b791.json",
+      "bytes": 22990
+    },
+    {
+      "path": "frontend-next/graphify-out/cache/ast/v0.9.32/0b44daaa94766d385f056c95e8aabb30ad6e49ef3aa9c7eb9e32606055f4eaf2.json",
+      "bytes": 1294
+    },
+    {
+      "path": "frontend-next/graphify-out/cache/ast/v0.9.32/159ff1acf176e1a9d83c92e1132a5a9812fcbc84768f811b48ba88a5a46259a7.json",
+      "bytes": 10873
+    },
+    {
+      "path": "frontend-next/graphify-out/cache/ast/v0.9.32/1bc407b3dec76c32f03d0e5e2d064ceae04ede1709e79f8ce2383f5b4092e7a6.json",
+      "bytes": 200
+    },
+    {
+      "path": "frontend-next/app/knowledge-base/page.tsx",
+      "bytes": 4267
+    },
+    {
+      "path": "frontend-next/app/history/page.tsx",
+      "bytes": 4708
+    },
+    {
+      "path": "frontend-next/app/history/[id]/page.tsx",
+      "bytes": 2981
+    },
+    {
+      "path": "frontend/app.py",
+      "bytes": 12581
+    },
+    {
+      "path": "frontend/assets/aegisrag-logo.png",
+      "bytes": 1526601
+    },
+    {
+      "path": "pilot-config/pilot-12q-3rep.json",
+      "bytes": 1035
+    },
+    {
+      "path": "pilot-runs/edited-text-exposure-v1-20260916.json",
+      "bytes": 332082
+    },
+    {
+      "path": "pilot-runs/edited-text-exposure-v1-20260914.json",
+      "bytes": 332082
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/manifest.json",
+      "bytes": 324238
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/completion.json",
+      "bytes": 33506
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/manifest.json",
+      "bytes": 324238
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/completion.json",
+      "bytes": 33506
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000029-pair.json",
+      "bytes": 1402
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000004-clean-retrieval.json",
+      "bytes": 4885
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000001-clean-rag.json",
+      "bytes": 7767
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000014-clean-rag.json",
+      "bytes": 7150
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000009-poisoned-rag.json",
+      "bytes": 7591
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000000-clean-faithfulness.json",
+      "bytes": 4227
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000020-poisoned-retrieval.json",
+      "bytes": 5350
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000021-poisoned-rag.json",
+      "bytes": 7592
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000003-poisoned-faithfulness.json",
+      "bytes": 4760
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000000-poisoned-correctness.json",
+      "bytes": 3641
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000026-poisoned-correctness.json",
+      "bytes": 3568
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000020-poisoned-faithfulness.json",
+      "bytes": 4418
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000001-clean-retrieval.json",
+      "bytes": 4787
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000006-clean-correctness.json",
+      "bytes": 3495
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000008-pair.json",
+      "bytes": 1406
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000015-poisoned-rag.json",
+      "bytes": 8536
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000008-poisoned-correctness.json",
+      "bytes": 3340
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000019-poisoned-faithfulness.json",
+      "bytes": 4035
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000015-poisoned-faithfulness.json",
+      "bytes": 4776
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000031-clean-faithfulness.json",
+      "bytes": 4314
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000009-clean-rag.json",
+      "bytes": 7255
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000011-poisoned-retrieval.json",
+      "bytes": 5280
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000033-poisoned-correctness.json",
+      "bytes": 3198
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000024-pair.json",
+      "bytes": 1407
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000002-poisoned-retrieval.json",
+      "bytes": 5006
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000013-clean-rag.json",
+      "bytes": 7847
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000006-clean-rag.json",
+      "bytes": 7604
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000022-clean-faithfulness.json",
+      "bytes": 4300
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000030-clean-correctness.json",
+      "bytes": 3492
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000030-pair.json",
+      "bytes": 1383
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000024-poisoned-rag.json",
+      "bytes": 7652
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000033-clean-retrieval.json",
+      "bytes": 5140
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000011-pair.json",
+      "bytes": 1399
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000001-clean-correctness.json",
+      "bytes": 3790
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000005-pair.json",
+      "bytes": 1401
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000033-poisoned-retrieval.json",
+      "bytes": 5455
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000010-poisoned-rag.json",
+      "bytes": 7663
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000015-poisoned-correctness.json",
+      "bytes": 3744
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000013-clean-faithfulness.json",
+      "bytes": 4409
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000012-poisoned-correctness.json",
+      "bytes": 3569
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000008-poisoned-rag.json",
+      "bytes": 7975
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000021-clean-retrieval.json",
+      "bytes": 5140
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000033-clean-correctness.json",
+      "bytes": 3716
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000020-poisoned-rag.json",
+      "bytes": 7800
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000015-poisoned-retrieval.json",
+      "bytes": 5163
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000035-clean-faithfulness.json",
+      "bytes": 3864
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000019-clean-retrieval.json",
+      "bytes": 5323
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000007-clean-rag.json",
+      "bytes": 7466
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000012-clean-rag.json",
+      "bytes": 7277
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000024-poisoned-retrieval.json",
+      "bytes": 5062
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000024-clean-retrieval.json",
+      "bytes": 4856
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000004-clean-faithfulness.json",
+      "bytes": 4300
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000008-clean-correctness.json",
+      "bytes": 3538
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000014-poisoned-rag.json",
+      "bytes": 7255
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000002-clean-correctness.json",
+      "bytes": 3434
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000034-poisoned-correctness.json",
+      "bytes": 3251
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000017-pair.json",
+      "bytes": 1402
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000013-clean-retrieval.json",
+      "bytes": 4788
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000012-poisoned-faithfulness.json",
+      "bytes": 4451
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000034-clean-correctness.json",
+      "bytes": 3525
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000017-clean-faithfulness.json",
+      "bytes": 4280
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000027-poisoned-faithfulness.json",
+      "bytes": 4769
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000008-clean-rag.json",
+      "bytes": 7756
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000025-poisoned-rag.json",
+      "bytes": 7957
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000009-poisoned-retrieval.json",
+      "bytes": 5454
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000029-clean-faithfulness.json",
+      "bytes": 4361
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000003-pair.json",
+      "bytes": 1417
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000021-poisoned-correctness.json",
+      "bytes": 3198
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000007-poisoned-correctness.json",
+      "bytes": 2736
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000008-poisoned-faithfulness.json",
+      "bytes": 4424
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000026-clean-faithfulness.json",
+      "bytes": 4226
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000006-poisoned-retrieval.json",
+      "bytes": 4892
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000016-clean-retrieval.json",
+      "bytes": 4886
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000022-pair.json",
+      "bytes": 1402
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000018-clean-faithfulness.json",
+      "bytes": 4475
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000015-clean-rag.json",
+      "bytes": 6889
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000000-clean-rag.json",
+      "bytes": 7276
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000004-poisoned-faithfulness.json",
+      "bytes": 4050
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000031-poisoned-faithfulness.json",
+      "bytes": 4034
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000029-poisoned-correctness.json",
+      "bytes": 3165
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000005-clean-correctness.json",
+      "bytes": 3540
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000011-poisoned-rag.json",
+      "bytes": 7493
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000004-clean-correctness.json",
+      "bytes": 3393
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000002-poisoned-correctness.json",
+      "bytes": 3468
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000028-pair.json",
+      "bytes": 1425
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000023-poisoned-rag.json",
+      "bytes": 7473
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000034-poisoned-retrieval.json",
+      "bytes": 5112
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000014-clean-faithfulness.json",
+      "bytes": 4214
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000009-pair.json",
+      "bytes": 1407
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000005-poisoned-retrieval.json",
+      "bytes": 5194
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000025-clean-faithfulness.json",
+      "bytes": 4420
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000024-poisoned-correctness.json",
+      "bytes": 3701
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000017-clean-rag.json",
+      "bytes": 7355
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000002-clean-rag.json",
+      "bytes": 7149
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000017-poisoned-rag.json",
+      "bytes": 7190
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000035-clean-correctness.json",
+      "bytes": 3768
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000032-clean-retrieval.json",
+      "bytes": 5029
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000003-clean-correctness.json",
+      "bytes": 3308
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000018-clean-rag.json",
+      "bytes": 8054
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000026-poisoned-faithfulness.json",
+      "bytes": 4262
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000031-pair.json",
+      "bytes": 1430
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000031-poisoned-correctness.json",
+      "bytes": 2788
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000028-poisoned-retrieval.json",
+      "bytes": 5121
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000025-pair.json",
+      "bytes": 1408
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000008-clean-faithfulness.json",
+      "bytes": 4349
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000009-clean-correctness.json",
+      "bytes": 2930
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000013-poisoned-faithfulness.json",
+      "bytes": 4750
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000005-clean-retrieval.json",
+      "bytes": 4963
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000026-poisoned-rag.json",
+      "bytes": 7290
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000016-poisoned-retrieval.json",
+      "bytes": 5121
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000030-poisoned-faithfulness.json",
+      "bytes": 4223
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000019-poisoned-retrieval.json",
+      "bytes": 5367
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000004-pair.json",
+      "bytes": 1424
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000007-clean-faithfulness.json",
+      "bytes": 4313
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000027-poisoned-retrieval.json",
+      "bytes": 5163
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000009-poisoned-faithfulness.json",
+      "bytes": 4349
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000017-poisoned-correctness.json",
+      "bytes": 3165
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000000-clean-retrieval.json",
+      "bytes": 4855
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000032-clean-correctness.json",
+      "bytes": 3500
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000010-pair.json",
+      "bytes": 1406
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000012-poisoned-rag.json",
+      "bytes": 7390
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000005-poisoned-faithfulness.json",
+      "bytes": 4174
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000005-clean-rag.json",
+      "bytes": 7297
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000010-clean-rag.json",
+      "bytes": 7179
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000021-clean-faithfulness.json",
+      "bytes": 4513
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000001-poisoned-retrieval.json",
+      "bytes": 4993
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000010-poisoned-correctness.json",
+      "bytes": 3413
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000002-poisoned-faithfulness.json",
+      "bytes": 4243
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000011-clean-rag.json",
+      "bytes": 6614
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000004-clean-rag.json",
+      "bytes": 7386
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000022-poisoned-rag.json",
+      "bytes": 7467
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000000-clean-correctness.json",
+      "bytes": 3464
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000012-clean-retrieval.json",
+      "bytes": 4856
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000031-clean-correctness.json",
+      "bytes": 3417
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000018-poisoned-faithfulness.json",
+      "bytes": 4223
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000018-poisoned-correctness.json",
+      "bytes": 3538
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000014-poisoned-faithfulness.json",
+      "bytes": 4244
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000019-clean-rag.json",
+      "bytes": 7860
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000010-clean-faithfulness.json",
+      "bytes": 4300
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000030-poisoned-retrieval.json",
+      "bytes": 4893
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000017-clean-retrieval.json",
+      "bytes": 4964
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000016-poisoned-rag.json",
+      "bytes": 7063
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000021-poisoned-faithfulness.json",
+      "bytes": 4356
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000023-poisoned-retrieval.json",
+      "bytes": 5280
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000018-clean-retrieval.json",
+      "bytes": 4956
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000003-clean-faithfulness.json",
+      "bytes": 4266
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000002-pair.json",
+      "bytes": 1396
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000016-pair.json",
+      "bytes": 1425
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000023-poisoned-correctness.json",
+      "bytes": 3454
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000020-clean-retrieval.json",
+      "bytes": 5029
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000007-clean-correctness.json",
+      "bytes": 3414
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000027-poisoned-rag.json",
+      "bytes": 8525
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000003-clean-rag.json",
+      "bytes": 6900
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000016-clean-rag.json",
+      "bytes": 7388
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000005-poisoned-correctness.json",
+      "bytes": 3164
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000012-poisoned-retrieval.json",
+      "bytes": 5062
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000032-clean-faithfulness.json",
+      "bytes": 4351
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000025-clean-retrieval.json",
+      "bytes": 4788
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000013-poisoned-rag.json",
+      "bytes": 8365
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000023-pair.json",
+      "bytes": 1417
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000015-clean-correctness.json",
+      "bytes": 3545
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000004-poisoned-correctness.json",
+      "bytes": 3115
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000006-poisoned-rag.json",
+      "bytes": 7148
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000019-clean-faithfulness.json",
+      "bytes": 4516
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000022-clean-rag.json",
+      "bytes": 7180
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000027-clean-faithfulness.json",
+      "bytes": 4280
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000026-clean-retrieval.json",
+      "bytes": 4783
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000007-poisoned-retrieval.json",
+      "bytes": 5366
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000008-poisoned-retrieval.json",
+      "bytes": 5349
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000028-clean-faithfulness.json",
+      "bytes": 4204
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000016-clean-faithfulness.json",
+      "bytes": 4205
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000032-poisoned-rag.json",
+      "bytes": 7976
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000023-clean-retrieval.json",
+      "bytes": 4714
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000022-poisoned-correctness.json",
+      "bytes": 3140
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000024-clean-correctness.json",
+      "bytes": 3465
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000019-poisoned-correctness.json",
+      "bytes": 2737
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000032-poisoned-faithfulness.json",
+      "bytes": 4425
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000012-clean-correctness.json",
+      "bytes": 3465
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000013-pair.json",
+      "bytes": 1412
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000014-clean-retrieval.json",
+      "bytes": 4783
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000007-pair.json",
+      "bytes": 1429
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000018-clean-correctness.json",
+      "bytes": 3831
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000003-poisoned-rag.json",
+      "bytes": 8508
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000025-poisoned-retrieval.json",
+      "bytes": 4994
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000025-clean-rag.json",
+      "bytes": 7870
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000030-clean-rag.json",
+      "bytes": 7598
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000005-clean-faithfulness.json",
+      "bytes": 4250
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000007-poisoned-faithfulness.json",
+      "bytes": 4034
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000024-poisoned-faithfulness.json",
+      "bytes": 4341
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000026-pair.json",
+      "bytes": 1397
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000014-poisoned-retrieval.json",
+      "bytes": 5007
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000029-clean-retrieval.json",
+      "bytes": 4964
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000011-poisoned-correctness.json",
+      "bytes": 3608
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000034-clean-faithfulness.json",
+      "bytes": 4300
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000028-poisoned-faithfulness.json",
+      "bytes": 4051
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000029-clean-correctness.json",
+      "bytes": 3705
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000023-clean-correctness.json",
+      "bytes": 3142
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000032-pair.json",
+      "bytes": 1407
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000011-poisoned-faithfulness.json",
+      "bytes": 4380
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000011-clean-retrieval.json",
+      "bytes": 4714
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000032-poisoned-retrieval.json",
+      "bytes": 5350
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000012-clean-faithfulness.json",
+      "bytes": 4264
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000016-poisoned-faithfulness.json",
+      "bytes": 4092
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000007-poisoned-rag.json",
+      "bytes": 6670
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000023-poisoned-faithfulness.json",
+      "bytes": 4319
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000003-clean-retrieval.json",
+      "bytes": 4603
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000011-clean-correctness.json",
+      "bytes": 3400
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000016-poisoned-correctness.json",
+      "bytes": 3079
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000018-pair.json",
+      "bytes": 1383
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000000-poisoned-faithfulness.json",
+      "bytes": 4222
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000030-poisoned-correctness.json",
+      "bytes": 3539
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000020-clean-correctness.json",
+      "bytes": 3539
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000003-poisoned-retrieval.json",
+      "bytes": 5162
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000033-poisoned-rag.json",
+      "bytes": 7592
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000031-clean-rag.json",
+      "bytes": 7468
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000024-clean-rag.json",
+      "bytes": 7276
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000035-poisoned-faithfulness.json",
+      "bytes": 4329
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000023-clean-faithfulness.json",
+      "bytes": 3786
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000006-clean-retrieval.json",
+      "bytes": 4955
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000030-clean-faithfulness.json",
+      "bytes": 4505
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000010-poisoned-retrieval.json",
+      "bytes": 5112
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000025-poisoned-correctness.json",
+      "bytes": 3706
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000020-pair.json",
+      "bytes": 1407
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000009-clean-retrieval.json",
+      "bytes": 5139
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000016-clean-correctness.json",
+      "bytes": 3394
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000034-pair.json",
+      "bytes": 1406
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000031-clean-retrieval.json",
+      "bytes": 5323
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000002-poisoned-rag.json",
+      "bytes": 7283
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000015-pair.json",
+      "bytes": 1418
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000027-clean-correctness.json",
+      "bytes": 3373
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000001-clean-faithfulness.json",
+      "bytes": 4305
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000021-poisoned-retrieval.json",
+      "bytes": 5455
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000003-poisoned-correctness.json",
+      "bytes": 3730
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000034-clean-retrieval.json",
+      "bytes": 4685
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000001-pair.json",
+      "bytes": 1411
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000023-clean-rag.json",
+      "bytes": 6425
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000022-poisoned-faithfulness.json",
+      "bytes": 4319
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000006-poisoned-correctness.json",
+      "bytes": 3544
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000013-poisoned-retrieval.json",
+      "bytes": 4994
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000015-clean-retrieval.json",
+      "bytes": 4604
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000033-clean-faithfulness.json",
+      "bytes": 4603
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000004-poisoned-rag.json",
+      "bytes": 7136
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000028-poisoned-correctness.json",
+      "bytes": 2888
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000029-clean-rag.json",
+      "bytes": 7368
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000017-poisoned-faithfulness.json",
+      "bytes": 4175
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000026-clean-correctness.json",
+      "bytes": 3403
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000010-clean-retrieval.json",
+      "bytes": 4685
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000017-clean-correctness.json",
+      "bytes": 3666
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000034-poisoned-faithfulness.json",
+      "bytes": 4349
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000021-clean-rag.json",
+      "bytes": 8054
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000034-clean-rag.json",
+      "bytes": 7180
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000018-poisoned-rag.json",
+      "bytes": 7149
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000028-clean-retrieval.json",
+      "bytes": 4886
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000030-poisoned-rag.json",
+      "bytes": 7149
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000022-poisoned-retrieval.json",
+      "bytes": 5112
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000020-poisoned-correctness.json",
+      "bytes": 3067
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000001-poisoned-faithfulness.json",
+      "bytes": 4566
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000002-clean-faithfulness.json",
+      "bytes": 4225
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000027-clean-retrieval.json",
+      "bytes": 4604
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000006-pair.json",
+      "bytes": 1382
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000029-poisoned-rag.json",
+      "bytes": 7190
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000011-clean-faithfulness.json",
+      "bytes": 3852
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000031-poisoned-retrieval.json",
+      "bytes": 5367
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000035-poisoned-correctness.json",
+      "bytes": 3593
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000021-clean-correctness.json",
+      "bytes": 3689
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000012-pair.json",
+      "bytes": 1407
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000001-poisoned-rag.json",
+      "bytes": 8249
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000010-clean-correctness.json",
+      "bytes": 3525
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000013-poisoned-correctness.json",
+      "bytes": 3910
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000033-clean-rag.json",
+      "bytes": 8077
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000026-clean-rag.json",
+      "bytes": 7150
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000022-clean-retrieval.json",
+      "bytes": 4685
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000033-pair.json",
+      "bytes": 1426
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000027-pair.json",
+      "bytes": 1418
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000020-clean-faithfulness.json",
+      "bytes": 4351
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000000-poisoned-retrieval.json",
+      "bytes": 5061
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000035-poisoned-rag.json",
+      "bytes": 7493
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000022-clean-correctness.json",
+      "bytes": 3336
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000030-clean-retrieval.json",
+      "bytes": 4956
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000027-clean-rag.json",
+      "bytes": 6903
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000032-clean-rag.json",
+      "bytes": 7757
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000006-clean-faithfulness.json",
+      "bytes": 4439
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000008-clean-retrieval.json",
+      "bytes": 5028
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000005-poisoned-rag.json",
+      "bytes": 7189
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000026-poisoned-retrieval.json",
+      "bytes": 5007
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000018-poisoned-retrieval.json",
+      "bytes": 4893
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000028-clean-correctness.json",
+      "bytes": 3394
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000014-poisoned-correctness.json",
+      "bytes": 3549
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000032-poisoned-correctness.json",
+      "bytes": 3341
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000019-clean-correctness.json",
+      "bytes": 3904
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000017-poisoned-retrieval.json",
+      "bytes": 5195
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000029-poisoned-retrieval.json",
+      "bytes": 5195
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000035-clean-retrieval.json",
+      "bytes": 4714
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000009-clean-faithfulness.json",
+      "bytes": 4299
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000019-poisoned-rag.json",
+      "bytes": 6671
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000019-pair.json",
+      "bytes": 1430
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000031-poisoned-rag.json",
+      "bytes": 6671
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000013-clean-correctness.json",
+      "bytes": 3543
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000025-clean-correctness.json",
+      "bytes": 3716
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000027-poisoned-correctness.json",
+      "bytes": 3745
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000035-pair.json",
+      "bytes": 1399
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000028-poisoned-rag.json",
+      "bytes": 7136
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000002-clean-retrieval.json",
+      "bytes": 4782
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000035-clean-rag.json",
+      "bytes": 6634
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000020-clean-rag.json",
+      "bytes": 7757
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000006-poisoned-faithfulness.json",
+      "bytes": 4222
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000009-poisoned-correctness.json",
+      "bytes": 3197
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000033-poisoned-faithfulness.json",
+      "bytes": 4355
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000004-poisoned-retrieval.json",
+      "bytes": 5120
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000024-clean-faithfulness.json",
+      "bytes": 4227
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000021-pair.json",
+      "bytes": 1426
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000000-poisoned-rag.json",
+      "bytes": 7389
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000035-poisoned-retrieval.json",
+      "bytes": 5280
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000015-clean-faithfulness.json",
+      "bytes": 4273
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000007-clean-retrieval.json",
+      "bytes": 5322
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000000-pair.json",
+      "bytes": 1406
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000010-poisoned-faithfulness.json",
+      "bytes": 4396
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000025-poisoned-faithfulness.json",
+      "bytes": 4420
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000014-pair.json",
+      "bytes": 1397
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000028-clean-rag.json",
+      "bytes": 7389
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000014-clean-correctness.json",
+      "bytes": 3435
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000001-poisoned-correctness.json",
+      "bytes": 3852
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000029-poisoned-faithfulness.json",
+      "bytes": 4151
+    },
+    {
+      "path": "pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73/observations/000034-poisoned-rag.json",
+      "bytes": 7459
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000029-pair.json",
+      "bytes": 1095
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000004-clean-retrieval.json",
+      "bytes": 1462
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000001-clean-rag.json",
+      "bytes": 1055
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000014-clean-rag.json",
+      "bytes": 1044
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000009-poisoned-rag.json",
+      "bytes": 1058
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000000-clean-faithfulness.json",
+      "bytes": 987
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000020-poisoned-retrieval.json",
+      "bytes": 1424
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000021-poisoned-rag.json",
+      "bytes": 1059
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000003-poisoned-faithfulness.json",
+      "bytes": 981
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000000-poisoned-correctness.json",
+      "bytes": 989
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000026-poisoned-correctness.json",
+      "bytes": 980
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000020-poisoned-faithfulness.json",
+      "bytes": 990
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000001-clean-retrieval.json",
+      "bytes": 1418
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000006-clean-correctness.json",
+      "bytes": 989
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000008-pair.json",
+      "bytes": 1102
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000015-poisoned-rag.json",
+      "bytes": 1049
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000008-poisoned-correctness.json",
+      "bytes": 989
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000019-poisoned-faithfulness.json",
+      "bytes": 996
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000015-poisoned-faithfulness.json",
+      "bytes": 981
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000031-clean-faithfulness.json",
+      "bytes": 992
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000009-clean-rag.json",
+      "bytes": 1055
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000011-poisoned-retrieval.json",
+      "bytes": 1569
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000033-poisoned-correctness.json",
+      "bytes": 991
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000024-pair.json",
+      "bytes": 1103
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000002-poisoned-retrieval.json",
+      "bytes": 1511
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000013-clean-rag.json",
+      "bytes": 1055
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000006-clean-rag.json",
+      "bytes": 1058
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000022-clean-faithfulness.json",
+      "bytes": 983
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000030-clean-correctness.json",
+      "bytes": 991
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000030-pair.json",
+      "bytes": 1107
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000024-poisoned-rag.json",
+      "bytes": 1058
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000033-clean-retrieval.json",
+      "bytes": 1527
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000011-pair.json",
+      "bytes": 1093
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000001-clean-correctness.json",
+      "bytes": 986
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000005-pair.json",
+      "bytes": 1094
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000033-poisoned-retrieval.json",
+      "bytes": 1530
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000010-poisoned-rag.json",
+      "bytes": 1052
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000015-poisoned-correctness.json",
+      "bytes": 981
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000013-clean-faithfulness.json",
+      "bytes": 988
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000012-poisoned-correctness.json",
+      "bytes": 990
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000008-poisoned-rag.json",
+      "bytes": 1057
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000021-clean-retrieval.json",
+      "bytes": 1527
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000033-clean-correctness.json",
+      "bytes": 987
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000020-poisoned-rag.json",
+      "bytes": 1058
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000015-poisoned-retrieval.json",
+      "bytes": 1438
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000035-clean-faithfulness.json",
+      "bytes": 978
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000019-clean-retrieval.json",
+      "bytes": 1819
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000007-clean-rag.json",
+      "bytes": 1058
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000012-clean-rag.json",
+      "bytes": 1055
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000024-poisoned-retrieval.json",
+      "bytes": 1488
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000024-clean-retrieval.json",
+      "bytes": 1485
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000004-clean-faithfulness.json",
+      "bytes": 982
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000008-clean-correctness.json",
+      "bytes": 986
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000014-poisoned-rag.json",
+      "bytes": 1048
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000002-clean-correctness.json",
+      "bytes": 976
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000034-poisoned-correctness.json",
+      "bytes": 985
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000017-pair.json",
+      "bytes": 1095
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000013-clean-retrieval.json",
+      "bytes": 1419
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000012-poisoned-faithfulness.json",
+      "bytes": 989
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000034-clean-correctness.json",
+      "bytes": 982
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000017-clean-faithfulness.json",
+      "bytes": 979
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000027-poisoned-faithfulness.json",
+      "bytes": 982
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000008-clean-rag.json",
+      "bytes": 1054
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000025-poisoned-rag.json",
+      "bytes": 1059
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000009-poisoned-retrieval.json",
+      "bytes": 1529
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000029-clean-faithfulness.json",
+      "bytes": 980
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000003-pair.json",
+      "bytes": 1093
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000021-poisoned-correctness.json",
+      "bytes": 989
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000007-poisoned-correctness.json",
+      "bytes": 993
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000008-poisoned-faithfulness.json",
+      "bytes": 990
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000026-clean-faithfulness.json",
+      "bytes": 978
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000006-poisoned-retrieval.json",
+      "bytes": 1455
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000016-clean-retrieval.json",
+      "bytes": 1463
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000022-pair.json",
+      "bytes": 1098
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000018-clean-faithfulness.json",
+      "bytes": 991
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000015-clean-rag.json",
+      "bytes": 1045
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000000-clean-rag.json",
+      "bytes": 1051
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000004-poisoned-faithfulness.json",
+      "bytes": 987
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000031-poisoned-faithfulness.json",
+      "bytes": 996
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000029-poisoned-correctness.json",
+      "bytes": 982
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000005-clean-correctness.json",
+      "bytes": 978
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000011-poisoned-rag.json",
+      "bytes": 1048
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000004-clean-correctness.json",
+      "bytes": 983
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000002-poisoned-correctness.json",
+      "bytes": 979
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000028-pair.json",
+      "bytes": 1100
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000023-poisoned-rag.json",
+      "bytes": 1048
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000034-poisoned-retrieval.json",
+      "bytes": 1402
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000014-clean-faithfulness.json",
+      "bytes": 978
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000009-pair.json",
+      "bytes": 1103
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000005-poisoned-retrieval.json",
+      "bytes": 1536
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000025-clean-faithfulness.json",
+      "bytes": 987
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000024-poisoned-correctness.json",
+      "bytes": 990
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000017-clean-rag.json",
+      "bytes": 1047
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000002-clean-rag.json",
+      "bytes": 1043
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000017-poisoned-rag.json",
+      "bytes": 1050
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000035-clean-correctness.json",
+      "bytes": 977
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000032-clean-retrieval.json",
+      "bytes": 1421
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000003-clean-correctness.json",
+      "bytes": 977
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000018-clean-rag.json",
+      "bytes": 1059
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000026-poisoned-faithfulness.json",
+      "bytes": 981
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000031-pair.json",
+      "bytes": 1108
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000031-poisoned-correctness.json",
+      "bytes": 995
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000028-poisoned-retrieval.json",
+      "bytes": 1466
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000025-pair.json",
+      "bytes": 1104
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000008-clean-faithfulness.json",
+      "bytes": 987
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000009-clean-correctness.json",
+      "bytes": 986
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000013-poisoned-faithfulness.json",
+      "bytes": 990
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000005-clean-retrieval.json",
+      "bytes": 1533
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000026-poisoned-rag.json",
+      "bytes": 1048
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000016-poisoned-retrieval.json",
+      "bytes": 1466
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000030-poisoned-faithfulness.json",
+      "bytes": 994
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000019-poisoned-retrieval.json",
+      "bytes": 1822
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000004-pair.json",
+      "bytes": 1099
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000007-clean-faithfulness.json",
+      "bytes": 992
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000027-poisoned-retrieval.json",
+      "bytes": 1438
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000009-poisoned-faithfulness.json",
+      "bytes": 991
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000017-poisoned-correctness.json",
+      "bytes": 982
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000000-clean-retrieval.json",
+      "bytes": 1484
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000032-clean-correctness.json",
+      "bytes": 987
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000010-pair.json",
+      "bytes": 1098
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000012-poisoned-rag.json",
+      "bytes": 1058
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000005-poisoned-faithfulness.json",
+      "bytes": 982
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000005-clean-rag.json",
+      "bytes": 1046
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000010-clean-rag.json",
+      "bytes": 1050
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000021-clean-faithfulness.json",
+      "bytes": 988
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000001-poisoned-retrieval.json",
+      "bytes": 1421
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000010-poisoned-correctness.json",
+      "bytes": 985
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000002-poisoned-faithfulness.json",
+      "bytes": 980
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000011-clean-rag.json",
+      "bytes": 1045
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000004-clean-rag.json",
+      "bytes": 1051
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000022-poisoned-rag.json",
+      "bytes": 1053
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000000-clean-correctness.json",
+      "bytes": 986
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000012-clean-retrieval.json",
+      "bytes": 1485
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000031-clean-correctness.json",
+      "bytes": 992
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000018-poisoned-faithfulness.json",
+      "bytes": 995
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000018-poisoned-correctness.json",
+      "bytes": 994
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000014-poisoned-faithfulness.json",
+      "bytes": 981
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000019-clean-rag.json",
+      "bytes": 1060
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000010-clean-faithfulness.json",
+      "bytes": 982
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000030-poisoned-retrieval.json",
+      "bytes": 1456
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000017-clean-retrieval.json",
+      "bytes": 1534
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000016-poisoned-rag.json",
+      "bytes": 1055
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000021-poisoned-faithfulness.json",
+      "bytes": 991
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000023-poisoned-retrieval.json",
+      "bytes": 1569
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000018-clean-retrieval.json",
+      "bytes": 1453
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000003-clean-faithfulness.json",
+      "bytes": 978
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000002-pair.json",
+      "bytes": 1092
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000016-pair.json",
+      "bytes": 1100
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000023-poisoned-correctness.json",
+      "bytes": 980
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000020-clean-retrieval.json",
+      "bytes": 1421
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000007-clean-correctness.json",
+      "bytes": 991
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000027-poisoned-rag.json",
+      "bytes": 1048
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000003-clean-rag.json",
+      "bytes": 1045
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000016-clean-rag.json",
+      "bytes": 1052
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000005-poisoned-correctness.json",
+      "bytes": 981
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000012-poisoned-retrieval.json",
+      "bytes": 1488
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000032-clean-faithfulness.json",
+      "bytes": 988
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000025-clean-retrieval.json",
+      "bytes": 1419
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000013-poisoned-rag.json",
+      "bytes": 1059
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000023-pair.json",
+      "bytes": 1093
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000015-clean-correctness.json",
+      "bytes": 978
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000004-poisoned-correctness.json",
+      "bytes": 986
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000006-poisoned-rag.json",
+      "bytes": 1061
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000019-clean-faithfulness.json",
+      "bytes": 991
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000022-clean-rag.json",
+      "bytes": 1050
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000027-clean-faithfulness.json",
+      "bytes": 979
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000026-clean-retrieval.json",
+      "bytes": 1509
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000007-poisoned-retrieval.json",
+      "bytes": 1821
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000008-poisoned-retrieval.json",
+      "bytes": 1423
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000028-clean-faithfulness.json",
+      "bytes": 985
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000016-clean-faithfulness.json",
+      "bytes": 985
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000032-poisoned-rag.json",
+      "bytes": 1058
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000023-clean-retrieval.json",
+      "bytes": 1566
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000022-poisoned-correctness.json",
+      "bytes": 985
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000024-clean-correctness.json",
+      "bytes": 987
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000019-poisoned-correctness.json",
+      "bytes": 995
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000032-poisoned-faithfulness.json",
+      "bytes": 991
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000012-clean-correctness.json",
+      "bytes": 987
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000013-pair.json",
+      "bytes": 1104
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000014-clean-retrieval.json",
+      "bytes": 1509
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000007-pair.json",
+      "bytes": 1107
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000018-clean-correctness.json",
+      "bytes": 989
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000003-poisoned-rag.json",
+      "bytes": 1048
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000025-poisoned-retrieval.json",
+      "bytes": 1422
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000025-clean-rag.json",
+      "bytes": 1056
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000030-clean-rag.json",
+      "bytes": 1059
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000005-clean-faithfulness.json",
+      "bytes": 979
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000007-poisoned-faithfulness.json",
+      "bytes": 995
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000024-poisoned-faithfulness.json",
+      "bytes": 990
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000026-pair.json",
+      "bytes": 1093
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000014-poisoned-retrieval.json",
+      "bytes": 1512
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000029-clean-retrieval.json",
+      "bytes": 1534
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000011-poisoned-correctness.json",
+      "bytes": 980
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000034-clean-faithfulness.json",
+      "bytes": 983
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000028-poisoned-faithfulness.json",
+      "bytes": 988
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000029-clean-correctness.json",
+      "bytes": 979
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000023-clean-correctness.json",
+      "bytes": 977
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000032-pair.json",
+      "bytes": 1103
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000011-poisoned-faithfulness.json",
+      "bytes": 981
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000011-clean-retrieval.json",
+      "bytes": 1566
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000032-poisoned-retrieval.json",
+      "bytes": 1424
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000012-clean-faithfulness.json",
+      "bytes": 988
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000016-poisoned-faithfulness.json",
+      "bytes": 988
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000007-poisoned-rag.json",
+      "bytes": 1062
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000023-poisoned-faithfulness.json",
+      "bytes": 980
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000003-clean-retrieval.json",
+      "bytes": 1434
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000011-clean-correctness.json",
+      "bytes": 976
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000016-poisoned-correctness.json",
+      "bytes": 987
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000018-pair.json",
+      "bytes": 1107
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000000-poisoned-faithfulness.json",
+      "bytes": 990
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000030-poisoned-correctness.json",
+      "bytes": 994
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000020-clean-correctness.json",
+      "bytes": 987
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000003-poisoned-retrieval.json",
+      "bytes": 1437
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000033-poisoned-rag.json",
+      "bytes": 1059
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000031-clean-rag.json",
+      "bytes": 1060
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000024-clean-rag.json",
+      "bytes": 1055
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000035-poisoned-faithfulness.json",
+      "bytes": 980
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000023-clean-faithfulness.json",
+      "bytes": 978
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000006-clean-retrieval.json",
+      "bytes": 1452
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000030-clean-faithfulness.json",
+      "bytes": 992
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000010-poisoned-retrieval.json",
+      "bytes": 1402
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000025-poisoned-correctness.json",
+      "bytes": 991
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000020-pair.json",
+      "bytes": 1103
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000009-clean-retrieval.json",
+      "bytes": 1526
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000016-clean-correctness.json",
+      "bytes": 983
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000034-pair.json",
+      "bytes": 1098
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000031-clean-retrieval.json",
+      "bytes": 1819
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000002-poisoned-rag.json",
+      "bytes": 1046
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000015-pair.json",
+      "bytes": 1094
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000027-clean-correctness.json",
+      "bytes": 978
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000001-clean-faithfulness.json",
+      "bytes": 988
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000021-poisoned-retrieval.json",
+      "bytes": 1530
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000003-poisoned-correctness.json",
+      "bytes": 980
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000034-clean-retrieval.json",
+      "bytes": 1399
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000001-pair.json",
+      "bytes": 1103
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000023-clean-rag.json",
+      "bytes": 1045
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000022-poisoned-faithfulness.json",
+      "bytes": 984
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000006-poisoned-correctness.json",
+      "bytes": 993
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000013-poisoned-retrieval.json",
+      "bytes": 1422
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000015-clean-retrieval.json",
+      "bytes": 1435
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000033-clean-faithfulness.json",
+      "bytes": 989
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000004-poisoned-rag.json",
+      "bytes": 1054
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000028-poisoned-correctness.json",
+      "bytes": 987
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000029-clean-rag.json",
+      "bytes": 1047
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000017-poisoned-faithfulness.json",
+      "bytes": 983
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000026-clean-correctness.json",
+      "bytes": 977
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000010-clean-retrieval.json",
+      "bytes": 1399
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000017-clean-correctness.json",
+      "bytes": 979
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000034-poisoned-faithfulness.json",
+      "bytes": 984
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000021-clean-rag.json",
+      "bytes": 1056
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000034-clean-rag.json",
+      "bytes": 1050
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000018-poisoned-rag.json",
+      "bytes": 1062
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000028-clean-retrieval.json",
+      "bytes": 1463
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000030-poisoned-rag.json",
+      "bytes": 1061
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000022-poisoned-retrieval.json",
+      "bytes": 1402
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000020-poisoned-correctness.json",
+      "bytes": 990
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000001-poisoned-faithfulness.json",
+      "bytes": 991
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000002-clean-faithfulness.json",
+      "bytes": 977
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000027-clean-retrieval.json",
+      "bytes": 1435
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000006-pair.json",
+      "bytes": 1106
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000029-poisoned-rag.json",
+      "bytes": 1049
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000011-clean-faithfulness.json",
+      "bytes": 978
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000031-poisoned-retrieval.json",
+      "bytes": 1822
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000035-poisoned-correctness.json",
+      "bytes": 980
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000021-clean-correctness.json",
+      "bytes": 988
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000012-pair.json",
+      "bytes": 1103
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000001-poisoned-rag.json",
+      "bytes": 1058
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000010-clean-correctness.json",
+      "bytes": 982
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000013-poisoned-correctness.json",
+      "bytes": 990
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000033-clean-rag.json",
+      "bytes": 1056
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000026-clean-rag.json",
+      "bytes": 1045
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000022-clean-retrieval.json",
+      "bytes": 1399
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000033-pair.json",
+      "bytes": 1104
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000027-pair.json",
+      "bytes": 1094
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000020-clean-faithfulness.json",
+      "bytes": 988
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000000-poisoned-retrieval.json",
+      "bytes": 1487
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000035-poisoned-rag.json",
+      "bytes": 1047
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000022-clean-correctness.json",
+      "bytes": 982
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000030-clean-retrieval.json",
+      "bytes": 1453
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000027-clean-rag.json",
+      "bytes": 1046
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000032-clean-rag.json",
+      "bytes": 1055
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000006-clean-faithfulness.json",
+      "bytes": 991
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000008-clean-retrieval.json",
+      "bytes": 1420
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000005-poisoned-rag.json",
+      "bytes": 1049
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000026-poisoned-retrieval.json",
+      "bytes": 1512
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000018-poisoned-retrieval.json",
+      "bytes": 1456
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000028-clean-correctness.json",
+      "bytes": 983
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000014-poisoned-correctness.json",
+      "bytes": 980
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000032-poisoned-correctness.json",
+      "bytes": 990
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000019-clean-correctness.json",
+      "bytes": 991
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000017-poisoned-retrieval.json",
+      "bytes": 1537
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000029-poisoned-retrieval.json",
+      "bytes": 1537
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000035-clean-retrieval.json",
+      "bytes": 1566
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000009-clean-faithfulness.json",
+      "bytes": 988
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000019-poisoned-rag.json",
+      "bytes": 1062
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000019-pair.json",
+      "bytes": 1108
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000031-poisoned-rag.json",
+      "bytes": 1061
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000013-clean-correctness.json",
+      "bytes": 987
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000025-clean-correctness.json",
+      "bytes": 988
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000027-poisoned-correctness.json",
+      "bytes": 981
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000035-pair.json",
+      "bytes": 1093
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000028-poisoned-rag.json",
+      "bytes": 1055
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000002-clean-retrieval.json",
+      "bytes": 1508
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000035-clean-rag.json",
+      "bytes": 1045
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000020-clean-rag.json",
+      "bytes": 1055
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000006-poisoned-faithfulness.json",
+      "bytes": 994
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000009-poisoned-correctness.json",
+      "bytes": 989
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000033-poisoned-faithfulness.json",
+      "bytes": 991
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000004-poisoned-retrieval.json",
+      "bytes": 1465
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000024-clean-faithfulness.json",
+      "bytes": 987
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000021-pair.json",
+      "bytes": 1104
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000000-poisoned-rag.json",
+      "bytes": 1057
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000035-poisoned-retrieval.json",
+      "bytes": 1569
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000015-clean-faithfulness.json",
+      "bytes": 978
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000007-clean-retrieval.json",
+      "bytes": 1818
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000000-pair.json",
+      "bytes": 1102
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000010-poisoned-faithfulness.json",
+      "bytes": 986
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000025-poisoned-faithfulness.json",
+      "bytes": 992
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000014-pair.json",
+      "bytes": 1093
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000028-clean-rag.json",
+      "bytes": 1052
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000014-clean-correctness.json",
+      "bytes": 977
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000001-poisoned-correctness.json",
+      "bytes": 989
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000029-poisoned-faithfulness.json",
+      "bytes": 983
+    },
+    {
+      "path": "pilot-runs/20260913T164257Z-82d06168a7c144f6a5a36e33531168ff/observations/000034-poisoned-rag.json",
+      "bytes": 1053
+    },
+    {
+      "path": "experiments/results/.gitkeep",
+      "bytes": 0
+    },
+    {
+      "path": "docs/frontend/living-core-states.md",
+      "bytes": 7984
+    },
+    {
+      "path": "pyproject.toml",
+      "bytes": 852
+    },
+    {
+      "path": "package.json",
+      "bytes": 317
+    },
+    {
+      "path": "package-lock.json",
+      "bytes": 62286
+    },
+    {
+      "path": "README.md",
+      "bytes": 418
+    },
+    {
+      "path": "DECISIONS.md",
+      "bytes": 11794
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 599
+    }
+  ],
+  "omitted_large_files": [
+    {
+      "path": "backend/data/external/enterprise-attack.json",
+      "reason": "over 25 MiB"
+    },
+    {
+      "path": "data/raw/datasets/ML-EdgeIIoT-dataset.csv",
+      "reason": "over 25 MiB"
+    }
+  ],
+  "note": "Sharing snapshot, not a complete disaster-recovery backup."
+}

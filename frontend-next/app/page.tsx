@@ -1,20 +1,37 @@
 "use client";
 
+import { useState } from "react";
+
 import { cn } from "@/lib/utils";
 import { useHealthStatus } from "@/hooks/useHealthStatus";
 import { useChatSession } from "@/hooks/useChatSession";
+import { useCompareSession } from "@/hooks/useCompareSession";
 import { QueryComposer } from "@/components/composer/QueryComposer";
 import { AnswerPanel } from "@/components/answer/AnswerPanel";
 import { LivingCoreStage } from "@/components/living-core/LivingCoreStage";
 import { PlatformStatusBar } from "@/components/status/PlatformStatusBar";
 import { EvidencePanel } from "@/components/evidence/EvidencePanel";
+import { ComparisonView } from "@/components/experiment/ComparisonView";
+import {
+  ExperimentModeSelector,
+  type ExperimentMode,
+} from "@/components/experiment/ExperimentModeSelector";
+import { getLivingCorePhase } from "@/lib/living-core/livingCoreState";
+import { getLivingCoreStatusText } from "@/lib/living-core/livingCoreCopy";
+import { initialChatState } from "@/lib/state/chatMachine";
 
 export default function Home() {
   const healthStatus = useHealthStatus();
   const { state, submitQuestion } = useChatSession();
+  const { state: compareState, submitComparison } = useCompareSession();
+  const [experimentMode, setExperimentMode] = useState<ExperimentMode>("clean");
 
-  const composerDisabled =
-    healthStatus !== "online" || state.status === "submitting";
+  const isComparing = experimentMode === "compare";
+  const composerBusy = isComparing
+    ? compareState.status === "submitting"
+    : state.status === "submitting";
+
+  const composerDisabled = healthStatus !== "online" || composerBusy;
 
   const composerPlaceholder =
     healthStatus === "offline"
@@ -29,11 +46,39 @@ export default function Home() {
   // noSources, or error — the core settles into a smaller, secondary role
   // and the answer/evidence stack becomes the dominant element (see
   // .conversation--idle/--active and .living-core-stage in globals.css).
-  const isIdle = state.status === "idle";
-  const isSubmitting = state.status === "submitting";
+  // In Compare mode the same idle/active split is driven by the separate
+  // `compareState` instead, since Compare never touches `useChatSession`.
+  const isIdle = isComparing
+    ? compareState.status === "idle"
+    : state.status === "idle";
+  const isSubmitting = composerBusy;
+
+  // Same derivation `LivingCoreStage` uses internally for its own r3f
+  // scene -- duplicated here (cheaply, from the same real `state`/
+  // `healthStatus`) only to feed `PlatformStatusBar`'s status pill, which
+  // replaced the old caption that used to render below the particle
+  // canvas. Uses the same idle override as `LivingCoreStage` below while
+  // comparing, so the status caption never contradicts what the particle
+  // field is actually showing.
+  const livingCoreChatState = isComparing ? initialChatState : state;
+  const livingCorePhase = getLivingCorePhase(livingCoreChatState, healthStatus);
+  const livingCoreSourceCount =
+    livingCoreChatState.status === "success" ? livingCoreChatState.sources.length : 0;
+  const livingCoreDetail =
+    livingCoreChatState.status === "error" ? livingCoreChatState.message : undefined;
+  const livingCoreStatusText = getLivingCoreStatusText(
+    livingCorePhase,
+    livingCoreSourceCount,
+    livingCoreDetail,
+  );
 
   function handleSubmit(question: string) {
-    void submitQuestion(question);
+    if (experimentMode === "compare") {
+      void submitComparison(question);
+      return;
+    }
+
+    void submitQuestion(question, experimentMode === "poisoned" ? "poisoned" : "clean");
   }
 
   return (
@@ -43,9 +88,11 @@ export default function Home() {
           <p className="eyebrow">Assistant</p>
           <h2>Ask a grounded cybersecurity question</h2>
         </div>
+
+        <ExperimentModeSelector mode={experimentMode} onChange={setExperimentMode} />
       </header>
 
-      <PlatformStatusBar />
+      <PlatformStatusBar livingCoreStatusText={livingCoreStatusText} />
 
       <div
         className={cn(
@@ -61,30 +108,41 @@ export default function Home() {
             )}
           >
             <div className="living-core-slot">
-              <LivingCoreStage chatState={state} healthStatus={healthStatus} />
+              <LivingCoreStage
+                // Compare mode never feeds `useChatSession`'s `state`
+                // (Compare uses the separate `useCompareSession`), so
+                // without this override the Living Core would keep
+                // showing whatever phase/sources were left over from the
+                // last normal Clean/Poisoned question (e.g. stale
+                // numbered SourcePins, a "converged" gold pulse) instead
+                // of its plain idle/"alive" look. Forcing the real idle
+                // state here reuses that already-correct rendering path
+                // verbatim rather than duplicating it.
+                chatState={isComparing ? initialChatState : state}
+                healthStatus={healthStatus}
+                attackDetected={experimentMode === "poisoned"}
+                compareMode={isComparing}
+              />
             </div>
           </div>
 
-          <AnswerPanel chatState={state} onRetry={handleSubmit} />
+          {isComparing ? (
+            <ComparisonView compareState={compareState} onRetry={handleSubmit} />
+          ) : (
+            <AnswerPanel chatState={state} onRetry={handleSubmit} />
+          )}
         </div>
 
-        <EvidencePanel chatState={state} />
+        {!isComparing && <EvidencePanel chatState={state} />}
       </div>
 
-      {/* Mirrors `.conversation`'s main-column/evidence-column split (via
-          `.composer-spacer`, same 340px reserved width) so the composer
-          lines up with `.living-core-slot`/`.conversation-main` above it
-          instead of centering across the full workspace width. */}
       <div className="composer-row">
-        <div className="composer-column">
-          <QueryComposer
-            onSubmit={handleSubmit}
-            disabled={composerDisabled}
-            isSubmitting={isSubmitting}
-            placeholder={composerPlaceholder}
-          />
-        </div>
-        <div className="composer-spacer" aria-hidden="true" />
+        <QueryComposer
+          onSubmit={handleSubmit}
+          disabled={composerDisabled}
+          isSubmitting={isSubmitting}
+          placeholder={composerPlaceholder}
+        />
       </div>
     </section>
   );

@@ -10,7 +10,9 @@ interface AnswerPanelProps {
   onRetry: (question: string) => void;
 }
 
-function UserQuestionCard({ question }: { question: string }) {
+/** Exported for reuse by `components/experiment/ComparisonView.tsx`, which
+ * needs the same "You" question card in Compare mode. */
+export function UserQuestionCard({ question }: { question: string }) {
   return (
     <section className="user-card">
       <p className="eyebrow">You</p>

@@ -8,7 +8,6 @@ import type { ChatState } from "@/lib/state/chatMachine";
 import type { HealthStatus } from "@/lib/types/health";
 import type { SourceItem } from "@/lib/types/chat";
 import { getLivingCorePhase, type LivingCorePhase } from "@/lib/living-core/livingCoreState";
-import { getLivingCoreStatusText } from "@/lib/living-core/livingCoreCopy";
 import { scoreToVisual } from "@/lib/living-core/scoreToVisual";
 import { setLivingCoreActivityEnergy } from "@/lib/living-core/livingCoreActivityStore";
 import { PARTICLE_COUNT } from "@/lib/living-core/particleBudget";
@@ -16,11 +15,19 @@ import { useWebGLSupport } from "@/hooks/useWebGLSupport";
 import { useIsNarrowViewport } from "@/hooks/useIsNarrowViewport";
 import { useDeviceTier } from "@/hooks/useDeviceTier";
 import { LivingCoreStaticFallback } from "@/components/living-core/LivingCoreStaticFallback";
-import { AegisMetallicLogo } from "@/components/living-core/AegisMetallicLogo";
+import { EnergyBeams } from "@/components/living-core/EnergyBeams";
+import { SourcePins } from "@/components/living-core/SourcePins";
 
 interface LivingCoreStageProps {
   chatState: ChatState;
   healthStatus: HealthStatus;
+  /** True while PWWS Poisoned mode is selected in `app/page.tsx`'s
+   * experiment-mode selector — forwarded to `LivingCoreScene` to tint the
+   * particle field's edge/line color red (accent.danger), independent of
+   * `chatState`'s own phase. */
+  attackDetected?: boolean;
+  /** Forwarded to `LivingCoreScene` — see its own doc comment. */
+  compareMode?: boolean;
 }
 
 // Loaded only once WebGL support + motion checks pass, so the three.js /
@@ -106,7 +113,12 @@ function activityEnergyFor(phase: LivingCorePhase, sources: SourceItem[]): numbe
  * (`useDeviceTier`/`particleBudget.ts`), rather than being routed to the
  * static fallback outright.
  */
-export function LivingCoreStage({ chatState, healthStatus }: LivingCoreStageProps) {
+export function LivingCoreStage({
+  chatState,
+  healthStatus,
+  attackDetected = false,
+  compareMode = false,
+}: LivingCoreStageProps) {
   const phase = getLivingCorePhase(chatState, healthStatus);
   const sources = extractSources(chatState);
   const detail = chatState.status === "error" ? chatState.message : undefined;
@@ -140,50 +152,32 @@ export function LivingCoreStage({ chatState, healthStatus }: LivingCoreStageProp
     return <LivingCoreStaticFallback phase={phase} sources={sources} detail={detail} />;
   }
 
-  // The caption is a flow sibling of the canvas wrapper, not an overlay
-  // absolutely positioned inside it — see the long comment on
-  // `.living-core-status-caption` in globals.css for why: an overlay
-  // pinned to the bottom of the wrapper collides with the shield's lower
-  // point once the wrapper is short (compact/mobile), since the shield's
-  // on-screen size is driven by a fixed camera FOV, not the wrapper's
-  // pixel height.
+  // `.living-core-canvas-frame` is now a fixed, fullscreen ambient
+  // background layer (see globals.css) rather than a bordered hero box --
+  // `.living-core-canvas-wrap` still wraps the r3f canvas 1:1 (keeps
+  // "exactly one canvas inside `.living-core-canvas-wrap`" true for
+  // `e2e/desktop.spec.ts`'s existing locator), with `EnergyBeams` and
+  // `SourcePins` as DOM siblings inside the same fixed frame so they float
+  // over the particle field without living inside the canvas itself. The
+  // status caption that used to render below this frame now lives in
+  // `PlatformStatusBar` (see `app/page.tsx`) instead.
   return (
-    <>
-      {/* `.living-core-canvas-frame` is a plain unstyled-size positioning
-          shell around `.living-core-canvas-wrap` (which keeps 100% of its
-          existing sizing/border/background rules unchanged) so the
-          metallic emblem badge below can sit as a DOM SIBLING of the r3f
-          canvas rather than a child inside `.living-core-canvas-wrap` --
-          keeps "exactly one canvas inside `.living-core-canvas-wrap`" true
-          for `e2e/desktop.spec.ts`'s existing locator, and keeps the r3f
-          `<Canvas>`/`DotFieldBackdrop` pair the only two canvases anyone
-          needs to reason about as "the app's WebGL surfaces". */}
-      <div className="living-core-canvas-frame">
-        <div className="living-core-canvas-wrap">
-          <LivingCoreErrorBoundary onError={handleRuntimeFailure}>
-            <DynamicLivingCoreScene
-              phase={phase}
-              sources={sources}
-              maxDpr={isNarrowViewport ? 1 : 1.5}
-              particleCount={PARTICLE_COUNT[deviceTier]}
-              onRuntimeFailure={handleRuntimeFailure}
-            />
-          </LivingCoreErrorBoundary>
-        </div>
-        {/* A thin metallic emblem "shell" -- a secondary framing element
-            echoing the sidebar's static AegisRAG mark, never the primary
-            object (the GPU particle field above remains dominant). See
-            `AegisMetallicLogo.tsx`'s header comment. */}
-        <AegisMetallicLogo size={40} className="living-core-metallic-shell" />
+    <div className="living-core-canvas-frame">
+      <div className="living-core-canvas-wrap">
+        <LivingCoreErrorBoundary onError={handleRuntimeFailure}>
+          <DynamicLivingCoreScene
+            phase={phase}
+            sources={sources}
+            maxDpr={isNarrowViewport ? 1 : 1.5}
+            particleCount={PARTICLE_COUNT[deviceTier]}
+            onRuntimeFailure={handleRuntimeFailure}
+            attackDetected={attackDetected}
+            compareMode={compareMode}
+          />
+        </LivingCoreErrorBoundary>
       </div>
-      <p
-        className="living-core-status-caption"
-        role="status"
-        aria-live="polite"
-        aria-atomic="true"
-      >
-        {getLivingCoreStatusText(phase, sources.length, detail)}
-      </p>
-    </>
+      <EnergyBeams />
+      <SourcePins sources={sources} />
+    </div>
   );
 }

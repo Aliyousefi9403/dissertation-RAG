@@ -2,18 +2,17 @@ import type { DeviceTier } from "@/hooks/useDeviceTier";
 
 /**
  * Particle count for `IntelligentParticleField`'s GPU-simulated point
- * cloud, keyed by the `useDeviceTier` rendering-cost heuristic. Every tier
- * stays within the 15,000-30,000 particle range: the field is a single
- * `THREE.Points` draw call with all motion computed per-vertex in the
- * shader (no CPU-side simulation, no extra render-target passes), so the
- * cost that scales with device tier is fill-rate/vertex-shader work only —
- * comfortably within budget at these counts on integrated GPUs, unlike a
- * multi-pass GPGPU approach would be.
+ * cloud, keyed by the `useDeviceTier` rendering-cost heuristic. Tripled from
+ * the original 15,000-30,000 range for a denser, more cinematic field (the
+ * field is a single `THREE.Points` draw call with all motion computed
+ * per-vertex in the shader -- no CPU-side simulation, no extra render-target
+ * passes -- so the cost that scales with device tier is fill-rate/vertex-
+ * shader work only, which stays proportionally the same at 3x count).
  */
 export const PARTICLE_COUNT: Record<DeviceTier, number> = {
-  desktop: 28000,
-  mobile: 18000,
-  "low-power": 15000,
+  desktop: 84000,
+  mobile: 54000,
+  "low-power": 45000,
 };
 
 /** Number of concentric depth layers the point cloud's REST distribution is

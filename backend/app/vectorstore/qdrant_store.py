@@ -3,8 +3,8 @@ from langchain_qdrant import QdrantVectorStore
 
 from app.config import (
     EMBEDDING_MODEL,
-    QDRANT_COLLECTION,
     QDRANT_URL,
+    get_qdrant_collection,
 )
 
 
@@ -16,9 +16,11 @@ def get_embeddings() -> HuggingFaceEmbeddings:
     )
 
 
-def get_vector_store() -> QdrantVectorStore:
+def get_vector_store(system_state: str = "clean") -> QdrantVectorStore:
+    collection_name = get_qdrant_collection(system_state)
+
     return QdrantVectorStore.from_existing_collection(
         embedding=get_embeddings(),
-        collection_name=QDRANT_COLLECTION,
+        collection_name=collection_name,
         url=QDRANT_URL,
     )

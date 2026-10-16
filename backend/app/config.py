@@ -8,9 +8,42 @@ load_dotenv()
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 KNOWLEDGE_BASE_PATH = PROJECT_ROOT / "data" / "raw" / "knowledge_base"
-
+KNOWLEDGE_BASE_PATHS = {
+    "clean": PROJECT_ROOT / "data" / "raw" / "knowledge_base",
+    "poisoned": PROJECT_ROOT / "data" / "poisoned" / "knowledge_base",
+    "defended": PROJECT_ROOT / "data" / "defended" / "knowledge_base",
+}
 QDRANT_URL = "http://localhost:6333"
-QDRANT_COLLECTION = "cybersecurity_knowledge_base"
+QDRANT_COLLECTIONS = {
+    "clean": "cybersecurity_knowledge_base",
+    "poisoned": "cybersecurity_knowledge_base_poisoned",
+    "defended": "cybersecurity_knowledge_base_defended",
+}
+
+DEFAULT_SYSTEM_STATE = "clean"
+
+
+def get_qdrant_collection(system_state: str = DEFAULT_SYSTEM_STATE) -> str:
+    try:
+        return QDRANT_COLLECTIONS[system_state]
+    except KeyError:
+        valid_states = ", ".join(QDRANT_COLLECTIONS.keys())
+        raise ValueError(
+            f"Unknown system state '{system_state}'. "
+            f"Expected one of: {valid_states}"
+        )
+
+def get_knowledge_base_path(
+    system_state: str = DEFAULT_SYSTEM_STATE,
+) -> Path:
+    try:
+        return KNOWLEDGE_BASE_PATHS[system_state]
+    except KeyError:
+        valid_states = ", ".join(KNOWLEDGE_BASE_PATHS.keys())
+        raise ValueError(
+            f"Unknown system state '{system_state}'. "
+            f"Expected one of: {valid_states}"
+        )        
 
 EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 

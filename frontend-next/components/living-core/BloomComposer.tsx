@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
@@ -8,11 +8,20 @@ import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
 import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
 
+import { damp } from "@/lib/living-core/damp";
+
 interface BloomComposerProps {
   strength?: number;
   radius?: number;
   threshold?: number;
 }
+
+// Response rate for easing toward a new strength/radius/threshold target --
+// lets `LivingCoreScene` pass phase-driven bloom targets (brighter while
+// retrieving/just-resolved) and have them ramp smoothly instead of popping,
+// the same damped-transition language as the particle field's own state
+// color modulation.
+const BLOOM_LAMBDA = 5;
 
 /**
  * Manual `EffectComposer` wiring using three's own bundled
@@ -31,8 +40,9 @@ interface BloomComposerProps {
  * bloom threshold -- the dimmer retrieval/status UI elsewhere in the scene
  * stays essentially unaffected.
  */
-export function BloomComposer({ strength = 0.85, radius = 0.55, threshold = 0.22 }: BloomComposerProps) {
+export function BloomComposer({ strength = 1.2, radius = 0.8, threshold = 0.2 }: BloomComposerProps) {
   const { gl, scene, camera, size } = useThree();
+  const currentRef = useRef({ strength, radius, threshold });
 
   const composer = useMemo(() => {
     const instance = new EffectComposer(gl);
@@ -42,9 +52,9 @@ export function BloomComposer({ strength = 0.85, radius = 0.55, threshold = 0.22
     );
     instance.addPass(new OutputPass());
     return instance;
-    // Uniform/pass tuning is applied imperatively below (not re-created on
-    // every prop change) -- only a renderer identity change warrants a
-    // fresh composer + its render targets.
+    // Uniform/pass tuning is damped toward the latest props every frame
+    // below (not re-created on every prop change) -- only a renderer
+    // identity change warrants a fresh composer + its render targets.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gl]);
 
@@ -53,21 +63,22 @@ export function BloomComposer({ strength = 0.85, radius = 0.55, threshold = 0.22
     composer.setSize(size.width, size.height);
   }, [composer, gl, size]);
 
-  useEffect(() => {
-    const bloomPass = composer.passes.find(
-      (pass): pass is UnrealBloomPass => pass instanceof UnrealBloomPass,
-    );
-    if (!bloomPass) {
-      return;
-    }
-    bloomPass.strength = strength;
-    bloomPass.radius = radius;
-    bloomPass.threshold = threshold;
-  }, [composer, strength, radius, threshold]);
-
   useEffect(() => () => composer.dispose(), [composer]);
 
   useFrame((_, delta) => {
+    const bloomPass = composer.passes.find(
+      (pass): pass is UnrealBloomPass => pass instanceof UnrealBloomPass,
+    );
+    if (bloomPass) {
+      const dt = Math.min(0.1, Math.max(0, delta));
+      const current = currentRef.current;
+      current.strength = damp(current.strength, strength, BLOOM_LAMBDA, dt);
+      current.radius = damp(current.radius, radius, BLOOM_LAMBDA, dt);
+      current.threshold = damp(current.threshold, threshold, BLOOM_LAMBDA, dt);
+      bloomPass.strength = current.strength;
+      bloomPass.radius = current.radius;
+      bloomPass.threshold = current.threshold;
+    }
     composer.render(delta);
   }, 1);
 

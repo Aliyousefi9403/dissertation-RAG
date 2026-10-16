@@ -24,6 +24,15 @@ export const LIVE_POSITION_GLSL = /* glsl */ `
   uniform float uBreatheFreq;
   uniform float uDigestAmp;
   uniform float uDigestFreq;
+  // Compare mode only (see IntelligentParticleField's compareMode prop):
+  // splits the field ~50/50 by seed and gives one half ("red", matched by
+  // POINTS_FRAGMENT's identical uCompareMode/seed split so color and
+  // motion never desync) a small local orbit on top of the same idle
+  // curl-noise/breathe baseline every particle already has -- the red half
+  // reads as continuously circling around its neighbors while the blue
+  // half stays exactly as before. Orbit radius/speed are fixed (not
+  // uniforms) since they never need to animate independently.
+  uniform float uCompareMode;
 
   // Slow, constant breathing (uniform radial scale, phase-offset per
   // particle via seed) layered with a curl-noise turbulence field --
@@ -49,6 +58,18 @@ export const LIVE_POSITION_GLSL = /* glsl */ `
 
     vec3 turbulence = curl3D(base * uCurlScale + vec3(0.0, 0.0, uTime * uCurlSpeed) + seed * 41.0) * uCurlAmp;
     vec3 wandered = base + turbulence;
+
+    if (uCompareMode > 0.5) {
+      float isRedGroup = step(0.5, fract(seed * 13.7));
+      if (isRedGroup > 0.5) {
+        float orbitPhase = seed * 6.28318 + uTime * 0.6;
+        vec3 orbitAxis = normalize(vec3(sin(seed * 3.1), cos(seed * 5.7), sin(seed * 2.3) + 0.2));
+        vec3 arbitrary = abs(orbitAxis.y) < 0.99 ? vec3(0.0, 1.0, 0.0) : vec3(1.0, 0.0, 0.0);
+        vec3 orbitU = normalize(cross(orbitAxis, arbitrary));
+        vec3 orbitV = cross(orbitAxis, orbitU);
+        wandered += 0.22 * (orbitU * cos(orbitPhase) + orbitV * sin(orbitPhase));
+      }
+    }
 
     float baseLen = length(base);
     float wanderedLen = length(wandered);

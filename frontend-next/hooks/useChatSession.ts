@@ -4,13 +4,16 @@ import { useCallback, useReducer } from "react";
 
 import { postChat } from "@/lib/api/chat";
 import type { ApiFailureResult } from "@/lib/api/client";
+import type { SystemState } from "@/lib/types/chat";
 import {
   chatReducer,
   initialChatState,
   type ChatState,
 } from "@/lib/state/chatMachine";
 
-function describeFailure(failure: ApiFailureResult): string {
+/** Shared with `hooks/useCompareSession.ts` so both hooks describe backend
+ * failures identically. */
+export function describeFailure(failure: ApiFailureResult): string {
   switch (failure.kind) {
     case "validationError":
       return typeof failure.detail === "string"
@@ -38,37 +41,40 @@ function describeFailure(failure: ApiFailureResult): string {
 
 export interface UseChatSessionResult {
   state: ChatState;
-  submitQuestion: (question: string) => Promise<void>;
+  submitQuestion: (question: string, systemState?: SystemState) => Promise<void>;
   reset: () => void;
 }
 
 export function useChatSession(): UseChatSessionResult {
   const [state, dispatch] = useReducer(chatReducer, initialChatState);
 
-  const submitQuestion = useCallback(async (question: string) => {
-    const trimmed = question.trim();
+  const submitQuestion = useCallback(
+    async (question: string, systemState: SystemState = "clean") => {
+      const trimmed = question.trim();
 
-    if (!trimmed) {
-      return;
-    }
+      if (!trimmed) {
+        return;
+      }
 
-    dispatch({ type: "SUBMIT_QUESTION", question: trimmed });
+      dispatch({ type: "SUBMIT_QUESTION", question: trimmed });
 
-    // Real, measured latency for the `POST /chat` round trip — never
-    // mocked (see the boundary rules in the frontend implementation
-    // brief). Everything else surfaced from this call (Confidence, Trust
-    // Score, etc.) is illustrative mock data computed elsewhere.
-    const startedAt = performance.now();
-    const result = await postChat(trimmed);
-    const latencyMs = performance.now() - startedAt;
+      // Real, measured latency for the `POST /chat` round trip — never
+      // mocked (see the boundary rules in the frontend implementation
+      // brief). Everything else surfaced from this call (Confidence, Trust
+      // Score, etc.) is illustrative mock data computed elsewhere.
+      const startedAt = performance.now();
+      const result = await postChat(trimmed, systemState);
+      const latencyMs = performance.now() - startedAt;
 
-    if (result.kind === "ok") {
-      dispatch({ type: "RESPONSE_RECEIVED", response: result.data, latencyMs });
-      return;
-    }
+      if (result.kind === "ok") {
+        dispatch({ type: "RESPONSE_RECEIVED", response: result.data, latencyMs });
+        return;
+      }
 
-    dispatch({ type: "REQUEST_FAILED", message: describeFailure(result) });
-  }, []);
+      dispatch({ type: "REQUEST_FAILED", message: describeFailure(result) });
+    },
+    [],
+  );
 
   const reset = useCallback(() => {
     dispatch({ type: "RESET" });

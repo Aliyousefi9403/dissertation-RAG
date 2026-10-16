@@ -1,41 +1,21 @@
 from typing import Any
 
 from langchain_core.documents import Document
-from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_qdrant import QdrantVectorStore
+from app.retrieval.search import search_knowledge_base
 
-from app.config import (
-    EMBEDDING_MODEL,
-    QDRANT_COLLECTION,
-    QDRANT_URL,
-    RETRIEVAL_TOP_K,
-)
+
 from app.generation.llm_factory import create_llm
 from app.generation.prompt import RAG_PROMPT
 
 
-def create_vector_store() -> QdrantVectorStore:
-    embeddings = HuggingFaceEmbeddings(
-        model_name=EMBEDDING_MODEL,
-        model_kwargs={"device": "cpu"},
-        encode_kwargs={"normalize_embeddings": True},
-    )
-
-    return QdrantVectorStore.from_existing_collection(
-        embedding=embeddings,
-        collection_name=QDRANT_COLLECTION,
-        url=QDRANT_URL,
-    )
-
 
 def retrieve_documents(
     question: str,
+    system_state: str = "clean",
 ) -> list[tuple[Document, float]]:
-    vector_store = create_vector_store()
-
-    return vector_store.similarity_search_with_score(
+    return search_knowledge_base(
         query=question,
-        k=RETRIEVAL_TOP_K,
+        system_state=system_state,
     )
 
 
@@ -81,40 +61,71 @@ def build_sources(
     return sources
 
 
-def answer_question(question: str) -> dict[str, Any]:
-    question = question.strip()
+def answer_question(
+    question: str,
+    system_state: str = "clean",
+    *,
+    capture: dict[str, Any] | None = None,
+    llm_factory=None,
+    retrieval_fn=None,
+) -> dict[str, Any]:
+    """Optional pilot capture/adapters leave existing caller defaults intact."""
 
     if not question:
         raise ValueError("Question cannot be empty.")
 
-    results = retrieve_documents(question)
+    if capture is not None:
+        capture.update(retrieval_status="pending", generation_status="not_started")
+    try:
+        results = (retrieval_fn or retrieve_documents)(question, system_state=system_state)
+    except Exception as exc:
+        if capture is not None:
+            capture.update(retrieval_status="unavailable", error={
+                "stage": "retrieval", "type": type(exc).__name__,
+            })
+        raise
+    if capture is not None:
+        capture.update(retrieval_status="ok", sources=build_sources(results))
 
     if not results:
+        if capture is not None:
+            capture.update(generation_status="abstained", request_attempts=0)
         return {
             "question": question,
             "answer": (
-                "No relevant information was found "
-                "in the knowledge base."
+                "I cannot answer this question because no supporting evidence "
+                "was retrieved."
             ),
             "sources": [],
+            "system_state": system_state,
+}
+    try:
+        context = format_context(results)
+        if capture is not None:
+            capture["context"] = context
+        llm = (llm_factory or create_llm)()
+        chain = RAG_PROMPT | llm
+        response = chain.invoke({"question": question, "context": context})
+    except Exception as exc:
+        if capture is not None:
+            capture.update(generation_status="unavailable", error={
+                "stage": "generation", "type": type(exc).__name__,
+            })
+        raise
+    if capture is not None:
+        capture.update(generation_status="ok", answer=str(response.content))
+        metadata = getattr(response, "response_metadata", {})
+        capture["model_metadata"] = {
+            key: metadata[key] for key in ("model_name", "model", "system_fingerprint")
+            if isinstance(metadata, dict) and key in metadata
         }
-
-    context = format_context(results)
-    llm = create_llm()
-    chain = RAG_PROMPT | llm
-
-    response = chain.invoke(
-        {
-            "question": question,
-            "context": context,
-        }
-    )
 
     return {
         "question": question,
         "answer": str(response.content),
         "sources": build_sources(results),
-    }
+        "system_state": system_state,
+}
 
 
 if __name__ == "__main__":

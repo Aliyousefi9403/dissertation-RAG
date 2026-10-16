@@ -4,8 +4,11 @@
  * Do not add fields that are not present in the backend response.
  */
 
+export type SystemState = "clean" | "poisoned";
+
 export interface ChatRequest {
   question: string;
+  system_state?: SystemState;
 }
 
 export interface SourceItem {

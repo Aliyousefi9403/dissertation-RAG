@@ -1,10 +1,13 @@
+import argparse
+from pathlib import Path
+
 from app.config import (
-    KNOWLEDGE_BASE_PATH,
     QDRANT_URL,
-    QDRANT_COLLECTION,
     EMBEDDING_MODEL,
     CHUNK_SIZE,
     CHUNK_OVERLAP,
+    get_qdrant_collection,
+    get_knowledge_base_path,
 )
 
 from langchain_community.document_loaders import DirectoryLoader, TextLoader
@@ -12,10 +15,10 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_qdrant import QdrantVectorStore
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-from pathlib import Path
+from app.ingestion.section_metadata import section_for_offset
 
 
-def add_document_metadata(documents):
+def add_document_metadata(documents, system_state: str):
     for document in documents:
         source_path = Path(document.metadata["source"])
         attack_type = source_path.stem
@@ -23,7 +26,8 @@ def add_document_metadata(documents):
         document.metadata.update(
             {
                 "attack_type": attack_type,
-                "origin": "clean",
+                "origin": system_state,
+                "system_state": system_state,
                 "source_authority": "pending_kb_rebuild",
             }
         )
@@ -31,12 +35,11 @@ def add_document_metadata(documents):
     return documents
 
 
+def load_documents(system_state: str = "clean"):
+    kb_path = get_knowledge_base_path(system_state)
 
-
-
-def load_documents():
     loader = DirectoryLoader(
-        path=str(KNOWLEDGE_BASE_PATH),
+        path=str(kb_path),
         glob="**/*.md",
         loader_cls=TextLoader,
         loader_kwargs={"encoding": "utf-8"},
@@ -47,10 +50,25 @@ def load_documents():
 
     if not documents:
         raise RuntimeError(
-            f"No Markdown documents found in {KNOWLEDGE_BASE_PATH}"
+            f"No Markdown documents found in {kb_path}"
         )
 
-    return add_document_metadata(documents)
+    return add_document_metadata(documents, system_state)
+
+
+def annotate_chunk_metadata(chunks):
+    """Attaches `chunk_index` and `section` (derived from the enclosing
+    Markdown heading via app.ingestion.section_metadata) to each chunk.
+    Only takes effect on a future re-ingestion run -- this function does
+    not touch the currently indexed Qdrant collections."""
+    for index, chunk in enumerate(chunks):
+        chunk.metadata["chunk_index"] = index
+        chunk.metadata["section"] = section_for_offset(
+            chunk.metadata.get("source", ""),
+            chunk.metadata.get("start_index"),
+        )
+
+    return chunks
 
 
 def split_documents(documents):
@@ -59,7 +77,9 @@ def split_documents(documents):
         chunk_overlap=CHUNK_OVERLAP,
         add_start_index=True,
     )
-    return splitter.split_documents(documents)
+
+    chunks = splitter.split_documents(documents)
+    return annotate_chunk_metadata(chunks)
 
 
 def create_embeddings():
@@ -70,8 +90,15 @@ def create_embeddings():
     )
 
 
-def index_documents():
-    documents = load_documents()
+def index_documents(system_state: str = "clean"):
+    kb_path = get_knowledge_base_path(system_state)
+    collection_name = get_qdrant_collection(system_state)
+
+    print(f"System state: {system_state}")
+    print(f"Knowledge base: {kb_path}")
+    print(f"Qdrant collection: {collection_name}")
+
+    documents = load_documents(system_state)
     chunks = split_documents(documents)
     embeddings = create_embeddings()
 
@@ -79,15 +106,25 @@ def index_documents():
         documents=chunks,
         embedding=embeddings,
         url=QDRANT_URL,
-        collection_name=QDRANT_COLLECTION,
+        collection_name=collection_name,
         force_recreate=True,
     )
 
     print(f"Loaded documents: {len(documents)}")
     print(f"Created chunks: {len(chunks)}")
-    print(f"Qdrant collection: {QDRANT_COLLECTION}")
+    print(f"Qdrant collection: {collection_name}")
     print("Indexing completed successfully.")
 
 
 if __name__ == "__main__":
-    index_documents()
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "--system-state",
+        default="clean",
+        choices=["clean", "poisoned", "defended"],
+    )
+
+    args = parser.parse_args()
+
+    index_documents(args.system_state)
