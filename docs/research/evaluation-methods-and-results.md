@@ -356,6 +356,54 @@ Other figures:
 4. **Repetitions are deterministic at the retrieval level** (44/44 questions in both conditions), as in the pilot. The question is the unit of analysis.
 5. **The held-out stratum is small** (9 questions; its CI includes 0). It is reserved for indicator thresholds and should not carry headline claims.
 
+## 11. Relative-entropy detection of PWWS-poisoned chunks (exploratory, 16 Oct 2026)
+
+**Idea.** PWWS replaces words with WordNet synonyms that are often rarer in this domain. So a poisoned passage's word distribution should diverge from a reference distribution. Relative entropy, KL(p‖q) = Σ p(x) log p(x)/q(x), and surprisal −log q(w) measure that divergence.
+
+**Setup.** Implemented in `docs/research/scripts/entropy_detection_eval.py`. Offline, no model calls.
+- **Unit:** all 191 chunks (500/100) of the poisoned collection with at least 10 words.
+- **Labels:** 47 chunks contain PWWS-edited text. Labels use the same character alignment as §5.3, built from the manifest for evaluation only.
+- **References:**
+  - general English (`wordfreq`);
+  - domain: leave-one-document-out counts from the other documents in the same collection, interpolated 50/50 with English. This needs no clean copy.
+- **Control:** the formatting-only corpus, labelled at the positions of the words PWWS replaced. A detector of substitutions should score about 0.5 there.
+
+**Results** (AUROC; development 146 chunks / held-out 45; thresholds fixed on development at 10% false-positive rate):
+
+| Score | Poisoned: all | Poisoned: held-out | Control: all | Held-out TPR / FPR at dev threshold |
+|---|---|---|---|---|
+| Letter-frequency KL (lecture example) | 0.33 | 0.21 | 0.35 | 0.00 / 0.17 |
+| KL to general English | 0.41 | 0.33 | 0.35 | 0.00 / 0.11 |
+| KL to domain reference | 0.72 | 0.78 | 0.62 | 0.40 / 0.11 |
+| Mean domain surprisal | 0.78 | 0.85 | 0.69 | 0.70 / 0.09 |
+| Synonym gap, English reference (top-3 mean) | 0.71 | 0.75 | **0.50** | 0.20 / 0.06 |
+| **Synonym gap, domain reference (top-3 mean)** | **0.82** | **0.94** | 0.67 | 0.50 / 0.03 |
+
+The synonym gap is the most bits by which a word's best WordNet synonym (PWWS's candidate source) is more probable under the reference than the word used. It adapts FGWS [Mozes et al. 2021] to a domain reference distribution.
+
+**Interpretation:**
+1. Letter-level and general-English divergence fail. PWWS keeps English letter statistics, and its substitutions are often common English words that are unusual for the domain ("server" → "waiter", "application" → "coating").
+2. A domain reference is essential. However, the control shows a large share of the domain-score signal comes from *which sections were attacked* rather than from the substitutions, so the control must be reported alongside every detector result.
+3. Matched comparison: substitutions raise mean domain surprisal in 44 of 47 edited chunks compared with the identical control chunk (letter KL: 16 of 47). The per-chunk effect is real but smaller than the between-topic variation.
+4. The English-reference synonym gap is the cleanest substitution signal (control at chance). The domain synonym gap gives the best separation overall.
+
+**Defence preview: retrieval-time filtering** (`entropy_filter_retrieval.py`). Retrieve 10 chunks, drop those above the development threshold for the domain synonym gap, keep the first 3. No model calls; 44 v1 questions.
+
+| | Unfiltered | Filtered |
+|---|---|---|
+| Clean Hit@3 | 0.705 | 0.705 |
+| Poisoned Hit@3 | 0.568 | 0.477 |
+| Poisoned edited-text exposure | 0.409 | 0.273 |
+
+In the poisoned top 3, 14 of 27 edited chunks were flagged; in the clean top 3, 23 chunks were flagged with no loss of Hit@3. The filter reduces exposure to poisoned text by a third at no clean retrieval cost. It does not restore relevance lost to displacement, because the relevant passage is itself poisoned. Its effect on answers (correctness, abstention, confident errors) needs a live run and is planned work.
+
+**Limitations:**
+- Small held-out set (10 positive chunks).
+- One attack (PWWS) and one corpus.
+- Labels come from a deterministic character alignment.
+- The thresholds and the 50/50 interpolation were not tuned beyond the first setting.
+- An adaptive attacker who constrains synonyms by domain frequency could evade the detector.
+
 ## 9. Reproducing every number in this document
 
 ```bash
