@@ -1,0 +1,1442 @@
+[
+ {
+  "id": "expanded_http_flood_attack_description_01",
+  "type": "http_flood",
+  "cat": "attack_description",
+  "target_section_pwws": "successful",
+  "clean_hit": 1,
+  "clean_rr": 1.0,
+  "clean_top": [
+   "ddos/http_flood.md@199",
+   "ddos/tcp_syn_flood.md@205",
+   "ddos/tcp_syn_flood.md@775"
+  ],
+  "clean_types": [
+   "http_flood",
+   "tcp_syn_flood",
+   "tcp_syn_flood"
+  ],
+  "poisoned_hit": 0,
+  "poisoned_rr": 0.0,
+  "poisoned_top": [
+   "ddos/tcp_syn_flood.md@208",
+   "ddos/icmp_flood.md@851",
+   "ddos/udp_flood.md@1148"
+  ],
+  "poisoned_types": [
+   "tcp_syn_flood",
+   "icmp_flood",
+   "udp_flood"
+  ],
+  "poison_hit": 1,
+  "ref_chars": 419
+ },
+ {
+  "id": "expanded_http_flood_prerequisites_01",
+  "type": "http_flood",
+  "cat": "prerequisites",
+  "target_section_pwws": "failed_or_skipped",
+  "clean_hit": 1,
+  "clean_rr": 1.0,
+  "clean_top": [
+   "ddos/http_flood.md@199",
+   "ddos/tcp_syn_flood.md@205",
+   "ddos/udp_flood.md@1542"
+  ],
+  "clean_types": [
+   "http_flood",
+   "tcp_syn_flood",
+   "udp_flood"
+  ],
+  "poisoned_hit": 0,
+  "poisoned_rr": 0.0,
+  "poisoned_top": [
+   "ddos/tcp_syn_flood.md@208",
+   "ddos/tcp_syn_flood.md@1185",
+   "ddos/udp_flood.md@1550"
+  ],
+  "poisoned_types": [
+   "tcp_syn_flood",
+   "tcp_syn_flood",
+   "udp_flood"
+  ],
+  "poison_hit": 0,
+  "ref_chars": 114
+ },
+ {
+  "id": "expanded_icmp_flood_attack_description_01",
+  "type": "icmp_flood",
+  "cat": "attack_description",
+  "target_section_pwws": "failed_or_skipped",
+  "clean_hit": 1,
+  "clean_rr": 1.0,
+  "clean_top": [
+   "ddos/icmp_flood.md@199",
+   "ddos/icmp_flood.md@0",
+   "ddos/icmp_flood.md@678"
+  ],
+  "clean_types": [
+   "icmp_flood",
+   "icmp_flood",
+   "icmp_flood"
+  ],
+  "poisoned_hit": 1,
+  "poisoned_rr": 1.0,
+  "poisoned_top": [
+   "ddos/icmp_flood.md@202",
+   "ddos/icmp_flood.md@0",
+   "ddos/tcp_syn_flood.md@1185"
+  ],
+  "poisoned_types": [
+   "icmp_flood",
+   "icmp_flood",
+   "tcp_syn_flood"
+  ],
+  "poison_hit": 0,
+  "ref_chars": 454
+ },
+ {
+  "id": "expanded_icmp_flood_prerequisites_01",
+  "type": "icmp_flood",
+  "cat": "prerequisites",
+  "target_section_pwws": "failed_or_skipped",
+  "clean_hit": 1,
+  "clean_rr": 1.0,
+  "clean_top": [
+   "ddos/icmp_flood.md@199",
+   "ddos/icmp_flood.md@0",
+   "ddos/icmp_flood.md@678"
+  ],
+  "clean_types": [
+   "icmp_flood",
+   "icmp_flood",
+   "icmp_flood"
+  ],
+  "poisoned_hit": 1,
+  "poisoned_rr": 1.0,
+  "poisoned_top": [
+   "ddos/icmp_flood.md@202",
+   "ddos/icmp_flood.md@0",
+   "ddos/tcp_syn_flood.md@1185"
+  ],
+  "poisoned_types": [
+   "icmp_flood",
+   "icmp_flood",
+   "tcp_syn_flood"
+  ],
+  "poison_hit": 0,
+  "ref_chars": 116
+ },
+ {
+  "id": "expanded_tcp_syn_flood_attack_description_01",
+  "type": "tcp_syn_flood",
+  "cat": "attack_description",
+  "target_section_pwws": "failed_or_skipped",
+  "clean_hit": 1,
+  "clean_rr": 1.0,
+  "clean_top": [
+   "ddos/tcp_syn_flood.md@205",
+   "ddos/tcp_syn_flood.md@0",
+   "ddos/tcp_syn_flood.md@552"
+  ],
+  "clean_types": [
+   "tcp_syn_flood",
+   "tcp_syn_flood",
+   "tcp_syn_flood"
+  ],
+  "poisoned_hit": 1,
+  "poisoned_rr": 1.0,
+  "poisoned_top": [
+   "ddos/tcp_syn_flood.md@208",
+   "ddos/tcp_syn_flood.md@0",
+   "ddos/tcp_syn_flood.md@557"
+  ],
+  "poisoned_types": [
+   "tcp_syn_flood",
+   "tcp_syn_flood",
+   "tcp_syn_flood"
+  ],
+  "poison_hit": 0,
+  "ref_chars": 322
+ },
+ {
+  "id": "expanded_tcp_syn_flood_prerequisites_01",
+  "type": "tcp_syn_flood",
+  "cat": "prerequisites",
+  "target_section_pwws": "failed_or_skipped",
+  "clean_hit": 1,
+  "clean_rr": 1.0,
+  "clean_top": [
+   "ddos/tcp_syn_flood.md@205",
+   "ddos/tcp_syn_flood.md@0",
+   "ddos/tcp_syn_flood.md@552"
+  ],
+  "clean_types": [
+   "tcp_syn_flood",
+   "tcp_syn_flood",
+   "tcp_syn_flood"
+  ],
+  "poisoned_hit": 1,
+  "poisoned_rr": 1.0,
+  "poisoned_top": [
+   "ddos/tcp_syn_flood.md@208",
+   "ddos/tcp_syn_flood.md@0",
+   "ddos/tcp_syn_flood.md@557"
+  ],
+  "poisoned_types": [
+   "tcp_syn_flood",
+   "tcp_syn_flood",
+   "tcp_syn_flood"
+  ],
+  "poison_hit": 0,
+  "ref_chars": 137
+ },
+ {
+  "id": "expanded_udp_flood_attack_description_01",
+  "type": "udp_flood",
+  "cat": "attack_description",
+  "target_section_pwws": "failed_or_skipped",
+  "clean_hit": 1,
+  "clean_rr": 1.0,
+  "clean_top": [
+   "ddos/udp_flood.md@220",
+   "ddos/udp_flood.md@910",
+   "ddos/udp_flood.md@1140"
+  ],
+  "clean_types": [
+   "udp_flood",
+   "udp_flood",
+   "udp_flood"
+  ],
+  "poisoned_hit": 1,
+  "poisoned_rr": 1.0,
+  "poisoned_top": [
+   "ddos/udp_flood.md@224",
+   "ddos/udp_flood.md@915",
+   "ddos/icmp_flood.md@851"
+  ],
+  "poisoned_types": [
+   "udp_flood",
+   "udp_flood",
+   "icmp_flood"
+  ],
+  "poison_hit": 1,
+  "ref_chars": 688
+ },
+ {
+  "id": "expanded_udp_flood_prerequisites_01",
+  "type": "udp_flood",
+  "cat": "prerequisites",
+  "target_section_pwws": "failed_or_skipped",
+  "clean_hit": 1,
+  "clean_rr": 0.5,
+  "clean_top": [
+   "ddos/udp_flood.md@220",
+   "ddos/udp_flood.md@910",
+   "ddos/icmp_flood.md@1282"
+  ],
+  "clean_types": [
+   "udp_flood",
+   "udp_flood",
+   "icmp_flood"
+  ],
+  "poisoned_hit": 1,
+  "poisoned_rr": 0.5,
+  "poisoned_top": [
+   "ddos/udp_flood.md@224",
+   "ddos/udp_flood.md@915",
+   "ddos/tcp_syn_flood.md@1185"
+  ],
+  "poisoned_types": [
+   "udp_flood",
+   "udp_flood",
+   "tcp_syn_flood"
+  ],
+  "poison_hit": 0,
+  "ref_chars": 144
+ },
+ {
+  "id": "expanded_sql_injection_attack_description_01",
+  "type": "sql_injection",
+  "cat": "attack_description",
+  "target_section_pwws": "failed_or_skipped",
+  "clean_hit": 0,
+  "clean_rr": 0.0,
+  "clean_top": [
+   "injection/sql_injection.md@3430",
+   "injection/sql_injection.md@1808",
+   "injection/sql_injection.md@2205"
+  ],
+  "clean_types": [
+   "sql_injection",
+   "sql_injection",
+   "sql_injection"
+  ],
+  "poisoned_hit": 0,
+  "poisoned_rr": 0.0,
+  "poisoned_top": [
+   "injection/sql_injection.md@3436",
+   "injection/sql_injection.md@1814",
+   "injection/sql_injection.md@2211"
+  ],
+  "poisoned_types": [
+   "sql_injection",
+   "sql_injection",
+   "sql_injection"
+  ],
+  "poison_hit": 0,
+  "ref_chars": 375
+ },
+ {
+  "id": "expanded_sql_injection_execution_flow_01",
+  "type": "sql_injection",
+  "cat": "execution_flow",
+  "target_section_pwws": "failed_or_skipped",
+  "clean_hit": 1,
+  "clean_rr": 1.0,
+  "clean_top": [
+   "injection/sql_injection.md@3430",
+   "injection/sql_injection.md@3977",
+   "injection/sql_injection.md@4192"
+  ],
+  "clean_types": [
+   "sql_injection",
+   "sql_injection",
+   "sql_injection"
+  ],
+  "poisoned_hit": 1,
+  "poisoned_rr": 1.0,
+  "poisoned_top": [
+   "injection/sql_injection.md@3436",
+   "injection/sql_injection.md@3984",
+   "injection/sql_injection.md@4202"
+  ],
+  "poisoned_types": [
+   "sql_injection",
+   "sql_injection",
+   "sql_injection"
+  ],
+  "poison_hit": 1,
+  "ref_chars": 2785
+ },
+ {
+  "id": "expanded_sql_injection_prerequisites_01",
+  "type": "sql_injection",
+  "cat": "prerequisites",
+  "target_section_pwws": "failed_or_skipped",
+  "clean_hit": 1,
+  "clean_rr": 0.3333,
+  "clean_top": [
+   "injection/sql_injection.md@4192",
+   "injection/sql_injection.md@3430",
+   "injection/sql_injection.md@3977"
+  ],
+  "clean_types": [
+   "sql_injection",
+   "sql_injection",
+   "sql_injection"
+  ],
+  "poisoned_hit": 1,
+  "poisoned_rr": 0.3333,
+  "poisoned_top": [
+   "injection/sql_injection.md@4202",
+   "injection/sql_injection.md@3436",
+   "injection/sql_injection.md@3984"
+  ],
+  "poisoned_types": [
+   "sql_injection",
+   "sql_injection",
+   "sql_injection"
+  ],
+  "poison_hit": 1,
+  "ref_chars": 172
+ },
+ {
+  "id": "expanded_sql_injection_required_resources_01",
+  "type": "sql_injection",
+  "cat": "required_resources",
+  "target_section_pwws": "not_attacked",
+  "clean_hit": 1,
+  "clean_rr": 1.0,
+  "clean_top": [
+   "injection/sql_injection.md@4192",
+   "injection/sql_injection.md@3430",
+   "injection/sql_injection.md@3977"
+  ],
+  "clean_types": [
+   "sql_injection",
+   "sql_injection",
+   "sql_injection"
+  ],
+  "poisoned_hit": 1,
+  "poisoned_rr": 1.0,
+  "poisoned_top": [
+   "injection/sql_injection.md@4202",
+   "injection/sql_injection.md@3436",
+   "injection/sql_injection.md@3984"
+  ],
+  "poisoned_types": [
+   "sql_injection",
+   "sql_injection",
+   "sql_injection"
+  ],
+  "poison_hit": 1,
+  "ref_chars": 75
+ },
+ {
+  "id": "expanded_sql_injection_consequences_01",
+  "type": "sql_injection",
+  "cat": "consequences",
+  "target_section_pwws": "successful",
+  "clean_hit": 1,
+  "clean_rr": 0.5,
+  "clean_top": [
+   "injection/sql_injection.md@3430",
+   "injection/sql_injection.md@4192",
+   "injection/sql_injection.md@205"
+  ],
+  "clean_types": [
+   "sql_injection",
+   "sql_injection",
+   "sql_injection"
+  ],
+  "poisoned_hit": 1,
+  "poisoned_rr": 0.5,
+  "poisoned_top": [
+   "injection/sql_injection.md@3436",
+   "injection/sql_injection.md@4202",
+   "injection/sql_injection.md@208"
+  ],
+  "poisoned_types": [
+   "sql_injection",
+   "sql_injection",
+   "sql_injection"
+  ],
+  "poison_hit": 1,
+  "ref_chars": 328
+ },
+ {
+  "id": "expanded_uploading_attack_description_01",
+  "type": "uploading",
+  "cat": "attack_description",
+  "target_section_pwws": "successful",
+  "clean_hit": 1,
+  "clean_rr": 0.3333,
+  "clean_top": [
+   "injection/uploading.md@1597",
+   "injection/uploading.md@1163",
+   "injection/uploading.md@0"
+  ],
+  "clean_types": [
+   "uploading",
+   "uploading",
+   "uploading"
+  ],
+  "poisoned_hit": 1,
+  "poisoned_rr": 1.0,
+  "poisoned_top": [
+   "injection/uploading.md@0",
+   "injection/uploading.md@236",
+   "injection/uploading.md@5611"
+  ],
+  "poisoned_types": [
+   "uploading",
+   "uploading",
+   "uploading"
+  ],
+  "poison_hit": 1,
+  "ref_chars": 518
+ },
+ {
+  "id": "expanded_uploading_execution_flow_01",
+  "type": "uploading",
+  "cat": "execution_flow",
+  "target_section_pwws": "successful",
+  "clean_hit": 1,
+  "clean_rr": 1.0,
+  "clean_top": [
+   "injection/uploading.md@1597",
+   "injection/uploading.md@1163",
+   "injection/uploading.md@0"
+  ],
+  "clean_types": [
+   "uploading",
+   "uploading",
+   "uploading"
+  ],
+  "poisoned_hit": 0,
+  "poisoned_rr": 0.0,
+  "poisoned_top": [
+   "injection/uploading.md@0",
+   "injection/uploading.md@5611",
+   "injection/uploading.md@1905"
+  ],
+  "poisoned_types": [
+   "uploading",
+   "uploading",
+   "uploading"
+  ],
+  "poison_hit": 1,
+  "ref_chars": 746
+ },
+ {
+  "id": "expanded_uploading_prerequisites_01",
+  "type": "uploading",
+  "cat": "prerequisites",
+  "target_section_pwws": "successful",
+  "clean_hit": 1,
+  "clean_rr": 0.3333,
+  "clean_top": [
+   "injection/uploading.md@1163",
+   "injection/uploading.md@1597",
+   "injection/uploading.md@1814"
+  ],
+  "clean_types": [
+   "uploading",
+   "uploading",
+   "uploading"
+  ],
+  "poisoned_hit": 1,
+  "poisoned_rr": 1.0,
+  "poisoned_top": [
+   "injection/uploading.md@1905",
+   "injection/uploading.md@0",
+   "injection/uploading.md@5611"
+  ],
+  "poisoned_types": [
+   "uploading",
+   "uploading",
+   "uploading"
+  ],
+  "poison_hit": 1,
+  "ref_chars": 281
+ },
+ {
+  "id": "expanded_uploading_required_resources_01",
+  "type": "uploading",
+  "cat": "required_resources",
+  "target_section_pwws": "successful",
+  "clean_hit": 0,
+  "clean_rr": 0.0,
+  "clean_top": [
+   "injection/uploading.md@1597",
+   "injection/uploading.md@1163",
+   "injection/uploading.md@0"
+  ],
+  "clean_types": [
+   "uploading",
+   "uploading",
+   "uploading"
+  ],
+  "poisoned_hit": 0,
+  "poisoned_rr": 0.0,
+  "poisoned_top": [
+   "injection/uploading.md@0",
+   "injection/uploading.md@5611",
+   "injection/uploading.md@236"
+  ],
+  "poisoned_types": [
+   "uploading",
+   "uploading",
+   "uploading"
+  ],
+  "poison_hit": 1,
+  "ref_chars": 244
+ },
+ {
+  "id": "expanded_uploading_consequences_01",
+  "type": "uploading",
+  "cat": "consequences",
+  "target_section_pwws": "successful",
+  "clean_hit": 0,
+  "clean_rr": 0.0,
+  "clean_top": [
+   "injection/uploading.md@1163",
+   "injection/uploading.md@1597",
+   "injection/uploading.md@0"
+  ],
+  "clean_types": [
+   "uploading",
+   "uploading",
+   "uploading"
+  ],
+  "poisoned_hit": 0,
+  "poisoned_rr": 0.0,
+  "poisoned_top": [
+   "injection/uploading.md@0",
+   "injection/uploading.md@5611",
+   "injection/uploading.md@1905"
+  ],
+  "poisoned_types": [
+   "uploading",
+   "uploading",
+   "uploading"
+  ],
+  "poison_hit": 1,
+  "ref_chars": 328
+ },
+ {
+  "id": "expanded_xss_attack_description_01",
+  "type": "xss",
+  "cat": "attack_description",
+  "target_section_pwws": "successful",
+  "clean_hit": 1,
+  "clean_rr": 0.5,
+  "clean_top": [
+   "injection/xss.md@5315",
+   "injection/xss.md@225",
+   "injection/xss.md@629"
+  ],
+  "clean_types": [
+   "xss",
+   "xss",
+   "xss"
+  ],
+  "poisoned_hit": 1,
+  "poisoned_rr": 0.5,
+  "poisoned_top": [
+   "injection/xss.md@1661",
+   "injection/xss.md@0",
+   "injection/xss.md@3668"
+  ],
+  "poisoned_types": [
+   "xss",
+   "xss",
+   "xss"
+  ],
+  "poison_hit": 1,
+  "ref_chars": 658
+ },
+ {
+  "id": "expanded_xss_execution_flow_01",
+  "type": "xss",
+  "cat": "execution_flow",
+  "target_section_pwws": "successful",
+  "clean_hit": 0,
+  "clean_rr": 0.0,
+  "clean_top": [
+   "injection/xss.md@4984",
+   "injection/xss.md@5315",
+   "injection/xss.md@8602"
+  ],
+  "clean_types": [
+   "xss",
+   "xss",
+   "xss"
+  ],
+  "poisoned_hit": 1,
+  "poisoned_rr": 0.5,
+  "poisoned_top": [
+   "injection/xss.md@8620",
+   "injection/xss.md@1661",
+   "injection/xss.md@0"
+  ],
+  "poisoned_types": [
+   "xss",
+   "xss",
+   "xss"
+  ],
+  "poison_hit": 1,
+  "ref_chars": 3424
+ },
+ {
+  "id": "expanded_xss_prerequisites_01",
+  "type": "xss",
+  "cat": "prerequisites",
+  "target_section_pwws": "successful",
+  "clean_hit": 1,
+  "clean_rr": 1.0,
+  "clean_top": [
+   "injection/xss.md@4984",
+   "injection/xss.md@5315",
+   "injection/xss.md@629"
+  ],
+  "clean_types": [
+   "xss",
+   "xss",
+   "xss"
+  ],
+  "poisoned_hit": 0,
+  "poisoned_rr": 0.0,
+  "poisoned_top": [
+   "injection/xss.md@8620",
+   "injection/xss.md@5321",
+   "injection/xss.md@2054"
+  ],
+  "poisoned_types": [
+   "xss",
+   "xss",
+   "xss"
+  ],
+  "poison_hit": 1,
+  "ref_chars": 136
+ },
+ {
+  "id": "expanded_xss_required_resources_01",
+  "type": "xss",
+  "cat": "required_resources",
+  "target_section_pwws": "successful",
+  "clean_hit": 1,
+  "clean_rr": 1.0,
+  "clean_top": [
+   "injection/xss.md@4984",
+   "injection/xss.md@5315",
+   "injection/xss.md@8602"
+  ],
+  "clean_types": [
+   "xss",
+   "xss",
+   "xss"
+  ],
+  "poisoned_hit": 0,
+  "poisoned_rr": 0.0,
+  "poisoned_top": [
+   "injection/xss.md@8620",
+   "injection/xss.md@0",
+   "injection/xss.md@2054"
+  ],
+  "poisoned_types": [
+   "xss",
+   "xss",
+   "xss"
+  ],
+  "poison_hit": 1,
+  "ref_chars": 150
+ },
+ {
+  "id": "expanded_xss_consequences_01",
+  "type": "xss",
+  "cat": "consequences",
+  "target_section_pwws": "successful",
+  "clean_hit": 1,
+  "clean_rr": 1.0,
+  "clean_top": [
+   "injection/xss.md@5315",
+   "injection/xss.md@629",
+   "injection/xss.md@8602"
+  ],
+  "clean_types": [
+   "xss",
+   "xss",
+   "xss"
+  ],
+  "poisoned_hit": 1,
+  "poisoned_rr": 1.0,
+  "poisoned_top": [
+   "injection/xss.md@5321",
+   "injection/xss.md@8620",
+   "injection/xss.md@1661"
+  ],
+  "poisoned_types": [
+   "xss",
+   "xss",
+   "xss"
+  ],
+  "poison_hit": 1,
+  "ref_chars": 236
+ },
+ {
+  "id": "expanded_backdoor_attack_description_01",
+  "type": "backdoor",
+  "cat": "attack_description",
+  "target_section_pwws": "successful",
+  "clean_hit": 1,
+  "clean_rr": 0.5,
+  "clean_top": [
+   "malware/backdoor.md@1615",
+   "malware/backdoor.md@0",
+   "malware/backdoor.md@2393"
+  ],
+  "clean_types": [
+   "backdoor",
+   "backdoor",
+   "backdoor"
+  ],
+  "poisoned_hit": 1,
+  "poisoned_rr": 0.5,
+  "poisoned_top": [
+   "malware/backdoor.md@1684",
+   "malware/backdoor.md@0",
+   "malware/backdoor.md@2452"
+  ],
+  "poisoned_types": [
+   "backdoor",
+   "backdoor",
+   "backdoor"
+  ],
+  "poison_hit": 1,
+  "ref_chars": 209
+ },
+ {
+  "id": "expanded_backdoor_execution_flow_01",
+  "type": "backdoor",
+  "cat": "execution_flow",
+  "target_section_pwws": "successful",
+  "clean_hit": 1,
+  "clean_rr": 1.0,
+  "clean_top": [
+   "malware/backdoor.md@0",
+   "malware/backdoor.md@1615",
+   "reconnaissance/vulnerability_scanning.md@953"
+  ],
+  "clean_types": [
+   "backdoor",
+   "backdoor",
+   "vulnerability_scanning"
+  ],
+  "poisoned_hit": 1,
+  "poisoned_rr": 1.0,
+  "poisoned_top": [
+   "malware/backdoor.md@1684",
+   "malware/backdoor.md@0",
+   "malware/backdoor.md@2577"
+  ],
+  "poisoned_types": [
+   "backdoor",
+   "backdoor",
+   "backdoor"
+  ],
+  "poison_hit": 1,
+  "ref_chars": 1635
+ },
+ {
+  "id": "expanded_backdoor_prerequisites_01",
+  "type": "backdoor",
+  "cat": "prerequisites",
+  "target_section_pwws": "failed_or_skipped",
+  "clean_hit": 1,
+  "clean_rr": 0.3333,
+  "clean_top": [
+   "malware/backdoor.md@1615",
+   "malware/backdoor.md@0",
+   "malware/backdoor.md@2518"
+  ],
+  "clean_types": [
+   "backdoor",
+   "backdoor",
+   "backdoor"
+  ],
+  "poisoned_hit": 1,
+  "poisoned_rr": 0.5,
+  "poisoned_top": [
+   "injection/uploading.md@1905",
+   "malware/backdoor.md@2577",
+   "injection/sql_injection.md@3984"
+  ],
+  "poisoned_types": [
+   "uploading",
+   "backdoor",
+   "sql_injection"
+  ],
+  "poison_hit": 1,
+  "ref_chars": 114
+ },
+ {
+  "id": "expanded_password_cracking_attack_description_01",
+  "type": "password_cracking",
+  "cat": "attack_description",
+  "target_section_pwws": "successful",
+  "clean_hit": 1,
+  "clean_rr": 1.0,
+  "clean_top": [
+   "malware/password_cracking.md@211",
+   "malware/password_cracking.md@3060",
+   "malware/password_cracking.md@3639"
+  ],
+  "clean_types": [
+   "password_cracking",
+   "password_cracking",
+   "password_cracking"
+  ],
+  "poisoned_hit": 0,
+  "poisoned_rr": 0.0,
+  "poisoned_top": [
+   "malware/password_cracking.md@1016",
+   "malware/password_cracking.md@1757",
+   "malware/password_cracking.md@1360"
+  ],
+  "poisoned_types": [
+   "password_cracking",
+   "password_cracking",
+   "password_cracking"
+  ],
+  "poison_hit": 0,
+  "ref_chars": 342
+ },
+ {
+  "id": "expanded_password_cracking_execution_flow_01",
+  "type": "password_cracking",
+  "cat": "execution_flow",
+  "target_section_pwws": "failed_or_skipped",
+  "clean_hit": 1,
+  "clean_rr": 1.0,
+  "clean_top": [
+   "malware/password_cracking.md@211",
+   "malware/password_cracking.md@4008",
+   "malware/password_cracking.md@3639"
+  ],
+  "clean_types": [
+   "password_cracking",
+   "password_cracking",
+   "password_cracking"
+  ],
+  "poisoned_hit": 1,
+  "poisoned_rr": 1.0,
+  "poisoned_top": [
+   "malware/password_cracking.md@1016",
+   "malware/password_cracking.md@0",
+   "malware/password_cracking.md@616"
+  ],
+  "poisoned_types": [
+   "password_cracking",
+   "password_cracking",
+   "password_cracking"
+  ],
+  "poison_hit": 1,
+  "ref_chars": 1004
+ },
+ {
+  "id": "expanded_password_cracking_prerequisites_01",
+  "type": "password_cracking",
+  "cat": "prerequisites",
+  "target_section_pwws": "successful",
+  "clean_hit": 0,
+  "clean_rr": 0.0,
+  "clean_top": [
+   "malware/password_cracking.md@211",
+   "malware/password_cracking.md@2412",
+   "malware/password_cracking.md@3639"
+  ],
+  "clean_types": [
+   "password_cracking",
+   "password_cracking",
+   "password_cracking"
+  ],
+  "poisoned_hit": 0,
+  "poisoned_rr": 0.0,
+  "poisoned_top": [
+   "malware/password_cracking.md@1016",
+   "malware/password_cracking.md@616",
+   "injection/sql_injection.md@3984"
+  ],
+  "poisoned_types": [
+   "password_cracking",
+   "password_cracking",
+   "sql_injection"
+  ],
+  "poison_hit": 0,
+  "ref_chars": 495
+ },
+ {
+  "id": "expanded_password_cracking_required_resources_01",
+  "type": "password_cracking",
+  "cat": "required_resources",
+  "target_section_pwws": "successful",
+  "clean_hit": 1,
+  "clean_rr": 0.5,
+  "clean_top": [
+   "malware/password_cracking.md@4008",
+   "malware/password_cracking.md@2412",
+   "malware/password_cracking.md@997"
+  ],
+  "clean_types": [
+   "password_cracking",
+   "password_cracking",
+   "password_cracking"
+  ],
+  "poisoned_hit": 0,
+  "poisoned_rr": 0.0,
+  "poisoned_top": [
+   "malware/password_cracking.md@1016",
+   "malware/password_cracking.md@1757",
+   "malware/password_cracking.md@616"
+  ],
+  "poisoned_types": [
+   "password_cracking",
+   "password_cracking",
+   "password_cracking"
+  ],
+  "poison_hit": 0,
+  "ref_chars": 266
+ },
+ {
+  "id": "expanded_password_cracking_consequences_01",
+  "type": "password_cracking",
+  "cat": "consequences",
+  "target_section_pwws": "successful",
+  "clean_hit": 0,
+  "clean_rr": 0.0,
+  "clean_top": [
+   "malware/password_cracking.md@3639",
+   "malware/password_cracking.md@211",
+   "malware/password_cracking.md@3060"
+  ],
+  "clean_types": [
+   "password_cracking",
+   "password_cracking",
+   "password_cracking"
+  ],
+  "poisoned_hit": 0,
+  "poisoned_rr": 0.0,
+  "poisoned_top": [
+   "malware/password_cracking.md@0",
+   "malware/password_cracking.md@1016",
+   "malware/password_cracking.md@3903"
+  ],
+  "poisoned_types": [
+   "password_cracking",
+   "password_cracking",
+   "password_cracking"
+  ],
+  "poison_hit": 1,
+  "ref_chars": 150
+ },
+ {
+  "id": "expanded_os_fingerprinting_attack_description_01",
+  "type": "os_fingerprinting",
+  "cat": "attack_description",
+  "target_section_pwws": "successful",
+  "clean_hit": 1,
+  "clean_rr": 1.0,
+  "clean_top": [
+   "reconnaissance/os_fingerprinting.md@1067",
+   "reconnaissance/os_fingerprinting.md@659",
+   "reconnaissance/os_fingerprinting.md@256"
+  ],
+  "clean_types": [
+   "os_fingerprinting",
+   "os_fingerprinting",
+   "os_fingerprinting"
+  ],
+  "poisoned_hit": 1,
+  "poisoned_rr": 1.0,
+  "poisoned_top": [
+   "reconnaissance/os_fingerprinting.md@0",
+   "reconnaissance/os_fingerprinting.md@1060",
+   "reconnaissance/port_scanning.md@1107"
+  ],
+  "poisoned_types": [
+   "os_fingerprinting",
+   "os_fingerprinting",
+   "port_scanning"
+  ],
+  "poison_hit": 1,
+  "ref_chars": 919
+ },
+ {
+  "id": "expanded_os_fingerprinting_prerequisites_01",
+  "type": "os_fingerprinting",
+  "cat": "prerequisites",
+  "target_section_pwws": "successful",
+  "clean_hit": 0,
+  "clean_rr": 0.0,
+  "clean_top": [
+   "reconnaissance/os_fingerprinting.md@1067",
+   "reconnaissance/os_fingerprinting.md@659",
+   "reconnaissance/os_fingerprinting.md@256"
+  ],
+  "clean_types": [
+   "os_fingerprinting",
+   "os_fingerprinting",
+   "os_fingerprinting"
+  ],
+  "poisoned_hit": 0,
+  "poisoned_rr": 0.0,
+  "poisoned_top": [
+   "reconnaissance/os_fingerprinting.md@0",
+   "malware/backdoor.md@2577",
+   "reconnaissance/port_scanning.md@1107"
+  ],
+  "poisoned_types": [
+   "os_fingerprinting",
+   "backdoor",
+   "port_scanning"
+  ],
+  "poison_hit": 1,
+  "ref_chars": 157
+ },
+ {
+  "id": "expanded_os_fingerprinting_required_resources_01",
+  "type": "os_fingerprinting",
+  "cat": "required_resources",
+  "target_section_pwws": "failed_or_skipped",
+  "clean_hit": 0,
+  "clean_rr": 0.0,
+  "clean_top": [
+   "reconnaissance/os_fingerprinting.md@1067",
+   "reconnaissance/os_fingerprinting.md@659",
+   "reconnaissance/os_fingerprinting.md@0"
+  ],
+  "clean_types": [
+   "os_fingerprinting",
+   "os_fingerprinting",
+   "os_fingerprinting"
+  ],
+  "poisoned_hit": 0,
+  "poisoned_rr": 0.0,
+  "poisoned_top": [
+   "reconnaissance/os_fingerprinting.md@0",
+   "reconnaissance/port_scanning.md@1107",
+   "reconnaissance/vulnerability_scanning.md@687"
+  ],
+  "poisoned_types": [
+   "os_fingerprinting",
+   "port_scanning",
+   "vulnerability_scanning"
+  ],
+  "poison_hit": 1,
+  "ref_chars": 332
+ },
+ {
+  "id": "expanded_os_fingerprinting_consequences_01",
+  "type": "os_fingerprinting",
+  "cat": "consequences",
+  "target_section_pwws": "successful",
+  "clean_hit": 0,
+  "clean_rr": 0.0,
+  "clean_top": [
+   "reconnaissance/os_fingerprinting.md@1067",
+   "reconnaissance/os_fingerprinting.md@659",
+   "reconnaissance/os_fingerprinting.md@256"
+  ],
+  "clean_types": [
+   "os_fingerprinting",
+   "os_fingerprinting",
+   "os_fingerprinting"
+  ],
+  "poisoned_hit": 0,
+  "poisoned_rr": 0.0,
+  "poisoned_top": [
+   "reconnaissance/os_fingerprinting.md@0",
+   "reconnaissance/port_scanning.md@1107",
+   "reconnaissance/os_fingerprinting.md@1945"
+  ],
+  "poisoned_types": [
+   "os_fingerprinting",
+   "port_scanning",
+   "os_fingerprinting"
+  ],
+  "poison_hit": 1,
+  "ref_chars": 122
+ },
+ {
+  "id": "expanded_port_scanning_attack_description_01",
+  "type": "port_scanning",
+  "cat": "attack_description",
+  "target_section_pwws": "successful",
+  "clean_hit": 1,
+  "clean_rr": 1.0,
+  "clean_top": [
+   "reconnaissance/port_scanning.md@0",
+   "reconnaissance/vulnerability_scanning.md@563",
+   "reconnaissance/vulnerability_scanning.md@209"
+  ],
+  "clean_types": [
+   "port_scanning",
+   "vulnerability_scanning",
+   "vulnerability_scanning"
+  ],
+  "poisoned_hit": 1,
+  "poisoned_rr": 1.0,
+  "poisoned_top": [
+   "reconnaissance/port_scanning.md@0",
+   "reconnaissance/vulnerability_scanning.md@242",
+   "reconnaissance/vulnerability_scanning.md@687"
+  ],
+  "poisoned_types": [
+   "port_scanning",
+   "vulnerability_scanning",
+   "vulnerability_scanning"
+  ],
+  "poison_hit": 1,
+  "ref_chars": 223
+ },
+ {
+  "id": "expanded_port_scanning_prerequisites_01",
+  "type": "port_scanning",
+  "cat": "prerequisites",
+  "target_section_pwws": "successful",
+  "clean_hit": 1,
+  "clean_rr": 1.0,
+  "clean_top": [
+   "reconnaissance/port_scanning.md@0",
+   "reconnaissance/os_fingerprinting.md@1177",
+   "reconnaissance/port_scanning.md@1108"
+  ],
+  "clean_types": [
+   "port_scanning",
+   "os_fingerprinting",
+   "port_scanning"
+  ],
+  "poisoned_hit": 1,
+  "poisoned_rr": 1.0,
+  "poisoned_top": [
+   "reconnaissance/port_scanning.md@0",
+   "reconnaissance/vulnerability_scanning.md@242",
+   "reconnaissance/vulnerability_scanning.md@687"
+  ],
+  "poisoned_types": [
+   "port_scanning",
+   "vulnerability_scanning",
+   "vulnerability_scanning"
+  ],
+  "poison_hit": 1,
+  "ref_chars": 104
+ },
+ {
+  "id": "expanded_port_scanning_required_resources_01",
+  "type": "port_scanning",
+  "cat": "required_resources",
+  "target_section_pwws": "successful",
+  "clean_hit": 0,
+  "clean_rr": 0.0,
+  "clean_top": [
+   "reconnaissance/port_scanning.md@0",
+   "reconnaissance/vulnerability_scanning.md@953",
+   "reconnaissance/vulnerability_scanning.md@563"
+  ],
+  "clean_types": [
+   "port_scanning",
+   "vulnerability_scanning",
+   "vulnerability_scanning"
+  ],
+  "poisoned_hit": 0,
+  "poisoned_rr": 0.0,
+  "poisoned_top": [
+   "reconnaissance/port_scanning.md@0",
+   "reconnaissance/vulnerability_scanning.md@687",
+   "reconnaissance/vulnerability_scanning.md@242"
+  ],
+  "poisoned_types": [
+   "port_scanning",
+   "vulnerability_scanning",
+   "vulnerability_scanning"
+  ],
+  "poison_hit": 1,
+  "ref_chars": 270
+ },
+ {
+  "id": "expanded_port_scanning_consequences_01",
+  "type": "port_scanning",
+  "cat": "consequences",
+  "target_section_pwws": "successful",
+  "clean_hit": 0,
+  "clean_rr": 0.0,
+  "clean_top": [
+   "reconnaissance/port_scanning.md@0",
+   "reconnaissance/port_scanning.md@1108",
+   "reconnaissance/os_fingerprinting.md@1905"
+  ],
+  "clean_types": [
+   "port_scanning",
+   "port_scanning",
+   "os_fingerprinting"
+  ],
+  "poisoned_hit": 0,
+  "poisoned_rr": 0.0,
+  "poisoned_top": [
+   "reconnaissance/port_scanning.md@1107",
+   "reconnaissance/os_fingerprinting.md@1945",
+   "reconnaissance/vulnerability_scanning.md@687"
+  ],
+  "poisoned_types": [
+   "port_scanning",
+   "os_fingerprinting",
+   "vulnerability_scanning"
+  ],
+  "poison_hit": 1,
+  "ref_chars": 211
+ },
+ {
+  "id": "expanded_vulnerability_scanning_att_ck_adversary_context_01",
+  "type": "vulnerability_scanning",
+  "cat": "att_ck_adversary_context",
+  "target_section_pwws": "not_attacked",
+  "clean_hit": 0,
+  "clean_rr": 0.0,
+  "clean_top": [
+   "reconnaissance/vulnerability_scanning.md@563",
+   "reconnaissance/vulnerability_scanning.md@209",
+   "reconnaissance/vulnerability_scanning.md@0"
+  ],
+  "clean_types": [
+   "vulnerability_scanning",
+   "vulnerability_scanning",
+   "vulnerability_scanning"
+  ],
+  "poisoned_hit": 0,
+  "poisoned_rr": 0.0,
+  "poisoned_top": [
+   "reconnaissance/vulnerability_scanning.md@242",
+   "reconnaissance/vulnerability_scanning.md@687",
+   "injection/xss.md@1661"
+  ],
+  "poisoned_types": [
+   "vulnerability_scanning",
+   "vulnerability_scanning",
+   "xss"
+  ],
+  "poison_hit": 1,
+  "ref_chars": 1233
+ },
+ {
+  "id": "expanded_arp_spoofing_attack_description_01",
+  "type": "arp_spoofing",
+  "cat": "attack_description",
+  "target_section_pwws": "failed_or_skipped",
+  "clean_hit": 1,
+  "clean_rr": 1.0,
+  "clean_top": [
+   "spoofing/arp_spoofing.md@0",
+   "spoofing/arp_spoofing.md@3707",
+   "spoofing/arp_spoofing.md@3479"
+  ],
+  "clean_types": [
+   "arp_spoofing",
+   "arp_spoofing",
+   "arp_spoofing"
+  ],
+  "poisoned_hit": 1,
+  "poisoned_rr": 1.0,
+  "poisoned_top": [
+   "spoofing/arp_spoofing.md@0",
+   "spoofing/arp_spoofing.md@3718",
+   "spoofing/arp_spoofing.md@3490"
+  ],
+  "poisoned_types": [
+   "arp_spoofing",
+   "arp_spoofing",
+   "arp_spoofing"
+  ],
+  "poison_hit": 0,
+  "ref_chars": 633
+ },
+ {
+  "id": "expanded_arp_spoofing_execution_flow_01",
+  "type": "arp_spoofing",
+  "cat": "execution_flow",
+  "target_section_pwws": "failed_or_skipped",
+  "clean_hit": 0,
+  "clean_rr": 0.0,
+  "clean_top": [
+   "spoofing/arp_spoofing.md@0",
+   "spoofing/arp_spoofing.md@2652",
+   "spoofing/arp_spoofing.md@3707"
+  ],
+  "clean_types": [
+   "arp_spoofing",
+   "arp_spoofing",
+   "arp_spoofing"
+  ],
+  "poisoned_hit": 0,
+  "poisoned_rr": 0.0,
+  "poisoned_top": [
+   "spoofing/arp_spoofing.md@0",
+   "spoofing/arp_spoofing.md@2662",
+   "spoofing/arp_spoofing.md@3718"
+  ],
+  "poisoned_types": [
+   "arp_spoofing",
+   "arp_spoofing",
+   "arp_spoofing"
+  ],
+  "poison_hit": 0,
+  "ref_chars": 1071
+ },
+ {
+  "id": "expanded_arp_spoofing_prerequisites_01",
+  "type": "arp_spoofing",
+  "cat": "prerequisites",
+  "target_section_pwws": "successful",
+  "clean_hit": 0,
+  "clean_rr": 0.0,
+  "clean_top": [
+   "spoofing/arp_spoofing.md@0",
+   "spoofing/arp_spoofing.md@3707",
+   "spoofing/arp_spoofing.md@2652"
+  ],
+  "clean_types": [
+   "arp_spoofing",
+   "arp_spoofing",
+   "arp_spoofing"
+  ],
+  "poisoned_hit": 0,
+  "poisoned_rr": 0.0,
+  "poisoned_top": [
+   "spoofing/arp_spoofing.md@0",
+   "spoofing/arp_spoofing.md@3718",
+   "spoofing/arp_spoofing.md@2662"
+  ],
+  "poisoned_types": [
+   "arp_spoofing",
+   "arp_spoofing",
+   "arp_spoofing"
+  ],
+  "poison_hit": 0,
+  "ref_chars": 235
+ },
+ {
+  "id": "expanded_dns_spoofing_attack_description_01",
+  "type": "dns_spoofing",
+  "cat": "attack_description",
+  "target_section_pwws": "failed_or_skipped",
+  "clean_hit": 1,
+  "clean_rr": 1.0,
+  "clean_top": [
+   "spoofing/dns_spoofing.md@0",
+   "spoofing/dns_spoofing.md@1538",
+   "ddos/udp_flood.md@626"
+  ],
+  "clean_types": [
+   "dns_spoofing",
+   "dns_spoofing",
+   "udp_flood"
+  ],
+  "poisoned_hit": 1,
+  "poisoned_rr": 1.0,
+  "poisoned_top": [
+   "spoofing/dns_spoofing.md@0",
+   "spoofing/dns_spoofing.md@1548",
+   "ddos/udp_flood.md@630"
+  ],
+  "poisoned_types": [
+   "dns_spoofing",
+   "dns_spoofing",
+   "udp_flood"
+  ],
+  "poison_hit": 0,
+  "ref_chars": 433
+ },
+ {
+  "id": "expanded_dns_spoofing_prerequisites_01",
+  "type": "dns_spoofing",
+  "cat": "prerequisites",
+  "target_section_pwws": "not_attacked",
+  "clean_hit": 1,
+  "clean_rr": 0.3333,
+  "clean_top": [
+   "spoofing/dns_spoofing.md@0",
+   "spoofing/dns_spoofing.md@1538",
+   "spoofing/dns_spoofing.md@203"
+  ],
+  "clean_types": [
+   "dns_spoofing",
+   "dns_spoofing",
+   "dns_spoofing"
+  ],
+  "poisoned_hit": 1,
+  "poisoned_rr": 0.3333,
+  "poisoned_top": [
+   "spoofing/dns_spoofing.md@0",
+   "spoofing/dns_spoofing.md@1548",
+   "spoofing/dns_spoofing.md@206"
+  ],
+  "poisoned_types": [
+   "dns_spoofing",
+   "dns_spoofing",
+   "dns_spoofing"
+  ],
+  "poison_hit": 0,
+  "ref_chars": 17
+ }
+]
