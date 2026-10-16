@@ -185,6 +185,32 @@ test.describe("Evidence check (mocked backend)", () => {
     await expect(page.locator(".answer-text")).toHaveCount(0);
   });
 
+  test("abstained: a refusal is released and labelled, not treated as an error", async ({ page }) => {
+    await mockBackend(page, (route) =>
+      route.fulfill({
+        json: guardedResponse({
+          outcome: "abstained",
+          decision: "released",
+          answer: "The retrieved context does not describe HTTP flood attacks.",
+          claims: [],
+          explanation:
+            "The draft declines to answer because the retrieved sources are insufficient; it is released as a refusal, not as an answer.",
+        }),
+      }),
+    );
+    await page.goto("/");
+    await waitForBackendOnline(page);
+    await enableEvidenceCheck(page);
+    await askQuestion(page, QUESTION);
+    await resolved(page);
+
+    await expect(page.locator(".answer-text")).toContainText("does not describe");
+    const card = page.locator(".evidence-check-card");
+    await expect(card).toHaveAttribute("data-outcome", "abstained");
+    await expect(card).toContainText("sources were insufficient");
+    await expect(page.locator(".report-chip-row")).toContainText("Abstained");
+  });
+
   test("failure: a backend error renders the error card, not a result", async ({ page }) => {
     await mockBackend(page, (route) =>
       route.fulfill({ status: 500, json: { detail: "The evidence-checked request failed unexpectedly." } }),
