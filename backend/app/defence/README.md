@@ -88,3 +88,39 @@ git checkout <pre-batch-commit> -- frontend-next/app/page.tsx frontend-next/app/
 If the batch is a single commit, `git revert <batch-commit>` does all of the
 above. Audit records in `backend/data/evidence_guard_audit/` are research
 evidence: keep them, don't delete them as part of a rollback.
+
+---
+
+# Entropy-filter defence (`entropy_filter.py`, policy `entropy-filter-v1`)
+
+**What it does.** For the `defended` system state, the pipeline:
+1. Retrieves 10 candidate chunks from the PWWS-poisoned collection.
+2. Scores each chunk with the synonym gap: the mean of its three largest values of
+   `log2 q(best WordNet synonym) − log2 q(word)`, in bits.
+3. Drops chunks scoring above **7.2262 bits**.
+4. Passes the top 3 remaining chunks to the unchanged prompt and model.
+
+The reference q mixes, 50/50, leave-one-document-out word frequencies from the same collection with
+general-English frequencies (`wordfreq`). No clean copy, manifest or label is used at runtime. If
+WordNet is missing the filter raises `DetectorUnavailable`; it never passes text through unchecked.
+
+**Where the threshold comes from.** It was frozen on development-document chunks at a 10% false-positive
+rate (`docs/research/results/entropy-detector-20261016/detector-poisoned.json`) before any
+answer-level run. `test_frozen_threshold_matches_recorded_development_choice` enforces this.
+
+**Change record** (approved by the author on 17 Oct 2026; CLAUDE.md backend checklist):
+
+1. **Problem:** the `defended` state had no implementation, so `/chat` could not serve it.
+2. **Why backend:** retrieval happens in the backend.
+3. **Files:** `app/defence/entropy_filter.py` (new); `app/main.py` (one argument added to `answer_question` in
+   `/chat`); `tests/test_entropy_filter.py` (new); `pyproject.toml` (adds `wordfreq` and `nltk`).
+4. **Unchanged:** `clean` and `poisoned` behaviour; `/compare` and `/guarded-chat`; the prompt, model, embeddings,
+   chunking and top-3 context; all corpora and collections. No new collection is created.
+5. **API contract:** unchanged. `system_state="defended"` was already accepted and now works. Kept sources carry
+   `metadata.entropy_filter` (score, threshold, candidate rank, evidence words).
+6. **Research validity:** the threshold was frozen before evaluation. The control corpus is reported with every
+   detector result. The live evaluation is paired with the main run.
+7. **Security:** no new inputs. Scoring is CPU-only and runs on retrieved text.
+8. **Tests:** 7 tests, covering ranking, backfill, leave-one-out reference, fail-closed behaviour, routing, the frozen
+   threshold, and exact reproduction of the recorded scores.
+9. **Rollback:** delete `entropy_filter.py` and its test, and remove the `retrieval_fn=` argument from `/chat`.

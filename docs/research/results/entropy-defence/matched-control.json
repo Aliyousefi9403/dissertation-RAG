@@ -1,0 +1,59 @@
+{
+ "matched_edited_chunks": 47,
+ "scores": {
+  "char_kl": {
+   "poisoned_higher": 16,
+   "nonzero": 47,
+   "mean_delta": -0.0043,
+   "sign_test_p": 0.039986
+  },
+  "kl_english": {
+   "poisoned_higher": 36,
+   "nonzero": 47,
+   "mean_delta": 0.2511,
+   "sign_test_p": 0.000346
+  },
+  "mean_english": {
+   "poisoned_higher": 38,
+   "nonzero": 47,
+   "mean_delta": 0.314,
+   "sign_test_p": 2.5e-05
+  },
+  "topk_english": {
+   "poisoned_higher": 31,
+   "nonzero": 38,
+   "mean_delta": 0.9862,
+   "sign_test_p": 0.000116
+  },
+  "kl_domain": {
+   "poisoned_higher": 44,
+   "nonzero": 47,
+   "mean_delta": 0.5057,
+   "sign_test_p": 0.0
+  },
+  "mean_domain": {
+   "poisoned_higher": 44,
+   "nonzero": 47,
+   "mean_delta": 0.5686,
+   "sign_test_p": 0.0
+  },
+  "topk_domain": {
+   "poisoned_higher": 37,
+   "nonzero": 43,
+   "mean_delta": 1.593,
+   "sign_test_p": 2e-06
+  },
+  "syngap_top3_english": {
+   "poisoned_higher": 35,
+   "nonzero": 42,
+   "mean_delta": 1.4415,
+   "sign_test_p": 1.5e-05
+  },
+  "syngap_top3_domain": {
+   "poisoned_higher": 38,
+   "nonzero": 47,
+   "mean_delta": 2.6272,
+   "sign_test_p": 2.5e-05
+  }
+ }
+}
