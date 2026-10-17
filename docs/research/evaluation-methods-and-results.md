@@ -461,6 +461,16 @@ Findings:
 - **Dropping costs relevance on the poisoned corpus** (Hit@3 0.568 → 0.477): for many questions the expected section *is* the poisoned one, so removing it also removes the answer. This is the measured motivation for a *repair* defence (revert the flagged substitution to its likely original) rather than a *drop* defence.
 - Depth matters little above k = 10; at k = 3 the filter can only shrink the context (clean Hit@3 0.636).
 
+**Repair feasibility (offline, no model calls).** `docs/research/scripts/repair_feasibility.py` asks whether the detector's suggested originals are good enough to *repair* a passage instead of dropping it. Ground truth is the PWWS manifest: aligning each original with its adversarial text gives the exact substitute → original pairs (359 substitutions in 1,818 scored words). Rule: replace w by its most likely WordNet synonym when gap(w) > τ, with τ chosen on development documents only (highest recall at precision ≥ 0.8): τ = 9.5 bits.
+
+| Split | Words repaired | Precision | Recall | Restored to the exact original | Restored to the same base form |
+|---|---|---|---|---|---|
+| Development | 42 | 0.88 | 0.13 | 0.57 | 0.70 |
+| Held-out | 5 | 1.00 | 0.06 | 1.00 | 1.00 |
+| All | 47 | 0.89 | 0.12 | 0.62 | 0.74 |
+
+Word-level repair is precise but narrow: it fixes the most conspicuous substitutions (identicalness → identity, abnegate → deny, onrush → attack, engraft → plant) and leaves most of the others in place. At lower τ recall rises (0.56 at 4 bits) but precision falls to 0.57. The held-out row rests on five words. A repair defence is therefore best evaluated as *repair, then rescore*: repairing the high-gap words may bring a flagged passage back under the threshold, keeping its relevant content instead of dropping it. That design is proposed for approval, not yet implemented.
+
 **Human check of the LLM judge.** `docs/research/scripts/judge_agreement.py sample` drew a blind, stratified sample of 75 answers from the main and defence runs: up to 5 per judge score level (0, 0.5, 0.75, 1.0) per condition, one repetition per question and condition, seed 20261016. The grading sheet (`docs/research/results/judge-agreement/grading-sheet.csv`) shows only the question, reference facts and answer, in shuffled order, with the judge's own rubric verbatim; the link back to condition and judge score is in a separate key. After hand grading, `judge_agreement.py score` reports exact agreement, agreement within 0.25, mean absolute difference, mean signed difference (judge − human), Spearman correlation and quadratic-weighted Cohen's kappa, overall and per condition. *Status: sheet issued, not yet graded.*
 
 **Evidence index.** `python docs/research/scripts/verify_evidence.py` reads only saved files and (1) checks 31 headline numbers quoted in this document, the PDD and the report for Nikos against the result file that produced each one, (2) re-hashes all 1,980 observation records of the main and defence runs and compares them with the SHA-256 values the runner wrote at completion, and (3) writes a SHA-256 manifest of the benchmark, the three corpora, the attack manifest, the defence code, both runs and every result file. Current state: 31/31 claims match; 1,188/1,188 and 792/792 records unchanged. Output: `docs/research/EVIDENCE.md`, `docs/research/evidence-manifest.json`.

@@ -1,0 +1,424 @@
+{
+ "rule": "repair w -> most likely WordNet synonym when gap(w) > tau; tau = highest dev recall with dev precision >= 0.8",
+ "chosen_tau_bits": 9.5,
+ "words_scored": 1818,
+ "development": {
+  "tau": 9.5,
+  "repaired": 42,
+  "substitutions": 281,
+  "precision": 0.881,
+  "recall": 0.132,
+  "exact_restore_of_repaired_substitutions": 0.568,
+  "lemma_restore_of_repaired_substitutions": 0.703,
+  "exact_restore_of_all_substitutions": 0.075
+ },
+ "held_out": {
+  "tau": 9.5,
+  "repaired": 5,
+  "substitutions": 78,
+  "precision": 1.0,
+  "recall": 0.064,
+  "exact_restore_of_repaired_substitutions": 1.0,
+  "lemma_restore_of_repaired_substitutions": 1.0,
+  "exact_restore_of_all_substitutions": 0.064
+ },
+ "all": {
+  "tau": 9.5,
+  "repaired": 47,
+  "substitutions": 359,
+  "precision": 0.894,
+  "recall": 0.117,
+  "exact_restore_of_repaired_substitutions": 0.619,
+  "lemma_restore_of_repaired_substitutions": 0.738,
+  "exact_restore_of_all_substitutions": 0.072
+ },
+ "development_curve": [
+  {
+   "tau": 2.0,
+   "repaired": 490,
+   "substitutions": 281,
+   "precision": 0.443,
+   "recall": 0.772,
+   "exact_restore_of_repaired_substitutions": 0.502,
+   "lemma_restore_of_repaired_substitutions": 0.599,
+   "exact_restore_of_all_substitutions": 0.388
+  },
+  {
+   "tau": 2.5,
+   "repaired": 432,
+   "substitutions": 281,
+   "precision": 0.486,
+   "recall": 0.747,
+   "exact_restore_of_repaired_substitutions": 0.51,
+   "lemma_restore_of_repaired_substitutions": 0.61,
+   "exact_restore_of_all_substitutions": 0.381
+  },
+  {
+   "tau": 3.0,
+   "repaired": 373,
+   "substitutions": 281,
+   "precision": 0.536,
+   "recall": 0.712,
+   "exact_restore_of_repaired_substitutions": 0.525,
+   "lemma_restore_of_repaired_substitutions": 0.63,
+   "exact_restore_of_all_substitutions": 0.374
+  },
+  {
+   "tau": 3.5,
+   "repaired": 332,
+   "substitutions": 281,
+   "precision": 0.545,
+   "recall": 0.644,
+   "exact_restore_of_repaired_substitutions": 0.492,
+   "lemma_restore_of_repaired_substitutions": 0.602,
+   "exact_restore_of_all_substitutions": 0.317
+  },
+  {
+   "tau": 4.0,
+   "repaired": 277,
+   "substitutions": 281,
+   "precision": 0.57,
+   "recall": 0.562,
+   "exact_restore_of_repaired_substitutions": 0.506,
+   "lemma_restore_of_repaired_substitutions": 0.601,
+   "exact_restore_of_all_substitutions": 0.285
+  },
+  {
+   "tau": 4.5,
+   "repaired": 230,
+   "substitutions": 281,
+   "precision": 0.587,
+   "recall": 0.48,
+   "exact_restore_of_repaired_substitutions": 0.519,
+   "lemma_restore_of_repaired_substitutions": 0.615,
+   "exact_restore_of_all_substitutions": 0.249
+  },
+  {
+   "tau": 5.0,
+   "repaired": 197,
+   "substitutions": 281,
+   "precision": 0.619,
+   "recall": 0.434,
+   "exact_restore_of_repaired_substitutions": 0.533,
+   "lemma_restore_of_repaired_substitutions": 0.631,
+   "exact_restore_of_all_substitutions": 0.231
+  },
+  {
+   "tau": 5.5,
+   "repaired": 170,
+   "substitutions": 281,
+   "precision": 0.629,
+   "recall": 0.381,
+   "exact_restore_of_repaired_substitutions": 0.542,
+   "lemma_restore_of_repaired_substitutions": 0.636,
+   "exact_restore_of_all_substitutions": 0.206
+  },
+  {
+   "tau": 6.0,
+   "repaired": 131,
+   "substitutions": 281,
+   "precision": 0.656,
+   "recall": 0.306,
+   "exact_restore_of_repaired_substitutions": 0.512,
+   "lemma_restore_of_repaired_substitutions": 0.593,
+   "exact_restore_of_all_substitutions": 0.157
+  },
+  {
+   "tau": 6.5,
+   "repaired": 108,
+   "substitutions": 281,
+   "precision": 0.657,
+   "recall": 0.253,
+   "exact_restore_of_repaired_substitutions": 0.549,
+   "lemma_restore_of_repaired_substitutions": 0.62,
+   "exact_restore_of_all_substitutions": 0.139
+  },
+  {
+   "tau": 7.0,
+   "repaired": 88,
+   "substitutions": 281,
+   "precision": 0.705,
+   "recall": 0.221,
+   "exact_restore_of_repaired_substitutions": 0.581,
+   "lemma_restore_of_repaired_substitutions": 0.661,
+   "exact_restore_of_all_substitutions": 0.128
+  },
+  {
+   "tau": 7.5,
+   "repaired": 79,
+   "substitutions": 281,
+   "precision": 0.722,
+   "recall": 0.203,
+   "exact_restore_of_repaired_substitutions": 0.579,
+   "lemma_restore_of_repaired_substitutions": 0.667,
+   "exact_restore_of_all_substitutions": 0.117
+  },
+  {
+   "tau": 8.0,
+   "repaired": 66,
+   "substitutions": 281,
+   "precision": 0.773,
+   "recall": 0.181,
+   "exact_restore_of_repaired_substitutions": 0.569,
+   "lemma_restore_of_repaired_substitutions": 0.667,
+   "exact_restore_of_all_substitutions": 0.103
+  },
+  {
+   "tau": 8.5,
+   "repaired": 57,
+   "substitutions": 281,
+   "precision": 0.772,
+   "recall": 0.157,
+   "exact_restore_of_repaired_substitutions": 0.568,
+   "lemma_restore_of_repaired_substitutions": 0.682,
+   "exact_restore_of_all_substitutions": 0.089
+  },
+  {
+   "tau": 9.0,
+   "repaired": 49,
+   "substitutions": 281,
+   "precision": 0.796,
+   "recall": 0.139,
+   "exact_restore_of_repaired_substitutions": 0.564,
+   "lemma_restore_of_repaired_substitutions": 0.692,
+   "exact_restore_of_all_substitutions": 0.078
+  },
+  {
+   "tau": 9.5,
+   "repaired": 42,
+   "substitutions": 281,
+   "precision": 0.881,
+   "recall": 0.132,
+   "exact_restore_of_repaired_substitutions": 0.568,
+   "lemma_restore_of_repaired_substitutions": 0.703,
+   "exact_restore_of_all_substitutions": 0.075
+  },
+  {
+   "tau": 10.0,
+   "repaired": 37,
+   "substitutions": 281,
+   "precision": 0.919,
+   "recall": 0.121,
+   "exact_restore_of_repaired_substitutions": 0.559,
+   "lemma_restore_of_repaired_substitutions": 0.706,
+   "exact_restore_of_all_substitutions": 0.068
+  },
+  {
+   "tau": 10.5,
+   "repaired": 30,
+   "substitutions": 281,
+   "precision": 0.933,
+   "recall": 0.1,
+   "exact_restore_of_repaired_substitutions": 0.571,
+   "lemma_restore_of_repaired_substitutions": 0.75,
+   "exact_restore_of_all_substitutions": 0.057
+  },
+  {
+   "tau": 11.0,
+   "repaired": 25,
+   "substitutions": 281,
+   "precision": 1.0,
+   "recall": 0.089,
+   "exact_restore_of_repaired_substitutions": 0.56,
+   "lemma_restore_of_repaired_substitutions": 0.72,
+   "exact_restore_of_all_substitutions": 0.05
+  },
+  {
+   "tau": 11.5,
+   "repaired": 22,
+   "substitutions": 281,
+   "precision": 1.0,
+   "recall": 0.078,
+   "exact_restore_of_repaired_substitutions": 0.545,
+   "lemma_restore_of_repaired_substitutions": 0.682,
+   "exact_restore_of_all_substitutions": 0.043
+  },
+  {
+   "tau": 12.0,
+   "repaired": 15,
+   "substitutions": 281,
+   "precision": 1.0,
+   "recall": 0.053,
+   "exact_restore_of_repaired_substitutions": 0.667,
+   "lemma_restore_of_repaired_substitutions": 0.8,
+   "exact_restore_of_all_substitutions": 0.036
+  }
+ ],
+ "examples": [
+  {
+   "file": "malware/password_cracking.md",
+   "word": "identicalness",
+   "suggested": "identity",
+   "original": "identity",
+   "gap": 18.72853503121348
+  },
+  {
+   "file": "ddos/http_flood.md",
+   "word": "abnegate",
+   "suggested": "deny",
+   "original": "deny",
+   "gap": 18.578297623195148
+  },
+  {
+   "file": "ddos/http_flood.md",
+   "word": "onrush",
+   "suggested": "attack",
+   "original": "attack",
+   "gap": 18.204080218039692
+  },
+  {
+   "file": "malware/password_cracking.md",
+   "word": "immix",
+   "suggested": "flux",
+   "original": "combine",
+   "gap": 17.02763605234475
+  },
+  {
+   "file": "ddos/icmp_flood.md",
+   "word": "unremarkably",
+   "suggested": "commonly",
+   "original": "commonly",
+   "gap": 15.660694483012623
+  },
+  {
+   "file": "reconnaissance/port_scanning.md",
+   "word": "meshing",
+   "suggested": "network",
+   "original": "network",
+   "gap": 15.152977716607026
+  },
+  {
+   "file": "malware/password_cracking.md",
+   "word": "valuate",
+   "suggested": "value",
+   "original": "value",
+   "gap": 14.825833017885149
+  },
+  {
+   "file": "malware/backdoor.md",
+   "word": "connecter",
+   "suggested": "connection",
+   "original": "connectors",
+   "gap": 14.703207040376103
+  },
+  {
+   "file": "malware/password_cracking.md",
+   "word": "noesis",
+   "suggested": "knowledge",
+   "original": "knowledge",
+   "gap": 14.238365039338367
+  },
+  {
+   "file": "malware/password_cracking.md",
+   "word": "noesis",
+   "suggested": "knowledge",
+   "original": "knowledge",
+   "gap": 14.238365039338367
+  },
+  {
+   "file": "malware/backdoor.md",
+   "word": "engraft",
+   "suggested": "plant",
+   "original": "implants",
+   "gap": 14.10409786200099
+  },
+  {
+   "file": "reconnaissance/port_scanning.md",
+   "word": "larboard",
+   "suggested": "port",
+   "original": "ports",
+   "gap": 13.44056939995307
+  },
+  {
+   "file": "reconnaissance/port_scanning.md",
+   "word": "utilisation",
+   "suggested": "use",
+   "original": "uses",
+   "gap": 13.19727787784756
+  },
+  {
+   "file": "malware/password_cracking.md",
+   "word": "decease",
+   "suggested": "go",
+   "original": "go",
+   "gap": 13.017952110527341
+  },
+  {
+   "file": "injection/uploading.md",
+   "word": "admittance",
+   "suggested": "access",
+   "original": "access",
+   "gap": 12.674992418255549
+  },
+  {
+   "file": "injection/xss.md",
+   "word": "expend",
+   "suggested": "use",
+   "original": "use",
+   "gap": 12.635570670826638
+  },
+  {
+   "file": "malware/password_cracking.md",
+   "word": "forcefulness",
+   "suggested": "force",
+   "original": "force",
+   "gap": 12.180597189727271
+  },
+  {
+   "file": "malware/password_cracking.md",
+   "word": "countersign",
+   "suggested": "word",
+   "original": "password",
+   "gap": 11.92514230016474
+  },
+  {
+   "file": "malware/password_cracking.md",
+   "word": "countersign",
+   "suggested": "word",
+   "original": "password",
+   "gap": 11.92514230016474
+  },
+  {
+   "file": "malware/password_cracking.md",
+   "word": "countersign",
+   "suggested": "word",
+   "original": "password",
+   "gap": 11.92514230016474
+  },
+  {
+   "file": "malware/password_cracking.md",
+   "word": "countersign",
+   "suggested": "word",
+   "original": "passwords",
+   "gap": 11.92514230016474
+  },
+  {
+   "file": "injection/xss.md",
+   "word": "informant",
+   "suggested": "source",
+   "original": "source",
+   "gap": 11.86638296470591
+  },
+  {
+   "file": "malware/password_cracking.md",
+   "word": "adjudicate",
+   "suggested": "try",
+   "original": "tries",
+   "gap": 11.676248447452203
+  },
+  {
+   "file": "malware/password_cracking.md",
+   "word": "gib",
+   "suggested": "g",
+   "original": "g",
+   "gap": 11.549602282579169
+  },
+  {
+   "file": "malware/password_cracking.md",
+   "word": "pecker",
+   "suggested": "tool",
+   "original": "tools",
+   "gap": 11.480044240391077
+  }
+ ]
+}
