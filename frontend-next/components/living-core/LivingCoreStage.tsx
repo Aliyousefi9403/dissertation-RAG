@@ -17,6 +17,8 @@ import { useDeviceTier } from "@/hooks/useDeviceTier";
 import { LivingCoreStaticFallback } from "@/components/living-core/LivingCoreStaticFallback";
 import { EnergyBeams } from "@/components/living-core/EnergyBeams";
 import { SourcePins } from "@/components/living-core/SourcePins";
+import { DefenceShield } from "@/components/living-core/DefenceShield";
+import { skippedPassageCount, type ShieldState } from "@/lib/living-core/defenceShield";
 
 interface LivingCoreStageProps {
   chatState: ChatState;
@@ -28,6 +30,22 @@ interface LivingCoreStageProps {
   attackDetected?: boolean;
   /** Forwarded to `LivingCoreScene` — see its own doc comment. */
   compareMode?: boolean;
+  /** Defended mode: the particle field contracts and fades behind the
+   * entropy shield (`DefenceShield`). */
+  defendedMode?: boolean;
+}
+
+function shieldStateFor(phase: LivingCorePhase): ShieldState {
+  if (phase === "submitting") {
+    return "scanning";
+  }
+  if (phase === "fault") {
+    return "fault";
+  }
+  if (phase === "converged" || phase === "unresolved") {
+    return "resolved";
+  }
+  return "armed";
 }
 
 // Loaded only once WebGL support + motion checks pass, so the three.js /
@@ -118,6 +136,7 @@ export function LivingCoreStage({
   healthStatus,
   attackDetected = false,
   compareMode = false,
+  defendedMode = false,
 }: LivingCoreStageProps) {
   const phase = getLivingCorePhase(chatState, healthStatus);
   const sources = extractSources(chatState);
@@ -148,8 +167,21 @@ export function LivingCoreStage({
   const canRender3D =
     webglSupport === "supported" && reducedMotion === false && !runtimeFailure;
 
+  const shield = defendedMode ? (
+    <DefenceShield
+      state={shieldStateFor(phase)}
+      skipped={skippedPassageCount(sources)}
+      variant={canRender3D ? "stage" : "inline"}
+    />
+  ) : null;
+
   if (!canRender3D) {
-    return <LivingCoreStaticFallback phase={phase} sources={sources} detail={detail} />;
+    return (
+      <>
+        {shield}
+        <LivingCoreStaticFallback phase={phase} sources={sources} detail={detail} />
+      </>
+    );
   }
 
   // `.living-core-canvas-frame` is now a fixed, fullscreen ambient
@@ -162,7 +194,7 @@ export function LivingCoreStage({
   // status caption that used to render below this frame now lives in
   // `PlatformStatusBar` (see `app/page.tsx`) instead.
   return (
-    <div className="living-core-canvas-frame">
+    <div className="living-core-canvas-frame" data-defended={defendedMode}>
       <div className="living-core-canvas-wrap">
         <LivingCoreErrorBoundary onError={handleRuntimeFailure}>
           <DynamicLivingCoreScene
@@ -178,6 +210,7 @@ export function LivingCoreStage({
       </div>
       <EnergyBeams />
       <SourcePins sources={sources} />
+      {shield}
     </div>
   );
 }

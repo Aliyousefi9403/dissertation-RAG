@@ -142,6 +142,7 @@ export default function Home() {
                 healthStatus={healthStatus}
                 attackDetected={experimentMode === "poisoned"}
                 compareMode={isComparing}
+                defendedMode={experimentMode === "defended"}
               />
             </div>
           </div>

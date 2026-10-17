@@ -273,7 +273,10 @@ test.describe("Evidence check (mocked backend)", () => {
     });
     await page.goto("/");
     await waitForBackendOnline(page);
+    await expect(page.getByTestId("defence-shield")).toHaveCount(0);
     await page.getByRole("radio", { name: "Defended" }).click();
+    await expect(page.getByTestId("defence-shield")).toBeVisible();
+    await expect(page.getByTestId("defence-shield")).toContainText("armed");
     await expect(page.getByRole("switch", { name: "Evidence check" })).toBeDisabled();
     await expect(page.getByRole("status", { name: "Platform status" })).toContainText("PWWS poisoned + entropy filter");
     await askQuestion(page, QUESTION);
@@ -283,6 +286,11 @@ test.describe("Evidence check (mocked backend)", () => {
     await page.locator(".source-row-summary").first().click();
     await expect(page.locator(".source-row-filter")).toContainText("3.42 bits");
     await expect(page.locator(".source-row-filter")).toContainText("candidate rank 2");
+    // One source kept at candidate rank 2 => exactly one candidate was skipped.
+    await expect(page.getByTestId("defence-shield")).toContainText("1 suspicious passage blocked");
+    await expect(page.locator(".defence-shield-token")).toHaveCount(1);
+    await page.getByRole("radio", { name: "Clean" }).click();
+    await expect(page.getByTestId("defence-shield")).toHaveCount(0);
   });
 
   test("compare mode disables the toggle; status bar shows only real values", async ({ page }) => {
