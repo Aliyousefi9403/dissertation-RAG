@@ -3197,3 +3197,24 @@ pre {
     align-items: flex-start;
   }
 }
+
+/* Defended mode (PWWS poisoned + entropy filter) */
+.experiment-mode-caption--defended {
+  color: #7fd99a;
+}
+
+.experiment-mode-button[data-mode="defended"][data-active="true"] {
+  color: #7fd99a;
+  border-color: rgba(127, 217, 154, 0.4);
+  background: rgba(127, 217, 154, 0.1);
+}
+
+.source-row-filter {
+  margin: 8px 0 0;
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+
+.source-row-filter strong {
+  color: #7fd99a;
+}

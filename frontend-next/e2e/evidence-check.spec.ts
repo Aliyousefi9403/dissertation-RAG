@@ -240,6 +240,51 @@ test.describe("Evidence check (mocked backend)", () => {
     expect(calls).toEqual(["chat"]);
   });
 
+  test("defended mode: /chat with system_state=defended, filter verdict shown, evidence check disabled", async ({ page }) => {
+    const bodies: unknown[] = [];
+    await page.route("**/health", (route) => route.fulfill({ json: { status: "healthy" } }));
+    await page.route("**/chat", async (route) => {
+      bodies.push(route.request().postDataJSON());
+      await route.fulfill({
+        json: {
+          question: QUESTION,
+          answer: "Use parameterized queries [Source 1].",
+          system_state: "defended",
+          sources: [
+            {
+              source_number: 1,
+              source: "injection/sql_injection.md",
+              score: 0.71,
+              content: SQLI,
+              metadata: {
+                entropy_filter: {
+                  policy_version: "entropy-filter-v1",
+                  candidate_rank: 2,
+                  score_bits: 3.42,
+                  threshold_bits: 7.2262,
+                  flagged: false,
+                  top_words: [],
+                },
+              },
+            },
+          ],
+        },
+      });
+    });
+    await page.goto("/");
+    await waitForBackendOnline(page);
+    await page.getByRole("radio", { name: "Defended" }).click();
+    await expect(page.getByRole("switch", { name: "Evidence check" })).toBeDisabled();
+    await expect(page.getByRole("status", { name: "Platform status" })).toContainText("PWWS poisoned + entropy filter");
+    await askQuestion(page, QUESTION);
+    await resolved(page);
+
+    expect(bodies).toEqual([{ question: QUESTION, system_state: "defended" }]);
+    await page.locator(".source-row-summary").first().click();
+    await expect(page.locator(".source-row-filter")).toContainText("3.42 bits");
+    await expect(page.locator(".source-row-filter")).toContainText("candidate rank 2");
+  });
+
   test("compare mode disables the toggle; status bar shows only real values", async ({ page }) => {
     await mockBackend(page, (route) => route.fulfill({ json: guardedResponse() }));
     await page.goto("/");

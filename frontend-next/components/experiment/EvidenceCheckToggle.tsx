@@ -25,7 +25,7 @@ export function EvidenceCheckToggle({ enabled, onChange, disabled }: EvidenceChe
       className="evidence-check-toggle"
       title={
         disabled
-          ? "Evidence check is not available in Compare mode"
+          ? "Evidence check is available in Clean and PWWS Poisoned modes only"
           : "Check the draft's claims against the retrieved sources before showing it (experimental)"
       }
       onClick={() => onChange(!enabled)}

@@ -80,8 +80,12 @@ export default function Home() {
       return;
     }
 
-    void submitQuestion(question, experimentMode === "poisoned" ? "poisoned" : "clean", {
-      evidenceCheck: evidenceCheckEnabled,
+    const systemState =
+      experimentMode === "poisoned" || experimentMode === "defended" ? experimentMode : "clean";
+
+    void submitQuestion(question, systemState, {
+      // The evidence check (`/guarded-chat`) supports clean/poisoned only.
+      evidenceCheck: evidenceCheckEnabled && systemState !== "defended",
     });
   }
 
@@ -98,7 +102,7 @@ export default function Home() {
           <EvidenceCheckToggle
             enabled={evidenceCheckEnabled}
             onChange={setEvidenceCheckEnabled}
-            disabled={isComparing}
+            disabled={isComparing || experimentMode === "defended"}
           />
         </div>
       </header>

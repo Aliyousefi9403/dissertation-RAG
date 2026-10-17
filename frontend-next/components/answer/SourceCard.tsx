@@ -50,6 +50,23 @@ function formatMetadataValue(value: unknown): string {
  * via the native <details>/<summary> disclosure, so it is fully keyboard-
  * and screen-reader-operable without any extra scripting.
  */
+interface EntropyVerdict {
+  score_bits: number;
+  threshold_bits: number;
+  candidate_rank: number;
+}
+
+/** Present only in Defended mode: the entropy filter's real decision for this
+ * chunk (backend `app/defence/entropy_filter.py`), not a confidence score. */
+function isEntropyVerdict(value: unknown): value is EntropyVerdict {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    typeof (value as EntropyVerdict).score_bits === "number" &&
+    typeof (value as EntropyVerdict).threshold_bits === "number"
+  );
+}
+
 export function SourceCard({ source }: SourceCardProps) {
   const metadataEntries = Object.entries(source.metadata).filter(([key]) =>
     VISIBLE_METADATA_KEYS.has(key),
@@ -72,6 +89,15 @@ export function SourceCard({ source }: SourceCardProps) {
         <div className="source-row-content">
           <Markdown content={source.content} />
         </div>
+
+        {isEntropyVerdict(source.metadata.entropy_filter) && (
+          <p className="source-row-filter">
+            Entropy filter: kept —{" "}
+            <strong>{source.metadata.entropy_filter.score_bits.toFixed(2)} bits</strong>{" "}
+            (threshold {source.metadata.entropy_filter.threshold_bits} bits; candidate rank{" "}
+            {source.metadata.entropy_filter.candidate_rank})
+          </p>
+        )}
 
         {metadataEntries.length > 0 && (
           <dl className="source-row-meta">

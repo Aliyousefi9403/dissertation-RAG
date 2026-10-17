@@ -11,18 +11,16 @@ const MODES: Array<{ value: ExperimentMode; label: string; disabled?: boolean }>
   { value: "clean", label: "Clean" },
   { value: "poisoned", label: "PWWS Poisoned" },
   { value: "compare", label: "Compare" },
-  { value: "defended", label: "Defended", disabled: true },
+  { value: "defended", label: "Defended" },
 ];
 
 /**
  * Small experiment-state control for the Assistant workspace: switches
  * between the clean baseline, the PWWS-poisoned knowledge base, a
- * side-by-side comparison of both, and the not-yet-available defended
- * pipeline. Purely a mode switch — it never calls the backend itself;
+ * side-by-side comparison of both, and the defended pipeline (the PWWS-
+ * poisoned collection behind the entropy filter, `system_state=defended`). Purely a mode switch — it never calls the backend itself;
  * `app/page.tsx` reads `mode` to decide which endpoint the next submitted
  * question hits (`POST /chat` with `system_state`, or `POST /compare`).
- * "Defended" is rendered disabled and never becomes selectable, so no
- * defended-mode API call path exists to accidentally trigger.
  */
 export function ExperimentModeSelector({
   mode,
@@ -61,6 +59,15 @@ export function ExperimentModeSelector({
           role="status"
         >
           Clean baseline
+        </p>
+      )}
+
+      {mode === "defended" && (
+        <p
+          className="experiment-mode-caption experiment-mode-caption--defended"
+          role="status"
+        >
+          PWWS poisoned + entropy filter
         </p>
       )}
 

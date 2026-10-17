@@ -28,7 +28,7 @@ const MODE_LABELS: Record<ExperimentMode, string> = {
   clean: "Clean baseline",
   poisoned: "PWWS poisoned",
   compare: "Clean vs PWWS poisoned",
-  defended: "Defended",
+  defended: "PWWS poisoned + entropy filter",
 };
 
 /**
@@ -45,8 +45,8 @@ export function PlatformStatusBar({
   evidenceCheckEnabled,
 }: PlatformStatusBarProps) {
   const evidenceCheckLabel =
-    experimentMode === "compare"
-      ? "Not available in Compare"
+    experimentMode === "compare" || experimentMode === "defended"
+      ? `Not available in ${experimentMode === "compare" ? "Compare" : "Defended"}`
       : evidenceCheckEnabled
         ? "On (experimental)"
         : "Off";
@@ -77,7 +77,7 @@ export function PlatformStatusBar({
         <span className="platform-status-label">Evidence check</span>
         <span
           className={
-            evidenceCheckEnabled && experimentMode !== "compare"
+            evidenceCheckEnabled && experimentMode !== "compare" && experimentMode !== "defended"
               ? "platform-status-value platform-status-value--accent"
               : "platform-status-value"
           }

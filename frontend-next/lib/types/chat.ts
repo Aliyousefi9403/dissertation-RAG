@@ -4,7 +4,8 @@
  * Do not add fields that are not present in the backend response.
  */
 
-export type SystemState = "clean" | "poisoned";
+/** "defended" = the PWWS-poisoned collection behind the entropy filter. */
+export type SystemState = "clean" | "poisoned" | "defended";
 
 export interface ChatRequest {
   question: string;
