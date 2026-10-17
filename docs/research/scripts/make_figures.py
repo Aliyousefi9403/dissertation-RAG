@@ -91,7 +91,7 @@ def defence_figure():
     outcomes, pairs = s["outcomes"], s["pairs"]
     comp = s["comparisons"]
     conditions = [("clean", "Clean", BLUE), ("poisoned", "Poisoned", ORANGE),
-                  ("defended", "Defended\n(poisoned + filter)", AQUA), ("clean_filtered", "Clean + filter", YELLOW)]
+                  ("defended", "Defended", AQUA), ("clean_filtered", "Clean\n+ filter", YELLOW)]
     exposure = {"clean": comp["defended_vs_clean"]["all"]["exposure"]["b"],
                 "poisoned": comp["defended_vs_poisoned"]["all"]["exposure"]["b"],
                 "defended": comp["defended_vs_poisoned"]["all"]["exposure"]["a"],
@@ -111,7 +111,7 @@ def defence_figure():
         for bar, v in zip(bars, vals):
             ax.text(bar.get_x() + bar.get_width() / 2, v + 0.015, f"{v:.2f}", ha="center", fontsize=7.5, color=INK)
         ax.set_title(title, fontsize=8.5, color=INK)
-        ax.set_xticks(range(4), [lab for _, lab, _ in conditions], fontsize=6.8)
+        ax.set_xticks(range(4), [lab for _, lab, _ in conditions], fontsize=7.5)
         ax.set_ylim(0, 1.05)
         ax.grid(axis="y", color=GRID, lw=0.6)
         ax.set_axisbelow(True)

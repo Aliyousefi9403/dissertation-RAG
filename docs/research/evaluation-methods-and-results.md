@@ -404,6 +404,44 @@ In the poisoned top 3, 14 of 27 edited chunks were flagged; in the clean top 3, 
 - The thresholds and the 50/50 interpolation were not tuned beyond the first setting.
 - An adaptive attacker who constrains synonyms by domain frequency could evade the detector.
 
+## 12. Entropy-filter defence: live paired evaluation (17 Oct 2026)
+
+**Defence** (`backend/app/defence/entropy_filter.py`, policy `entropy-filter-v1`; `/chat` `system_state=defended`; "Defended" mode in the interface):
+1. Retrieve 10 candidates from the poisoned collection.
+2. Score each with the domain synonym gap from §11.
+3. Drop candidates above **7.2262 bits**. This threshold was frozen on development chunks at a 10% false-positive rate before this run.
+4. Answer from the top 3 that remain.
+
+The implementation reproduces all 191 recorded detector scores exactly (maximum difference 5×10⁻⁵ bits).
+
+**Run** `20261017T165331Z-defence-cebfb27c…`:
+- **Design:** the same 44 questions × 3 repetitions, model, prompt, judges and timeouts as the main run, paired by schedule index. Conditions are *defended* (poisoned + filter) and *clean_filtered* (clean + filter), giving 792 records.
+- **Failures:** two transient failures stay recorded as missing: one judge connection error and one Qdrant error.
+- **Analysis:** `analyse_defence.py`, at question level, with cluster-bootstrap 95% CIs and two-sided Wilcoxon signed-rank tests.
+
+| Comparison (44 questions) | A | B | Δ | 95% CI | p |
+|---|---|---|---|---|---|
+| Defended vs poisoned: edited-text exposure | 0.273 | 0.409 | −0.136 | [−0.250, −0.046] | 0.031 |
+| … on perturbed targets (27) | 0.370 | 0.593 | −0.222 | [−0.407, −0.074] | 0.031 |
+| Defended vs poisoned: correctness | 0.526 | 0.555 | −0.028 | [−0.083, 0.027] | 0.29 |
+| … on perturbed targets | 0.361 | 0.432 | −0.071 | [−0.133, −0.019] | 0.023 |
+| Defended vs poisoned: faithfulness | 0.967 | 0.943 | +0.024 | [−0.017, 0.066] | 0.44 |
+| Clean + filter vs clean: correctness (cost) | 0.650 | 0.714 | −0.064 | [−0.138, 0.002] | 0.066 |
+| Clean + filter vs clean: Hit@3 (cost) | 0.705 | 0.705 | 0.000 | [−0.068, 0.068] | — |
+
+**Answer outcomes** (132 answers per condition):
+
+| Condition | Correct | Partial | Incorrect | Abstained |
+|---|---|---|---|---|
+| Clean | 67 | 39 | 0 | 26 |
+| Poisoned | 49 | 36 | **2** | 45 |
+| Defended | 51 | 28 | **0** | 53 |
+| Clean + filter | 63 | 33 | 0 | 35 (1 unavailable) |
+
+ASR (edited-text exposure, correctness drop ≥ 0.25): poisoned 0.167, defended 0.106.
+
+**Interpretation.** The filter is a safety-oriented defence. It significantly reduces how often PWWS-edited text reaches the model, and it eliminated both confidently incorrect answers in the poisoned condition: the "Engraft Malicious Package" case was blocked at 10.75 bits, with evidence words engraft→plant, purport→intent and concatenation→chain, and the model abstained. It does **not** improve correctness. When the only passage holding an answer is poisoned, removing it turns a partial answer into a refusal (abstentions 45 → 53; perturbed-target correctness −0.071). On clean data it costs some correctness (−0.064, p = 0.066) without changing Hit@3: useful but unflagged-neighbour passages are sometimes displaced. A deployment would choose the threshold on this safety/utility trade-off. This run used the single development threshold only; a threshold sweep is future work.
+
 ## 9. Reproducing every number in this document
 
 ```bash
