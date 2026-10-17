@@ -35,7 +35,7 @@ const h1 = (t) => new Paragraph({ heading: HeadingLevel.HEADING_1, children: [ru
 const h2 = (t) => new Paragraph({ heading: HeadingLevel.HEADING_2, children: [run(t)] });
 const bullet = (parts) => new Paragraph({ numbering: { reference: "bullets", level: 0 }, spacing: { after: 70, line: 264 },
   children: (Array.isArray(parts) ? parts : [parts]).map((x) => (typeof x === "string" ? run(x) : x)) });
-const numbered = (parts) => new Paragraph({ numbering: { reference: "steps", level: 0 }, spacing: { after: 70, line: 264 },
+const numbered = (parts, reference = "steps") => new Paragraph({ numbering: { reference, level: 0 }, spacing: { after: 70, line: 264 },
   children: (Array.isArray(parts) ? parts : [parts]).map((x) => (typeof x === "string" ? run(x) : x)) });
 const mono = (t) => new Paragraph({ spacing: { after: 60 }, indent: { left: 360 }, children: [run(t, { font: "Courier New", size: 18 })] });
 const caption = (t) => new Paragraph({ spacing: { after: 200 }, alignment: AlignmentType.CENTER, children: [run(t, { italics: true, size: 18, color: "555555" })] });
@@ -141,9 +141,9 @@ const children = [
   bullet([b("Limitations: "), "one attack, one corpus of 18 documents, a held-out set with only 10 edited chunks, one language model, and LLM-judge scores (a manual check of judge agreement is planned). An adaptive attacker who picks domain-typical synonyms could evade the detector."]),
 
   h1("7  Questions I would value your view on"),
-  numbered("Is the 50/50 mixture of domain and general-English frequencies a reasonable way to avoid zero probabilities, or would you expect a principled smoothing method (e.g. Good–Turing or a Dirichlet prior) to behave better here?"),
-  numbered("Would a symmetric measure such as Jensen–Shannon divergence be more appropriate than KL for comparing a short passage with a large reference?"),
-  numbered("Is it sound to call the synonym gap a relative-entropy method, given that it uses the log-ratio term per word rather than the full sum, or should I present it as surprisal-based?"),
+  numbered("Is the 50/50 mixture of domain and general-English frequencies a reasonable way to avoid zero probabilities, or would you expect a principled smoothing method (e.g. Good–Turing or a Dirichlet prior) to behave better here?", "questions"),
+  numbered("Would a symmetric measure such as Jensen–Shannon divergence be more appropriate than KL for comparing a short passage with a large reference?", "questions"),
+  numbered("Is it sound to call the synonym gap a relative-entropy method, given that it uses the log-ratio term per word rather than the full sum, or should I present it as surprisal-based?", "questions"),
 
   h1("8  Evidence and how to reproduce it"),
   p([run("Repository: "), b("github.com/Aliyousefi9403/dissertation-rag"), run(", branch "), b("feature/aegisrag-evidence-check"), run(` (report built at commit ${COMMIT}).`)]),
@@ -180,6 +180,7 @@ const doc = new Document({
   },
   numbering: { config: [
     { reference: "bullets", levels: [{ level: 0, format: LevelFormat.BULLET, text: "•", alignment: AlignmentType.LEFT, style: { paragraph: { indent: { left: 400, hanging: 260 } } } }] },
+    { reference: "questions", levels: [{ level: 0, format: LevelFormat.DECIMAL, text: "%1.", alignment: AlignmentType.LEFT, style: { paragraph: { indent: { left: 400, hanging: 300 } } } }] },
     { reference: "steps", levels: [{ level: 0, format: LevelFormat.DECIMAL, text: "%1.", alignment: AlignmentType.LEFT, style: { paragraph: { indent: { left: 400, hanging: 300 } } } }] },
   ] },
   sections: [{
