@@ -29,6 +29,13 @@ const MODE_LABELS: Record<ExperimentMode, string> = {
   poisoned: "PWWS poisoned",
   compare: "Clean vs PWWS poisoned",
   defended: "PWWS poisoned + entropy filter",
+  repaired: "PWWS poisoned + entropy repair",
+};
+
+const EVIDENCE_CHECK_UNAVAILABLE: Partial<Record<ExperimentMode, string>> = {
+  compare: "Compare",
+  defended: "Defended",
+  repaired: "Repaired",
 };
 
 /**
@@ -44,10 +51,10 @@ export function PlatformStatusBar({
   experimentMode,
   evidenceCheckEnabled,
 }: PlatformStatusBarProps) {
-  const evidenceCheckLabel =
-    experimentMode === "compare" || experimentMode === "defended"
-      ? `Not available in ${experimentMode === "compare" ? "Compare" : "Defended"}`
-      : evidenceCheckEnabled
+  const unavailableIn = EVIDENCE_CHECK_UNAVAILABLE[experimentMode];
+  const evidenceCheckLabel = unavailableIn
+    ? `Not available in ${unavailableIn}`
+    : evidenceCheckEnabled
         ? "On (experimental)"
         : "Off";
 
@@ -77,7 +84,7 @@ export function PlatformStatusBar({
         <span className="platform-status-label">Evidence check</span>
         <span
           className={
-            evidenceCheckEnabled && experimentMode !== "compare" && experimentMode !== "defended"
+            evidenceCheckEnabled && !unavailableIn
               ? "platform-status-value platform-status-value--accent"
               : "platform-status-value"
           }

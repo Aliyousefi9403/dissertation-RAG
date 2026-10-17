@@ -80,12 +80,11 @@ export default function Home() {
       return;
     }
 
-    const systemState =
-      experimentMode === "poisoned" || experimentMode === "defended" ? experimentMode : "clean";
+    const systemState = experimentMode; // "compare" returned above
 
     void submitQuestion(question, systemState, {
       // The evidence check (`/guarded-chat`) supports clean/poisoned only.
-      evidenceCheck: evidenceCheckEnabled && systemState !== "defended",
+      evidenceCheck: evidenceCheckEnabled && (systemState === "clean" || systemState === "poisoned"),
     });
   }
 
@@ -102,7 +101,7 @@ export default function Home() {
           <EvidenceCheckToggle
             enabled={evidenceCheckEnabled}
             onChange={setEvidenceCheckEnabled}
-            disabled={isComparing || experimentMode === "defended"}
+            disabled={isComparing || experimentMode === "defended" || experimentMode === "repaired"}
           />
         </div>
       </header>
@@ -142,7 +141,8 @@ export default function Home() {
                 healthStatus={healthStatus}
                 attackDetected={experimentMode === "poisoned"}
                 compareMode={isComparing}
-                defendedMode={experimentMode === "defended"}
+                defendedMode={experimentMode === "defended" || experimentMode === "repaired"}
+                repairMode={experimentMode === "repaired"}
               />
             </div>
           </div>

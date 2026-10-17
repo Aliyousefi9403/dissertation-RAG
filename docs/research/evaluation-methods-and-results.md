@@ -469,7 +469,18 @@ Findings:
 | Held-out | 5 | 1.00 | 0.06 | 1.00 | 1.00 |
 | All | 47 | 0.89 | 0.12 | 0.62 | 0.74 |
 
-Word-level repair is precise but narrow: it fixes the most conspicuous substitutions (identicalness → identity, abnegate → deny, onrush → attack, engraft → plant) and leaves most of the others in place. At lower τ recall rises (0.56 at 4 bits) but precision falls to 0.57. The held-out row rests on five words. A repair defence is therefore best evaluated as *repair, then rescore*: repairing the high-gap words may bring a flagged passage back under the threshold, keeping its relevant content instead of dropping it. That design is proposed for approval, not yet implemented.
+Word-level repair is precise but narrow: it fixes the most conspicuous substitutions (identicalness → identity, abnegate → deny, onrush → attack, engraft → plant) and leaves most of the others in place. At lower τ recall rises (0.56 at 4 bits) but precision falls to 0.57. The held-out row rests on five words. A repair defence is therefore best evaluated as *repair, then rescore*: repairing the high-gap words may bring a flagged passage back under the threshold, keeping its relevant content instead of dropping it. That design is implemented as policy `entropy-repair-v1` (system state `repaired`, approved 17 Oct 2026).
+
+**Drop vs repair at retrieval level (offline, no model calls).** `docs/research/scripts/repair_retrieval_eval.py` runs the deployed `filter_results` on the same 10 candidates per question, with and without repair (`docs/research/results/entropy-defence/repair-retrieval.json`). Exposure is conservative for repair: a kept chunk counts as exposed if it overlaps any edited span, even where the edited words were repaired.
+
+| Poisoned corpus | Hit@3 | MRR | Edited text in top 3 | Unrepaired substitutes per question | Words repaired per question |
+|---|---|---|---|---|---|
+| No filter | 0.568 | 0.485 | 0.409 | 3.59 | 0 |
+| Drop (entropy-filter-v1) | 0.477 | 0.409 | 0.273 | 2.30 | 0 |
+| Repair, then rescore (entropy-repair-v1) | 0.477 | 0.424 | 0.364 | 2.84 | 0.43 |
+
+On the clean corpus Hit@3 is 0.705 unfiltered and with drop, and 0.682 with repair. **Repair does not recover retrieval relevance** (Hit@3 is the same as drop), and because repaired passages are kept, more partly edited text reaches the model. Repair fixes only 0.43 words per question; a likely explanation (not yet measured) is that a flagged passage usually owes its score to several moderate substitutions rather than one or two extreme ones, so repairing only the >9.5-bit words rarely brings it under the threshold. This is a negative result for word-level WordNet repair. Whether the repaired text yields better *answers* than abstaining is a separate question for the live paired run (`run_defence_eval.py … repair`).
+
 
 **Human check of the LLM judge.** `docs/research/scripts/judge_agreement.py sample` drew a blind, stratified sample of 75 answers from the main and defence runs: up to 5 per judge score level (0, 0.5, 0.75, 1.0) per condition, one repetition per question and condition, seed 20261016. The grading sheet (`docs/research/results/judge-agreement/grading-sheet.csv`) shows only the question, reference facts and answer, in shuffled order, with the judge's own rubric verbatim; the link back to condition and judge score is in a separate key. After hand grading, `judge_agreement.py score` reports exact agreement, agreement within 0.25, mean absolute difference, mean signed difference (judge − human), Spearman correlation and quadratic-weighted Cohen's kappa, overall and per condition. *Status: sheet issued, not yet graded.*
 

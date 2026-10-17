@@ -72,10 +72,60 @@ def test_fails_closed_without_wordnet(monkeypatch, corpus):
     ef.synonyms.cache_clear()
 
 
-def test_only_defended_state_is_filtered():
+def test_only_defence_states_override_retrieval():
     assert ef.retrieval_for_state("clean") is None
     assert ef.retrieval_for_state("poisoned") is None
     assert ef.retrieval_for_state("defended") is ef.defended_retrieve
+    assert ef.retrieval_for_state("repaired") is ef.repaired_retrieve
+
+
+def _candidates(corpus):
+    docs = [(Document(page_content=PWWS, metadata={"source": str(corpus / "ddos/http_flood.md"), "start_index": 0}), 0.9)]
+    return docs + [(Document(page_content=CLEAN, metadata={"source": str(corpus / f"ddos/{n}.md"), "start_index": i}), 0.8 - i / 10)
+                   for i, n in enumerate(("udp", "icmp", "tcp", "udp"))]
+
+
+def test_repair_restores_high_gap_words_and_keeps_case(corpus):
+    reference = ef.DomainReference(corpus)
+    repaired, repairs = ef.repair_text("Abnegate users. " + PWWS, "ddos/http_flood.md", reference)
+    assert {r["word"]: r["replacement"] for r in repairs}.get("abnegate") == "deny"
+    assert repaired.startswith("Deny users. ") and "abnegate" not in repaired.lower()
+    assert all(r["gap_bits"] > ef.WORD_REPAIR_BITS for r in repairs)
+    assert ef.repair_text(CLEAN, "ddos/http_flood.md", reference) == (CLEAN, [])
+
+
+def test_repair_is_deterministic(corpus):
+    reference = ef.DomainReference(corpus)
+    first = ef.repair_text(PWWS, "ddos/http_flood.md", reference)
+    ef.synonyms.cache_clear()
+    assert ef.repair_text(PWWS, "ddos/http_flood.md", reference) == first
+
+
+def test_repair_mode_rescores_repaired_text(corpus):
+    kept, decisions = ef.filter_results(_candidates(corpus), corpus, repair=True)
+    first = decisions[0]
+    assert first["score_before_repair_bits"] > ef.THRESHOLD_BITS
+    assert first["repairs"]
+    reference = ef.DomainReference(corpus)
+    repaired, _ = ef.repair_text(PWWS, "ddos/http_flood.md", reference)
+    assert first["score_bits"] == ef.score_text(repaired, "ddos/http_flood.md", reference)["score_bits"]
+    for document, _ in kept:
+        assert document.metadata["entropy_filter"]["policy_version"] == ef.REPAIR_POLICY_VERSION
+        assert not document.metadata["entropy_filter"]["flagged"]
+    if first["kept"]:
+        assert kept[0][0].page_content == repaired
+
+
+def test_defended_mode_unchanged_by_repair_option(corpus):
+    kept, decisions = ef.filter_results(_candidates(corpus), corpus)
+    assert all("repairs" not in d for d in decisions)
+    assert all(d.metadata["entropy_filter"]["policy_version"] == ef.POLICY_VERSION for d, _ in kept)
+    assert [d.page_content for d, _ in kept] == [CLEAN, CLEAN, CLEAN]
+
+
+def test_frozen_word_repair_threshold_matches_recorded_development_choice():
+    record = json.loads((ROOT.parent / "docs/research/results/entropy-defence/repair-feasibility.json").read_text())
+    assert record["chosen_tau_bits"] == ef.WORD_REPAIR_BITS
 
 
 def test_frozen_threshold_matches_recorded_development_choice():

@@ -54,6 +54,8 @@ interface EntropyVerdict {
   score_bits: number;
   threshold_bits: number;
   candidate_rank: number;
+  score_before_repair_bits?: number;
+  repairs?: Array<{ word: string; replacement: string; gap_bits: number }>;
 }
 
 /** Present only in Defended mode: the entropy filter's real decision for this
@@ -98,6 +100,17 @@ export function SourceCard({ source }: SourceCardProps) {
             {source.metadata.entropy_filter.candidate_rank})
           </p>
         )}
+
+        {isEntropyVerdict(source.metadata.entropy_filter) &&
+          (source.metadata.entropy_filter.repairs?.length ?? 0) > 0 && (
+            <p className="source-row-filter source-row-repairs">
+              Repaired before use (was{" "}
+              {source.metadata.entropy_filter.score_before_repair_bits?.toFixed(2)} bits):{" "}
+              {source.metadata.entropy_filter.repairs!
+                .map((r) => `${r.word} → ${r.replacement}`)
+                .join(", ")}
+            </p>
+          )}
 
         {metadataEntries.length > 0 && (
           <dl className="source-row-meta">

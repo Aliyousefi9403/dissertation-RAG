@@ -26,6 +26,13 @@ chunks of the poisoned collection at a 10% false-positive rate
 any answer-level evaluation. Changing it is a research-methodology change and
 needs a new POLICY_VERSION.
 
+Repair mode (policy entropy-repair-v1, system state "repaired"). Instead of
+dropping a passage, every word with gap(w) > 9.5 bits is replaced by its most
+probable WordNet synonym (the detector's "likely original"), the repaired passage
+is rescored, and it is kept if it is now at or under the same 7.2262-bit threshold.
+9.5 bits was fixed on development documents only (highest recall at precision
+>= 0.8; docs/research/results/entropy-defence/repair-feasibility.json).
+
 Limitations: one attack (PWWS) and one corpus; an adaptive attacker who picks
 domain-frequent synonyms can evade it; it reduces exposure to poisoned text
 but cannot restore information that only exists in a poisoned passage.
@@ -51,6 +58,8 @@ LAMBDA = 0.5
 FLOOR = 1e-9
 TOP_GAPS = 3
 SOURCE_STATE_FOR_DEFENDED = "poisoned"
+REPAIR_POLICY_VERSION = "entropy-repair-v1"
+WORD_REPAIR_BITS = 9.5
 
 _TOKEN = re.compile(r"[a-z]+(?:'[a-z]+)?")
 STOPWORDS = frozenset({
@@ -148,6 +157,35 @@ def score_text(text: str, document: str, reference: DomainReference) -> dict[str
     }
 
 
+_WORD = re.compile(r"[A-Za-z]+(?:'[A-Za-z]+)?")
+
+
+def repair_text(text: str, document: str, reference: DomainReference) -> tuple[str, list[dict[str, Any]]]:
+    """Replace each word with gap > WORD_REPAIR_BITS by its most probable synonym."""
+    q = lambda w: reference.probability(w, document)  # noqa: E731
+    plan = {}
+    for word in set(tokens(text)):
+        if len(word) <= 2 or word in STOPWORDS:
+            continue
+        candidates = synonyms(word)
+        if not candidates:
+            continue
+        best = max(sorted(candidates), key=q)  # sorted: ties resolve the same way every run
+        gap = math.log2(q(best)) - math.log2(q(word))
+        if gap > WORD_REPAIR_BITS:
+            plan[word] = (best, gap)
+
+    def replace(match: re.Match) -> str:
+        word = match.group(0)
+        if word.lower() not in plan:
+            return word
+        replacement = plan[word.lower()][0]
+        return replacement.capitalize() if word[0].isupper() else replacement
+
+    repairs = [{"word": w, "replacement": r, "gap_bits": round(g, 2)} for w, (r, g) in sorted(plan.items(), key=lambda x: -x[1][1])]
+    return (_WORD.sub(replace, text) if plan else text), repairs
+
+
 def _relative_document(source: str, root: Path) -> str:
     try:
         return Path(source).resolve().relative_to(root.resolve()).as_posix()
@@ -160,25 +198,36 @@ def filter_results(
     root: Path,
     *,
     keep: int = KEEP,
+    repair: bool = False,
 ) -> tuple[list[tuple[Document, float]], list[dict[str, Any]]]:
-    """Drop flagged chunks from ranked results; return (kept top-`keep`, decisions)."""
+    """Drop flagged chunks from ranked results; return (kept top-`keep`, decisions).
+
+    With repair=True each chunk is repaired first and judged on its repaired text.
+    """
     reference = reference_for(str(root))
+    policy = REPAIR_POLICY_VERSION if repair else POLICY_VERSION
     kept, decisions = [], []
     for rank, (document, similarity) in enumerate(results, start=1):
         name = _relative_document(document.metadata.get("source", ""), root)
-        verdict = score_text(document.page_content, name, reference)
+        text, extra = document.page_content, {}
+        if repair:
+            before = score_text(text, name, reference)["score_bits"]
+            text, repairs = repair_text(text, name, reference)
+            extra = {"score_before_repair_bits": before, "repairs": repairs}
+        verdict = {**score_text(text, name, reference), **extra}
         decisions.append({"rank": rank, "document": name, "start_index": document.metadata.get("start_index"),
                           "similarity": round(float(similarity), 4), **verdict,
                           "kept": not verdict["flagged"] and len(kept) < keep})
         if not verdict["flagged"] and len(kept) < keep:
-            annotated = Document(page_content=document.page_content,
+            annotated = Document(page_content=text,
                                  metadata={**document.metadata, "entropy_filter": {
-                                     "policy_version": POLICY_VERSION, "candidate_rank": rank, **verdict}})
+                                     "policy_version": policy, "candidate_rank": rank, **verdict}})
             kept.append((annotated, similarity))
     return kept, decisions
 
 
-def make_filtered_retrieval(source_state: str, *, k: int = CANDIDATE_K, keep: int = KEEP, capture: dict | None = None):
+def make_filtered_retrieval(source_state: str, *, k: int = CANDIDATE_K, keep: int = KEEP, capture: dict | None = None,
+                            repair: bool = False):
     """Retrieval function compatible with rag_chain.answer_question(retrieval_fn=...).
 
     Searches `source_state`'s collection for `k` candidates, filters, keeps `keep`.
@@ -190,10 +239,12 @@ def make_filtered_retrieval(source_state: str, *, k: int = CANDIDATE_K, keep: in
 
     def retrieve(question: str, system_state: str = "defended"):
         candidates = search_knowledge_base(query=question, k=k, system_state=source_state)
-        kept, decisions = filter_results(candidates, root, keep=keep)
+        kept, decisions = filter_results(candidates, root, keep=keep, repair=repair)
         if capture is not None:
-            capture["entropy_filter"] = {"policy_version": POLICY_VERSION, "source_state": source_state,
-                                         "candidate_k": k, "keep": keep, "threshold_bits": THRESHOLD_BITS,
+            capture["entropy_filter"] = {"policy_version": REPAIR_POLICY_VERSION if repair else POLICY_VERSION,
+                                         "source_state": source_state, "candidate_k": k, "keep": keep,
+                                         "threshold_bits": THRESHOLD_BITS,
+                                         **({"word_repair_bits": WORD_REPAIR_BITS} if repair else {}),
                                          "decisions": decisions}
         return kept
 
@@ -205,6 +256,11 @@ def defended_retrieve(question: str, system_state: str = "defended"):
     return make_filtered_retrieval(SOURCE_STATE_FOR_DEFENDED)(question, system_state)
 
 
+def repaired_retrieve(question: str, system_state: str = "repaired"):
+    """The `repaired` system state: the PWWS-poisoned collection behind repair-then-rescore."""
+    return make_filtered_retrieval(SOURCE_STATE_FOR_DEFENDED, repair=True)(question, system_state)
+
+
 def retrieval_for_state(system_state: str):
-    """Retrieval override for /chat: only `defended` is filtered; others use the default."""
-    return defended_retrieve if system_state == "defended" else None
+    """Retrieval override for /chat: `defended` filters, `repaired` repairs; others use the default."""
+    return {"defended": defended_retrieve, "repaired": repaired_retrieve}.get(system_state)

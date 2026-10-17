@@ -9,6 +9,8 @@ interface DefenceShieldProps {
   /** "stage" = centred over the fullscreen 3D core; "inline" = beside the
    * static fallback card (no WebGL / reduced motion). */
   variant?: "stage" | "inline";
+  /** Repaired mode: real count of words the repair policy replaced. */
+  repaired?: number | null;
 }
 
 // Heater-shield outline centred on (0, 0) in a 240 x 280 viewBox.
@@ -34,21 +36,29 @@ const IMPACT_STEP = 0.32;
  * skipped for the last answer, in the caption, which is announced politely.
  * Every animation is CSS and is disabled under prefers-reduced-motion.
  */
-export function DefenceShield({ state, skipped, variant = "stage" }: DefenceShieldProps) {
+export function DefenceShield({ state, skipped, variant = "stage", repaired }: DefenceShieldProps) {
   const impacts = state === "resolved" && skipped ? Math.min(skipped, IMPACTS.length) : 0;
+  const repairMode = repaired !== undefined;
+  const repairNote =
+    repairMode && state === "resolved" && repaired !== null
+      ? ` · ${repaired} ${repaired === 1 ? "word" : "words"} repaired`
+      : "";
   const caption =
     state === "scanning"
       ? "Entropy shield scanning candidates…"
       : state === "resolved" && skipped !== null
-        ? skipped === 0
-          ? "Entropy shield: no passages blocked"
-          : `Entropy shield: ${skipped} suspicious ${skipped === 1 ? "passage" : "passages"} blocked`
+        ? (skipped === 0
+            ? "Entropy shield: no passages blocked"
+            : `Entropy shield: ${skipped} suspicious ${skipped === 1 ? "passage" : "passages"} blocked`) + repairNote
         : state === "fault"
           ? "Entropy shield: request failed"
-          : "Entropy shield armed — relative-entropy filter on";
+          : repairMode
+            ? "Entropy shield armed — repair, then re-check"
+            : "Entropy shield armed — relative-entropy filter on";
 
   return (
-    <div className={`defence-shield defence-shield--${variant}`} data-state={state} data-impacts={impacts > 0} data-testid="defence-shield">
+    <div className={`defence-shield defence-shield--${variant}`} data-state={state} data-impacts={impacts > 0}
+         data-mode={repairMode ? "repair" : "filter"} data-testid="defence-shield">
       <svg className="defence-shield-svg" viewBox="-140 -150 280 300" aria-hidden="true" focusable="false">
         <defs>
           <linearGradient id="defence-face" x1="0" y1="0" x2="0" y2="1">

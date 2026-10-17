@@ -60,6 +60,6 @@ SHA-256 over file names and contents (directories in sorted order). Full list in
 | poisoned corpus | 18 | `aa77d6c23a96848f` |
 | formatting-only control corpus | 18 | `cff8a44b3500465d` |
 | PWWS attack manifest | 1 | `666404e5ca503c6d` |
-| entropy-filter defence code | 1 | `447b220186738143` |
+| entropy-filter defence code | 1 | `284fa07888a1cd59` |
 | run 20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e | 1190 | `c74d049eb456f799` |
 | run 20261017T165331Z-defence-cebfb27c1e9048cdb61fbfe15f37e50d | 794 | `3dd515c8765ed1f7` |

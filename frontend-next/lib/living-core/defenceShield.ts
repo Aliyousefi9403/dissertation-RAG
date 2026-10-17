@@ -2,6 +2,7 @@ import type { SourceItem } from "@/lib/types/chat";
 
 interface EntropyVerdict {
   candidate_rank: number;
+  repairs?: unknown[];
 }
 
 function verdictOf(source: SourceItem): EntropyVerdict | null {
@@ -29,6 +30,16 @@ export function skippedPassageCount(sources: SourceItem[]): number | null {
     return null;
   }
   return Math.max(0, Math.max(...ranks) - ranks.length);
+}
+
+/** Words the repair policy replaced in the passages it kept (Repaired mode),
+ * or null when the response has no filter metadata. */
+export function repairedWordCount(sources: SourceItem[]): number | null {
+  const verdicts = sources.map(verdictOf).filter((v): v is EntropyVerdict => v !== null);
+  if (verdicts.length === 0) {
+    return null;
+  }
+  return verdicts.reduce((total, v) => total + (Array.isArray(v.repairs) ? v.repairs.length : 0), 0);
 }
 
 export type ShieldState = "armed" | "scanning" | "resolved" | "fault";

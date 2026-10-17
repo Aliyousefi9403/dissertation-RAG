@@ -293,6 +293,58 @@ test.describe("Evidence check (mocked backend)", () => {
     await expect(page.getByTestId("defence-shield")).toHaveCount(0);
   });
 
+  test("repaired mode: /chat with system_state=repaired, repairs listed, evidence check disabled", async ({ page }) => {
+    const bodies: unknown[] = [];
+    await page.route("**/health", (route) => route.fulfill({ json: { status: "healthy" } }));
+    await page.route("**/chat", async (route) => {
+      bodies.push(route.request().postDataJSON());
+      await route.fulfill({
+        json: {
+          question: QUESTION,
+          answer: "Use parameterized queries [Source 1].",
+          system_state: "repaired",
+          sources: [
+            {
+              source_number: 1,
+              source: "injection/sql_injection.md",
+              score: 0.71,
+              content: SQLI,
+              metadata: {
+                entropy_filter: {
+                  policy_version: "entropy-repair-v1",
+                  candidate_rank: 1,
+                  score_bits: 4.1,
+                  threshold_bits: 7.2262,
+                  flagged: false,
+                  top_words: [],
+                  score_before_repair_bits: 10.75,
+                  repairs: [
+                    { word: "engraft", replacement: "plant", gap_bits: 14.1 },
+                    { word: "abnegate", replacement: "deny", gap_bits: 18.58 },
+                  ],
+                },
+              },
+            },
+          ],
+        },
+      });
+    });
+    await page.goto("/");
+    await waitForBackendOnline(page);
+    await page.getByRole("radio", { name: "Repaired" }).click();
+    await expect(page.getByTestId("defence-shield")).toContainText("repair, then re-check");
+    await expect(page.getByRole("switch", { name: "Evidence check" })).toBeDisabled();
+    await expect(page.getByRole("status", { name: "Platform status" })).toContainText("PWWS poisoned + entropy repair");
+    await askQuestion(page, QUESTION);
+    await resolved(page);
+
+    expect(bodies).toEqual([{ question: QUESTION, system_state: "repaired" }]);
+    await expect(page.getByTestId("defence-shield")).toContainText("no passages blocked · 2 words repaired");
+    await page.locator(".source-row-summary").first().click();
+    await expect(page.locator(".source-row-repairs")).toContainText("was 10.75 bits");
+    await expect(page.locator(".source-row-repairs")).toContainText("engraft → plant, abnegate → deny");
+  });
+
   test("compare mode disables the toggle; status bar shows only real values", async ({ page }) => {
     await mockBackend(page, (route) => route.fulfill({ json: guardedResponse() }));
     await page.goto("/");

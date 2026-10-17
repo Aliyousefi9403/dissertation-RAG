@@ -18,7 +18,7 @@ import { LivingCoreStaticFallback } from "@/components/living-core/LivingCoreSta
 import { EnergyBeams } from "@/components/living-core/EnergyBeams";
 import { SourcePins } from "@/components/living-core/SourcePins";
 import { DefenceShield } from "@/components/living-core/DefenceShield";
-import { skippedPassageCount, type ShieldState } from "@/lib/living-core/defenceShield";
+import { repairedWordCount, skippedPassageCount, type ShieldState } from "@/lib/living-core/defenceShield";
 
 interface LivingCoreStageProps {
   chatState: ChatState;
@@ -33,6 +33,8 @@ interface LivingCoreStageProps {
   /** Defended mode: the particle field contracts and fades behind the
    * entropy shield (`DefenceShield`). */
   defendedMode?: boolean;
+  /** Repaired mode: same shield, captioned with the real repaired-word count. */
+  repairMode?: boolean;
 }
 
 function shieldStateFor(phase: LivingCorePhase): ShieldState {
@@ -137,6 +139,7 @@ export function LivingCoreStage({
   attackDetected = false,
   compareMode = false,
   defendedMode = false,
+  repairMode = false,
 }: LivingCoreStageProps) {
   const phase = getLivingCorePhase(chatState, healthStatus);
   const sources = extractSources(chatState);
@@ -172,6 +175,7 @@ export function LivingCoreStage({
       state={shieldStateFor(phase)}
       skipped={skippedPassageCount(sources)}
       variant={canRender3D ? "stage" : "inline"}
+      repaired={repairMode ? repairedWordCount(sources) : undefined}
     />
   ) : null;
 

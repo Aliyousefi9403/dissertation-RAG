@@ -1,6 +1,6 @@
 "use client";
 
-export type ExperimentMode = "clean" | "poisoned" | "compare" | "defended";
+export type ExperimentMode = "clean" | "poisoned" | "compare" | "defended" | "repaired";
 
 interface ExperimentModeSelectorProps {
   mode: ExperimentMode;
@@ -12,6 +12,7 @@ const MODES: Array<{ value: ExperimentMode; label: string; disabled?: boolean }>
   { value: "poisoned", label: "PWWS Poisoned" },
   { value: "compare", label: "Compare" },
   { value: "defended", label: "Defended" },
+  { value: "repaired", label: "Repaired" },
 ];
 
 /**
@@ -68,6 +69,15 @@ export function ExperimentModeSelector({
           role="status"
         >
           PWWS poisoned + entropy filter
+        </p>
+      )}
+
+      {mode === "repaired" && (
+        <p
+          className="experiment-mode-caption experiment-mode-caption--defended"
+          role="status"
+        >
+          PWWS poisoned + entropy repair
         </p>
       )}
 
