@@ -25,6 +25,10 @@ dependencies = [
     "textattack",
     "tensorflow_hub",
     "tensorflow",
+    # entropy-filter defence (app/defence/entropy_filter.py); also run:
+    #   python -m nltk.downloader wordnet
+    "wordfreq",
+    "nltk",
 ]
 
 [project.optional-dependencies]

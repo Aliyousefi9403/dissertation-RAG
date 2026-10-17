@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from app.config import KNOWLEDGE_BASE_PATHS
+from app.defence.entropy_filter import retrieval_for_state
 from app.defence.router import router as evidence_guard_router
 from app.evaluation.compare_metrics import build_research_metrics
 from app.evaluation.source_identity import (
@@ -239,6 +240,9 @@ def chat(
         result = answer_question(
             request.question,
             system_state=request.system_state,
+            # "defended" = PWWS-poisoned collection behind the entropy filter
+            # (app/defence/entropy_filter.py); clean/poisoned are unchanged.
+            retrieval_fn=retrieval_for_state(request.system_state),
         )
         latency_ms = (time.perf_counter() - started_at) * 1000
 
