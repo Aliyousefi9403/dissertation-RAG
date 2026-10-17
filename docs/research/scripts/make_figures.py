@@ -120,9 +120,46 @@ def defence_figure():
     plt.close(fig)
 
 
+def sweep_figure():
+    path = RESULTS / "entropy-defence/threshold-sweep/sweep.json"
+    if not path.exists():
+        return
+    s = json.loads(path.read_text())
+    deployed = s["deployed_threshold_bits"]
+    fig, (left, right) = plt.subplots(1, 2, figsize=(7.6, 3.2), dpi=200, gridspec_kw={"width_ratios": [1.6, 1]})
+    rows = sorted((r for r in s["grid"] if r["k"] == 10), key=lambda r: r["threshold_bits"])
+    xs = [r["threshold_bits"] for r in rows]
+    for key, label, color in (("poisoned_all_exposure", "Poisoned: edited text in top 3", ORANGE),
+                              ("poisoned_all_hit3", "Poisoned: Hit@3", BLUE),
+                              ("clean_all_hit3", "Clean: Hit@3 (cost)", AQUA)):
+        left.plot(xs, [r[key] for r in rows], color=color, lw=2, label=label)
+    left.axvline(deployed, color=MUTED, lw=1, ls="--")
+    left.text(deployed + 0.1, 0.02, f"frozen threshold\n{deployed:.2f} bits", color=MUTED, fontsize=7)
+    left.set_xlabel("Threshold (bits); candidates k = 10")
+    left.set_ylabel("Share of 44 questions")
+    left.set_ylim(0, 1)
+    left.grid(color=GRID, lw=0.6)
+    left.set_axisbelow(True)
+    left.legend(loc="upper left", frameon=False, fontsize=7.5)
+    depth = sorted((r for r in s["grid"] if r["threshold_bits"] == deployed), key=lambda r: r["k"])
+    ks = [r["k"] for r in depth]
+    for key, label, color in (("poisoned_all_exposure", "Exposure", ORANGE), ("poisoned_all_hit3", "Poisoned Hit@3", BLUE),
+                              ("clean_all_hit3", "Clean Hit@3", AQUA)):
+        right.plot(ks, [r[key] for r in depth], color=color, lw=2, marker="o", ms=4, label=label)
+    right.set_xticks(ks)
+    right.set_xlabel("Candidates retrieved (k), frozen threshold")
+    right.set_ylim(0, 1)
+    right.grid(color=GRID, lw=0.6)
+    right.set_axisbelow(True)
+    fig.tight_layout()
+    fig.savefig(OUT / "fig4_threshold_sweep.png")
+    plt.close(fig)
+
+
 if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
     auroc_figure()
     roc_figure()
     defence_figure()
+    sweep_figure()
     print(sorted(p.name for p in OUT.glob("*.png")))

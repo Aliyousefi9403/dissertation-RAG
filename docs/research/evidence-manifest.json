@@ -1,0 +1,127 @@
+{
+ "benchmark v1": {
+  "path": "backend/data/evaluation/questions_v1.json",
+  "sha256": "0cc2933d5a440ab148f8a2980d44ee5933a83e99a5464e51643cc35baf0eddfd",
+  "files": 1
+ },
+ "clean corpus": {
+  "path": "backend/data/raw/knowledge_base",
+  "sha256": "bac0a349d0e93d4406f007d8e2db579f83f980fde8ed86cd76529e977a8782ce",
+  "files": 18
+ },
+ "poisoned corpus": {
+  "path": "backend/data/poisoned/knowledge_base",
+  "sha256": "aa77d6c23a96848f77bf043cdda4f9f56c23c123160411c4eb629993194985fa",
+  "files": 18
+ },
+ "formatting-only control corpus": {
+  "path": "backend/data/control/knowledge_base",
+  "sha256": "cff8a44b3500465d072d7942f5e2a18cafed4a3e513399bca61d62a5ad49da81",
+  "files": 18
+ },
+ "PWWS attack manifest": {
+  "path": "backend/data/poisoned/pwws_attack_manifest.jsonl",
+  "sha256": "666404e5ca503c6ddd2b60db71481c7118336de19613aa1f41743451fc6d7339",
+  "files": 1
+ },
+ "entropy-filter defence code": {
+  "path": "backend/app/defence/entropy_filter.py",
+  "sha256": "447b220186738143b94fc23c5439c7e08da22b7307733fd4620394d848f1611c",
+  "files": 1
+ },
+ "run 20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e": {
+  "path": "pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e",
+  "sha256": "c74d049eb456f79928a034e27cc6b1dd9df8c9d52e57b4c34f0a27761b4a8e71",
+  "files": 1190
+ },
+ "run 20261017T165331Z-defence-cebfb27c1e9048cdb61fbfe15f37e50d": {
+  "path": "pilot-runs/20261017T165331Z-defence-cebfb27c1e9048cdb61fbfe15f37e50d",
+  "sha256": "3dd515c8765ed1f780339b8204f972d16d32d05ddc83c5a4a8974e7e1fa3302a",
+  "files": 794
+ },
+ "results control-retrieval-pilot-12q.json": {
+  "path": "docs/research/results/control-retrieval-pilot-12q.json",
+  "sha256": "6cf25be4d0aa9cdc287adcaaae58b6b60808110b473678d75a91379f68cf6495",
+  "files": 1
+ },
+ "results control-retrieval-v1-44q.json": {
+  "path": "docs/research/results/control-retrieval-v1-44q.json",
+  "sha256": "f5687fe0ca824462183bc862e54b14458d2ec84fc20d95ab8cc5980653494305",
+  "files": 1
+ },
+ "results entropy-defence/explanations.json": {
+  "path": "docs/research/results/entropy-defence/explanations.json",
+  "sha256": "788e97fe0b2ebc0faa25e5915c29d5846203ea76c1a5e311adbf0f32b8efc6e7",
+  "files": 1
+ },
+ "results entropy-defence/live-paired/pairs.csv": {
+  "path": "docs/research/results/entropy-defence/live-paired/pairs.csv",
+  "sha256": "3dba0031cb45e86e4803cc5a87becdb21079a8bb3c0696a74253a6737b1c5b19",
+  "files": 1
+ },
+ "results entropy-defence/live-paired/report.md": {
+  "path": "docs/research/results/entropy-defence/live-paired/report.md",
+  "sha256": "2763f5be8302251d5a8a4b42bf41f0b04ab90607a13cfef3f81e9429eeb51af8",
+  "files": 1
+ },
+ "results entropy-defence/live-paired/summary.json": {
+  "path": "docs/research/results/entropy-defence/live-paired/summary.json",
+  "sha256": "645ea9d6142248d6a6288b31e9fac559b68b0eb394071799d3142a5da87c922b",
+  "files": 1
+ },
+ "results entropy-defence/matched-control.json": {
+  "path": "docs/research/results/entropy-defence/matched-control.json",
+  "sha256": "282fe8cd9d39178d11bdf038fea31ea734e7ee9ccba0276673fcad55399b7d25",
+  "files": 1
+ },
+ "results entropy-defence/threshold-sweep/candidates.json": {
+  "path": "docs/research/results/entropy-defence/threshold-sweep/candidates.json",
+  "sha256": "6cd7a22bea0217c4fa270e112ec8c57eea63879ce5e01f87d2cdcc103f2afce1",
+  "files": 1
+ },
+ "results entropy-defence/threshold-sweep/sweep.json": {
+  "path": "docs/research/results/entropy-defence/threshold-sweep/sweep.json",
+  "sha256": "08c5a60904667f3258edbf766e00b24f07e26c811a64a2aa67a97103634bc225",
+  "files": 1
+ },
+ "results entropy-detector-20261016/detector-control.json": {
+  "path": "docs/research/results/entropy-detector-20261016/detector-control.json",
+  "sha256": "5c32e8702d0cb7629dc19f2b60d0ed2dae405601f622fe38407564626a6a4ff3",
+  "files": 1
+ },
+ "results entropy-detector-20261016/detector-poisoned.json": {
+  "path": "docs/research/results/entropy-detector-20261016/detector-poisoned.json",
+  "sha256": "4349bd588f55de89606463cadb255c5e4f72ba3eb44d81dfbe4b1d9efe9bb1c5",
+  "files": 1
+ },
+ "results entropy-detector-20261016/retrieval-filter.json": {
+  "path": "docs/research/results/entropy-detector-20261016/retrieval-filter.json",
+  "sha256": "bf465a39f701f26699dac7b391cec494cc20fb2bf1968e5fd0a762cc155c7e49",
+  "files": 1
+ },
+ "results judge-agreement/grading-key.json": {
+  "path": "docs/research/results/judge-agreement/grading-key.json",
+  "sha256": "b3ef8f611d3912842f429cab245d7884e1653d94beaf05645ec3c0ad5cc0ebb2",
+  "files": 1
+ },
+ "results judge-agreement/grading-sheet.csv": {
+  "path": "docs/research/results/judge-agreement/grading-sheet.csv",
+  "sha256": "a04f0b00d283050a713056d64e4886ee2a35084b8a58b67d1cb56a7635db3907",
+  "files": 1
+ },
+ "results main-v1-20261016/pairs.csv": {
+  "path": "docs/research/results/main-v1-20261016/pairs.csv",
+  "sha256": "5153411cd85445282975a8c16853d019d801e999aa8cafa7d643d6184c49d220",
+  "files": 1
+ },
+ "results main-v1-20261016/report.md": {
+  "path": "docs/research/results/main-v1-20261016/report.md",
+  "sha256": "60b564b2f443a17d89cda7596bed5f36605f83a6291dff6de0fe8fec8cfce0f9",
+  "files": 1
+ },
+ "results main-v1-20261016/summary.json": {
+  "path": "docs/research/results/main-v1-20261016/summary.json",
+  "sha256": "89f8c8d0781c87a79407c6fecc1f2057066c96d4651efa0451ba8ec621ec8a19",
+  "files": 1
+ }
+}

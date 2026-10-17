@@ -440,7 +440,30 @@ The implementation reproduces all 191 recorded detector scores exactly (maximum 
 
 ASR (edited-text exposure, correctness drop ≥ 0.25): poisoned 0.167, defended 0.106.
 
-**Interpretation.** The filter is a safety-oriented defence. It significantly reduces how often PWWS-edited text reaches the model, and it eliminated both confidently incorrect answers in the poisoned condition: the "Engraft Malicious Package" case was blocked at 10.75 bits, with evidence words engraft→plant, purport→intent and concatenation→chain, and the model abstained. It does **not** improve correctness. When the only passage holding an answer is poisoned, removing it turns a partial answer into a refusal (abstentions 45 → 53; perturbed-target correctness −0.071). On clean data it costs some correctness (−0.064, p = 0.066) without changing Hit@3: useful but unflagged-neighbour passages are sometimes displaced. A deployment would choose the threshold on this safety/utility trade-off. This run used the single development threshold only; a threshold sweep is future work.
+**Interpretation.** The filter is a safety-oriented defence. It significantly reduces how often PWWS-edited text reaches the model, and it eliminated both confidently incorrect answers in the poisoned condition: the "Engraft Malicious Package" case was blocked at 10.75 bits, with evidence words engraft→plant, purport→intent and concatenation→chain, and the model abstained. It does **not** improve correctness. When the only passage holding an answer is poisoned, removing it turns a partial answer into a refusal (abstentions 45 → 53; perturbed-target correctness −0.071). On clean data it costs some correctness (−0.064, p = 0.066) without changing Hit@3: useful but unflagged-neighbour passages are sometimes displaced. A deployment would choose the threshold on this safety/utility trade-off. This run used the single development threshold only; §13 sweeps the threshold offline.
+
+## 13. Threshold sweep, judge check and evidence index (17 Oct 2026)
+
+**Threshold and depth sweep (retrieval only, no model calls).** `docs/research/scripts/threshold_sweep.py` retrieves the top 20 candidates for every benchmark question from both corpora once, scores each candidate with the deployed scorer (`app/defence/entropy_filter.py`), and replays the filter for thresholds 4–12 bits (step 0.25) and candidate depths k ∈ {3, 5, 10, 15, 20}. The sweep is descriptive: the deployed threshold was frozen on development chunks before this analysis and is not re-tuned. Results: `docs/research/results/entropy-defence/threshold-sweep/`; Figure 4: `docs/research/figures/fig4_threshold_sweep.png`.
+
+| Threshold (k = 10) | Poisoned: edited text in top 3 | Poisoned Hit@3 | Clean Hit@3 |
+|---|---|---|---|
+| no filter | 0.409 | 0.568 | 0.705 |
+| 12.0 | 0.386 | 0.568 | 0.705 |
+| 9.0 | 0.341 | 0.477 | 0.705 |
+| **7.23 (deployed)** | **0.273** | **0.477** | **0.705** |
+| 6.0 | 0.205 | 0.432 | 0.523 |
+| 5.0 | 0.114 | 0.386 | 0.477 |
+
+Findings:
+- The deployed setting reproduces the live run's exposure exactly (0.409 → 0.273), which cross-checks the live result against an independent offline path.
+- The frozen threshold sits at the knee of the clean curve: clean Hit@3 is unchanged at every threshold ≥ 7.0 and falls steeply below it (0.523 at 6.0). Exposure can be pushed down to 0.11, but only by giving up about a third of clean retrieval quality.
+- **Dropping costs relevance on the poisoned corpus** (Hit@3 0.568 → 0.477): for many questions the expected section *is* the poisoned one, so removing it also removes the answer. This is the measured motivation for a *repair* defence (revert the flagged substitution to its likely original) rather than a *drop* defence.
+- Depth matters little above k = 10; at k = 3 the filter can only shrink the context (clean Hit@3 0.636).
+
+**Human check of the LLM judge.** `docs/research/scripts/judge_agreement.py sample` drew a blind, stratified sample of 75 answers from the main and defence runs: up to 5 per judge score level (0, 0.5, 0.75, 1.0) per condition, one repetition per question and condition, seed 20261016. The grading sheet (`docs/research/results/judge-agreement/grading-sheet.csv`) shows only the question, reference facts and answer, in shuffled order, with the judge's own rubric verbatim; the link back to condition and judge score is in a separate key. After hand grading, `judge_agreement.py score` reports exact agreement, agreement within 0.25, mean absolute difference, mean signed difference (judge − human), Spearman correlation and quadratic-weighted Cohen's kappa, overall and per condition. *Status: sheet issued, not yet graded.*
+
+**Evidence index.** `python docs/research/scripts/verify_evidence.py` reads only saved files and (1) checks 31 headline numbers quoted in this document, the PDD and the report for Nikos against the result file that produced each one, (2) re-hashes all 1,980 observation records of the main and defence runs and compares them with the SHA-256 values the runner wrote at completion, and (3) writes a SHA-256 manifest of the benchmark, the three corpora, the attack manifest, the defence code, both runs and every result file. Current state: 31/31 claims match; 1,188/1,188 and 792/792 records unchanged. Output: `docs/research/EVIDENCE.md`, `docs/research/evidence-manifest.json`.
 
 ## 9. Reproducing every number in this document
 
@@ -455,4 +478,8 @@ PYTHONPATH=backend python -m app.evaluation.edited_text_exposure --run pilot-run
 python docs/research/scripts/reanalyse_pilot.py pilot-runs/20260914T101059Z-a229838505ff439cbb47468c67774e73 pilot-runs/edited-text-exposure-v1-20260916.json
 # attack-quality summary (already saved)
 cat backend/data/poisoned/pwws_attack_manifest_summary.json
+# §13: threshold sweep (needs Qdrant, no model calls), judge sample, evidence index
+cd backend && PYTHONPATH=. python ../docs/research/scripts/threshold_sweep.py /tmp/sweep && cd ..
+python docs/research/scripts/judge_agreement.py score docs/research/results/judge-agreement
+python docs/research/scripts/verify_evidence.py
 ```
