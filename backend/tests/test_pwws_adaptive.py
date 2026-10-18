@@ -128,3 +128,40 @@ def test_resume_keeps_finished_parts_and_refuses_after_the_manifest(tmp_path, mo
     manifest.write_text("", encoding="utf-8")
     with pytest.raises(FileExistsError):
         adaptive.prepare_output(out, resume=True)
+
+
+def test_small_batches_preserve_order_and_cap_the_batch():
+    seen = []
+
+    class Recorder:
+        def log2_prob(self, texts):
+            seen.append(len(texts))
+            return [float(len(t)) for t in texts]
+
+    texts = ["a" * n for n in range(1, 11)]
+    assert adaptive.SmallBatches(Recorder(), size=4).log2_prob(texts) == [float(n) for n in range(1, 11)]
+    assert max(seen) == 4
+
+
+def test_workers_claim_files_once_and_stale_locks_are_released(tmp_path):
+    part = tmp_path / "ddos__http_flood.md.json"
+    assert adaptive.claim(part)
+    assert adaptive.claim(part)  # this process already holds it
+    lock = part.with_suffix(".lock")
+    lock.write_text("1")  # pid 1 is alive and is not us
+    assert not adaptive.claim(part)
+    lock.write_text("999999999")  # no such process
+    assert adaptive.claim(part)
+    assert lock.read_text() == str(__import__("os").getpid())
+
+
+def test_collect_waits_for_every_file_and_keeps_file_order(tmp_path):
+    kb = tmp_path / "kb"
+    for name in ("b/two.md", "a/one.md"):
+        (kb / name).parent.mkdir(parents=True, exist_ok=True)
+        (kb / name).write_text("x")
+    (tmp_path / "parts").mkdir()
+    adaptive.write_part(adaptive.part_path(tmp_path, "b/two.md"), [{"file": "b/two.md"}])
+    assert adaptive.collect(tmp_path, kb) is None
+    adaptive.write_part(adaptive.part_path(tmp_path, "a/one.md"), [{"file": "a/one.md"}])
+    assert [e["file"] for e in adaptive.collect(tmp_path, kb)] == ["a/one.md", "b/two.md"]

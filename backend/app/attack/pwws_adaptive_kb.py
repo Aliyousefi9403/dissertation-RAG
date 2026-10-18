@@ -30,7 +30,10 @@ Create-only: refuses to run if the output folder or manifest exists. The clean
 knowledge base and the original poisoned corpus are never touched. Each finished
 file is checkpointed in <out>/parts/; `--resume` continues an interrupted run,
 restoring every unfinished file from the clean copy before attacking it, and
-appends start/resume events to <out>/run_log.jsonl.
+appends start/resume events to <out>/run_log.jsonl. Several `--resume` workers may run
+at once: each claims a file with <out>/parts/<file>.lock (holding its pid; a lock whose
+process has gone is stale), and whichever worker finds every file done writes the
+manifest, in file order, from the parts.
 """
 
 from __future__ import annotations
@@ -108,6 +111,16 @@ def domain_frequency_constraint(reference: DomainReference, lm=None):
     return DomainFrequencyConstraint()
 
 
+class SmallBatches:
+    """Scores texts a few at a time: whole sections x 16 at once exhausted memory (full-vocabulary logits)."""
+
+    def __init__(self, lm, size: int = 4):
+        self.lm, self.size = lm, size
+
+    def log2_prob(self, texts: list[str]) -> list[float]:
+        return [p for i in range(0, len(texts), self.size) for p in self.lm.log2_prob(texts[i:i + self.size])]
+
+
 def build_attack(wrapper, constraint=None, recipe_name="pwws"):
     from textattack import Attack
     from textattack.attack_recipes import PWWSRen2019, TextFoolerJin2019
@@ -139,6 +152,37 @@ def write_part(part: Path, entries: list[dict]) -> None:
     tmp = part.with_suffix(".tmp")
     tmp.write_text(json.dumps(entries), encoding="utf-8")
     os.replace(tmp, part)  # atomic: a part exists only once its file is fully attacked
+
+
+def claim(part: Path) -> bool:
+    """Take the file for this worker unless a live process holds it."""
+    lock = part.with_suffix(".lock")
+    try:
+        holder = int(lock.read_text() or 0)
+        os.kill(holder, 0)
+        return holder == os.getpid()
+    except (FileNotFoundError, ValueError, ProcessLookupError):
+        lock.unlink(missing_ok=True)  # stale or absent
+    try:
+        fd = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+    except FileExistsError:
+        return False
+    os.write(fd, str(os.getpid()).encode())
+    os.close(fd)
+    return True
+
+
+def collect(out_dir: Path, kb: Path):
+    """All entries in file order, or None while some file is unfinished."""
+    entries = []
+    for path in sorted(kb.rglob("*.md")):
+        if path.parent.name == "devices":
+            continue
+        part = part_path(out_dir, path.relative_to(kb).as_posix())
+        if not part.exists():
+            return None
+        entries += json.loads(part.read_text(encoding="utf-8"))
+    return entries
 
 
 def log_event(out_dir: Path, event: str, **fields) -> None:
@@ -194,28 +238,33 @@ def main(variant: str, resume: bool = False) -> None:
     lm = None
     if variant == "adaptive_lm":
         from app.defence.contextual_filter import LanguageModel
-        lm = LanguageModel(max_tokens=1024)  # the whole section, so no swap escapes the rule
+        lm = SmallBatches(LanguageModel(max_tokens=1024))  # the whole section, so no swap escapes the rule
     constraint = domain_frequency_constraint(DomainReference(CLEAN_KB), lm) if variant.startswith("adaptive") else None
     attack = build_attack(wrapper, constraint, "textfooler" if variant == "textfooler" else "pwws")
     label_map = json.loads(base.LABEL_MAP_FILE.read_text(encoding="utf-8"))
     done = sorted(p.name for p in (out_dir / "parts").glob("*.json"))
     log_event(out_dir, "resume" if resume else "start", variant=variant, files_already_done=done)
-    entries = []
     for path in sorted(kb.rglob("*.md")):
         if path.parent.name == "devices":
             continue
         relative = path.relative_to(kb).as_posix()
         part = part_path(out_dir, relative)
-        if part.exists():
-            entries += json.loads(part.read_text(encoding="utf-8"))
+        if part.exists() or not claim(part):
             continue
         shutil.copyfile(CLEAN_KB / relative, path)  # an interrupted file restarts from the clean text
         file_entries = poison_file(path, kb, attack, label_map, constraint)
         write_part(part, file_entries)
-        entries += file_entries
-        print(f"{relative}: {sum(e['success'] for e in entries)} successful so far", flush=True)
-    with manifest.open("x", encoding="utf-8") as handle:
-        handle.writelines(json.dumps(e) + "\n" for e in entries)
+        part.with_suffix(".lock").unlink(missing_ok=True)
+        print(f"{relative}: {sum(e['success'] for e in file_entries)} successful in this file", flush=True)
+    entries = collect(out_dir, kb)
+    if entries is None:
+        print("other workers still running; the last one writes the manifest", flush=True)
+        return
+    try:
+        with manifest.open("x", encoding="utf-8") as handle:
+            handle.writelines(json.dumps(e) + "\n" for e in entries)
+    except FileExistsError:
+        return  # another worker finished at the same moment and wrote it
     log_event(out_dir, "finish", successful=sum(e["success"] for e in entries), sections=len(entries))
     print(f"{variant}: {sum(e['success'] for e in entries)}/{len(entries)} sections attacked successfully -> {kb}")
 
