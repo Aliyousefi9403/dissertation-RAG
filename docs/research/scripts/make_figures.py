@@ -188,6 +188,40 @@ def family_figure():
     plt.close(fig)
 
 
+def robustness_figure():
+    """Word-frequency vs contextual synonym gap on every corpus, with document-clustered 95% intervals."""
+    path = RESULTS / "detector-uncertainty/auroc-intervals.json"
+    if not path.exists():
+        return
+    corpora = json.loads(path.read_text())["corpora"]
+    rows = [("poisoned", "Original PWWS"), ("poisoned_pwws_rerun", "PWWS, retrained surrogate"),
+            ("poisoned_textfooler", "TextFooler (second attack)"), ("poisoned_adaptive", "Adaptive PWWS,\nfrequency-matched"),
+            ("poisoned_adaptive_lm", "Adaptive PWWS,\nfrequency + LM-matched"), ("control", "Control (layout only,\nno substitutions)")]
+    rows = [(c, label) for c, label in rows if "family" in corpora.get(c, {})]
+    series = [("syngap_top3_domain", "Synonym gap, word-frequency q (deployed filter)", BLUE, -0.14),
+              ("ctx_syngap_top3", "Contextual synonym gap, language model as q", ORANGE, 0.14)]
+    fig, ax = plt.subplots(figsize=(7.4, 0.62 * len(rows) + 1.3), dpi=200)
+    for score, label, color, dy in series:
+        for k, (c, _) in enumerate(rows):
+            r = corpora[c]["family"]["scores"][score]
+            ax.plot(r["ci95"], [k + dy, k + dy], color=color, lw=2, solid_capstyle="round")
+            ax.plot([r["auroc"]], [k + dy], "o", ms=7, color=color, mec="white", mew=1.5,
+                    label=label if k == 0 else None)
+            ax.text(r["ci95"][1] + 0.012, k + dy, f"{r['auroc']:.2f}", va="center", fontsize=7, color=INK)
+    ax.axvline(0.5, color=MUTED, lw=1, ls="--")
+    ax.text(0.505, -0.75, "chance", ha="left", fontsize=7, color=MUTED)
+    ax.set_yticks(range(len(rows)), [label for _, label in rows], fontsize=8)
+    ax.set_ylim(len(rows) - 0.5, -0.9)
+    ax.set_xlim(0.2, 1.08)
+    ax.set_xlabel("AUROC for finding chunks with substituted words\n(dot; line = 95% interval, documents resampled)")
+    ax.grid(axis="x", color=GRID, lw=0.6)
+    ax.set_axisbelow(True)
+    ax.legend(loc="lower center", bbox_to_anchor=(0.4, 1.0), ncol=1, frameon=False, fontsize=7.5)
+    fig.tight_layout()
+    fig.savefig(OUT / "fig6_detector_robustness.png")
+    plt.close(fig)
+
+
 if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
     auroc_figure()
@@ -195,4 +229,5 @@ if __name__ == "__main__":
     defence_figure()
     sweep_figure()
     family_figure()
+    robustness_figure()
     print(sorted(p.name for p in OUT.glob("*.png")))
