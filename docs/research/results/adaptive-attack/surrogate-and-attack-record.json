@@ -1,0 +1,63 @@
+{
+ "purpose": "Surrogate retrained 18 Oct 2026 because the original fine-tuned surrogate (backend/models/bert_surrogate/final) was never saved; used for both the adaptive attack and its unconstrained matched control",
+ "training_script": "backend/app/attack/finetune_bert.py (unchanged)",
+ "training_data_sha256": {
+  "train.jsonl": "48e00037d28bc951b9d6d7167c00374d17428e5b77ca1de22d5dee0574fe6522",
+  "val.jsonl": "f002feb674094bfc8e9ae8ae212e04786a5522bdaaa2792651a11aaa749dee1b",
+  "label_map.json": "460c2ddb25efe6ef4c6f9c3d5e0834fe28eb4913bb435883398a5d2058a10c15"
+ },
+ "model_files_sha256": {
+  "config.json": "66419abac2f226c51df1c835789ac982f2761ef7b296626fa7f139d7ec1d8514",
+  "label_map.json": "460c2ddb25efe6ef4c6f9c3d5e0834fe28eb4913bb435883398a5d2058a10c15",
+  "model.safetensors": "3098ab9503e60832614f1810bef2695f620b054401ff2500203185c827fe4e82",
+  "special_tokens_map.json": "b6d346be366a7d1d48332dbc9fdf3bf8960b5d879522b7799ddba59e76237ee3",
+  "tokenizer.json": "8b79639ec74b46604e730f505186eaafb1006d2fd00f2c4930d168bb7f894680",
+  "tokenizer_config.json": "a3c9410f27554c6e26af779fd147e536c6c5f9e5cb0e6b8f38ddaa25e1b0f6af",
+  "training_args.bin": "d9c4fe975d98425334f0c377b06892ea5604cd56b06e5a1c6dc3ea400584776a",
+  "vocab.txt": "07eced375cec144d27c900241f3e339478dec958f92fddbc551f295c992038a3"
+ },
+ "validation_accuracy_per_epoch": [
+  0.10144927536231885,
+  0.42028985507246375,
+  0.5362318840579711,
+  0.5797101449275363,
+  0.572463768115942,
+  0.6014492753623188,
+  0.6159420289855072,
+  0.6521739130434783,
+  0.6231884057971014,
+  0.644927536231884,
+  0.6304347826086957,
+  0.6304347826086957,
+  0.644927536231884,
+  0.6666666666666666,
+  0.6304347826086957,
+  0.644927536231884,
+  0.644927536231884,
+  0.6521739130434783,
+  0.6666666666666666,
+  0.6521739130434783,
+  0.6521739130434783,
+  0.6666666666666666,
+  0.6666666666666666,
+  0.6666666666666666,
+  0.6666666666666666,
+  0.6666666666666666,
+  0.6666666666666666,
+  0.6666666666666666,
+  0.6666666666666666,
+  0.6666666666666666
+ ],
+ "validation_accuracy_final": 0.6666666666666666,
+ "environment": {
+  "transformers": "4.57.6",
+  "torch": "2.5.1+cu124",
+  "textattack": "0.3.x"
+ },
+ "weights_in_git": false,
+ "adaptive_attack": {
+  "sections": 88,
+  "successful": 8,
+  "manifest_sha256": "45501205979966d628d152f383678d07f2211fc56d2abff692c521e59c5e9094"
+ }
+}

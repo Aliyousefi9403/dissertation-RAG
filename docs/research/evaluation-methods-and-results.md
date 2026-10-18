@@ -514,6 +514,32 @@ Outcomes (132 answers each): repaired 44 correct, 34 partial, 0 incorrect, 54 ab
 
 *Note on the analysis script.* `analyse_defence.py` now takes the conditions from each run's manifest and matches sources by their path inside the poisoned corpus rather than by absolute path (records from different checkouts store different absolute paths). Re-running it on the §12 runs reproduces the committed §12 summary and per-question table byte for byte.
 
+## 16. Better references for the relative-entropy detector, and the adaptive attacker (18 Oct 2026)
+
+**Detectors (offline, local distilgpt2, no API calls).** `docs/research/scripts/entropy_family_eval.py` scores the same 191 chunks with the same labels and development/held-out split as §11, and reproduces the deployed synonym gap exactly (AUROC 0.8184). New scores: a Dirichlet-prior reference q(w) = (c_rest(w) + μ·q_en(w)) / (N_rest + μ), μ = 2000; Jensen–Shannon divergence between the chunk's word distribution and q_domain; per-token surprisal under a causal language model; and a **contextual synonym gap**: for the 10 words with the largest domain synonym gap, log₂ p_LM(chunk with w → s) − log₂ p_LM(chunk) for the 5 most domain-probable synonyms s, averaged over the 3 largest. This is the same log-ratio as the synonym gap, with the unigram reference q replaced by a language model that sees the sentence.
+
+**Adaptive attacker.** `backend/app/attack/pwws_adaptive_kb.py --variant adaptive` (§14) with a surrogate retrained by the unchanged `finetune_bert.py` (the original fine-tuned weights were never saved; validation accuracy 0.667; checksums and training-data hashes in `docs/research/results/adaptive-attack/surrogate-and-attack-record.json`). Every swap must keep q(substitute) ≥ q(original) under the defender's reference. Result: **8 of 88 sections** attacked successfully (original PWWS: 38 of 88), 13 edited chunks, all in development documents.
+
+| AUROC | Poisoned (§11) | Formatting-only control | Adaptive attack |
+|---|---|---|---|
+| Letter-frequency KL (lecture example) | 0.33 | 0.35 | 0.36 |
+| Word KL vs domain | 0.72 | 0.62 | 0.50 |
+| Synonym gap, 50/50 reference (**deployed**) | 0.82 | 0.67 | **0.47** |
+| Synonym gap, Dirichlet reference | 0.83 | 0.68 | 0.48 |
+| Jensen–Shannon vs domain | 0.47 | 0.43 | 0.44 |
+| LM surprisal, top 5 tokens | 0.91 | 0.56 | 0.85 |
+| **Contextual synonym gap (LM reference)** | **0.95** | **0.53** | **0.92** |
+
+Poisoned corpus by split: contextual gap 0.97 development, 0.88 held-out; with the threshold fixed on development chunks (FPR 10%) it detects 80% of held-out edited chunks at FPR 0.11, against 50% at FPR 0.03 for the deployed score. Adaptive corpus at the deployed frozen threshold (7.2262 bits): **0 of 13** edited chunks flagged, 20 of 178 unedited chunks flagged.
+
+**Findings.**
+- *The adaptive attacker evades the deployed defence completely* (AUROC 0.47, nothing flagged), as designed: the deployed score only measures unigram rarity, and the attacker only uses swaps that are not rarer. The price is attack strength: 8 successful sections instead of 38.
+- *A language-model reference survives that attacker* (0.92). The attacker matched word frequency, not fit in context, and the contextual log-ratio measures fit in context.
+- *The contextual gap is also the cleaner substitution detector*: on the formatting-only control it is at chance (0.53), where the deployed score is 0.67, so the layout confound found in §11 largely disappears.
+- *Smoothing is not the issue* (Dirichlet 0.83 vs 0.82), and *a symmetric divergence over the whole distribution does not work* (Jensen–Shannon ≈ 0.47): the signal lives in a few substituted words, which whole-distribution divergences dilute. This answers two of the three questions raised with Nikos.
+
+**Limits.** The adaptive result rests on 13 positive chunks, none held-out. The attacker adapted to the deployed detector, not to the contextual one; an attacker who also constrains LM fit is the next test (second-order adaptive attack). The contextual detector costs about 50 LM evaluations per chunk; it is evaluated offline here and not yet deployed as a defence. The unconstrained matched control attack with the retrained surrogate is still running and will be reported with this section.
+
 ## 9. Reproducing every number in this document
 
 ```bash

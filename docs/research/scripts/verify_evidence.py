@@ -22,6 +22,7 @@ DET = f"{RES}/entropy-detector-20261016/detector-poisoned.json"
 CTRL = f"{RES}/entropy-detector-20261016/detector-control.json"
 SWEEP = f"{RES}/entropy-defence/threshold-sweep/sweep.json"
 REP = f"{RES}/entropy-repair/live-paired/summary.json"
+FAM = f"{RES}/entropy-family"
 RUNS = ("pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e",
         "pilot-runs/20261017T165331Z-defence-cebfb27c1e9048cdb61fbfe15f37e50d",
         "pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c")
@@ -70,6 +71,14 @@ CLAIMS = [
     ("Repair: edited text reaching the model", REP, ["comparisons", "repaired_vs_poisoned", "all", "exposure", "a"], 0.364),
     ("Repair: confident errors", REP, ["outcomes", "repaired", "incorrect"], 0),
     ("Repair: ASR (edited exposure)", REP, ["asr_edited_exposure", "repaired"], 0.1818),
+    ("Contextual synonym gap, poisoned corpus, AUROC", f"{FAM}/family-poisoned.json", ["results", "all", "ctx_syngap_top3", "auroc"], 0.95),
+    ("Contextual synonym gap, held-out, AUROC", f"{FAM}/family-poisoned.json", ["results", "held_out", "ctx_syngap_top3", "auroc"], 0.88),
+    ("Contextual synonym gap, formatting-only control, AUROC", f"{FAM}/family-control.json", ["results", "all", "ctx_syngap_top3", "auroc"], 0.53),
+    ("Contextual synonym gap, adaptive attack, AUROC", f"{FAM}/family-poisoned_adaptive.json", ["results", "all", "ctx_syngap_top3", "auroc"], 0.92),
+    ("Deployed synonym gap, adaptive attack, AUROC", f"{FAM}/detector-poisoned_adaptive.json", ["results", "all", "syngap_top3_domain", "auroc"], 0.47),
+    ("Jensen-Shannon, poisoned corpus, AUROC", f"{FAM}/family-poisoned.json", ["results", "all", "js_domain", "auroc"], 0.47),
+    ("Dirichlet synonym gap, poisoned corpus, AUROC", f"{FAM}/family-poisoned.json", ["results", "all", "syngap_top3_dirichlet", "auroc"], 0.83),
+    ("Adaptive attack: successful sections", f"{RES}/adaptive-attack/surrogate-and-attack-record.json", ["adaptive_attack", "successful"], 8),
     ("Sweep: deployed setting keeps clean Hit@3", SWEEP, [lambda s: deployed(s["grid"])["clean_all_hit3"]], 0.7045),
 ]
 
@@ -119,6 +128,8 @@ def main():
         "poisoned corpus": "backend/data/poisoned/knowledge_base",
         "formatting-only control corpus": "backend/data/control/knowledge_base",
         "PWWS attack manifest": "backend/data/poisoned/pwws_attack_manifest.jsonl",
+        "adaptive-attack corpus": "backend/data/poisoned_adaptive/knowledge_base",
+        "adaptive-attack manifest": "backend/data/poisoned_adaptive/pwws_attack_manifest.jsonl",
         "entropy-filter defence code": "backend/app/defence/entropy_filter.py",
         **{f"run {Path(r).name}": r for r in RUNS},
         **{f"results {p.relative_to(ROOT / RES)}": str(p.relative_to(ROOT)) for p in sorted((ROOT / RES).rglob("*")) if p.is_file()},

@@ -24,6 +24,16 @@
   "sha256": "666404e5ca503c6ddd2b60db71481c7118336de19613aa1f41743451fc6d7339",
   "files": 1
  },
+ "adaptive-attack corpus": {
+  "path": "backend/data/poisoned_adaptive/knowledge_base",
+  "sha256": "422f36f74fa20f3c115c07ea5f04646215a72cb206d8a7041ddcf6cef0a03672",
+  "files": 18
+ },
+ "adaptive-attack manifest": {
+  "path": "backend/data/poisoned_adaptive/pwws_attack_manifest.jsonl",
+  "sha256": "160deddebf5f3051753e8c9641e0aa15fc9e3d6f1db476d80723694cae16a52e",
+  "files": 1
+ },
  "entropy-filter defence code": {
   "path": "backend/app/defence/entropy_filter.py",
   "sha256": "284fa07888a1cd59dfb81c16264af2f0f541627ccd11847d302151b53a6c9536",
@@ -43,6 +53,11 @@
   "path": "pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c",
   "sha256": "235afd284cc352a8e9d81cbf915415c00bee47639162efec5a181957c9be65d5",
   "files": 794
+ },
+ "results adaptive-attack/surrogate-and-attack-record.json": {
+  "path": "docs/research/results/adaptive-attack/surrogate-and-attack-record.json",
+  "sha256": "6bb179f74f6087cebc84feb0634f57ff9a07e451ad228e92e3db4c2770996543",
+  "files": 1
  },
  "results control-retrieval-pilot-12q.json": {
   "path": "docs/research/results/control-retrieval-pilot-12q.json",
@@ -112,6 +127,26 @@
  "results entropy-detector-20261016/retrieval-filter.json": {
   "path": "docs/research/results/entropy-detector-20261016/retrieval-filter.json",
   "sha256": "bf465a39f701f26699dac7b391cec494cc20fb2bf1968e5fd0a762cc155c7e49",
+  "files": 1
+ },
+ "results entropy-family/detector-poisoned_adaptive.json": {
+  "path": "docs/research/results/entropy-family/detector-poisoned_adaptive.json",
+  "sha256": "12d73400502de26448e6d538fbf05337d4b14884263f5f1f0914f04536091fa6",
+  "files": 1
+ },
+ "results entropy-family/family-control.json": {
+  "path": "docs/research/results/entropy-family/family-control.json",
+  "sha256": "1b7dc0eececd98e69eff94e0b245c9f07d8a114f6786e1ae93f1693f3ac16158",
+  "files": 1
+ },
+ "results entropy-family/family-poisoned.json": {
+  "path": "docs/research/results/entropy-family/family-poisoned.json",
+  "sha256": "74d2dc9feefae146caafb72877a2981bd889cd3588ee633a7aa071033ef476f9",
+  "files": 1
+ },
+ "results entropy-family/family-poisoned_adaptive.json": {
+  "path": "docs/research/results/entropy-family/family-poisoned_adaptive.json",
+  "sha256": "7fdc537b6b17baaa466539eb708c75947e5ec8b12d236ab2560f40b626a6ffc1",
   "files": 1
  },
  "results entropy-repair/live-paired/pairs.csv": {
