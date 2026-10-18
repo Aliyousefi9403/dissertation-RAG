@@ -17,6 +17,11 @@ same threshold); everything else is identical.
 Usage (from backend/, Qdrant running, LLM_API_KEY set):
   AEGIS_BENCHMARK_FILE=$PWD/data/evaluation/questions_v1.json PYTHONPATH=. \\
     python ../docs/research/scripts/run_defence_eval.py ../pilot-runs/<MAIN_RUN_ID> ../pilot-runs [repair]
+
+To continue an interrupted run in place, pass its folder instead of the output root
+(and the same mode). The code hashes must match the run's manifest; records already
+written are kept unchanged (create-only), a missing judge record is produced from the
+saved answer and sources, and each resume is appended to <run>/run_log.jsonl.
 """
 
 import json
@@ -36,6 +41,15 @@ CONDITIONS = {"defended": "poisoned", "clean_filtered": "clean"}
 REPAIR_CONDITIONS = {"repaired": "poisoned", "clean_repaired": "clean"}
 CONTEXTUAL_CONDITIONS = {"contextual": "poisoned", "clean_contextual": "clean"}
 TIMEOUT = 60
+# Code changes shown not to alter a run's behaviour, so a run may resume across them.
+# contextual_filter.py: LanguageModel gained an optional max_tokens (default unchanged, used by the
+# adaptive_lm attack); replaying the first 12 records reproduced every score exactly
+# (pilot-runs/20261018T180113Z-contextual-*/resume_equivalence_check.json).
+EQUIVALENT_CHANGES = {
+    "backend/app/defence/contextual_filter.py": (
+        "1d68b522bd76bf36bcadd09a36dad84b57a0571d9992ba466aa08ea429c3fdcf",
+        "3dece334d00c193a426705c40fef4aa4d4fa6e215281e809d488ac9cb640000b"),
+}
 
 
 def llm_factory(temperature=None):
@@ -61,6 +75,10 @@ def main(main_run_dir, output_root, mode="drop"):
     code_files = ["backend/app/defence/entropy_filter.py", "backend/app/defence/contextual_filter.py", "backend/app/generation/rag_chain.py",
                   "backend/app/generation/prompt.py", "backend/app/evaluation/llm_judge.py",
                   "docs/research/scripts/run_defence_eval.py"]
+    resumed = (Path(output_root) / "manifest.json").exists()
+    if resumed:
+        return resume(Path(output_root), main_manifest, questions, conditions, project, code_files,
+                      cxf.make_filtered_retrieval if contextual else None, repair)
     run = Path(output_root) / (datetime.now(timezone.utc).strftime(f"%Y%m%dT%H%M%SZ-{'repair' if repair else 'contextual' if contextual else 'defence'}-") + uuid.uuid4().hex)
     (run / "observations").mkdir(parents=True)
     write_new_json(run / "manifest.json", {
@@ -79,48 +97,84 @@ def main(main_run_dir, output_root, mode="drop"):
                    "timeout_seconds": TIMEOUT, "sdk_retries": 0},
         "code_sha256": {f: sha256((project / f).read_bytes()) for f in code_files},
     })
+    execute(run, main_manifest, questions, conditions, contextual and cxf.make_filtered_retrieval, repair)
+
+
+def resume(run, main_manifest, questions, conditions, project, code_files, contextual_retrieval, repair):
+    manifest = json.loads((run / "manifest.json").read_text())
+    assert manifest["paired_main_run"] == main_manifest["run_id"], "run is paired with a different main run"
+    assert manifest["conditions"] == conditions, "run was started in a different mode"
+    assert not (run / "completion.json").exists(), "run is already complete"
+    current = {f: sha256((project / f).read_bytes()) for f in code_files}
+    runner = "docs/research/scripts/run_defence_eval.py"  # may gain resume support; logged, not checked
+    changed = [f for f in code_files if f != runner and manifest["code_sha256"].get(f) != current[f]
+               and EQUIVALENT_CHANGES.get(f) != (manifest["code_sha256"].get(f), current[f])]
+    assert not changed, f"code changed since the run started: {changed}"
+    done = sorted(p.name for p in (run / "observations").glob("*.json"))
+    with (run / "run_log.jsonl").open("a", encoding="utf-8") as handle:
+        handle.write(json.dumps({"event": "resume", "at": utc_now(), "records_already_written": len(done),
+                                 "runner_sha256_at_start": manifest["code_sha256"].get(runner),
+                                 "runner_sha256_now": current[runner]}) + "\n")
+    execute(run, main_manifest, questions, conditions, contextual_retrieval, repair)
+
+
+def execute(run, main_manifest, questions, conditions, contextual_retrieval, repair):
     written = []
     for unit in main_manifest["schedule"]:
         q = questions[unit["question_id"]]
         for condition, source_state in conditions.items():
             prefix = f"{unit['index']:06d}-{condition}"
+            rag_file = run / "observations" / f"{prefix}-rag.json"
+            if rag_file.exists():
+                record = json.loads(rag_file.read_text())
+                written.append(rag_file.name)
+                judge(run, q, record, prefix, written)
+                continue
             capture = {"request_attempts": 1}
             started = time.perf_counter()
             try:
                 result = rag_chain.answer_question(
                     q["question"], system_state=condition, capture=capture, llm_factory=llm_factory,
-                    retrieval_fn=(cxf.make_filtered_retrieval(source_state, capture=capture) if contextual
+                    retrieval_fn=(contextual_retrieval(source_state, capture=capture) if contextual_retrieval
                                   else ef.make_filtered_retrieval(source_state, capture=capture, repair=repair)))
                 answer = result["answer"]
             except Exception as error:  # recorded, never hidden
                 answer = None
                 capture.setdefault("error", {"stage": "rag", "type": type(error).__name__})
             base = {"schema_version": 1, "run_id": run.name, **unit, "condition": condition}
-            write_new_json(run / "observations" / f"{prefix}-rag.json",
-                           {**base, "stage": "rag", "latency_seconds": time.perf_counter() - started,
-                            "answer": answer, "capture": capture})
-            written.append(f"{prefix}-rag.json")
-            sources = capture.get("sources") or []
-            for stage in ("correctness", "faithfulness"):
-                audit = {"raw_score": None, "status": "missing"}
-                if answer is not None:
-                    try:
-                        if stage == "correctness":
-                            llm_judge.evaluate_correctness(q["question"], q["reference_facts"], answer,
-                                                           capture=audit, llm_factory=llm_factory)
-                        else:
-                            context = "\n\n".join(f"[Source {i}]\n{s.get('content', '')}" for i, s in enumerate(sources, 1))
-                            llm_judge.evaluate_faithfulness(q["question"], context, answer,
-                                                            capture=audit, llm_factory=llm_factory)
-                    except Exception as error:
-                        audit["error"] = {"stage": stage, "type": type(error).__name__}
-                write_new_json(run / "observations" / f"{prefix}-{stage}.json", {**base, "stage": stage, "capture": audit})
-                written.append(f"{prefix}-{stage}.json")
+            record = {**base, "stage": "rag", "latency_seconds": time.perf_counter() - started,
+                      "answer": answer, "capture": capture}
+            write_new_json(rag_file, record)
+            written.append(rag_file.name)
+            judge(run, q, record, prefix, written)
         print(f"pair {unit['index'] + 1}/{len(main_manifest['schedule'])}", flush=True)
     write_new_json(run / "completion.json", {
         "finished_at": utc_now(), "manifest_sha256": sha256((run / "manifest.json").read_bytes()),
         "record_sha256": {n: sha256((run / "observations" / n).read_bytes()) for n in written}})
     print(run)
+
+
+def judge(run, q, record, prefix, written):
+    answer, sources = record["answer"], record["capture"].get("sources") or []
+    base = {k: v for k, v in record.items() if k not in ("stage", "latency_seconds", "answer", "capture")}
+    for stage in ("correctness", "faithfulness"):
+        target = run / "observations" / f"{prefix}-{stage}.json"
+        written.append(target.name)
+        if target.exists():
+            continue
+        audit = {"raw_score": None, "status": "missing"}
+        if answer is not None:
+            try:
+                if stage == "correctness":
+                    llm_judge.evaluate_correctness(q["question"], q["reference_facts"], answer,
+                                                   capture=audit, llm_factory=llm_factory)
+                else:
+                    context = "\n\n".join(f"[Source {i}]\n{s.get('content', '')}" for i, s in enumerate(sources, 1))
+                    llm_judge.evaluate_faithfulness(q["question"], context, answer,
+                                                    capture=audit, llm_factory=llm_factory)
+            except Exception as error:
+                audit["error"] = {"stage": stage, "type": type(error).__name__}
+        write_new_json(target, {**base, "stage": stage, "capture": audit})
 
 
 if __name__ == "__main__":

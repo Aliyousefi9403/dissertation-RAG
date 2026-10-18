@@ -27,14 +27,20 @@ the detector's reference exactly.
                          embeddings, not WordNet)
 
 Create-only: refuses to run if the output folder or manifest exists. The clean
-knowledge base and the original poisoned corpus are never touched.
+knowledge base and the original poisoned corpus are never touched. Each finished
+file is checkpointed in <out>/parts/; `--resume` continues an interrupted run,
+restoring every unfinished file from the clean copy before attacking it, and
+appends start/resume events to <out>/run_log.jsonl.
 """
 
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import os
 import shutil
+from datetime import datetime, timezone
 from pathlib import Path
 
 from app.attack import pwws_poison_kb as base
@@ -64,18 +70,37 @@ def domain_frequency_constraint(reference: DomainReference, lm=None):
             self.document = ""
             self._base = {}
 
-        def _check_constraint(self, transformed_text, reference_text):
-            indices = transformed_text.attack_attrs.get("newly_modified_indices", set())
-            for i in indices:
+        def _frequency_ok(self, transformed_text, reference_text):
+            for i in transformed_text.attack_attrs.get("newly_modified_indices", set()):
                 new, old = transformed_text.words[i].lower(), reference_text.words[i].lower()
                 if reference.probability(new, self.document) < reference.probability(old, self.document):
                     return False
-            if lm is None or not indices:
-                return True
+            return True
+
+        def _base_log2(self, reference_text):
             original = reference_text.text
             if original not in self._base:
                 self._base = {original: lm.log2_prob([original])[0]}
-            return lm.log2_prob([transformed_text.text])[0] >= self._base[original]
+            return self._base[original]
+
+        def _check_constraint(self, transformed_text, reference_text):
+            if not self._frequency_ok(transformed_text, reference_text):
+                return False
+            if lm is None or not transformed_text.attack_attrs.get("newly_modified_indices"):
+                return True
+            return lm.log2_prob([transformed_text.text])[0] >= self._base_log2(reference_text)
+
+        def _check_constraint_many(self, transformed_texts, reference_text):
+            # Same rule as _check_constraint; the language model scores all survivors in one batch.
+            survivors = [t for t in transformed_texts if self._frequency_ok(t, reference_text)]
+            if lm is None:
+                return survivors
+            scored = [t for t in survivors if t.attack_attrs.get("newly_modified_indices")]
+            if not scored:
+                return survivors
+            base = self._base_log2(reference_text)
+            keep = {id(t) for t, lp in zip(scored, lm.log2_prob([t.text for t in scored])) if lp >= base}
+            return [t for t in survivors if id(t) in keep or not t.attack_attrs.get("newly_modified_indices")]
 
         def extra_repr_keys(self):
             return ["compare_against_original"]
@@ -94,12 +119,33 @@ def build_attack(wrapper, constraint=None, recipe_name="pwws"):
                   recipe.transformation, recipe.search_method)
 
 
-def prepare_output(out_dir: Path) -> tuple[Path, Path]:
+def prepare_output(out_dir: Path, resume: bool = False) -> tuple[Path, Path]:
     kb, manifest = out_dir / "knowledge_base", out_dir / "pwws_attack_manifest.jsonl"
-    if kb.exists() or manifest.exists():
-        raise FileExistsError(f"{out_dir} already exists; outputs are create-only")
-    shutil.copytree(CLEAN_KB, kb)
+    if manifest.exists():
+        raise FileExistsError(f"{manifest} already exists; outputs are create-only")
+    if kb.exists() and not resume:
+        raise FileExistsError(f"{out_dir} already exists; outputs are create-only (use --resume to continue)")
+    if not kb.exists():
+        shutil.copytree(CLEAN_KB, kb)
+    (out_dir / "parts").mkdir(exist_ok=True)
     return kb, manifest
+
+
+def part_path(out_dir: Path, relative: str) -> Path:
+    return out_dir / "parts" / (relative.replace("/", "__") + ".json")
+
+
+def write_part(part: Path, entries: list[dict]) -> None:
+    tmp = part.with_suffix(".tmp")
+    tmp.write_text(json.dumps(entries), encoding="utf-8")
+    os.replace(tmp, part)  # atomic: a part exists only once its file is fully attacked
+
+
+def log_event(out_dir: Path, event: str, **fields) -> None:
+    code = Path(__file__).read_bytes()
+    with (out_dir / "run_log.jsonl").open("a", encoding="utf-8") as handle:
+        handle.write(json.dumps({"event": event, "at": datetime.now(timezone.utc).isoformat(),
+                                 "code_sha256": hashlib.sha256(code).hexdigest(), **fields}) + "\n")
 
 
 def poison_file(path: Path, kb: Path, attack, label_map: dict, constraint=None) -> list[dict]:
@@ -135,13 +181,14 @@ def poison_file(path: Path, kb: Path, attack, label_map: dict, constraint=None) 
     return entries
 
 
-def main(variant: str) -> None:
+def main(variant: str, resume: bool = False) -> None:
     from textattack.models.wrappers import HuggingFaceModelWrapper
     from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
     if not base.MODEL_DIR.exists():
         raise RuntimeError(f"Surrogate not found: {base.MODEL_DIR}")
-    kb, manifest = prepare_output(VARIANTS[variant])
+    out_dir = VARIANTS[variant]
+    kb, manifest = prepare_output(out_dir, resume)
     wrapper = HuggingFaceModelWrapper(AutoModelForSequenceClassification.from_pretrained(base.MODEL_DIR),
                                       AutoTokenizer.from_pretrained(base.MODEL_DIR))
     lm = None
@@ -151,17 +198,31 @@ def main(variant: str) -> None:
     constraint = domain_frequency_constraint(DomainReference(CLEAN_KB), lm) if variant.startswith("adaptive") else None
     attack = build_attack(wrapper, constraint, "textfooler" if variant == "textfooler" else "pwws")
     label_map = json.loads(base.LABEL_MAP_FILE.read_text(encoding="utf-8"))
+    done = sorted(p.name for p in (out_dir / "parts").glob("*.json"))
+    log_event(out_dir, "resume" if resume else "start", variant=variant, files_already_done=done)
     entries = []
     for path in sorted(kb.rglob("*.md")):
-        if path.parent.name != "devices":
-            entries += poison_file(path, kb, attack, label_map, constraint)
-            print(f"{path.relative_to(kb)}: {sum(e['success'] for e in entries)} successful so far", flush=True)
+        if path.parent.name == "devices":
+            continue
+        relative = path.relative_to(kb).as_posix()
+        part = part_path(out_dir, relative)
+        if part.exists():
+            entries += json.loads(part.read_text(encoding="utf-8"))
+            continue
+        shutil.copyfile(CLEAN_KB / relative, path)  # an interrupted file restarts from the clean text
+        file_entries = poison_file(path, kb, attack, label_map, constraint)
+        write_part(part, file_entries)
+        entries += file_entries
+        print(f"{relative}: {sum(e['success'] for e in entries)} successful so far", flush=True)
     with manifest.open("x", encoding="utf-8") as handle:
         handle.writelines(json.dumps(e) + "\n" for e in entries)
+    log_event(out_dir, "finish", successful=sum(e["success"] for e in entries), sections=len(entries))
     print(f"{variant}: {sum(e['success'] for e in entries)}/{len(entries)} sections attacked successfully -> {kb}")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     parser.add_argument("--variant", choices=sorted(VARIANTS), required=True)
-    main(parser.parse_args().variant)
+    parser.add_argument("--resume", action="store_true", help="continue an interrupted run from its checkpoints")
+    args = parser.parse_args()
+    main(args.variant, args.resume)

@@ -98,3 +98,33 @@ def test_outputs_are_create_only_and_never_touch_existing_corpora(tmp_path, monk
 def test_variants_write_only_to_new_folders():
     assert {p.name for p in adaptive.VARIANTS.values()} == {"poisoned_adaptive", "poisoned_pwws_rerun", "poisoned_adaptive_lm", "poisoned_textfooler"}
     assert all(p.name != "poisoned" for p in adaptive.VARIANTS.values())
+
+
+def test_batched_check_matches_the_one_at_a_time_rule(reference):
+    base = AttackedText("An adversary may abnegate users access to a server")
+    candidates = [base.replace_word_at_index(3, w) for w in ("deny", "refuse", "waiter")]
+    for t in candidates:
+        t.attack_attrs["newly_modified_indices"] = {3}
+    lm = StubLM({base.text: -50.0, candidates[0].text: -40.0, candidates[1].text: -55.0, candidates[2].text: -10.0})
+    constraint = adaptive.domain_frequency_constraint(reference, lm)
+    constraint.document = "ddos/http_flood.md"
+    one_by_one = [t for t in candidates if constraint._check_constraint(t, base)]
+    assert constraint._check_constraint_many(candidates, base) == one_by_one
+
+
+def test_resume_keeps_finished_parts_and_refuses_after_the_manifest(tmp_path, monkeypatch):
+    clean = tmp_path / "clean"
+    (clean / "ddos").mkdir(parents=True)
+    (clean / "ddos/http_flood.md").write_text("text", encoding="utf-8")
+    monkeypatch.setattr(adaptive, "CLEAN_KB", clean)
+    out = tmp_path / "adaptive"
+    kb, manifest = adaptive.prepare_output(out)
+    part = adaptive.part_path(out, "ddos/http_flood.md")
+    adaptive.write_part(part, [{"file": "ddos/http_flood.md", "success": False}])
+    with pytest.raises(FileExistsError):
+        adaptive.prepare_output(out)
+    adaptive.prepare_output(out, resume=True)
+    assert part.exists() and not part.with_suffix(".tmp").exists()
+    manifest.write_text("", encoding="utf-8")
+    with pytest.raises(FileExistsError):
+        adaptive.prepare_output(out, resume=True)
