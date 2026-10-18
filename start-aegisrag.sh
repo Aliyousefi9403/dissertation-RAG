@@ -43,7 +43,7 @@ if ! .venv/bin/python -c "import fastapi, uvicorn, nltk, wordfreq" 2>/dev/null; 
   rm -rf .venv
   "$PY" -m venv .venv
   .venv/bin/python -m pip install --upgrade pip
-  .venv/bin/python -m pip install -e ".[dev]"
+  .venv/bin/python -m pip install -r requirements-app.txt
 fi
 .venv/bin/python -c "from nltk.corpus import wordnet; wordnet.synsets('server')" 2>/dev/null || {
   .venv/bin/python -m pip install -q certifi

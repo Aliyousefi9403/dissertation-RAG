@@ -1,0 +1,20 @@
+# Packages needed to RUN AegisRAG (backend API + defence). Used by start-aegisrag.sh.
+# The research/attack tools in pyproject.toml (textattack, tensorflow) are not needed
+# to run the app and fail to build on some Macs, so they are left out here.
+fastapi
+uvicorn[standard]
+python-dotenv
+requests
+pandas
+langchain
+langchain-core
+langchain-community
+langchain-openai
+langchain-huggingface
+langchain-qdrant
+langchain-text-splitters
+qdrant-client
+sentence-transformers
+wordfreq
+nltk
+pytest
