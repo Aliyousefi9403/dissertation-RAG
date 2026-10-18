@@ -21,6 +21,10 @@ the detector's reference exactly.
                          least as probable as the original under the same language model
   --variant control    unconstrained PWWS  -> data/poisoned_pwws_rerun/
                        (matched control when the surrogate had to be retrained)
+  --variant textfooler   TextFooler (Jin et al. 2020) instead of PWWS -> data/poisoned_textfooler/
+                         a second word-substitution attack, to test whether the detectors
+                         generalise beyond PWWS (substitutes come from counter-fitted word
+                         embeddings, not WordNet)
 
 Create-only: refuses to run if the output folder or manifest exists. The clean
 knowledge base and the original poisoned corpus are never touched.
@@ -42,6 +46,7 @@ VARIANTS = {
     "adaptive": PROJECT_ROOT / "data" / "poisoned_adaptive",
     "control": PROJECT_ROOT / "data" / "poisoned_pwws_rerun",
     "adaptive_lm": PROJECT_ROOT / "data" / "poisoned_adaptive_lm",
+    "textfooler": PROJECT_ROOT / "data" / "poisoned_textfooler",
 }
 
 
@@ -78,11 +83,11 @@ def domain_frequency_constraint(reference: DomainReference, lm=None):
     return DomainFrequencyConstraint()
 
 
-def build_attack(wrapper, constraint=None):
+def build_attack(wrapper, constraint=None, recipe_name="pwws"):
     from textattack import Attack
-    from textattack.attack_recipes import PWWSRen2019
+    from textattack.attack_recipes import PWWSRen2019, TextFoolerJin2019
 
-    recipe = PWWSRen2019.build(wrapper)
+    recipe = (TextFoolerJin2019 if recipe_name == "textfooler" else PWWSRen2019).build(wrapper)
     if constraint is None:
         return recipe
     return Attack(recipe.goal_function, recipe.pre_transformation_constraints + recipe.constraints + [constraint],
@@ -144,7 +149,7 @@ def main(variant: str) -> None:
         from app.defence.contextual_filter import LanguageModel
         lm = LanguageModel(max_tokens=1024)  # the whole section, so no swap escapes the rule
     constraint = domain_frequency_constraint(DomainReference(CLEAN_KB), lm) if variant.startswith("adaptive") else None
-    attack = build_attack(wrapper, constraint)
+    attack = build_attack(wrapper, constraint, "textfooler" if variant == "textfooler" else "pwws")
     label_map = json.loads(base.LABEL_MAP_FILE.read_text(encoding="utf-8"))
     entries = []
     for path in sorted(kb.rglob("*.md")):

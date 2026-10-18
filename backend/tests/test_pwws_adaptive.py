@@ -96,5 +96,5 @@ def test_outputs_are_create_only_and_never_touch_existing_corpora(tmp_path, monk
 
 
 def test_variants_write_only_to_new_folders():
-    assert {p.name for p in adaptive.VARIANTS.values()} == {"poisoned_adaptive", "poisoned_pwws_rerun", "poisoned_adaptive_lm"}
+    assert {p.name for p in adaptive.VARIANTS.values()} == {"poisoned_adaptive", "poisoned_pwws_rerun", "poisoned_adaptive_lm", "poisoned_textfooler"}
     assert all(p.name != "poisoned" for p in adaptive.VARIANTS.values())
