@@ -75,7 +75,7 @@ def replace_word(text, word, synonym):
 
 
 def main(out, corpus="poisoned"):
-    attacked = corpus in ("poisoned", "poisoned_adaptive", "poisoned_pwws_rerun", "poisoned_adaptive_lm", "poisoned_textfooler")
+    attacked = corpus in ("poisoned", "poisoned_adaptive", "poisoned_pwws_rerun", "poisoned_adaptive_lm", "poisoned_textfooler", "poisoned_adaptive_lm_budget")
     root = (get_knowledge_base_path("poisoned") if corpus == "poisoned"
             else ROOT / f"data/{corpus}/knowledge_base" if attacked else ROOT / "data/control/knowledge_base")
     manifest_path = ROOT / f"data/{corpus if attacked else 'poisoned'}/pwws_attack_manifest.jsonl"

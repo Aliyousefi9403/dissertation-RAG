@@ -96,7 +96,8 @@ def test_outputs_are_create_only_and_never_touch_existing_corpora(tmp_path, monk
 
 
 def test_variants_write_only_to_new_folders():
-    assert {p.name for p in adaptive.VARIANTS.values()} == {"poisoned_adaptive", "poisoned_pwws_rerun", "poisoned_adaptive_lm", "poisoned_textfooler"}
+    assert {p.name for p in adaptive.VARIANTS.values()} == {"poisoned_adaptive", "poisoned_pwws_rerun", "poisoned_adaptive_lm",
+                                                           "poisoned_textfooler", "poisoned_adaptive_lm_budget"}
     assert all(p.name != "poisoned" for p in adaptive.VARIANTS.values())
 
 
@@ -165,3 +166,22 @@ def test_collect_waits_for_every_file_and_keeps_file_order(tmp_path):
     assert adaptive.collect(tmp_path, kb) is None
     adaptive.write_part(adaptive.part_path(tmp_path, "a/one.md"), [{"file": "a/one.md"}])
     assert [e["file"] for e in adaptive.collect(tmp_path, kb)] == ["a/one.md", "b/two.md"]
+
+
+def test_budget_lets_the_passage_become_slightly_less_probable(reference):
+    original, transformed = swap("An adversary may abnegate users access to a server", 3, "deny")
+    lm = StubLM({original.text: -50.0, transformed.text: -53.0})
+    strict = adaptive.domain_frequency_constraint(reference, lm)
+    budgeted = adaptive.domain_frequency_constraint(reference, lm, budget_bits=4.0)
+    tight = adaptive.domain_frequency_constraint(reference, lm, budget_bits=2.0)
+    for c in (strict, budgeted, tight):
+        c.document = "ddos/http_flood.md"
+    assert not strict._check_constraint(transformed, original)
+    assert budgeted._check_constraint(transformed, original)
+    assert budgeted._check_constraint_many([transformed], original) == [transformed]
+    assert not tight._check_constraint_many([transformed], original)
+
+
+def test_budget_equals_the_contextual_threshold():
+    from app.defence import contextual_filter
+    assert adaptive.LM_BUDGET_BITS == contextual_filter.THRESHOLD_BITS

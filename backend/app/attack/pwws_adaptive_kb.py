@@ -19,6 +19,9 @@ the detector's reference exactly.
                          adds a second rule aimed at the contextual detector
                          (app/defence/contextual_filter.py): the swapped passage must be at
                          least as probable as the original under the same language model
+  --variant adaptive_lm_budget  budgeted second-order attack -> data/poisoned_adaptive_lm_budget/
+                         as adaptive_lm, but the passage may become up to LM_BUDGET_BITS less
+                         probable (the strict rule of adaptive_lm allowed almost no swaps)
   --variant control    unconstrained PWWS  -> data/poisoned_pwws_rerun/
                        (matched control when the surrogate had to be retrained)
   --variant textfooler   TextFooler (Jin et al. 2020) instead of PWWS -> data/poisoned_textfooler/
@@ -56,14 +59,19 @@ VARIANTS = {
     "control": PROJECT_ROOT / "data" / "poisoned_pwws_rerun",
     "adaptive_lm": PROJECT_ROOT / "data" / "poisoned_adaptive_lm",
     "textfooler": PROJECT_ROOT / "data" / "poisoned_textfooler",
+    "adaptive_lm_budget": PROJECT_ROOT / "data" / "poisoned_adaptive_lm_budget",
 }
+# Budget for adaptive_lm_budget: the contextual filter's threshold (contextual_filter.THRESHOLD_BITS),
+# a natural scale for "how much less likely the language model may find the passage".
+LM_BUDGET_BITS = 4.4611
 
 
-def domain_frequency_constraint(reference: DomainReference, lm=None):
+def domain_frequency_constraint(reference: DomainReference, lm=None, budget_bits: float = 0.0):
     """TextAttack constraint: reject swaps that make a word rarer under q.
 
     With `lm` (an object with log2_prob(texts) -> list[float]), also reject any
-    transformed text that is less probable than the original under that model.
+    transformed text that is more than `budget_bits` less probable than the original
+    under that model (budget 0: at least as probable).
     """
     from textattack.constraints import Constraint
 
@@ -91,7 +99,7 @@ def domain_frequency_constraint(reference: DomainReference, lm=None):
                 return False
             if lm is None or not transformed_text.attack_attrs.get("newly_modified_indices"):
                 return True
-            return lm.log2_prob([transformed_text.text])[0] >= self._base_log2(reference_text)
+            return lm.log2_prob([transformed_text.text])[0] >= self._base_log2(reference_text) - budget_bits
 
         def _check_constraint_many(self, transformed_texts, reference_text):
             # Same rule as _check_constraint; the language model scores all survivors in one batch.
@@ -101,7 +109,7 @@ def domain_frequency_constraint(reference: DomainReference, lm=None):
             scored = [t for t in survivors if t.attack_attrs.get("newly_modified_indices")]
             if not scored:
                 return survivors
-            base = self._base_log2(reference_text)
+            base = self._base_log2(reference_text) - budget_bits
             keep = {id(t) for t, lp in zip(scored, lm.log2_prob([t.text for t in scored])) if lp >= base}
             return [t for t in survivors if id(t) in keep or not t.attack_attrs.get("newly_modified_indices")]
 
@@ -236,10 +244,11 @@ def main(variant: str, resume: bool = False) -> None:
     wrapper = HuggingFaceModelWrapper(AutoModelForSequenceClassification.from_pretrained(base.MODEL_DIR),
                                       AutoTokenizer.from_pretrained(base.MODEL_DIR))
     lm = None
-    if variant == "adaptive_lm":
+    if variant in ("adaptive_lm", "adaptive_lm_budget"):
         from app.defence.contextual_filter import LanguageModel
         lm = SmallBatches(LanguageModel(max_tokens=1024))  # the whole section, so no swap escapes the rule
-    constraint = domain_frequency_constraint(DomainReference(CLEAN_KB), lm) if variant.startswith("adaptive") else None
+    budget = LM_BUDGET_BITS if variant == "adaptive_lm_budget" else 0.0
+    constraint = domain_frequency_constraint(DomainReference(CLEAN_KB), lm, budget) if variant.startswith("adaptive") else None
     attack = build_attack(wrapper, constraint, "textfooler" if variant == "textfooler" else "pwws")
     label_map = json.loads(base.LABEL_MAP_FILE.read_text(encoding="utf-8"))
     done = sorted(p.name for p in (out_dir / "parts").glob("*.json"))
