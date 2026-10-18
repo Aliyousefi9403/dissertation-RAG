@@ -78,6 +78,8 @@ CLAIMS = [
     ("Deployed synonym gap, adaptive attack, AUROC", f"{FAM}/detector-poisoned_adaptive.json", ["results", "all", "syngap_top3_domain", "auroc"], 0.47),
     ("Jensen-Shannon, poisoned corpus, AUROC", f"{FAM}/family-poisoned.json", ["results", "all", "js_domain", "auroc"], 0.47),
     ("Dirichlet synonym gap, poisoned corpus, AUROC", f"{FAM}/family-poisoned.json", ["results", "all", "syngap_top3_dirichlet", "auroc"], 0.83),
+    ("Matched control: deployed synonym gap AUROC", f"{FAM}/detector-poisoned_pwws_rerun.json", ["results", "all", "syngap_top3_domain", "auroc"], 0.88),
+    ("Matched control: contextual synonym gap AUROC", f"{FAM}/family-poisoned_pwws_rerun.json", ["results", "all", "ctx_syngap_top3", "auroc"], 0.97),
     ("Adaptive attack: successful sections", f"{RES}/adaptive-attack/surrogate-and-attack-record.json", ["adaptive_attack", "successful"], 8),
     ("Sweep: deployed setting keeps clean Hit@3", SWEEP, [lambda s: deployed(s["grid"])["clean_all_hit3"]], 0.7045),
 ]
@@ -130,6 +132,8 @@ def main():
         "PWWS attack manifest": "backend/data/poisoned/pwws_attack_manifest.jsonl",
         "adaptive-attack corpus": "backend/data/poisoned_adaptive/knowledge_base",
         "adaptive-attack manifest": "backend/data/poisoned_adaptive/pwws_attack_manifest.jsonl",
+        "matched-control corpus": "backend/data/poisoned_pwws_rerun/knowledge_base",
+        "matched-control manifest": "backend/data/poisoned_pwws_rerun/pwws_attack_manifest.jsonl",
         "entropy-filter defence code": "backend/app/defence/entropy_filter.py",
         **{f"run {Path(r).name}": r for r in RUNS},
         **{f"results {p.relative_to(ROOT / RES)}": str(p.relative_to(ROOT)) for p in sorted((ROOT / RES).rglob("*")) if p.is_file()},

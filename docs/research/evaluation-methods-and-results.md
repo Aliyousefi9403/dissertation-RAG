@@ -538,7 +538,9 @@ Poisoned corpus by split: contextual gap 0.97 development, 0.88 held-out; with t
 - *The contextual gap is also the cleaner substitution detector*: on the formatting-only control it is at chance (0.53), where the deployed score is 0.67, so the layout confound found in §11 largely disappears.
 - *Smoothing is not the issue* (Dirichlet 0.83 vs 0.82), and *a symmetric divergence over the whole distribution does not work* (Jensen–Shannon ≈ 0.47): the signal lives in a few substituted words, which whole-distribution divergences dilute. This answers two of the three questions raised with Nikos.
 
-**Limits.** The adaptive result rests on 13 positive chunks, none held-out. The attacker adapted to the deployed detector, not to the contextual one; an attacker who also constrains LM fit is the next test (second-order adaptive attack). The contextual detector costs about 50 LM evaluations per chunk; it is evaluated offline here and not yet deployed as a defence. The unconstrained matched control attack with the retrained surrogate is still running and will be reported with this section.
+**Limits.** The adaptive result rests on 13 positive chunks, none held-out. The attacker adapted to the deployed detector, not to the contextual one; an attacker who also constrains LM fit is the next test (second-order adaptive attack). The contextual detector costs about 50 LM evaluations per chunk; it is evaluated offline here and not yet deployed as a defence. 
+
+**Matched control (same retrained surrogate, no evasion rule).** Unrestricted PWWS succeeded on 39 of 88 sections (original surrogate: 38), giving 59 edited chunks. The deployed synonym gap scores AUROC 0.88 on this corpus and flags 34 of the 59 at the frozen threshold, against 0.47 and 0 of 13 on the adaptive corpus built with the same surrogate, so the evasion rule is the only difference. The contextual synonym gap scores 0.97 on the matched corpus and 0.92 on the adaptive one (`docs/research/results/entropy-family/*-poisoned_pwws_rerun.json`; Figure 5, `docs/research/figures/fig5_entropy_family.png`).
 
 ## 9. Reproducing every number in this document
 

@@ -34,6 +34,16 @@
   "sha256": "160deddebf5f3051753e8c9641e0aa15fc9e3d6f1db476d80723694cae16a52e",
   "files": 1
  },
+ "matched-control corpus": {
+  "path": "backend/data/poisoned_pwws_rerun/knowledge_base",
+  "sha256": "b008a3df80024cdaeadd28bb668ce30fb570d5bdd231d88dd179aec8c804b2b6",
+  "files": 18
+ },
+ "matched-control manifest": {
+  "path": "backend/data/poisoned_pwws_rerun/pwws_attack_manifest.jsonl",
+  "sha256": "d0436e636a802b873c5d5867db67923dce381d218e94e5f92c754aa81c2b603a",
+  "files": 1
+ },
  "entropy-filter defence code": {
   "path": "backend/app/defence/entropy_filter.py",
   "sha256": "284fa07888a1cd59dfb81c16264af2f0f541627ccd11847d302151b53a6c9536",
@@ -134,6 +144,11 @@
   "sha256": "12d73400502de26448e6d538fbf05337d4b14884263f5f1f0914f04536091fa6",
   "files": 1
  },
+ "results entropy-family/detector-poisoned_pwws_rerun.json": {
+  "path": "docs/research/results/entropy-family/detector-poisoned_pwws_rerun.json",
+  "sha256": "852e3d1ff4a889c5cdcb5b66eca40ba275e6d024ca19c1ca526554fd2bf542ff",
+  "files": 1
+ },
  "results entropy-family/family-control.json": {
   "path": "docs/research/results/entropy-family/family-control.json",
   "sha256": "1b7dc0eececd98e69eff94e0b245c9f07d8a114f6786e1ae93f1693f3ac16158",
@@ -147,6 +162,11 @@
  "results entropy-family/family-poisoned_adaptive.json": {
   "path": "docs/research/results/entropy-family/family-poisoned_adaptive.json",
   "sha256": "7fdc537b6b17baaa466539eb708c75947e5ec8b12d236ab2560f40b626a6ffc1",
+  "files": 1
+ },
+ "results entropy-family/family-poisoned_pwws_rerun.json": {
+  "path": "docs/research/results/entropy-family/family-poisoned_pwws_rerun.json",
+  "sha256": "5b86209ac5c33aa29a150147de49e472918f8b3ed1875c9e98ea288e8bafbf61",
   "files": 1
  },
  "results entropy-repair/live-paired/pairs.csv": {
