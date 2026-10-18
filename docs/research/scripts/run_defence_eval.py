@@ -8,6 +8,8 @@ Everything else is identical to the main run: benchmark (questions_v1.json),
 prompt, model, temperature 0, top-3 context, judges, 60 s timeouts and no SDK
 retries. Records are create-only JSON with a completion checksum file.
 
+With a third argument `contextual`, the conditions are `contextual` and `clean_contextual`
+(policy contextual-filter-v1: the drop defence with a language-model reference q).
 With a third argument `repair`, the conditions are `repaired` and `clean_repaired`
 (policy entropy-repair-v1: repair words above 9.5 bits, rescore, keep if under the
 same threshold); everything else is identical.
@@ -32,6 +34,7 @@ from app.generation import rag_chain
 
 CONDITIONS = {"defended": "poisoned", "clean_filtered": "clean"}
 REPAIR_CONDITIONS = {"repaired": "poisoned", "clean_repaired": "clean"}
+CONTEXTUAL_CONDITIONS = {"contextual": "poisoned", "clean_contextual": "clean"}
 TIMEOUT = 60
 
 
@@ -44,8 +47,10 @@ def llm_factory(temperature=None):
 
 
 def main(main_run_dir, output_root, mode="drop"):
-    repair = mode == "repair"
-    conditions = REPAIR_CONDITIONS if repair else CONDITIONS
+    repair, contextual = mode == "repair", mode == "contextual"
+    conditions = REPAIR_CONDITIONS if repair else CONTEXTUAL_CONDITIONS if contextual else CONDITIONS
+    if contextual:
+        from app.defence import contextual_filter as cxf
     main_run = Path(main_run_dir)
     main_manifest = json.loads((main_run / "manifest.json").read_text())
     benchmark_path = Path(config.PROJECT_ROOT) / "data/evaluation/questions_v1.json"
@@ -53,17 +58,19 @@ def main(main_run_dir, output_root, mode="drop"):
     assert sha256(benchmark_bytes) == main_manifest["benchmark"]["sha256"], "benchmark differs from the main run"
     questions = {q["id"]: q for q in json.loads(benchmark_bytes)}
     project = Path(config.PROJECT_ROOT).parent
-    code_files = ["backend/app/defence/entropy_filter.py", "backend/app/generation/rag_chain.py",
+    code_files = ["backend/app/defence/entropy_filter.py", "backend/app/defence/contextual_filter.py", "backend/app/generation/rag_chain.py",
                   "backend/app/generation/prompt.py", "backend/app/evaluation/llm_judge.py",
                   "docs/research/scripts/run_defence_eval.py"]
-    run = Path(output_root) / (datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ-repair-" if repair else "%Y%m%dT%H%M%SZ-defence-") + uuid.uuid4().hex)
+    run = Path(output_root) / (datetime.now(timezone.utc).strftime(f"%Y%m%dT%H%M%SZ-{'repair' if repair else 'contextual' if contextual else 'defence'}-") + uuid.uuid4().hex)
     (run / "observations").mkdir(parents=True)
     write_new_json(run / "manifest.json", {
         "schema_version": 1, "run_id": run.name, "started_at": utc_now(),
-        "purpose": f"Live evaluation of the entropy-{'repair' if repair else 'filter'} defence, paired with the main run by schedule index",
+        "purpose": f"Live evaluation of the {'entropy-repair' if repair else 'contextual-filter' if contextual else 'entropy-filter'} defence, paired with the main run by schedule index",
         "paired_main_run": main_manifest["run_id"], "benchmark_sha256": sha256(benchmark_bytes),
         "conditions": conditions, "schedule": main_manifest["schedule"],
-        "defence": {"policy_version": ef.REPAIR_POLICY_VERSION if repair else ef.POLICY_VERSION,
+        "defence": {"policy_version": ef.REPAIR_POLICY_VERSION if repair else cxf.POLICY_VERSION if contextual else ef.POLICY_VERSION,
+                    **({"contextual_threshold_bits": cxf.THRESHOLD_BITS, "lm": cxf.LM_NAME,
+                        "candidate_words": cxf.CANDIDATE_WORDS, "candidate_synonyms": cxf.CANDIDATE_SYNONYMS} if contextual else {}),
                     **({"word_repair_bits": ef.WORD_REPAIR_BITS} if repair else {}), "score": ef.SCORE_NAME, "threshold_bits": ef.THRESHOLD_BITS,
                     "candidate_k": ef.CANDIDATE_K, "keep": ef.KEEP, "lambda": ef.LAMBDA, "floor": ef.FLOOR},
         "config": {"LLM_MODEL": config.LLM_MODEL, "LLM_TEMPERATURE": config.LLM_TEMPERATURE,
@@ -82,7 +89,8 @@ def main(main_run_dir, output_root, mode="drop"):
             try:
                 result = rag_chain.answer_question(
                     q["question"], system_state=condition, capture=capture, llm_factory=llm_factory,
-                    retrieval_fn=ef.make_filtered_retrieval(source_state, capture=capture, repair=repair))
+                    retrieval_fn=(cxf.make_filtered_retrieval(source_state, capture=capture) if contextual
+                                  else ef.make_filtered_retrieval(source_state, capture=capture, repair=repair)))
                 answer = result["answer"]
             except Exception as error:  # recorded, never hidden
                 answer = None

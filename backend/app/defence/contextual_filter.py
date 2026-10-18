@@ -122,6 +122,11 @@ def score_text(text: str, document: str, reference: DomainReference, lm: Languag
     }
 
 
+# A passage's score depends only on its text, its document and the collection, so it is cached
+# for the life of the process (the same passages recur across questions and repetitions).
+_SCORE_CACHE: dict[tuple[str, str, str], dict[str, Any]] = {}
+
+
 def filter_results(results: list[tuple[Document, float]], root: Path, *, keep: int = KEEP,
                    lm: LanguageModel | None = None) -> tuple[list[tuple[Document, float]], list[dict[str, Any]]]:
     """Drop flagged chunks from ranked results; return (kept top-`keep`, decisions)."""
@@ -129,7 +134,13 @@ def filter_results(results: list[tuple[Document, float]], root: Path, *, keep: i
     kept, decisions = [], []
     for rank, (document, similarity) in enumerate(results, start=1):
         name = _relative_document(document.metadata.get("source", ""), root)
-        verdict = score_text(document.page_content, name, reference, lm)
+        if lm is not None:  # an explicitly supplied model (tests) is never cached
+            verdict = score_text(document.page_content, name, reference, lm)
+        else:
+            key = (str(root), name, document.page_content)
+            if key not in _SCORE_CACHE:
+                _SCORE_CACHE[key] = score_text(document.page_content, name, reference)
+            verdict = _SCORE_CACHE[key]
         decisions.append({"rank": rank, "document": name, "start_index": document.metadata.get("start_index"),
                           "similarity": round(float(similarity), 4), **verdict,
                           "kept": not verdict["flagged"] and len(kept) < keep})

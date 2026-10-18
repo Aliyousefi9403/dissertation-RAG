@@ -81,6 +81,19 @@ def test_filter_drops_flagged_backfills_and_annotates_for_the_interface(corpus, 
     assert verdict["policy_version"] == cf.POLICY_VERSION and verdict["candidate_rank"] == 2 and not verdict["flagged"]
 
 
+def test_scores_are_cached_per_passage_and_never_for_an_explicit_model(corpus, monkeypatch):
+    calls = []
+    monkeypatch.setattr(cf, "score_text", lambda text, doc, ref, lm=None: calls.append(doc) or
+                        {"score_bits": 0.0, "threshold_bits": cf.THRESHOLD_BITS, "flagged": False, "top_words": []})
+    monkeypatch.setattr(cf, "_SCORE_CACHE", {})
+    docs = [(Document(page_content=CLEAN, metadata={"source": str(corpus / "ddos/udp.md"), "start_index": 0}), 0.9)]
+    cf.filter_results(docs, corpus)
+    cf.filter_results(docs, corpus)
+    assert calls == ["ddos/udp.md"]
+    cf.filter_results(docs, corpus, lm=StubLM())
+    assert calls == ["ddos/udp.md", "ddos/udp.md"]
+
+
 def test_fails_closed_without_a_language_model(corpus, monkeypatch):
     def missing():
         raise ef.DetectorUnavailable("no transformers")
