@@ -542,6 +542,32 @@ Poisoned corpus by split: contextual gap 0.97 development, 0.88 held-out; with t
 
 **Matched control (same retrained surrogate, no evasion rule).** Unrestricted PWWS succeeded on 39 of 88 sections (original surrogate: 38), giving 59 edited chunks. The deployed synonym gap scores AUROC 0.88 on this corpus and flags 34 of the 59 at the frozen threshold, against 0.47 and 0 of 13 on the adaptive corpus built with the same surrogate, so the evasion rule is the only difference. The contextual synonym gap scores 0.97 on the matched corpus and 0.92 on the adaptive one (`docs/research/results/entropy-family/*-poisoned_pwws_rerun.json`; Figure 5, `docs/research/figures/fig5_entropy_family.png`).
 
+## 17. Contextual-filter defence: live paired evaluation (Plan A, 18 Oct 2026)
+
+**Policy `contextual-filter-v1`** (`backend/app/defence/contextual_filter.py`, system state `contextual` in the API and UI). The drop defence of §12 with the contextual synonym gap of §16 as the score: retrieve 10 candidates, score each with distilgpt2 as the reference q, drop those above 4.4611 bits (fixed on development chunks at a 10% false-positive rate, never tuned on held-out data or on live answers), keep the best 3 that remain. Offline and live scores agree to within 0.0003 bits.
+
+Run `20261018T180113Z-contextual-a2eb543b82974c5aa4c1502de6e555a7` (792 records, none unavailable, all checksums in `completion.json` verified), paired by schedule index with the main run (§10) and compared with the drop (§12) and repair (§15) defences. Conditions: `contextual` (poisoned corpus behind the filter) and `clean_contextual` (clean corpus behind it, to measure its cost). *Interruption:* the container restarted after 6 of 132 pairs. The run was resumed in place (`run_log.jsonl`); before resuming, the filter was replayed with the current code on all 12 records already written and reproduced every score exactly and every kept/flagged decision (`resume_equivalence_check.json`; the only differences were the order of identical passages tied on similarity, which occur in both the UDP- and SYN-flood documents). Analysis: `analyse_defence.py MAIN CONTEXTUAL OUT DEFENCE REPAIR` → `docs/research/results/contextual-defence/live-paired/`.
+
+| Comparison (question-level means, 44 questions) | A | B | Δ (A − B) | 95% CI | Wilcoxon p |
+|---|---|---|---|---|---|
+| **Contextual vs poisoned: edited text reaching the model** | 0.204 | 0.409 | −0.204 | [−0.341, −0.068] | 0.012 |
+| Contextual vs poisoned: same, perturbed targets | 0.296 | 0.593 | −0.296 | [−0.482, −0.111] | 0.022 |
+| Contextual vs poisoned: correctness | 0.485 | 0.555 | −0.070 | [−0.136, −0.015] | 0.020 |
+| Contextual vs poisoned: Hit@3 | 0.386 | 0.568 | −0.182 | [−0.296, −0.068] | 0.008 |
+| Contextual vs defended (word-frequency drop): exposure | 0.204 | 0.273 | −0.068 | [−0.182, 0.046] | 0.453 |
+| Contextual vs defended: correctness | 0.485 | 0.526 | −0.042 | [−0.108, 0.021] | 0.232 |
+| **Clean + contextual vs clean: correctness (cost)** | 0.701 | 0.714 | −0.013 | [−0.061, 0.030] | 0.455 |
+| Clean + word-frequency filter vs clean (cost, §12) | 0.650 | 0.714 | −0.064 | [−0.138, 0.002] | 0.066 |
+
+Outcomes (132 answers each): poisoned 49 correct, 36 partial, 2 incorrect, 45 abstained; contextual 36 / 33 / **0** / 63; defended 51 / 28 / 0 / 53; repaired 44 / 34 / 0 / 54; clean 67 / 39 / 0 / 26; clean + contextual 72 / 35 / 0 / 25. ASR (edited-text exposure, correctness drop ≥ 0.25): poisoned 0.167, contextual 0.114, defended 0.106, repaired 0.182. Share of candidate passages flagged: contextual 28.0% on the poisoned corpus and 8.4% on the clean corpus; word-frequency filter 21.1% and 10.9%. Median time per answer: 2.8 s (contextual) vs 1.5 s (word-frequency filter), mostly the language-model scoring of new passages (scores are cached per passage).
+
+**Findings.**
+- *The contextual filter is the strongest safety filter of the three.* It halves the PWWS-edited text that reaches the model (41% → 20% of questions, p = 0.012; 59% → 30% where the target section was perturbed) and, like the other filters, removes the confidently wrong answers (2 → 0).
+- *It is also the cheapest on clean data.* On the clean corpus it flags 8% of passages and costs no measurable correctness (−0.013, CI includes 0), against −0.064 for the word-frequency filter. This is the live counterpart of the offline control result (§16): the language-model reference reacts to substituted words, not to layout or rare-but-legitimate terms.
+- *Removing poison does not restore answers.* On the poisoned corpus correctness falls (−0.070, p = 0.02) and abstentions rise (45 → 63), because in this corpus the section that answers a perturbed question is often the poisoned one: dropping it leaves the model without its evidence, so it declines rather than guesses. This is the same safety/utility trade-off as §12, shifted further towards safety. A filter can make a poisoned knowledge base *safe to read*; only restoring the clean text would make it *useful again*.
+
+**Limits.** One generation model, one corpus, 44 questions (9 held-out); the contextual-vs-word-frequency differences in exposure and correctness are not significant at this size. The threshold was fixed offline at a 10% development false-positive rate; a lower threshold would trade more abstention for less exposure (§13 shows the shape of that trade-off for the word-frequency score).
+
 ## 9. Reproducing every number in this document
 
 ```bash
