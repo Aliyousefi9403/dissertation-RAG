@@ -15,10 +15,28 @@ git pull --ff-only || echo "(could not fast-forward; continuing with the code yo
 git log --oneline -1
 
 say "Python environment"
+# Never use a Python from inside .venv itself (an activated broken .venv puts its own
+# python3.12 first on PATH, and that file disappears when .venv is rebuilt).
+deactivate 2>/dev/null || true
+CLEAN_PATH=$(printf '%s' "$PATH" | tr ':' '\n' | grep -v "/.venv/" | paste -sd: -)
+find_python() {
+  for candidate in "$(PATH="$CLEAN_PATH" command -v python3.12 || true)" \
+                   /opt/homebrew/bin/python3.12 /usr/local/bin/python3.12 \
+                   /Library/Frameworks/Python.framework/Versions/3.12/bin/python3.12; do
+    if [ -n "$candidate" ] && [ -x "$candidate" ] && "$candidate" -c "import sys; assert sys.version_info[:2] == (3, 12)" 2>/dev/null; then
+      echo "$candidate"; return
+    fi
+  done
+}
 if ! .venv/bin/python -c "import fastapi, uvicorn, nltk, wordfreq" 2>/dev/null; then
-  PY=$(command -v python3.12 || true)
+  PY=$(find_python)
+  if [ -z "$PY" ] && command -v brew >/dev/null; then
+    echo "Installing Python 3.12 with Homebrew"
+    brew install python@3.12
+    PY=$(find_python)
+  fi
   if [ -z "$PY" ]; then
-    echo "Python 3.12 is needed. Install it with:  brew install python@3.12   then run this script again."
+    echo "Python 3.12 is needed. Install it from https://www.python.org/downloads/release/python-3128/ and run this script again."
     exit 1
   fi
   echo "Rebuilding .venv with $PY (takes a few minutes the first time)"
