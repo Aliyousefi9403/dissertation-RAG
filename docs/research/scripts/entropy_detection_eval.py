@@ -23,6 +23,7 @@ Split: development vs held-out by source document (benchmark v1 record).
 
 Usage: cd backend && PYTHONPATH=. python ../docs/research/scripts/entropy_detection_eval.py OUT.json [poisoned|control]
   control = formatting-only corpus with counterfactual labels; a detector of substitutions should score ~0.5 there.
+  poisoned_adaptive / poisoned_pwws_rerun = a corpus from app/attack/pwws_adaptive_kb.py, labelled by its own manifest.
 """
 
 import json
@@ -108,18 +109,21 @@ def threshold_for_fpr(scores, labels, fpr):
 
 
 def main(out, corpus="poisoned"):
-    poisoned_root = get_knowledge_base_path("poisoned") if corpus == "poisoned" else ROOT / "data/control/knowledge_base"
+    attacked = corpus in ("poisoned", "poisoned_adaptive", "poisoned_pwws_rerun")
+    poisoned_root = (get_knowledge_base_path("poisoned") if corpus == "poisoned"
+                     else ROOT / f"data/{corpus}/knowledge_base" if attacked else ROOT / "data/control/knowledge_base")
+    manifest_path = ROOT / f"data/{corpus if attacked else 'poisoned'}/pwws_attack_manifest.jsonl"
     loader = DirectoryLoader(str(poisoned_root), glob="**/*.md", loader_cls=TextLoader, loader_kwargs={"encoding": "utf-8"})
     documents = add_document_metadata(loader.load(), "poisoned")
     chunks = split_documents(documents)
     texts = {Path(d.metadata["source"]).relative_to(poisoned_root).as_posix(): d.page_content for d in documents}
 
-    manifest = [json.loads(l) for l in (ROOT / "data/poisoned/pwws_attack_manifest.jsonl").read_text().splitlines() if l.strip()]
+    manifest = [json.loads(l) for l in manifest_path.read_text().splitlines() if l.strip()]
     spans = {name: [] for name in texts}
     for entry in manifest:
         if entry.get("success"):
             spans[entry["file"]] += edited_spans(texts[entry["file"]], entry,
-                                                 "adversarial" if corpus == "poisoned" else "original")
+                                                 "adversarial" if attacked else "original")
 
     record = json.loads((ROOT / "data/evaluation/benchmark_v1_record.json").read_text())
     held_out = set(record["held_out_documents"])
@@ -182,7 +186,7 @@ def main(out, corpus="poisoned"):
         results["development"][s]["tpr_fpr_at_threshold"] = tpr_at_fpr([r[s] for r in dev], [r["label"] for r in dev], t)
         results["held_out"][s]["tpr_fpr_at_dev_threshold"] = tpr_at_fpr([r[s] for r in held], [r["label"] for r in held], t)
     payload = {"corpus": corpus, "unit": f"{corpus}-collection chunk (500/100)",
-               "label": "contains PWWS-edited text" if corpus == "poisoned" else "contains words PWWS replaced (counterfactual, no substitution present)",
+               "label": "contains PWWS-edited text" if attacked else "contains words PWWS replaced (counterfactual, no substitution present)",
                "parameters": {"floor": FLOOR, "lambda": LAMBDA, "topk": TOPK, "min_words": 10},
                "results": results, "rows": rows}
     Path(out).open("x").write(json.dumps(payload, indent=1))
