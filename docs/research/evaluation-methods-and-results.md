@@ -495,6 +495,25 @@ Smoke test with a stand-in classifier (not the surrogate): on the HTTP-flood att
 
 *Pending:* the fine-tuned surrogate (`backend/models/bert_surrogate/final`) is not in the repository, so the attack has not yet been run on the real corpus.
 
+## 15. Repair-then-rescore defence: live paired evaluation (18 Oct 2026)
+
+Run `20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c` (792 records, none unavailable), paired by schedule index with the main run and compared with the drop defence run of §12. Conditions: `repaired` (poisoned corpus behind `entropy-repair-v1`) and `clean_repaired` (clean corpus behind the same policy, to measure its cost). Everything else is identical to §10 and §12. Analysis: `docs/research/scripts/analyse_defence.py MAIN REPAIR OUT DEFENCE` → `docs/research/results/entropy-repair/live-paired/`.
+
+| Comparison (question-level means) | A | B | Δ (A − B) | 95% CI | Wilcoxon p |
+|---|---|---|---|---|---|
+| Repaired vs poisoned: correctness | 0.506 | 0.555 | −0.049 | [−0.102, 0.000] | 0.079 |
+| Repaired vs poisoned: correctness, perturbed targets | 0.349 | 0.432 | −0.083 | [−0.151, −0.025] | 0.016 |
+| Repaired vs poisoned: edited text reaching the model | 0.364 | 0.409 | −0.045 | [−0.136, 0.046] | n/a |
+| **Repaired vs defended (drop): correctness** | 0.506 | 0.526 | −0.021 | [−0.049, −0.002] | 0.125 |
+| **Repaired vs defended: edited text reaching the model** | 0.364 | 0.273 | +0.091 | [0.023, 0.182] | n/a |
+| Clean + repair vs clean: correctness (cost) | 0.672 | 0.714 | −0.042 | [−0.091, 0.004] | 0.098 |
+
+Outcomes (132 answers each): repaired 44 correct, 34 partial, 0 incorrect, 54 abstained; defended 51 / 28 / 0 / 53. ASR (edited-text exposure, drop ≥ 0.25): poisoned 0.167, repaired 0.182, defended 0.106. Exposure is conservative for repair (a kept chunk counts as exposed if it overlaps an edited span, even where the edited words were repaired).
+
+**Interpretation.** The live run confirms the offline result of §13. Repairing words above 9.5 bits and keeping the passage does not help the model: correctness is slightly lower than with the drop defence, more PWWS-edited text reaches the model, and ASR is no better than without a defence. Like the drop defence, repair removes the confidently wrong answers. The finding for the dissertation is that, for this detector, *removing* a suspicious passage is better than *editing* it: word-level WordNet repair fixes too few substitutions (§13: recall 0.12) to make a poisoned passage trustworthy, so keeping it mainly keeps the poison. A repair defence would need a much higher-recall restorer (for example a masked language model conditioned on the domain), which is future work.
+
+*Note on the analysis script.* `analyse_defence.py` now takes the conditions from each run's manifest and matches sources by their path inside the poisoned corpus rather than by absolute path (records from different checkouts store different absolute paths). Re-running it on the §12 runs reproduces the committed §12 summary and per-question table byte for byte.
+
 ## 9. Reproducing every number in this document
 
 ```bash

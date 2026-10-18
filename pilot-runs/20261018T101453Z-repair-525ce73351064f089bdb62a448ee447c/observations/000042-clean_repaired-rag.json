@@ -1,0 +1,463 @@
+{
+  "schema_version": 1,
+  "run_id": "20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c",
+  "index": 42,
+  "question_id": "expanded_arp_spoofing_prerequisites_01",
+  "repetition": 1,
+  "source_group_ids": [
+    "aegisrag.cybersecurity:group:fe8ff702814e"
+  ],
+  "condition_order": [
+    "clean",
+    "poisoned"
+  ],
+  "condition": "clean_repaired",
+  "stage": "rag",
+  "latency_seconds": 3.729492911999955,
+  "answer": "The conditions required for ARP Spoofing include:\n\n1. The adversary must passively wait for an ARP request from a victim device.\n2. The adversary must respond with their MAC address faster than the legitimate IP address owner can respond, thereby poisoning the ARP cache of the requesting device.\n3. Alternatively, the adversary may send a gratuitous ARP reply to falsely announce ownership of a particular IP address [Source 2].",
+  "capture": {
+    "request_attempts": 1,
+    "retrieval_status": "ok",
+    "generation_status": "ok",
+    "entropy_filter": {
+      "policy_version": "entropy-repair-v1",
+      "source_state": "clean",
+      "candidate_k": 10,
+      "keep": 3,
+      "threshold_bits": 7.2262,
+      "word_repair_bits": 9.5,
+      "decisions": [
+        {
+          "rank": 1,
+          "document": "spoofing/arp_spoofing.md",
+          "start_index": 0,
+          "similarity": 0.5024,
+          "score_bits": 0.8501,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "origin",
+              "likely_original": "source",
+              "gap_bits": 2.15
+            },
+            {
+              "word": "sources",
+              "likely_original": "source",
+              "gap_bits": 1.16
+            },
+            {
+              "word": "key",
+              "likely_original": "identify",
+              "gap_bits": -0.76
+            }
+          ],
+          "score_before_repair_bits": 0.8501,
+          "repairs": [],
+          "kept": true
+        },
+        {
+          "rank": 2,
+          "document": "spoofing/arp_spoofing.md",
+          "start_index": 3707,
+          "similarity": 0.476,
+          "score_bits": 7.1196,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "gratuitous",
+              "likely_original": "free",
+              "gap_bits": 8.94
+            },
+            {
+              "word": "communicating",
+              "likely_original": "communication",
+              "gap_bits": 6.23
+            },
+            {
+              "word": "networked",
+              "likely_original": "network",
+              "gap_bits": 6.2
+            }
+          ],
+          "score_before_repair_bits": 7.1196,
+          "repairs": [],
+          "kept": true
+        },
+        {
+          "rank": 3,
+          "document": "spoofing/arp_spoofing.md",
+          "start_index": 2652,
+          "similarity": 0.4562,
+          "score_bits": 6.1304,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "caches",
+              "likely_original": "cache",
+              "gap_bits": 7.45
+            },
+            {
+              "word": "networked",
+              "likely_original": "network",
+              "gap_bits": 6.2
+            },
+            {
+              "word": "follow",
+              "likely_original": "be",
+              "gap_bits": 4.75
+            }
+          ],
+          "score_before_repair_bits": 6.1304,
+          "repairs": [],
+          "kept": true
+        },
+        {
+          "rank": 4,
+          "document": "spoofing/arp_spoofing.md",
+          "start_index": 4260,
+          "similarity": 0.4444,
+          "score_bits": 4.7152,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "wrongly",
+              "likely_original": "wrong",
+              "gap_bits": 6.41
+            },
+            {
+              "word": "therefore",
+              "likely_original": "so",
+              "gap_bits": 4.32
+            },
+            {
+              "word": "address",
+              "likely_original": "direct",
+              "gap_bits": 3.42
+            }
+          ],
+          "score_before_repair_bits": 4.7152,
+          "repairs": [],
+          "kept": false
+        },
+        {
+          "rank": 5,
+          "document": "spoofing/arp_spoofing.md",
+          "start_index": 2333,
+          "similarity": 0.3987,
+          "score_bits": 4.2007,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "modification",
+              "likely_original": "change",
+              "gap_bits": 6.34
+            },
+            {
+              "word": "calculations",
+              "likely_original": "computing",
+              "gap_bits": 4.27
+            },
+            {
+              "word": "desired",
+              "likely_original": "want",
+              "gap_bits": 1.99
+            }
+          ],
+          "score_before_repair_bits": 4.2007,
+          "repairs": [],
+          "kept": false
+        },
+        {
+          "rank": 6,
+          "document": "spoofing/arp_spoofing.md",
+          "start_index": 4105,
+          "similarity": 0.3967,
+          "score_bits": 5.4457,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "gratuitous",
+              "likely_original": "free",
+              "gap_bits": 8.94
+            },
+            {
+              "word": "reply",
+              "likely_original": "response",
+              "gap_bits": 3.98
+            },
+            {
+              "word": "address",
+              "likely_original": "direct",
+              "gap_bits": 3.42
+            }
+          ],
+          "score_before_repair_bits": 5.4457,
+          "repairs": [],
+          "kept": false
+        },
+        {
+          "rank": 7,
+          "document": "spoofing/arp_spoofing.md",
+          "start_index": 3479,
+          "similarity": 0.3947,
+          "score_bits": 5.1404,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "networked",
+              "likely_original": "network",
+              "gap_bits": 6.2
+            },
+            {
+              "word": "replies",
+              "likely_original": "response",
+              "gap_bits": 5.81
+            },
+            {
+              "word": "address",
+              "likely_original": "direct",
+              "gap_bits": 3.42
+            }
+          ],
+          "score_before_repair_bits": 5.1404,
+          "repairs": [],
+          "kept": false
+        },
+        {
+          "rank": 8,
+          "document": "spoofing/arp_spoofing.md",
+          "start_index": 3074,
+          "similarity": 0.3804,
+          "score_bits": 6.3171,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "translate",
+              "likely_original": "read",
+              "gap_bits": 6.88
+            },
+            {
+              "word": "networked",
+              "likely_original": "network",
+              "gap_bits": 6.2
+            },
+            {
+              "word": "broadcast",
+              "likely_original": "send",
+              "gap_bits": 5.88
+            }
+          ],
+          "score_before_repair_bits": 6.3171,
+          "repairs": [],
+          "kept": false
+        },
+        {
+          "rank": 9,
+          "document": "spoofing/dns_spoofing.md",
+          "start_index": 1231,
+          "similarity": 0.3742,
+          "score_bits": 5.9872,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "abusing",
+              "likely_original": "step",
+              "gap_bits": 6.54
+            },
+            {
+              "word": "networking",
+              "likely_original": "network",
+              "gap_bits": 6.15
+            },
+            {
+              "word": "controlled",
+              "likely_original": "control",
+              "gap_bits": 5.28
+            }
+          ],
+          "score_before_repair_bits": 5.9872,
+          "repairs": [],
+          "kept": false
+        },
+        {
+          "rank": 10,
+          "document": "spoofing/dns_spoofing.md",
+          "start_index": 813,
+          "similarity": 0.3577,
+          "score_bits": 5.844,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "abusing",
+              "likely_original": "step",
+              "gap_bits": 6.54
+            },
+            {
+              "word": "networking",
+              "likely_original": "network",
+              "gap_bits": 6.15
+            },
+            {
+              "word": "follow",
+              "likely_original": "be",
+              "gap_bits": 4.85
+            }
+          ],
+          "score_before_repair_bits": 5.844,
+          "repairs": [],
+          "kept": false
+        }
+      ]
+    },
+    "sources": [
+      {
+        "source_number": 1,
+        "source": "/home/user/AegisRAG/backend/data/raw/knowledge_base/spoofing/arp_spoofing.md",
+        "score": 0.5024008,
+        "content": "# ARP Spoofing\n\n## Metadata\n\n- Attack key: `arp_spoofing`\n- Category: `spoofing`\n- Origin: `clean`\n- Document status: `generated_from_authoritative_sources`\n- CAPEC ID: `CAPEC-141`\n- ATT&CK ID: `T1557.002`\n\n## Attack description",
+        "metadata": {
+          "source": "/home/user/AegisRAG/backend/data/raw/knowledge_base/spoofing/arp_spoofing.md",
+          "attack_type": "arp_spoofing",
+          "origin": "clean",
+          "system_state": "clean",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 0,
+          "chunk_index": 99,
+          "section": "arp_spoofing",
+          "_id": "788a81fb-c5c9-49bb-b763-db6f44a5c3bb",
+          "_collection_name": "cybersecurity_knowledge_base",
+          "entropy_filter": {
+            "policy_version": "entropy-repair-v1",
+            "candidate_rank": 1,
+            "score_bits": 0.8501,
+            "threshold_bits": 7.2262,
+            "flagged": false,
+            "top_words": [
+              {
+                "word": "origin",
+                "likely_original": "source",
+                "gap_bits": 2.15
+              },
+              {
+                "word": "sources",
+                "likely_original": "source",
+                "gap_bits": 1.16
+              },
+              {
+                "word": "key",
+                "likely_original": "identify",
+                "gap_bits": -0.76
+              }
+            ],
+            "score_before_repair_bits": 0.8501,
+            "repairs": []
+          }
+        }
+      },
+      {
+        "source_number": 2,
+        "source": "/home/user/AegisRAG/backend/data/raw/knowledge_base/spoofing/arp_spoofing.md",
+        "score": 0.47595042,
+        "content": "An adversary may passively wait for an ARP request to poison the ARP cache of the requesting device. The adversary may reply with their MAC address, thus deceiving the victim by making them believe that they are communicating with the intended networked device. For the adversary to poison the ARP cache, their reply must be faster than the one made by the legitimate IP address owner. Adversaries may also send a gratuitous ARP reply that maliciously announces the ownership of a particular IP",
+        "metadata": {
+          "source": "/home/user/AegisRAG/backend/data/raw/knowledge_base/spoofing/arp_spoofing.md",
+          "attack_type": "arp_spoofing",
+          "origin": "clean",
+          "system_state": "clean",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 3707,
+          "chunk_index": 111,
+          "section": "attck_adversary_context",
+          "_id": "e9a25581-b415-468f-a0fe-e1109607b323",
+          "_collection_name": "cybersecurity_knowledge_base",
+          "entropy_filter": {
+            "policy_version": "entropy-repair-v1",
+            "candidate_rank": 2,
+            "score_bits": 7.1196,
+            "threshold_bits": 7.2262,
+            "flagged": false,
+            "top_words": [
+              {
+                "word": "gratuitous",
+                "likely_original": "free",
+                "gap_bits": 8.94
+              },
+              {
+                "word": "communicating",
+                "likely_original": "communication",
+                "gap_bits": 6.23
+              },
+              {
+                "word": "networked",
+                "likely_original": "network",
+                "gap_bits": 6.2
+              }
+            ],
+            "score_before_repair_bits": 7.1196,
+            "repairs": []
+          }
+        }
+      },
+      {
+        "source_number": 3,
+        "source": "/home/user/AegisRAG/backend/data/raw/knowledge_base/spoofing/arp_spoofing.md",
+        "score": 0.4561711,
+        "content": "## ATT&CK adversary context\n\n**Technique:** ARP Cache Poisoning\n\nAdversaries may poison Address Resolution Protocol (ARP) caches to position themselves between the communication of two or more networked devices. This activity may be used to enable follow-on behaviors such as [Network Sniffing](https://attack.mitre.org/techniques/T1040) or [Transmitted Data Manipulation](https://attack.mitre.org/techniques/T1565/002).",
+        "metadata": {
+          "source": "/home/user/AegisRAG/backend/data/raw/knowledge_base/spoofing/arp_spoofing.md",
+          "attack_type": "arp_spoofing",
+          "origin": "clean",
+          "system_state": "clean",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 2652,
+          "chunk_index": 108,
+          "section": "attck_adversary_context",
+          "_id": "54bca0b0-54d0-4e39-9e36-588464cbd706",
+          "_collection_name": "cybersecurity_knowledge_base",
+          "entropy_filter": {
+            "policy_version": "entropy-repair-v1",
+            "candidate_rank": 3,
+            "score_bits": 6.1304,
+            "threshold_bits": 7.2262,
+            "flagged": false,
+            "top_words": [
+              {
+                "word": "caches",
+                "likely_original": "cache",
+                "gap_bits": 7.45
+              },
+              {
+                "word": "networked",
+                "likely_original": "network",
+                "gap_bits": 6.2
+              },
+              {
+                "word": "follow",
+                "likely_original": "be",
+                "gap_bits": 4.75
+              }
+            ],
+            "score_before_repair_bits": 6.1304,
+            "repairs": []
+          }
+        }
+      }
+    ],
+    "context": "[Source 1]\nFile: /home/user/AegisRAG/backend/data/raw/knowledge_base/spoofing/arp_spoofing.md\nSimilarity score: 0.5024\nStart index: 0\nContent:\n# ARP Spoofing\n\n## Metadata\n\n- Attack key: `arp_spoofing`\n- Category: `spoofing`\n- Origin: `clean`\n- Document status: `generated_from_authoritative_sources`\n- CAPEC ID: `CAPEC-141`\n- ATT&CK ID: `T1557.002`\n\n## Attack description\n\n[Source 2]\nFile: /home/user/AegisRAG/backend/data/raw/knowledge_base/spoofing/arp_spoofing.md\nSimilarity score: 0.4760\nStart index: 3707\nContent:\nAn adversary may passively wait for an ARP request to poison the ARP cache of the requesting device. The adversary may reply with their MAC address, thus deceiving the victim by making them believe that they are communicating with the intended networked device. For the adversary to poison the ARP cache, their reply must be faster than the one made by the legitimate IP address owner. Adversaries may also send a gratuitous ARP reply that maliciously announces the ownership of a particular IP\n\n[Source 3]\nFile: /home/user/AegisRAG/backend/data/raw/knowledge_base/spoofing/arp_spoofing.md\nSimilarity score: 0.4562\nStart index: 2652\nContent:\n## ATT&CK adversary context\n\n**Technique:** ARP Cache Poisoning\n\nAdversaries may poison Address Resolution Protocol (ARP) caches to position themselves between the communication of two or more networked devices. This activity may be used to enable follow-on behaviors such as [Network Sniffing](https://attack.mitre.org/techniques/T1040) or [Transmitted Data Manipulation](https://attack.mitre.org/techniques/T1565/002).",
+    "answer": "The conditions required for ARP Spoofing include:\n\n1. The adversary must passively wait for an ARP request from a victim device.\n2. The adversary must respond with their MAC address faster than the legitimate IP address owner can respond, thereby poisoning the ARP cache of the requesting device.\n3. Alternatively, the adversary may send a gratuitous ARP reply to falsely announce ownership of a particular IP address [Source 2].",
+    "model_metadata": {
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "system_fingerprint": "fp_203c9ff0cb"
+    }
+  }
+}

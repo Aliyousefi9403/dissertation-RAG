@@ -5,7 +5,11 @@ Offline, no model calls. Every observation is paired by schedule index
 averaged per question, then 95% cluster-bootstrap intervals (B=10000, seed
 20261016) and two-sided Wilcoxon signed-rank tests are computed over questions.
 
-Usage: cd backend && PYTHONPATH=. python ../docs/research/scripts/analyse_defence.py MAIN_RUN DEFENCE_RUN OUT_DIR
+Usage: cd backend && PYTHONPATH=. python ../docs/research/scripts/analyse_defence.py MAIN_RUN DEFENCE_RUN OUT_DIR [OTHER_DEFENCE_RUN ...]
+
+Conditions come from each defence run's manifest (defended/clean_filtered, or
+repaired/clean_repaired). Each is compared with its source corpus (poisoned or
+clean), and defences on the same corpus are compared with each other.
 """
 
 import csv
@@ -25,7 +29,6 @@ from app.evaluation.retrieval_metrics import hit_at_3_and_reciprocal_rank
 from app.ingestion.section_metadata import normalize_heading
 
 SEED, B = 20261016, 10000
-CONDITIONS = ("clean", "poisoned", "defended", "clean_filtered")
 ABSTAIN = re.compile(
     r"(does not|doesn't|do not) (provide|contain|mention|include|describe|specify)"
     r"|cannot (provide|answer|determine)|insufficient|not (enough|sufficient) information", re.I)
@@ -57,24 +60,30 @@ def edited_spans():
 
 
 def exposure(sources, root, spans):
+    marker = "/data/poisoned/knowledge_base/"  # portable: records may come from another checkout path
     for s in sources:
-        path = Path(s.get("source") or s["metadata"]["source"])
-        try:
-            name = path.relative_to(root).as_posix()
-        except ValueError:
+        path = (s.get("source") or s["metadata"]["source"]).replace("\\", "/")
+        if marker not in path:
             continue
+        name = path.split(marker, 1)[1]
         a = s["metadata"].get("start_index")
         if any(x < a + len(s["content"]) and a < y for x, y in spans.get(name, [])):
             return 1
     return 0
 
 
-def main(main_dir, defence_dir, out_dir):
+def main(main_dir, defence_dir, out_dir, *other_defence_dirs):
     main_run, defence_run, out = Path(main_dir), Path(defence_dir), Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
     manifest = json.loads((main_run / "manifest.json").read_text())
     defence_manifest = json.loads((defence_run / "manifest.json").read_text())
-    assert defence_manifest["paired_main_run"] == manifest["run_id"]
+    runs_by_condition, source_of = {"clean": main_run, "poisoned": main_run}, {}
+    for run_dir in (defence_dir, *other_defence_dirs):
+        run_manifest = json.loads((Path(run_dir) / "manifest.json").read_text())
+        assert run_manifest["paired_main_run"] == manifest["run_id"], f"{run_dir} is not paired with the main run"
+        for condition, source in run_manifest["conditions"].items():
+            runs_by_condition[condition], source_of[condition] = Path(run_dir), source
+    CONDITIONS = tuple(runs_by_condition)
     questions = {q["id"]: q for q in manifest["benchmark"]["data"]}
     treated = {(e["file"], normalize_heading(e["section"])) for e in manifest["attack_manifest"]["entries"] if e.get("success")}
     root, spans = edited_spans()
@@ -90,7 +99,7 @@ def main(main_dir, defence_dir, out_dir):
                "category": q["question_category"],
                "target_perturbed": int((q["source_document"], q["expected_sections"][0]) in treated)}
         for condition in CONDITIONS:
-            run = main_run if condition in ("clean", "poisoned") else defence_run
+            run = runs_by_condition[condition]
             rag, corr, faith = (load(run, i, condition, s) for s in ("rag", "correctness", "faithfulness"))
             capture = (rag or {}).get("capture") or {}
             retrieved = capture.get("retrieval_status") == "ok"
@@ -132,11 +141,10 @@ def main(main_dir, defence_dir, out_dir):
               "target_perturbed": [k for k in keys if qmeans[k]["target_perturbed"]],
               "target_not_perturbed": [k for k in keys if not qmeans[k]["target_perturbed"]],
               "held_out": [k for k in keys if qmeans[k]["split"] == "held_out"]}
-    comparisons = {
-        "defended_vs_poisoned": ("defended", "poisoned"),
-        "defended_vs_clean": ("defended", "clean"),
-        "clean_filtered_vs_clean": ("clean_filtered", "clean"),
-    }
+    comparisons = {f"{c}_vs_{source}": (c, source) for c, source in source_of.items()}
+    comparisons |= {f"{c}_vs_clean": (c, "clean") for c, source in source_of.items() if source == "poisoned"}
+    on_poisoned = [c for c, source in source_of.items() if source == "poisoned"]
+    comparisons |= {f"{a}_vs_{b}": (a, b) for i, a in enumerate(on_poisoned) for b in on_poisoned[i + 1:]}
     results = {name: {s: {m: compare(ks, a, b, m) for m in metrics} for s, ks in strata.items() if ks}
                for name, (a, b) in comparisons.items()}
     outcomes = {c: {o: sum(r[f"{c}_outcome"] == o for r in rows)
@@ -151,7 +159,7 @@ def main(main_dir, defence_dir, out_dir):
 
     summary = {"main_run": manifest["run_id"], "defence_run": defence_manifest["run_id"], "pairs": len(rows),
                "questions": len(keys), "defence": defence_manifest["defence"], "comparisons": results,
-               "outcomes": outcomes, "asr_edited_exposure": {c: asr(c) for c in ("poisoned", "defended")},
+               "outcomes": outcomes, "asr_edited_exposure": {c: asr(c) for c in ("poisoned", *on_poisoned)},
                "unavailable_observations": unavailable,
                "method": "question-level means; cluster bootstrap B=10000 seed 20261016; two-sided Wilcoxon signed-rank on non-zero question differences"}
     (out / "summary.json").open("x").write(json.dumps(summary, indent=2) + "\n")
@@ -174,4 +182,4 @@ def main(main_dir, defence_dir, out_dir):
 
 
 if __name__ == "__main__":
-    main(*sys.argv[1:4])
+    main(*sys.argv[1:])

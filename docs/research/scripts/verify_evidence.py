@@ -21,8 +21,10 @@ DEF = f"{RES}/entropy-defence/live-paired/summary.json"
 DET = f"{RES}/entropy-detector-20261016/detector-poisoned.json"
 CTRL = f"{RES}/entropy-detector-20261016/detector-control.json"
 SWEEP = f"{RES}/entropy-defence/threshold-sweep/sweep.json"
+REP = f"{RES}/entropy-repair/live-paired/summary.json"
 RUNS = ("pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e",
-        "pilot-runs/20261017T165331Z-defence-cebfb27c1e9048cdb61fbfe15f37e50d")
+        "pilot-runs/20261017T165331Z-defence-cebfb27c1e9048cdb61fbfe15f37e50d",
+        "pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c")
 
 
 def deployed(rows):
@@ -63,6 +65,11 @@ CLAIMS = [
     ("Defence: ASR (edited exposure), defended", DEF, ["asr_edited_exposure", "defended"], 0.1061),
     ("Sweep: deployed setting reproduces live exposure", SWEEP, [lambda s: deployed(s["grid"])["poisoned_all_exposure"]], 0.2727),
     ("Sweep: unfiltered poisoned exposure", SWEEP, ["unfiltered_top3", "poisoned_exposure"], 0.4091),
+    ("Repair: correctness, repaired", REP, ["comparisons", "repaired_vs_defended", "all", "correctness", "a"], 0.506),
+    ("Repair: correctness change vs drop defence", REP, ["comparisons", "repaired_vs_defended", "all", "correctness", "delta"], -0.021),
+    ("Repair: edited text reaching the model", REP, ["comparisons", "repaired_vs_poisoned", "all", "exposure", "a"], 0.364),
+    ("Repair: confident errors", REP, ["outcomes", "repaired", "incorrect"], 0),
+    ("Repair: ASR (edited exposure)", REP, ["asr_edited_exposure", "repaired"], 0.1818),
     ("Sweep: deployed setting keeps clean Hit@3", SWEEP, [lambda s: deployed(s["grid"])["clean_all_hit3"]], 0.7045),
 ]
 

@@ -1,0 +1,2142 @@
+{
+  "main_run": "20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e",
+  "defence_run": "20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c",
+  "pairs": 132,
+  "questions": 44,
+  "defence": {
+    "policy_version": "entropy-repair-v1",
+    "word_repair_bits": 9.5,
+    "score": "syngap_top3_domain",
+    "threshold_bits": 7.2262,
+    "candidate_k": 10,
+    "keep": 3,
+    "lambda": 0.5,
+    "floor": 1e-09
+  },
+  "comparisons": {
+    "repaired_vs_poisoned": {
+      "all": {
+        "correctness": {
+          "a": 0.5057,
+          "b": 0.5549,
+          "delta": -0.0492,
+          "ci95": [
+            -0.1023,
+            0.0
+          ],
+          "wilcoxon_p": 0.0791,
+          "questions": 44,
+          "questions_changed": 11,
+          "improved": 3,
+          "worsened": 8
+        },
+        "faithfulness": {
+          "a": 0.9705,
+          "b": 0.9432,
+          "delta": 0.0273,
+          "ci95": [
+            -0.0038,
+            0.0659
+          ],
+          "wilcoxon_p": 0.125,
+          "questions": 44,
+          "questions_changed": 6,
+          "improved": 4,
+          "worsened": 2
+        },
+        "hit3": {
+          "a": 0.4773,
+          "b": 0.5682,
+          "delta": -0.0909,
+          "ci95": [
+            -0.2045,
+            0
+          ],
+          "wilcoxon_p": 0.2188,
+          "questions": 44,
+          "questions_changed": 6,
+          "improved": 1,
+          "worsened": 5
+        },
+        "rr": {
+          "a": 0.4242,
+          "b": 0.4848,
+          "delta": -0.0606,
+          "ci95": [
+            -0.1629,
+            0.0303
+          ],
+          "wilcoxon_p": 0.208,
+          "questions": 44,
+          "questions_changed": 11,
+          "improved": 5,
+          "worsened": 6
+        },
+        "exposure": {
+          "a": 0.3636,
+          "b": 0.4091,
+          "delta": -0.0455,
+          "ci95": [
+            -0.1364,
+            0.0455
+          ],
+          "wilcoxon_p": null,
+          "questions": 44,
+          "questions_changed": 4,
+          "improved": 1,
+          "worsened": 3
+        }
+      },
+      "target_perturbed": {
+        "correctness": {
+          "a": 0.3488,
+          "b": 0.4321,
+          "delta": -0.0833,
+          "ci95": [
+            -0.1512,
+            -0.0247
+          ],
+          "wilcoxon_p": 0.0156,
+          "questions": 27,
+          "questions_changed": 8,
+          "improved": 1,
+          "worsened": 7
+        },
+        "faithfulness": {
+          "a": 0.958,
+          "b": 0.9259,
+          "delta": 0.0321,
+          "ci95": [
+            -0.0123,
+            0.0889
+          ],
+          "wilcoxon_p": 0.3125,
+          "questions": 27,
+          "questions_changed": 5,
+          "improved": 3,
+          "worsened": 2
+        },
+        "hit3": {
+          "a": 0.2593,
+          "b": 0.4444,
+          "delta": -0.1852,
+          "ci95": [
+            -0.3333,
+            -0.037
+          ],
+          "wilcoxon_p": 0.0625,
+          "questions": 27,
+          "questions_changed": 5,
+          "improved": 0,
+          "worsened": 5
+        },
+        "rr": {
+          "a": 0.2593,
+          "b": 0.3704,
+          "delta": -0.1111,
+          "ci95": [
+            -0.2593,
+            0.0185
+          ],
+          "wilcoxon_p": 0.1719,
+          "questions": 27,
+          "questions_changed": 7,
+          "improved": 2,
+          "worsened": 5
+        },
+        "exposure": {
+          "a": 0.5185,
+          "b": 0.5926,
+          "delta": -0.0741,
+          "ci95": [
+            -0.2222,
+            0.0741
+          ],
+          "wilcoxon_p": null,
+          "questions": 27,
+          "questions_changed": 4,
+          "improved": 1,
+          "worsened": 3
+        }
+      },
+      "target_not_perturbed": {
+        "correctness": {
+          "a": 0.7549,
+          "b": 0.75,
+          "delta": 0.0049,
+          "ci95": [
+            -0.0833,
+            0.0882
+          ],
+          "wilcoxon_p": null,
+          "questions": 17,
+          "questions_changed": 3,
+          "improved": 2,
+          "worsened": 1
+        },
+        "faithfulness": {
+          "a": 0.9902,
+          "b": 0.9706,
+          "delta": 0.0196,
+          "ci95": [
+            0.0,
+            0.0588
+          ],
+          "wilcoxon_p": null,
+          "questions": 17,
+          "questions_changed": 1,
+          "improved": 1,
+          "worsened": 0
+        },
+        "hit3": {
+          "a": 0.8235,
+          "b": 0.7647,
+          "delta": 0.0588,
+          "ci95": [
+            0,
+            0.1765
+          ],
+          "wilcoxon_p": null,
+          "questions": 17,
+          "questions_changed": 1,
+          "improved": 1,
+          "worsened": 0
+        },
+        "rr": {
+          "a": 0.6863,
+          "b": 0.6667,
+          "delta": 0.0196,
+          "ci95": [
+            -0.0882,
+            0.1176
+          ],
+          "wilcoxon_p": null,
+          "questions": 17,
+          "questions_changed": 4,
+          "improved": 3,
+          "worsened": 1
+        },
+        "exposure": {
+          "a": 0.1176,
+          "b": 0.1176,
+          "delta": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "wilcoxon_p": null,
+          "questions": 17,
+          "questions_changed": 0,
+          "improved": 0,
+          "worsened": 0
+        }
+      },
+      "held_out": {
+        "correctness": {
+          "a": 0.5463,
+          "b": 0.6296,
+          "delta": -0.0833,
+          "ci95": [
+            -0.2222,
+            0.0185
+          ],
+          "wilcoxon_p": null,
+          "questions": 9,
+          "questions_changed": 3,
+          "improved": 1,
+          "worsened": 2
+        },
+        "faithfulness": {
+          "a": 1.0,
+          "b": 1.0,
+          "delta": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "wilcoxon_p": null,
+          "questions": 9,
+          "questions_changed": 0,
+          "improved": 0,
+          "worsened": 0
+        },
+        "hit3": {
+          "a": 0.5556,
+          "b": 0.6667,
+          "delta": -0.1111,
+          "ci95": [
+            -0.3333,
+            0
+          ],
+          "wilcoxon_p": null,
+          "questions": 9,
+          "questions_changed": 1,
+          "improved": 0,
+          "worsened": 1
+        },
+        "rr": {
+          "a": 0.5556,
+          "b": 0.6667,
+          "delta": -0.1111,
+          "ci95": [
+            -0.3333,
+            0.0
+          ],
+          "wilcoxon_p": null,
+          "questions": 9,
+          "questions_changed": 1,
+          "improved": 0,
+          "worsened": 1
+        },
+        "exposure": {
+          "a": 0.4444,
+          "b": 0.6667,
+          "delta": -0.2222,
+          "ci95": [
+            -0.5556,
+            0
+          ],
+          "wilcoxon_p": null,
+          "questions": 9,
+          "questions_changed": 2,
+          "improved": 0,
+          "worsened": 2
+        }
+      }
+    },
+    "clean_repaired_vs_clean": {
+      "all": {
+        "correctness": {
+          "a": 0.6723,
+          "b": 0.714,
+          "delta": -0.0417,
+          "ci95": [
+            -0.0909,
+            0.0038
+          ],
+          "wilcoxon_p": 0.0977,
+          "questions": 44,
+          "questions_changed": 11,
+          "improved": 3,
+          "worsened": 8
+        },
+        "faithfulness": {
+          "a": 0.9644,
+          "b": 0.9848,
+          "delta": -0.0205,
+          "ci95": [
+            -0.0568,
+            0.0045
+          ],
+          "wilcoxon_p": null,
+          "questions": 44,
+          "questions_changed": 3,
+          "improved": 1,
+          "worsened": 2
+        },
+        "hit3": {
+          "a": 0.6818,
+          "b": 0.7045,
+          "delta": -0.0227,
+          "ci95": [
+            -0.0682,
+            0
+          ],
+          "wilcoxon_p": null,
+          "questions": 44,
+          "questions_changed": 1,
+          "improved": 0,
+          "worsened": 1
+        },
+        "rr": {
+          "a": 0.5795,
+          "b": 0.5871,
+          "delta": -0.0076,
+          "ci95": [
+            -0.0227,
+            0.0
+          ],
+          "wilcoxon_p": null,
+          "questions": 44,
+          "questions_changed": 1,
+          "improved": 0,
+          "worsened": 1
+        },
+        "exposure": {
+          "a": 0,
+          "b": 0,
+          "delta": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "wilcoxon_p": null,
+          "questions": 44,
+          "questions_changed": 0,
+          "improved": 0,
+          "worsened": 0
+        }
+      },
+      "target_perturbed": {
+        "correctness": {
+          "a": 0.6327,
+          "b": 0.6821,
+          "delta": -0.0494,
+          "ci95": [
+            -0.1235,
+            0.0185
+          ],
+          "wilcoxon_p": 0.1641,
+          "questions": 27,
+          "questions_changed": 8,
+          "improved": 3,
+          "worsened": 5
+        },
+        "faithfulness": {
+          "a": 0.9568,
+          "b": 0.9938,
+          "delta": -0.037,
+          "ci95": [
+            -0.0926,
+            0.0
+          ],
+          "wilcoxon_p": null,
+          "questions": 27,
+          "questions_changed": 2,
+          "improved": 0,
+          "worsened": 2
+        },
+        "hit3": {
+          "a": 0.5926,
+          "b": 0.6296,
+          "delta": -0.037,
+          "ci95": [
+            -0.1111,
+            0
+          ],
+          "wilcoxon_p": null,
+          "questions": 27,
+          "questions_changed": 1,
+          "improved": 0,
+          "worsened": 1
+        },
+        "rr": {
+          "a": 0.4938,
+          "b": 0.5062,
+          "delta": -0.0123,
+          "ci95": [
+            -0.037,
+            0.0
+          ],
+          "wilcoxon_p": null,
+          "questions": 27,
+          "questions_changed": 1,
+          "improved": 0,
+          "worsened": 1
+        },
+        "exposure": {
+          "a": 0,
+          "b": 0,
+          "delta": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "wilcoxon_p": null,
+          "questions": 27,
+          "questions_changed": 0,
+          "improved": 0,
+          "worsened": 0
+        }
+      },
+      "target_not_perturbed": {
+        "correctness": {
+          "a": 0.7353,
+          "b": 0.7647,
+          "delta": -0.0294,
+          "ci95": [
+            -0.0735,
+            0.0
+          ],
+          "wilcoxon_p": null,
+          "questions": 17,
+          "questions_changed": 3,
+          "improved": 0,
+          "worsened": 3
+        },
+        "faithfulness": {
+          "a": 0.9765,
+          "b": 0.9706,
+          "delta": 0.0059,
+          "ci95": [
+            0.0,
+            0.0176
+          ],
+          "wilcoxon_p": null,
+          "questions": 17,
+          "questions_changed": 1,
+          "improved": 1,
+          "worsened": 0
+        },
+        "hit3": {
+          "a": 0.8235,
+          "b": 0.8235,
+          "delta": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "wilcoxon_p": null,
+          "questions": 17,
+          "questions_changed": 0,
+          "improved": 0,
+          "worsened": 0
+        },
+        "rr": {
+          "a": 0.7157,
+          "b": 0.7157,
+          "delta": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "wilcoxon_p": null,
+          "questions": 17,
+          "questions_changed": 0,
+          "improved": 0,
+          "worsened": 0
+        },
+        "exposure": {
+          "a": 0,
+          "b": 0,
+          "delta": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "wilcoxon_p": null,
+          "questions": 17,
+          "questions_changed": 0,
+          "improved": 0,
+          "worsened": 0
+        }
+      },
+      "held_out": {
+        "correctness": {
+          "a": 0.7407,
+          "b": 0.7778,
+          "delta": -0.037,
+          "ci95": [
+            -0.1667,
+            0.0556
+          ],
+          "wilcoxon_p": null,
+          "questions": 9,
+          "questions_changed": 2,
+          "improved": 1,
+          "worsened": 1
+        },
+        "faithfulness": {
+          "a": 1.0,
+          "b": 1.0,
+          "delta": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "wilcoxon_p": null,
+          "questions": 9,
+          "questions_changed": 0,
+          "improved": 0,
+          "worsened": 0
+        },
+        "hit3": {
+          "a": 0.6667,
+          "b": 0.7778,
+          "delta": -0.1111,
+          "ci95": [
+            -0.3333,
+            0
+          ],
+          "wilcoxon_p": null,
+          "questions": 9,
+          "questions_changed": 1,
+          "improved": 0,
+          "worsened": 1
+        },
+        "rr": {
+          "a": 0.5926,
+          "b": 0.6296,
+          "delta": -0.037,
+          "ci95": [
+            -0.1111,
+            0.0
+          ],
+          "wilcoxon_p": null,
+          "questions": 9,
+          "questions_changed": 1,
+          "improved": 0,
+          "worsened": 1
+        },
+        "exposure": {
+          "a": 0,
+          "b": 0,
+          "delta": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "wilcoxon_p": null,
+          "questions": 9,
+          "questions_changed": 0,
+          "improved": 0,
+          "worsened": 0
+        }
+      }
+    },
+    "defended_vs_poisoned": {
+      "all": {
+        "correctness": {
+          "a": 0.5265,
+          "b": 0.5549,
+          "delta": -0.0284,
+          "ci95": [
+            -0.0833,
+            0.0265
+          ],
+          "wilcoxon_p": 0.293,
+          "questions": 44,
+          "questions_changed": 12,
+          "improved": 4,
+          "worsened": 8
+        },
+        "faithfulness": {
+          "a": 0.9667,
+          "b": 0.9432,
+          "delta": 0.0235,
+          "ci95": [
+            -0.0174,
+            0.0659
+          ],
+          "wilcoxon_p": 0.4375,
+          "questions": 44,
+          "questions_changed": 5,
+          "improved": 4,
+          "worsened": 1
+        },
+        "hit3": {
+          "a": 0.4773,
+          "b": 0.5682,
+          "delta": -0.0909,
+          "ci95": [
+            -0.2045,
+            0
+          ],
+          "wilcoxon_p": 0.2188,
+          "questions": 44,
+          "questions_changed": 6,
+          "improved": 1,
+          "worsened": 5
+        },
+        "rr": {
+          "a": 0.4091,
+          "b": 0.4848,
+          "delta": -0.0758,
+          "ci95": [
+            -0.1856,
+            0.0189
+          ],
+          "wilcoxon_p": 0.1641,
+          "questions": 44,
+          "questions_changed": 12,
+          "improved": 5,
+          "worsened": 7
+        },
+        "exposure": {
+          "a": 0.2727,
+          "b": 0.4091,
+          "delta": -0.1364,
+          "ci95": [
+            -0.25,
+            -0.0455
+          ],
+          "wilcoxon_p": 0.0312,
+          "questions": 44,
+          "questions_changed": 6,
+          "improved": 0,
+          "worsened": 6
+        }
+      },
+      "target_perturbed": {
+        "correctness": {
+          "a": 0.3611,
+          "b": 0.4321,
+          "delta": -0.071,
+          "ci95": [
+            -0.1327,
+            -0.0185
+          ],
+          "wilcoxon_p": 0.0234,
+          "questions": 27,
+          "questions_changed": 8,
+          "improved": 1,
+          "worsened": 7
+        },
+        "faithfulness": {
+          "a": 0.9457,
+          "b": 0.9259,
+          "delta": 0.0198,
+          "ci95": [
+            -0.037,
+            0.0778
+          ],
+          "wilcoxon_p": null,
+          "questions": 27,
+          "questions_changed": 4,
+          "improved": 3,
+          "worsened": 1
+        },
+        "hit3": {
+          "a": 0.2593,
+          "b": 0.4444,
+          "delta": -0.1852,
+          "ci95": [
+            -0.3333,
+            -0.037
+          ],
+          "wilcoxon_p": 0.0625,
+          "questions": 27,
+          "questions_changed": 5,
+          "improved": 0,
+          "worsened": 5
+        },
+        "rr": {
+          "a": 0.2346,
+          "b": 0.3704,
+          "delta": -0.1358,
+          "ci95": [
+            -0.2963,
+            0.0062
+          ],
+          "wilcoxon_p": 0.0859,
+          "questions": 27,
+          "questions_changed": 8,
+          "improved": 2,
+          "worsened": 6
+        },
+        "exposure": {
+          "a": 0.3704,
+          "b": 0.5926,
+          "delta": -0.2222,
+          "ci95": [
+            -0.4074,
+            -0.0741
+          ],
+          "wilcoxon_p": 0.0312,
+          "questions": 27,
+          "questions_changed": 6,
+          "improved": 0,
+          "worsened": 6
+        }
+      },
+      "target_not_perturbed": {
+        "correctness": {
+          "a": 0.7892,
+          "b": 0.75,
+          "delta": 0.0392,
+          "ci95": [
+            -0.0588,
+            0.1373
+          ],
+          "wilcoxon_p": null,
+          "questions": 17,
+          "questions_changed": 4,
+          "improved": 3,
+          "worsened": 1
+        },
+        "faithfulness": {
+          "a": 1.0,
+          "b": 0.9706,
+          "delta": 0.0294,
+          "ci95": [
+            0.0,
+            0.0882
+          ],
+          "wilcoxon_p": null,
+          "questions": 17,
+          "questions_changed": 1,
+          "improved": 1,
+          "worsened": 0
+        },
+        "hit3": {
+          "a": 0.8235,
+          "b": 0.7647,
+          "delta": 0.0588,
+          "ci95": [
+            0,
+            0.1765
+          ],
+          "wilcoxon_p": null,
+          "questions": 17,
+          "questions_changed": 1,
+          "improved": 1,
+          "worsened": 0
+        },
+        "rr": {
+          "a": 0.6863,
+          "b": 0.6667,
+          "delta": 0.0196,
+          "ci95": [
+            -0.0882,
+            0.1176
+          ],
+          "wilcoxon_p": null,
+          "questions": 17,
+          "questions_changed": 4,
+          "improved": 3,
+          "worsened": 1
+        },
+        "exposure": {
+          "a": 0.1176,
+          "b": 0.1176,
+          "delta": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "wilcoxon_p": null,
+          "questions": 17,
+          "questions_changed": 0,
+          "improved": 0,
+          "worsened": 0
+        }
+      },
+      "held_out": {
+        "correctness": {
+          "a": 0.6111,
+          "b": 0.6296,
+          "delta": -0.0185,
+          "ci95": [
+            -0.1667,
+            0.1389
+          ],
+          "wilcoxon_p": null,
+          "questions": 9,
+          "questions_changed": 3,
+          "improved": 1,
+          "worsened": 2
+        },
+        "faithfulness": {
+          "a": 1.0,
+          "b": 1.0,
+          "delta": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "wilcoxon_p": null,
+          "questions": 9,
+          "questions_changed": 0,
+          "improved": 0,
+          "worsened": 0
+        },
+        "hit3": {
+          "a": 0.5556,
+          "b": 0.6667,
+          "delta": -0.1111,
+          "ci95": [
+            -0.3333,
+            0
+          ],
+          "wilcoxon_p": null,
+          "questions": 9,
+          "questions_changed": 1,
+          "improved": 0,
+          "worsened": 1
+        },
+        "rr": {
+          "a": 0.5556,
+          "b": 0.6667,
+          "delta": -0.1111,
+          "ci95": [
+            -0.3333,
+            0.0
+          ],
+          "wilcoxon_p": null,
+          "questions": 9,
+          "questions_changed": 1,
+          "improved": 0,
+          "worsened": 1
+        },
+        "exposure": {
+          "a": 0.3333,
+          "b": 0.6667,
+          "delta": -0.3333,
+          "ci95": [
+            -0.6667,
+            0
+          ],
+          "wilcoxon_p": null,
+          "questions": 9,
+          "questions_changed": 3,
+          "improved": 0,
+          "worsened": 3
+        }
+      }
+    },
+    "clean_filtered_vs_clean": {
+      "all": {
+        "correctness": {
+          "a": 0.6496,
+          "b": 0.714,
+          "delta": -0.0644,
+          "ci95": [
+            -0.1383,
+            0.0019
+          ],
+          "wilcoxon_p": 0.0659,
+          "questions": 44,
+          "questions_changed": 15,
+          "improved": 5,
+          "worsened": 10
+        },
+        "faithfulness": {
+          "a": 0.9545,
+          "b": 0.9848,
+          "delta": -0.0303,
+          "ci95": [
+            -0.0795,
+            0.0114
+          ],
+          "wilcoxon_p": 0.375,
+          "questions": 44,
+          "questions_changed": 5,
+          "improved": 1,
+          "worsened": 4
+        },
+        "hit3": {
+          "a": 0.7045,
+          "b": 0.7045,
+          "delta": 0,
+          "ci95": [
+            -0.0682,
+            0.0682
+          ],
+          "wilcoxon_p": null,
+          "questions": 44,
+          "questions_changed": 2,
+          "improved": 1,
+          "worsened": 1
+        },
+        "rr": {
+          "a": 0.5871,
+          "b": 0.5871,
+          "delta": -0.0,
+          "ci95": [
+            -0.0455,
+            0.0455
+          ],
+          "wilcoxon_p": 1.0,
+          "questions": 44,
+          "questions_changed": 7,
+          "improved": 4,
+          "worsened": 3
+        },
+        "exposure": {
+          "a": 0,
+          "b": 0,
+          "delta": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "wilcoxon_p": null,
+          "questions": 44,
+          "questions_changed": 0,
+          "improved": 0,
+          "worsened": 0
+        }
+      },
+      "target_perturbed": {
+        "correctness": {
+          "a": 0.571,
+          "b": 0.6821,
+          "delta": -0.1111,
+          "ci95": [
+            -0.2099,
+            -0.0247
+          ],
+          "wilcoxon_p": 0.0234,
+          "questions": 27,
+          "questions_changed": 10,
+          "improved": 3,
+          "worsened": 7
+        },
+        "faithfulness": {
+          "a": 0.9259,
+          "b": 0.9938,
+          "delta": -0.0679,
+          "ci95": [
+            -0.1358,
+            -0.0123
+          ],
+          "wilcoxon_p": null,
+          "questions": 27,
+          "questions_changed": 4,
+          "improved": 0,
+          "worsened": 4
+        },
+        "hit3": {
+          "a": 0.5926,
+          "b": 0.6296,
+          "delta": -0.037,
+          "ci95": [
+            -0.1111,
+            0
+          ],
+          "wilcoxon_p": null,
+          "questions": 27,
+          "questions_changed": 1,
+          "improved": 0,
+          "worsened": 1
+        },
+        "rr": {
+          "a": 0.5123,
+          "b": 0.5062,
+          "delta": 0.0062,
+          "ci95": [
+            -0.037,
+            0.0556
+          ],
+          "wilcoxon_p": null,
+          "questions": 27,
+          "questions_changed": 4,
+          "improved": 2,
+          "worsened": 2
+        },
+        "exposure": {
+          "a": 0,
+          "b": 0,
+          "delta": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "wilcoxon_p": null,
+          "questions": 27,
+          "questions_changed": 0,
+          "improved": 0,
+          "worsened": 0
+        }
+      },
+      "target_not_perturbed": {
+        "correctness": {
+          "a": 0.7745,
+          "b": 0.7647,
+          "delta": 0.0098,
+          "ci95": [
+            -0.0833,
+            0.1078
+          ],
+          "wilcoxon_p": 1.0,
+          "questions": 17,
+          "questions_changed": 5,
+          "improved": 2,
+          "worsened": 3
+        },
+        "faithfulness": {
+          "a": 1.0,
+          "b": 0.9706,
+          "delta": 0.0294,
+          "ci95": [
+            0.0,
+            0.0882
+          ],
+          "wilcoxon_p": null,
+          "questions": 17,
+          "questions_changed": 1,
+          "improved": 1,
+          "worsened": 0
+        },
+        "hit3": {
+          "a": 0.8824,
+          "b": 0.8235,
+          "delta": 0.0588,
+          "ci95": [
+            0,
+            0.1765
+          ],
+          "wilcoxon_p": null,
+          "questions": 17,
+          "questions_changed": 1,
+          "improved": 1,
+          "worsened": 0
+        },
+        "rr": {
+          "a": 0.7059,
+          "b": 0.7157,
+          "delta": -0.0098,
+          "ci95": [
+            -0.1078,
+            0.0686
+          ],
+          "wilcoxon_p": null,
+          "questions": 17,
+          "questions_changed": 3,
+          "improved": 2,
+          "worsened": 1
+        },
+        "exposure": {
+          "a": 0,
+          "b": 0,
+          "delta": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "wilcoxon_p": null,
+          "questions": 17,
+          "questions_changed": 0,
+          "improved": 0,
+          "worsened": 0
+        }
+      },
+      "held_out": {
+        "correctness": {
+          "a": 0.7222,
+          "b": 0.7778,
+          "delta": -0.0556,
+          "ci95": [
+            -0.2778,
+            0.1667
+          ],
+          "wilcoxon_p": null,
+          "questions": 9,
+          "questions_changed": 4,
+          "improved": 2,
+          "worsened": 2
+        },
+        "faithfulness": {
+          "a": 1.0,
+          "b": 1.0,
+          "delta": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "wilcoxon_p": null,
+          "questions": 9,
+          "questions_changed": 0,
+          "improved": 0,
+          "worsened": 0
+        },
+        "hit3": {
+          "a": 0.6667,
+          "b": 0.7778,
+          "delta": -0.1111,
+          "ci95": [
+            -0.3333,
+            0
+          ],
+          "wilcoxon_p": null,
+          "questions": 9,
+          "questions_changed": 1,
+          "improved": 0,
+          "worsened": 1
+        },
+        "rr": {
+          "a": 0.6111,
+          "b": 0.6296,
+          "delta": -0.0185,
+          "ci95": [
+            -0.1111,
+            0.0556
+          ],
+          "wilcoxon_p": null,
+          "questions": 9,
+          "questions_changed": 2,
+          "improved": 1,
+          "worsened": 1
+        },
+        "exposure": {
+          "a": 0,
+          "b": 0,
+          "delta": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "wilcoxon_p": null,
+          "questions": 9,
+          "questions_changed": 0,
+          "improved": 0,
+          "worsened": 0
+        }
+      }
+    },
+    "repaired_vs_clean": {
+      "all": {
+        "correctness": {
+          "a": 0.5057,
+          "b": 0.714,
+          "delta": -0.2083,
+          "ci95": [
+            -0.303,
+            -0.1174
+          ],
+          "wilcoxon_p": 0.0002,
+          "questions": 44,
+          "questions_changed": 26,
+          "improved": 2,
+          "worsened": 24
+        },
+        "faithfulness": {
+          "a": 0.9705,
+          "b": 0.9848,
+          "delta": -0.0144,
+          "ci95": [
+            -0.0515,
+            0.0227
+          ],
+          "wilcoxon_p": 0.5,
+          "questions": 44,
+          "questions_changed": 5,
+          "improved": 1,
+          "worsened": 4
+        },
+        "hit3": {
+          "a": 0.4773,
+          "b": 0.7045,
+          "delta": -0.2273,
+          "ci95": [
+            -0.3636,
+            -0.0909
+          ],
+          "wilcoxon_p": 0.0063,
+          "questions": 44,
+          "questions_changed": 12,
+          "improved": 1,
+          "worsened": 11
+        },
+        "rr": {
+          "a": 0.4242,
+          "b": 0.5871,
+          "delta": -0.1629,
+          "ci95": [
+            -0.303,
+            -0.0303
+          ],
+          "wilcoxon_p": 0.0195,
+          "questions": 44,
+          "questions_changed": 18,
+          "improved": 6,
+          "worsened": 12
+        },
+        "exposure": {
+          "a": 0.3636,
+          "b": 0,
+          "delta": 0.3636,
+          "ci95": [
+            0.2273,
+            0.5
+          ],
+          "wilcoxon_p": 0.0001,
+          "questions": 44,
+          "questions_changed": 16,
+          "improved": 16,
+          "worsened": 0
+        }
+      },
+      "target_perturbed": {
+        "correctness": {
+          "a": 0.3488,
+          "b": 0.6821,
+          "delta": -0.3333,
+          "ci95": [
+            -0.4444,
+            -0.2284
+          ],
+          "wilcoxon_p": 0.0001,
+          "questions": 27,
+          "questions_changed": 20,
+          "improved": 0,
+          "worsened": 20
+        },
+        "faithfulness": {
+          "a": 0.958,
+          "b": 0.9938,
+          "delta": -0.0358,
+          "ci95": [
+            -0.0852,
+            0.0
+          ],
+          "wilcoxon_p": null,
+          "questions": 27,
+          "questions_changed": 3,
+          "improved": 0,
+          "worsened": 3
+        },
+        "hit3": {
+          "a": 0.2593,
+          "b": 0.6296,
+          "delta": -0.3704,
+          "ci95": [
+            -0.5556,
+            -0.1852
+          ],
+          "wilcoxon_p": 0.002,
+          "questions": 27,
+          "questions_changed": 10,
+          "improved": 0,
+          "worsened": 10
+        },
+        "rr": {
+          "a": 0.2593,
+          "b": 0.5062,
+          "delta": -0.2469,
+          "ci95": [
+            -0.4383,
+            -0.0617
+          ],
+          "wilcoxon_p": 0.0146,
+          "questions": 27,
+          "questions_changed": 13,
+          "improved": 3,
+          "worsened": 10
+        },
+        "exposure": {
+          "a": 0.5185,
+          "b": 0,
+          "delta": 0.5185,
+          "ci95": [
+            0.3333,
+            0.7037
+          ],
+          "wilcoxon_p": 0.0002,
+          "questions": 27,
+          "questions_changed": 14,
+          "improved": 14,
+          "worsened": 0
+        }
+      },
+      "target_not_perturbed": {
+        "correctness": {
+          "a": 0.7549,
+          "b": 0.7647,
+          "delta": -0.0098,
+          "ci95": [
+            -0.1127,
+            0.098
+          ],
+          "wilcoxon_p": 0.9062,
+          "questions": 17,
+          "questions_changed": 6,
+          "improved": 2,
+          "worsened": 4
+        },
+        "faithfulness": {
+          "a": 0.9902,
+          "b": 0.9706,
+          "delta": 0.0196,
+          "ci95": [
+            -0.0294,
+            0.0882
+          ],
+          "wilcoxon_p": null,
+          "questions": 17,
+          "questions_changed": 2,
+          "improved": 1,
+          "worsened": 1
+        },
+        "hit3": {
+          "a": 0.8235,
+          "b": 0.8235,
+          "delta": 0,
+          "ci95": [
+            -0.1765,
+            0.1765
+          ],
+          "wilcoxon_p": null,
+          "questions": 17,
+          "questions_changed": 2,
+          "improved": 1,
+          "worsened": 1
+        },
+        "rr": {
+          "a": 0.6863,
+          "b": 0.7157,
+          "delta": -0.0294,
+          "ci95": [
+            -0.1961,
+            0.1177
+          ],
+          "wilcoxon_p": 0.875,
+          "questions": 17,
+          "questions_changed": 5,
+          "improved": 3,
+          "worsened": 2
+        },
+        "exposure": {
+          "a": 0.1176,
+          "b": 0,
+          "delta": 0.1176,
+          "ci95": [
+            0,
+            0.2941
+          ],
+          "wilcoxon_p": null,
+          "questions": 17,
+          "questions_changed": 2,
+          "improved": 2,
+          "worsened": 0
+        }
+      },
+      "held_out": {
+        "correctness": {
+          "a": 0.5463,
+          "b": 0.7778,
+          "delta": -0.2315,
+          "ci95": [
+            -0.4167,
+            -0.0741
+          ],
+          "wilcoxon_p": 0.0625,
+          "questions": 9,
+          "questions_changed": 5,
+          "improved": 0,
+          "worsened": 5
+        },
+        "faithfulness": {
+          "a": 1.0,
+          "b": 1.0,
+          "delta": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "wilcoxon_p": null,
+          "questions": 9,
+          "questions_changed": 0,
+          "improved": 0,
+          "worsened": 0
+        },
+        "hit3": {
+          "a": 0.5556,
+          "b": 0.7778,
+          "delta": -0.2222,
+          "ci95": [
+            -0.5556,
+            0
+          ],
+          "wilcoxon_p": null,
+          "questions": 9,
+          "questions_changed": 2,
+          "improved": 0,
+          "worsened": 2
+        },
+        "rr": {
+          "a": 0.5556,
+          "b": 0.6296,
+          "delta": -0.0741,
+          "ci95": [
+            -0.3704,
+            0.1852
+          ],
+          "wilcoxon_p": null,
+          "questions": 9,
+          "questions_changed": 3,
+          "improved": 1,
+          "worsened": 2
+        },
+        "exposure": {
+          "a": 0.4444,
+          "b": 0,
+          "delta": 0.4444,
+          "ci95": [
+            0.1111,
+            0.7778
+          ],
+          "wilcoxon_p": null,
+          "questions": 9,
+          "questions_changed": 4,
+          "improved": 4,
+          "worsened": 0
+        }
+      }
+    },
+    "defended_vs_clean": {
+      "all": {
+        "correctness": {
+          "a": 0.5265,
+          "b": 0.714,
+          "delta": -0.1875,
+          "ci95": [
+            -0.286,
+            -0.0928
+          ],
+          "wilcoxon_p": 0.0009,
+          "questions": 44,
+          "questions_changed": 26,
+          "improved": 3,
+          "worsened": 23
+        },
+        "faithfulness": {
+          "a": 0.9667,
+          "b": 0.9848,
+          "delta": -0.0182,
+          "ci95": [
+            -0.0568,
+            0.0189
+          ],
+          "wilcoxon_p": 0.5,
+          "questions": 44,
+          "questions_changed": 5,
+          "improved": 1,
+          "worsened": 4
+        },
+        "hit3": {
+          "a": 0.4773,
+          "b": 0.7045,
+          "delta": -0.2273,
+          "ci95": [
+            -0.3864,
+            -0.0682
+          ],
+          "wilcoxon_p": 0.0075,
+          "questions": 44,
+          "questions_changed": 14,
+          "improved": 2,
+          "worsened": 12
+        },
+        "rr": {
+          "a": 0.4091,
+          "b": 0.5871,
+          "delta": -0.178,
+          "ci95": [
+            -0.3258,
+            -0.0379
+          ],
+          "wilcoxon_p": 0.014,
+          "questions": 44,
+          "questions_changed": 20,
+          "improved": 7,
+          "worsened": 13
+        },
+        "exposure": {
+          "a": 0.2727,
+          "b": 0,
+          "delta": 0.2727,
+          "ci95": [
+            0.1591,
+            0.4091
+          ],
+          "wilcoxon_p": 0.0005,
+          "questions": 44,
+          "questions_changed": 12,
+          "improved": 12,
+          "worsened": 0
+        }
+      },
+      "target_perturbed": {
+        "correctness": {
+          "a": 0.3611,
+          "b": 0.6821,
+          "delta": -0.321,
+          "ci95": [
+            -0.4352,
+            -0.213
+          ],
+          "wilcoxon_p": 0.0001,
+          "questions": 27,
+          "questions_changed": 19,
+          "improved": 0,
+          "worsened": 19
+        },
+        "faithfulness": {
+          "a": 0.9457,
+          "b": 0.9938,
+          "delta": -0.0481,
+          "ci95": [
+            -0.0988,
+            -0.0062
+          ],
+          "wilcoxon_p": null,
+          "questions": 27,
+          "questions_changed": 4,
+          "improved": 0,
+          "worsened": 4
+        },
+        "hit3": {
+          "a": 0.2593,
+          "b": 0.6296,
+          "delta": -0.3704,
+          "ci95": [
+            -0.5926,
+            -0.1852
+          ],
+          "wilcoxon_p": 0.0063,
+          "questions": 27,
+          "questions_changed": 12,
+          "improved": 1,
+          "worsened": 11
+        },
+        "rr": {
+          "a": 0.2346,
+          "b": 0.5062,
+          "delta": -0.2716,
+          "ci95": [
+            -0.4753,
+            -0.0741
+          ],
+          "wilcoxon_p": 0.0138,
+          "questions": 27,
+          "questions_changed": 15,
+          "improved": 4,
+          "worsened": 11
+        },
+        "exposure": {
+          "a": 0.3704,
+          "b": 0,
+          "delta": 0.3704,
+          "ci95": [
+            0.1852,
+            0.5556
+          ],
+          "wilcoxon_p": 0.002,
+          "questions": 27,
+          "questions_changed": 10,
+          "improved": 10,
+          "worsened": 0
+        }
+      },
+      "target_not_perturbed": {
+        "correctness": {
+          "a": 0.7892,
+          "b": 0.7647,
+          "delta": 0.0245,
+          "ci95": [
+            -0.0882,
+            0.1422
+          ],
+          "wilcoxon_p": 0.8125,
+          "questions": 17,
+          "questions_changed": 7,
+          "improved": 3,
+          "worsened": 4
+        },
+        "faithfulness": {
+          "a": 1.0,
+          "b": 0.9706,
+          "delta": 0.0294,
+          "ci95": [
+            0.0,
+            0.0882
+          ],
+          "wilcoxon_p": null,
+          "questions": 17,
+          "questions_changed": 1,
+          "improved": 1,
+          "worsened": 0
+        },
+        "hit3": {
+          "a": 0.8235,
+          "b": 0.8235,
+          "delta": 0,
+          "ci95": [
+            -0.1765,
+            0.1765
+          ],
+          "wilcoxon_p": null,
+          "questions": 17,
+          "questions_changed": 2,
+          "improved": 1,
+          "worsened": 1
+        },
+        "rr": {
+          "a": 0.6863,
+          "b": 0.7157,
+          "delta": -0.0294,
+          "ci95": [
+            -0.1961,
+            0.1177
+          ],
+          "wilcoxon_p": 0.875,
+          "questions": 17,
+          "questions_changed": 5,
+          "improved": 3,
+          "worsened": 2
+        },
+        "exposure": {
+          "a": 0.1176,
+          "b": 0,
+          "delta": 0.1176,
+          "ci95": [
+            0,
+            0.2941
+          ],
+          "wilcoxon_p": null,
+          "questions": 17,
+          "questions_changed": 2,
+          "improved": 2,
+          "worsened": 0
+        }
+      },
+      "held_out": {
+        "correctness": {
+          "a": 0.6111,
+          "b": 0.7778,
+          "delta": -0.1667,
+          "ci95": [
+            -0.3889,
+            0.0556
+          ],
+          "wilcoxon_p": 0.3125,
+          "questions": 9,
+          "questions_changed": 5,
+          "improved": 1,
+          "worsened": 4
+        },
+        "faithfulness": {
+          "a": 1.0,
+          "b": 1.0,
+          "delta": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "wilcoxon_p": null,
+          "questions": 9,
+          "questions_changed": 0,
+          "improved": 0,
+          "worsened": 0
+        },
+        "hit3": {
+          "a": 0.5556,
+          "b": 0.7778,
+          "delta": -0.2222,
+          "ci95": [
+            -0.5556,
+            0
+          ],
+          "wilcoxon_p": null,
+          "questions": 9,
+          "questions_changed": 2,
+          "improved": 0,
+          "worsened": 2
+        },
+        "rr": {
+          "a": 0.5556,
+          "b": 0.6296,
+          "delta": -0.0741,
+          "ci95": [
+            -0.3704,
+            0.1852
+          ],
+          "wilcoxon_p": null,
+          "questions": 9,
+          "questions_changed": 3,
+          "improved": 1,
+          "worsened": 2
+        },
+        "exposure": {
+          "a": 0.3333,
+          "b": 0,
+          "delta": 0.3333,
+          "ci95": [
+            0,
+            0.6667
+          ],
+          "wilcoxon_p": null,
+          "questions": 9,
+          "questions_changed": 3,
+          "improved": 3,
+          "worsened": 0
+        }
+      }
+    },
+    "repaired_vs_defended": {
+      "all": {
+        "correctness": {
+          "a": 0.5057,
+          "b": 0.5265,
+          "delta": -0.0208,
+          "ci95": [
+            -0.0492,
+            -0.0019
+          ],
+          "wilcoxon_p": 0.125,
+          "questions": 44,
+          "questions_changed": 6,
+          "improved": 1,
+          "worsened": 5
+        },
+        "faithfulness": {
+          "a": 0.9705,
+          "b": 0.9667,
+          "delta": 0.0038,
+          "ci95": [
+            -0.0152,
+            0.0265
+          ],
+          "wilcoxon_p": null,
+          "questions": 44,
+          "questions_changed": 4,
+          "improved": 2,
+          "worsened": 2
+        },
+        "hit3": {
+          "a": 0.4773,
+          "b": 0.4773,
+          "delta": 0,
+          "ci95": [
+            -0.0682,
+            0.0682
+          ],
+          "wilcoxon_p": null,
+          "questions": 44,
+          "questions_changed": 2,
+          "improved": 1,
+          "worsened": 1
+        },
+        "rr": {
+          "a": 0.4242,
+          "b": 0.4091,
+          "delta": 0.0152,
+          "ci95": [
+            -0.0227,
+            0.0682
+          ],
+          "wilcoxon_p": null,
+          "questions": 44,
+          "questions_changed": 2,
+          "improved": 1,
+          "worsened": 1
+        },
+        "exposure": {
+          "a": 0.3636,
+          "b": 0.2727,
+          "delta": 0.0909,
+          "ci95": [
+            0.0227,
+            0.1818
+          ],
+          "wilcoxon_p": null,
+          "questions": 44,
+          "questions_changed": 4,
+          "improved": 4,
+          "worsened": 0
+        }
+      },
+      "target_perturbed": {
+        "correctness": {
+          "a": 0.3488,
+          "b": 0.3611,
+          "delta": -0.0123,
+          "ci95": [
+            -0.0278,
+            0.0
+          ],
+          "wilcoxon_p": null,
+          "questions": 27,
+          "questions_changed": 3,
+          "improved": 0,
+          "worsened": 3
+        },
+        "faithfulness": {
+          "a": 0.958,
+          "b": 0.9457,
+          "delta": 0.0123,
+          "ci95": [
+            -0.0123,
+            0.0432
+          ],
+          "wilcoxon_p": null,
+          "questions": 27,
+          "questions_changed": 3,
+          "improved": 2,
+          "worsened": 1
+        },
+        "hit3": {
+          "a": 0.2593,
+          "b": 0.2593,
+          "delta": 0,
+          "ci95": [
+            -0.1111,
+            0.1111
+          ],
+          "wilcoxon_p": null,
+          "questions": 27,
+          "questions_changed": 2,
+          "improved": 1,
+          "worsened": 1
+        },
+        "rr": {
+          "a": 0.2593,
+          "b": 0.2346,
+          "delta": 0.0247,
+          "ci95": [
+            -0.037,
+            0.1111
+          ],
+          "wilcoxon_p": null,
+          "questions": 27,
+          "questions_changed": 2,
+          "improved": 1,
+          "worsened": 1
+        },
+        "exposure": {
+          "a": 0.5185,
+          "b": 0.3704,
+          "delta": 0.1481,
+          "ci95": [
+            0.037,
+            0.2963
+          ],
+          "wilcoxon_p": null,
+          "questions": 27,
+          "questions_changed": 4,
+          "improved": 4,
+          "worsened": 0
+        }
+      },
+      "target_not_perturbed": {
+        "correctness": {
+          "a": 0.7549,
+          "b": 0.7892,
+          "delta": -0.0343,
+          "ci95": [
+            -0.1029,
+            0.0098
+          ],
+          "wilcoxon_p": null,
+          "questions": 17,
+          "questions_changed": 3,
+          "improved": 1,
+          "worsened": 2
+        },
+        "faithfulness": {
+          "a": 0.9902,
+          "b": 1.0,
+          "delta": -0.0098,
+          "ci95": [
+            -0.0294,
+            0.0
+          ],
+          "wilcoxon_p": null,
+          "questions": 17,
+          "questions_changed": 1,
+          "improved": 0,
+          "worsened": 1
+        },
+        "hit3": {
+          "a": 0.8235,
+          "b": 0.8235,
+          "delta": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "wilcoxon_p": null,
+          "questions": 17,
+          "questions_changed": 0,
+          "improved": 0,
+          "worsened": 0
+        },
+        "rr": {
+          "a": 0.6863,
+          "b": 0.6863,
+          "delta": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "wilcoxon_p": null,
+          "questions": 17,
+          "questions_changed": 0,
+          "improved": 0,
+          "worsened": 0
+        },
+        "exposure": {
+          "a": 0.1176,
+          "b": 0.1176,
+          "delta": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "wilcoxon_p": null,
+          "questions": 17,
+          "questions_changed": 0,
+          "improved": 0,
+          "worsened": 0
+        }
+      },
+      "held_out": {
+        "correctness": {
+          "a": 0.5463,
+          "b": 0.6111,
+          "delta": -0.0648,
+          "ci95": [
+            -0.1852,
+            0.0185
+          ],
+          "wilcoxon_p": null,
+          "questions": 9,
+          "questions_changed": 3,
+          "improved": 1,
+          "worsened": 2
+        },
+        "faithfulness": {
+          "a": 1.0,
+          "b": 1.0,
+          "delta": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "wilcoxon_p": null,
+          "questions": 9,
+          "questions_changed": 0,
+          "improved": 0,
+          "worsened": 0
+        },
+        "hit3": {
+          "a": 0.5556,
+          "b": 0.5556,
+          "delta": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "wilcoxon_p": null,
+          "questions": 9,
+          "questions_changed": 0,
+          "improved": 0,
+          "worsened": 0
+        },
+        "rr": {
+          "a": 0.5556,
+          "b": 0.5556,
+          "delta": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "wilcoxon_p": null,
+          "questions": 9,
+          "questions_changed": 0,
+          "improved": 0,
+          "worsened": 0
+        },
+        "exposure": {
+          "a": 0.4444,
+          "b": 0.3333,
+          "delta": 0.1111,
+          "ci95": [
+            0,
+            0.3333
+          ],
+          "wilcoxon_p": null,
+          "questions": 9,
+          "questions_changed": 1,
+          "improved": 1,
+          "worsened": 0
+        }
+      }
+    }
+  },
+  "outcomes": {
+    "clean": {
+      "correct": 67,
+      "partial": 39,
+      "incorrect": 0,
+      "abstained": 26,
+      "unavailable": 0
+    },
+    "poisoned": {
+      "correct": 49,
+      "partial": 36,
+      "incorrect": 2,
+      "abstained": 45,
+      "unavailable": 0
+    },
+    "repaired": {
+      "correct": 44,
+      "partial": 34,
+      "incorrect": 0,
+      "abstained": 54,
+      "unavailable": 0
+    },
+    "clean_repaired": {
+      "correct": 62,
+      "partial": 32,
+      "incorrect": 0,
+      "abstained": 38,
+      "unavailable": 0
+    },
+    "defended": {
+      "correct": 51,
+      "partial": 28,
+      "incorrect": 0,
+      "abstained": 53,
+      "unavailable": 0
+    },
+    "clean_filtered": {
+      "correct": 63,
+      "partial": 33,
+      "incorrect": 0,
+      "abstained": 35,
+      "unavailable": 1
+    }
+  },
+  "asr_edited_exposure": {
+    "poisoned": 0.1667,
+    "repaired": 0.1818,
+    "defended": 0.1061
+  },
+  "unavailable_observations": {
+    "clean": {
+      "correctness": 0,
+      "faithfulness": 0,
+      "hit3": 0,
+      "rr": 0,
+      "exposure": 0
+    },
+    "poisoned": {
+      "correctness": 0,
+      "faithfulness": 0,
+      "hit3": 0,
+      "rr": 0,
+      "exposure": 0
+    },
+    "repaired": {
+      "correctness": 0,
+      "faithfulness": 0,
+      "hit3": 0,
+      "rr": 0,
+      "exposure": 0
+    },
+    "clean_repaired": {
+      "correctness": 0,
+      "faithfulness": 0,
+      "hit3": 0,
+      "rr": 0,
+      "exposure": 0
+    },
+    "defended": {
+      "correctness": 0,
+      "faithfulness": 1,
+      "hit3": 0,
+      "rr": 0,
+      "exposure": 0
+    },
+    "clean_filtered": {
+      "correctness": 1,
+      "faithfulness": 1,
+      "hit3": 1,
+      "rr": 1,
+      "exposure": 1
+    }
+  },
+  "method": "question-level means; cluster bootstrap B=10000 seed 20261016; two-sided Wilcoxon signed-rank on non-zero question differences"
+}
