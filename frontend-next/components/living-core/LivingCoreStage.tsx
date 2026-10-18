@@ -35,6 +35,8 @@ interface LivingCoreStageProps {
   defendedMode?: boolean;
   /** Repaired mode: same shield, captioned with the real repaired-word count. */
   repairMode?: boolean;
+  /** Contextual mode: same shield; the caption names the language-model reference. */
+  contextualMode?: boolean;
 }
 
 function shieldStateFor(phase: LivingCorePhase): ShieldState {
@@ -140,6 +142,7 @@ export function LivingCoreStage({
   compareMode = false,
   defendedMode = false,
   repairMode = false,
+  contextualMode = false,
 }: LivingCoreStageProps) {
   const phase = getLivingCorePhase(chatState, healthStatus);
   const sources = extractSources(chatState);
@@ -176,6 +179,7 @@ export function LivingCoreStage({
       skipped={skippedPassageCount(sources)}
       variant={canRender3D ? "stage" : "inline"}
       repaired={repairMode ? repairedWordCount(sources) : undefined}
+      contextual={contextualMode}
     />
   ) : null;
 

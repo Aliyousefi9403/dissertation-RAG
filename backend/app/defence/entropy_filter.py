@@ -262,5 +262,10 @@ def repaired_retrieve(question: str, system_state: str = "repaired"):
 
 
 def retrieval_for_state(system_state: str):
-    """Retrieval override for /chat: `defended` filters, `repaired` repairs; others use the default."""
+    """Retrieval override for /chat: `defended` filters, `repaired` repairs, `contextual` filters with a
+    language-model reference (app/defence/contextual_filter.py); others use the default."""
+    if system_state == "contextual":
+        from app.defence.contextual_filter import contextual_retrieve  # imported lazily: loads torch
+
+        return contextual_retrieve
     return {"defended": defended_retrieve, "repaired": repaired_retrieve}.get(system_state)

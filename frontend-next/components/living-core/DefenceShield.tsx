@@ -11,6 +11,8 @@ interface DefenceShieldProps {
   variant?: "stage" | "inline";
   /** Repaired mode: real count of words the repair policy replaced. */
   repaired?: number | null;
+  /** Contextual mode: the filter's reference q is a language model. */
+  contextual?: boolean;
 }
 
 // Heater-shield outline centred on (0, 0) in a 240 x 280 viewBox.
@@ -36,7 +38,7 @@ const IMPACT_STEP = 0.32;
  * skipped for the last answer, in the caption, which is announced politely.
  * Every animation is CSS and is disabled under prefers-reduced-motion.
  */
-export function DefenceShield({ state, skipped, variant = "stage", repaired }: DefenceShieldProps) {
+export function DefenceShield({ state, skipped, variant = "stage", repaired, contextual = false }: DefenceShieldProps) {
   const impacts = state === "resolved" && skipped ? Math.min(skipped, IMPACTS.length) : 0;
   const repairMode = repaired !== undefined;
   const repairNote =
@@ -54,11 +56,13 @@ export function DefenceShield({ state, skipped, variant = "stage", repaired }: D
           ? "Entropy shield: request failed"
           : repairMode
             ? "Entropy shield armed — repair, then re-check"
-            : "Entropy shield armed — relative-entropy filter on";
+            : contextual
+              ? "Entropy shield armed — language-model reference"
+              : "Entropy shield armed — relative-entropy filter on";
 
   return (
     <div className={`defence-shield defence-shield--${variant}`} data-state={state} data-impacts={impacts > 0}
-         data-mode={repairMode ? "repair" : "filter"} data-testid="defence-shield">
+         data-mode={repairMode ? "repair" : contextual ? "contextual" : "filter"} data-testid="defence-shield">
       <svg className="defence-shield-svg" viewBox="-140 -150 280 300" aria-hidden="true" focusable="false">
         <defs>
           <linearGradient id="defence-face" x1="0" y1="0" x2="0" y2="1">

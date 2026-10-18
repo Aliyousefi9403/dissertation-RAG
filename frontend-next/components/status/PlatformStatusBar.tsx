@@ -30,12 +30,14 @@ const MODE_LABELS: Record<ExperimentMode, string> = {
   compare: "Clean vs PWWS poisoned",
   defended: "PWWS poisoned + entropy filter",
   repaired: "PWWS poisoned + entropy repair",
+  contextual: "PWWS poisoned + language-model filter",
 };
 
 const EVIDENCE_CHECK_UNAVAILABLE: Partial<Record<ExperimentMode, string>> = {
   compare: "Compare",
   defended: "Defended",
   repaired: "Repaired",
+  contextual: "Contextual",
 };
 
 /**

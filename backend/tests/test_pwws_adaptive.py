@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-pytest.importorskip("textattack")
+pytest.importorskip("textattack", exc_type=ImportError)  # also skips when textattack cannot load with the installed transformers
 from textattack.shared import AttackedText  # noqa: E402
 
 from app.attack import pwws_adaptive_kb as adaptive  # noqa: E402

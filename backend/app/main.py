@@ -69,6 +69,7 @@ class ChatRequest(BaseModel):
         "poisoned",
         "defended",
         "repaired",
+        "contextual",
     ] = "clean"
 
 
@@ -242,14 +243,15 @@ def chat(
             request.question,
             system_state=request.system_state,
             # "defended" = PWWS-poisoned collection behind the entropy filter,
-            # "repaired" = the same collection behind repair-then-rescore
+            # "repaired" = the same collection behind repair-then-rescore,
+            # "contextual" = the same collection behind the language-model filter
             # (app/defence/entropy_filter.py); clean/poisoned are unchanged.
             retrieval_fn=retrieval_for_state(request.system_state),
         )
         latency_ms = (time.perf_counter() - started_at) * 1000
 
-        # History has no "repaired" columns; repaired answers are not recorded.
-        if request.system_state != "repaired":
+        # History has no "repaired"/"contextual" columns; those answers are not recorded.
+        if request.system_state not in ("repaired", "contextual"):
             _record_chat_history(result, request.system_state, latency_ms)
 
         return result

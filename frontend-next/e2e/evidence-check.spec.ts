@@ -345,6 +345,53 @@ test.describe("Evidence check (mocked backend)", () => {
     await expect(page.locator(".source-row-repairs")).toContainText("engraft → plant, abnegate → deny");
   });
 
+  test("contextual mode: /chat with system_state=contextual, filter verdict shown, evidence check disabled", async ({ page }) => {
+    const bodies: unknown[] = [];
+    await page.route("**/health", (route) => route.fulfill({ json: { status: "healthy" } }));
+    await page.route("**/chat", async (route) => {
+      bodies.push(route.request().postDataJSON());
+      await route.fulfill({
+        json: {
+          question: QUESTION,
+          answer: "Use parameterized queries [Source 1].",
+          system_state: "contextual",
+          sources: [
+            {
+              source_number: 1,
+              source: "injection/sql_injection.md",
+              score: 0.71,
+              content: SQLI,
+              metadata: {
+                entropy_filter: {
+                  policy_version: "contextual-filter-v1",
+                  candidate_rank: 3,
+                  score_bits: 1.87,
+                  threshold_bits: 4.4611,
+                  flagged: false,
+                  top_words: [],
+                },
+              },
+            },
+          ],
+        },
+      });
+    });
+    await page.goto("/");
+    await waitForBackendOnline(page);
+    await page.getByRole("radio", { name: "Contextual" }).click();
+    await expect(page.getByTestId("defence-shield")).toContainText("language-model reference");
+    await expect(page.getByRole("switch", { name: "Evidence check" })).toBeDisabled();
+    await expect(page.getByRole("status", { name: "Platform status" })).toContainText("PWWS poisoned + language-model filter");
+    await askQuestion(page, QUESTION);
+    await resolved(page);
+
+    expect(bodies).toEqual([{ question: QUESTION, system_state: "contextual" }]);
+    await page.locator(".source-row-summary").first().click();
+    await expect(page.locator(".source-row-filter")).toContainText("1.87 bits");
+    // One source kept at candidate rank 3 => two candidates were skipped.
+    await expect(page.getByTestId("defence-shield")).toContainText("2 suspicious passages blocked");
+  });
+
   test("compare mode disables the toggle; status bar shows only real values", async ({ page }) => {
     await mockBackend(page, (route) => route.fulfill({ json: guardedResponse() }));
     await page.goto("/");

@@ -101,7 +101,7 @@ export default function Home() {
           <EvidenceCheckToggle
             enabled={evidenceCheckEnabled}
             onChange={setEvidenceCheckEnabled}
-            disabled={isComparing || experimentMode === "defended" || experimentMode === "repaired"}
+            disabled={isComparing || experimentMode === "defended" || experimentMode === "repaired" || experimentMode === "contextual"}
           />
         </div>
       </header>
@@ -141,7 +141,8 @@ export default function Home() {
                 healthStatus={healthStatus}
                 attackDetected={experimentMode === "poisoned"}
                 compareMode={isComparing}
-                defendedMode={experimentMode === "defended" || experimentMode === "repaired"}
+                defendedMode={experimentMode === "defended" || experimentMode === "repaired" || experimentMode === "contextual"}
+                contextualMode={experimentMode === "contextual"}
                 repairMode={experimentMode === "repaired"}
               />
             </div>

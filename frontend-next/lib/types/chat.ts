@@ -5,8 +5,9 @@
  */
 
 /** "defended" = the PWWS-poisoned collection behind the entropy filter;
+ * "contextual" = the same collection behind the language-model (contextual) filter;
  * "repaired" = the same collection behind repair-then-rescore. */
-export type SystemState = "clean" | "poisoned" | "defended" | "repaired";
+export type SystemState = "clean" | "poisoned" | "defended" | "repaired" | "contextual";
 
 export interface ChatRequest {
   question: string;
