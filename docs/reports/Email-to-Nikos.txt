@@ -1,0 +1,38 @@
+Subject: AegisRAG – progress on your relative-entropy idea, and my updated project plan
+
+Dear Nikos,
+
+Thank you again for suggesting relative entropy as a way to spot poisoned text in my RAG project. I have taken it quite a long way since we spoke, and I have attached two documents:
+
+1. A short 2-page note on how I applied your idea and what I found.
+2. My updated Project Definition Document (PDF), which now builds the plan around it.
+
+Main changes and improvements so far:
+
+- From letters to words to context. Letter-frequency KL, as on the lecture slide, does not detect the attack (it is at chance level), because PWWS swaps whole words. Word-level KL against a reference built from the rest of the knowledge base does detect it. The strongest version uses the log-ratio between each word and its most likely synonym (the "synonym gap"), first with word frequencies and then with a small language model (distilgpt2) as the reference q.
+
+- A fair control. The attack also changes the layout of the sections it touches, so I built a control copy with the same layout changes but no word swaps. The word-frequency detector partly reacts to layout. The language-model version scores at chance on the control, so it is reacting to the swapped words themselves.
+
+- Other choices I tested. Dirichlet smoothing made almost no difference, and Jensen–Shannon over the whole distribution did not work, because only a few words change in each passage. What helped was a better q, not a different divergence.
+
+- A live defence. The detector now runs inside the system and removes suspicious passages before the model sees them. Poisoned text reached the model much less often and confidently wrong answers dropped, but accuracy did not recover. Repairing the suspicious words instead of dropping the passage was slightly worse, so for now I describe it as a safety filter rather than a fix.
+
+- An attacker who knows the detector. If PWWS may only swap a word for one at least as common as the original, the word-frequency detector fails completely. The language-model version still catches it, and the restriction cost the attacker most of its successful attacks.
+
+- New since my note:
+  (a) The language-model detector is now a second defence mode in the live system, and its scores match my offline evaluation. The full live run is in progress.
+  (b) A second-order attacker, which must also keep each passage as likely as before under the same language model. This tests your question of whether an attacker can stay natural and still fool the classifier. It is running now.
+  (c) A second, different attack (TextFooler), to check that the detectors are not specific to PWWS. It is also running.
+
+- The updated plan. The Project Definition Document now treats the two detector-based defences, both adaptive attackers and TextFooler as core parts of the project, not optional extensions. It keeps the same benchmark, controls and timeline.
+
+I would really value your view on three questions, which are also at the end of the note:
+1. Is it fair to call this a relative-entropy method, given that it uses the log-ratio for a few words rather than the full KL sum?
+2. Is there an information-theoretic reason why an attacker who also matches the language model should find it hard to fool the classifier?
+3. Would you build the reference distribution q differently?
+
+All the code, data and runs are on GitHub (github.com/Aliyousefi9403/dissertation-rag, branch feature/aegisrag-evidence-check). I would be very happy to show you the system or go through any of it whenever suits you.
+
+Best wishes,
+Ali Yousefi
+IN3007 Individual Project
