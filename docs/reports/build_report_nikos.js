@@ -16,6 +16,16 @@ const expl = R("entropy-defence/explanations.json").summary;
 const matched = R("entropy-defence/matched-control.json");
 const live = R("entropy-defence/live-paired/summary.json");
 const main = R("main-v1-20261016/summary.json");
+// Version 2 (18 Oct 2026): better references, adaptive attacker, repair vs drop, threshold sweep.
+const fam = (c) => R(`entropy-family/family-${c}.json`).results;
+const famP = fam("poisoned"), famC = fam("control"), famA = fam("poisoned_adaptive"), famR = fam("poisoned_pwws_rerun");
+const detA = R("entropy-family/detector-poisoned_adaptive.json"), detR = R("entropy-family/detector-poisoned_pwws_rerun.json");
+const atk = R("adaptive-attack/surrogate-and-attack-record.json");
+const rerunManifest = fs.readFileSync(path.join(ROOT, "backend/data/poisoned_pwws_rerun/pwws_attack_manifest.jsonl"), "utf8").trim().split("\n").map(JSON.parse);
+const rerunOk = rerunManifest.filter((e) => e.success).length;
+const rep = R("entropy-repair/live-paired/summary.json");
+const sweep = R("entropy-defence/threshold-sweep/sweep.json");
+const flaggedAt = (d, t) => [d.rows.filter((r) => r.label && r.syngap_top3_domain > t).length, d.rows.filter((r) => r.label).length];
 const COMMIT = process.env.REPORT_COMMIT || "see repository";
 
 const FONT = "Arial";
@@ -68,8 +78,8 @@ const pct = (k, c) => `${out[c][k]} (${Math.round((100 * out[c][k]) / n)}%)`;
 
 const children = [
   new Paragraph({ spacing: { after: 40 }, children: [run("Applying relative entropy to knowledge-base poisoning in RAG", { bold: true, size: 34 })] }),
-  p([run("Progress report on the detection and defence work in AegisRAG", { size: 24, color: "1F3A5F" })]),
-  p([b("To: "), "Nikos   ", b("From: "), "Ali Yousefi (IN3007 Individual Project)   ", b("Date: "), "17 October 2026"], { spacing: { after: 240 } }),
+  p([run("Progress report on the detection and defence work in AegisRAG, version 2", { size: 24, color: "1F3A5F" })]),
+  p([b("To: "), "Nikos   ", b("From: "), "Ali Yousefi (IN3007 Individual Project)   ", b("Date: "), "18 October 2026 (version 2)"], { spacing: { after: 240 } }),
 
   h1("1  Summary"),
   p("After the lecture on entropy and relative entropy (Kullback–Leibler divergence), I wanted to test whether the idea could detect the attack in my project. In my project, a cybersecurity question-answering system (retrieval-augmented generation, RAG) reads from a knowledge base whose text has been poisoned with PWWS, a word-substitution attack. This report sets out exactly how the idea was used, what worked and what did not, and the evidence for each claim."),
@@ -77,6 +87,10 @@ const children = [
   bullet([b("Applied to words, with the right reference distribution, it works. "), `The final detector measures, in bits, how much less probable each word is than its best synonym under a domain reference distribution, which is the log-ratio term inside KL(p‖q). It reaches AUROC ${f2(det.all.syngap_top3_domain.auroc)} overall and ${f2(det.held_out.syngap_top3_domain.auroc)} on held-out documents.`]),
   bullet([b("It explains itself. "), `Of the ${expl.flagged_edited_chunks} poisoned passages it flags, ${expl.evidence_includes_real_substitution} cite a word that PWWS really substituted, and ${expl.explanation_names_exact_original} name the exact original word (e.g. "abnegate" → deny, "meshing" → network).`]),
   bullet([b("As a defence it reduces exposure rather than restoring accuracy. "), `Filtering flagged passages at retrieval time reduced the share of questions where poisoned text reached the language model from ${f3(dp.exposure.b)} to ${f3(dp.exposure.a)} in a live paired experiment (${live.questions} questions × 3 repetitions; Wilcoxon p ${pval(dp.exposure.wilcoxon_p)}). It eliminated both confidently incorrect answers (${out.poisoned.incorrect} → ${out.defended.incorrect}), turning them into refusals. Answer correctness did not improve (Δ ${sgn(dp.correctness.delta)}), and the filter costs some correctness on clean data (Δ ${sgn(cf.correctness.delta)}, p ${pval(cf.correctness.wilcoxon_p)}).`]),
+
+  bullet([b("New since version 1: a better reference distribution makes it much stronger. "), `Replacing the word-frequency reference q with a small language model that reads the sentence (the same log-ratio, computed in context) raises AUROC to ${f2(famP.all.ctx_syngap_top3.auroc)}, and it stays at chance on a corpus that has the same formatting changes but no substitutions (${f2(famC.all.ctx_syngap_top3.auroc)}).`]),
+  bullet([b("New: an attacker who knows the detector defeats the deployed version, but not the contextual one. "), `PWWS restricted to swaps that do not make a word rarer evades the deployed detector completely (AUROC ${f2(detA.results.all.syngap_top3_domain.auroc)}; ${flaggedAt(detA, live.defence.threshold_bits)[0]} of ${flaggedAt(detA, live.defence.threshold_bits)[1]} poisoned chunks flagged), but the contextual detector still finds it (AUROC ${f2(famA.all.ctx_syngap_top3.auroc)}), and the restriction costs the attacker most of its power (${atk.adaptive_attack.successful} of ${atk.adaptive_attack.sections} sections attacked successfully, against ${rerunOk} for unrestricted PWWS with the same surrogate).`]),
+  bullet([b("New: repairing suspicious words is worse than removing the passage. "), `Correctness ${f3(rep.comparisons.repaired_vs_defended.all.correctness.a)} vs ${f3(rep.comparisons.repaired_vs_defended.all.correctness.b)}, and more edited text reaches the model (${f3(rep.comparisons.repaired_vs_poisoned.all.exposure.a)} vs ${f3(live.comparisons.defended_vs_poisoned.all.exposure.a)}).`]),
 
   h1("2  The idea and why it should fit this attack"),
   p("The lecture defined relative entropy between distributions p and q as"),
@@ -138,14 +152,38 @@ const children = [
   h1("6  What this shows, and what it does not"),
   bullet([b("Shown: "), "relative-entropy reasoning detects PWWS poisoning when it is applied at the word level, against a domain reference, and aimed at substitutions. The detector is interpretable. As a filter, it significantly reduces how often poisoned text reaches the model and removed the confident errors, at the price of more refusals."]),
   bullet([b("Not shown: "), "that it restores lost accuracy. In this system the main harm of PWWS is displacement, where the correct passage stops being retrieved and the model declines to answer. A filter cannot recover information that exists only in a poisoned passage. Its realistic role is to reduce exposure to misleading text and to explain why a passage is suspicious."]),
-  bullet([b("Limitations: "), "one attack, one corpus of 18 documents, a held-out set with only 10 edited chunks, one language model, and LLM-judge scores (a manual check of judge agreement is planned). An adaptive attacker who picks domain-typical synonyms could evade the detector."]),
+  bullet([b("Limitations: "), "one attack, one corpus of 18 documents, a held-out set with only 10 edited chunks, one language model, and LLM-judge scores (a manual check of judge agreement is planned). An adaptive attacker who picks domain-typical synonyms does evade the deployed detector (Section 7); the contextual detector has so far been tested offline, not deployed."]),
 
-  h1("7  Questions I would value your view on"),
-  numbered("Is the 50/50 mixture of domain and general-English frequencies a reasonable way to avoid zero probabilities, or would you expect a principled smoothing method (e.g. Good–Turing or a Dirichlet prior) to behave better here?", "questions"),
-  numbered("Would a symmetric measure such as Jensen–Shannon divergence be more appropriate than KL for comparing a short passage with a large reference?", "questions"),
-  numbered("Is it sound to call the synonym gap a relative-entropy method, given that it uses the log-ratio term per word rather than the full sum, or should I present it as surprisal-based?", "questions"),
+  h1("7  Since version 1: four further experiments"),
+  h2("7.1  A better reference distribution q"),
+  p("Your questions about smoothing and symmetric divergences led to a direct test. Four alternatives were scored on the same 191 chunks, labels and split as Table 1, with the deployed detector as the baseline (it reproduces its earlier score exactly). The contextual synonym gap keeps the log-ratio of the synonym gap, log2 q(s) − log2 q(w), but takes q from a language model (distilgpt2) applied to the whole passage: for the ten most suspicious words, it compares the probability of the passage with the word against the passage with each of its five most likely synonyms."),
+  table([3626, 1350, 1350, 1350, 1350], [
+    ["Detector (AUROC)", "Poisoned", "Held-out", "Control", "Adaptive"],
+    ["Synonym gap, 50/50 reference (deployed)", f2(famP.all.syngap_top3_domain.auroc), f2(famP.held_out.syngap_top3_domain.auroc), f2(famC.all.syngap_top3_domain.auroc), f2(famA.all.syngap_top3_domain.auroc)],
+    ["Synonym gap, Dirichlet reference (μ = 2000)", f2(famP.all.syngap_top3_dirichlet.auroc), f2(famP.held_out.syngap_top3_dirichlet.auroc), f2(famC.all.syngap_top3_dirichlet.auroc), f2(famA.all.syngap_top3_dirichlet.auroc)],
+    ["Jensen–Shannon divergence vs domain", f2(famP.all.js_domain.auroc), f2(famP.held_out.js_domain.auroc), f2(famC.all.js_domain.auroc), f2(famA.all.js_domain.auroc)],
+    ["Language-model surprisal, top 5 tokens", f2(famP.all.lm_top5_surprisal.auroc), f2(famP.held_out.lm_top5_surprisal.auroc), f2(famC.all.lm_top5_surprisal.auroc), f2(famA.all.lm_top5_surprisal.auroc)],
+    ["Contextual synonym gap (language-model q)", f2(famP.all.ctx_syngap_top3.auroc), f2(famP.held_out.ctx_syngap_top3.auroc), f2(famC.all.ctx_syngap_top3.auroc), f2(famA.all.ctx_syngap_top3.auroc)],
+  ]),
+  caption("Table 4. Control = same sections and formatting, no substitutions (a substitution detector should score about 0.5). Adaptive = the attack in 7.2."),
+  figure("fig5_entropy_family.png", 600, 260),
+  caption("Figure 5. AUROC of each detector on the poisoned, control, adaptive and matched-rerun corpora."),
+  p([b("Answers to two of my earlier questions. "), `Dirichlet smoothing performs about the same as the 50/50 mixture (${f2(famP.all.syngap_top3_dirichlet.auroc)} vs ${f2(famP.all.syngap_top3_domain.auroc)}), so the choice of smoothing is not what limits the detector. Jensen–Shannon divergence over the whole word distribution does not work (${f2(famP.all.js_domain.auroc)}): PWWS changes only a few words per passage, and a whole-distribution divergence dilutes them. What helps is a better q, not a different divergence.`]),
+  h2("7.2  An attacker who knows the detector"),
+  p(`The fine-tuned surrogate classifier behind the original attack had not been saved, so it was retrained with the unchanged training script (validation accuracy ${f2(atk.validation_accuracy_final)}; checksums recorded). Two corpora were then generated with this surrogate: unrestricted PWWS (${rerunOk} of 88 sections attacked successfully, against 38 with the original surrogate) and an adaptive PWWS that may only swap a word for one at least as probable under the defender's own reference, ${atk.adaptive_attack.successful} of 88 successful. At the frozen threshold the deployed detector flags ${flaggedAt(detR, live.defence.threshold_bits)[0]} of ${flaggedAt(detR, live.defence.threshold_bits)[1]} poisoned chunks in the unrestricted corpus (AUROC ${f2(detR.results.all.syngap_top3_domain.auroc)}) and ${flaggedAt(detA, live.defence.threshold_bits)[0]} of ${flaggedAt(detA, live.defence.threshold_bits)[1]} in the adaptive corpus (AUROC ${f2(detA.results.all.syngap_top3_domain.auroc)}). The contextual detector scores ${f2(famR.all.ctx_syngap_top3.auroc)} and ${f2(famA.all.ctx_syngap_top3.auroc)}. The adaptive attacker controlled word frequency, not fit in context, and fit in context is what the contextual log-ratio measures. The adaptive corpus has only ${flaggedAt(detA, 0)[1]} poisoned chunks, none in held-out documents.`]),
+  h2("7.3  Repair instead of removal"),
+  p(`A second defence replaces each word with a gap above 9.5 bits by its likely original and keeps the passage if it then falls under the threshold. In a live paired run (${rep.questions} questions × 3) it was worse than removal: correctness ${f3(rep.comparisons.repaired_vs_defended.all.correctness.a)} vs ${f3(rep.comparisons.repaired_vs_defended.all.correctness.b)} (Δ ${sgn(rep.comparisons.repaired_vs_defended.all.correctness.delta)}, 95% CI ${ci(rep.comparisons.repaired_vs_defended.all.correctness.ci95)}), edited text reaching the model ${f3(rep.comparisons.repaired_vs_poisoned.all.exposure.a)} vs ${f3(live.comparisons.defended_vs_poisoned.all.exposure.a)}, and no confident errors in either. Word-level WordNet repair restores only about 12% of the substitutions, so a repaired passage still carries most of the poison.`]),
+  h2("7.4  Where the frozen threshold sits"),
+  p(`Replaying the filter offline over thresholds from 4 to 12 bits shows the threshold fixed on development data (${sweep.deployed_threshold_bits} bits) sits where it stops costing anything: clean Hit@3 is unchanged at or above it and falls steeply below it, while exposure can be pushed lower only by giving up clean retrieval quality.`]),
+  figure("fig4_threshold_sweep.png", 600, 252),
+  caption("Figure 4. Exposure and Hit@3 against the threshold (left) and the number of candidates (right)."),
 
-  h1("8  Evidence and how to reproduce it"),
+  h1("8  Questions I would value your view on"),
+  numbered("Is it sound to call the synonym gap, and its contextual version, a relative-entropy method, given that it uses the pointwise log-ratio for selected words rather than the full sum, or should I present it as pointwise mutual information or surprisal?", "questions"),
+  numbered("The contextual detector survives an attacker who controls word frequency. Would you expect a second-order attacker, who also constrains language-model probability, to defeat it, or is there an information-theoretic argument that keeping both the classifier fooled and the text natural limits what such an attacker can do?", "questions"),
+  numbered(`For the dissertation, is it acceptable to report the retrained surrogate (validation accuracy ${f2(atk.validation_accuracy_final)}, same script and data) as a matched replacement for the lost original, given that it reproduces the original attack rate (${rerunOk} vs 38 of 88 sections)?`, "questions"),
+
+  h1("9  Evidence and how to reproduce it"),
   p([run("Repository: "), b("github.com/Aliyousefi9403/dissertation-rag"), run(", branch "), b("feature/aegisrag-evidence-check"), run(` (report built at commit ${COMMIT}).`)]),
   table([3600, 5426], [
     ["Evidence", "File"],
@@ -158,7 +196,11 @@ const children = [
     ["Main experiment it is paired with", `pilot-runs/${live.main_run}/`],
     ["Paired analysis", "docs/research/scripts/analyse_defence.py; docs/research/results/entropy-defence/live-paired/"],
     ["Figures", "docs/research/scripts/make_figures.py; docs/research/figures/"],
-    ["Full methods and results", "docs/research/evaluation-methods-and-results.md (§§10–12)"],
+    ["Better references (Table 4)", "docs/research/scripts/entropy_family_eval.py; docs/research/results/entropy-family/"],
+    ["Adaptive attack and retrained surrogate", "backend/app/attack/pwws_adaptive_kb.py; docs/research/results/adaptive-attack/"],
+    ["Repair vs removal (live)", `pilot-runs/${rep.defence_run}/; docs/research/results/entropy-repair/live-paired/`],
+    ["Every number checked against its file", "docs/research/scripts/verify_evidence.py; docs/research/EVIDENCE.md"],
+    ["Full methods and results", "docs/research/evaluation-methods-and-results.md (§§10–16)"],
   ]),
   p("All analyses are offline and read only the saved records. Run records are create-only JSON files with a checksum file, and no number in this report was typed in by hand.", { spacing: { before: 120 } }),
   h2("References"),
@@ -166,6 +208,10 @@ const children = [
   p([run("Ren, S., Deng, Y., He, K. and Che, W. (2019). Generating Natural Language Adversarial Examples through Probability Weighted Word Saliency. Proc. ACL, 1085–1097.", { size: 18 })]),
   p([run("Mozes, M., Stenetorp, P., Kleinberg, B. and Griffin, L. (2021). Frequency-Guided Word Substitutions for Detecting Textual Adversarial Examples. Proc. EACL, 171–186.", { size: 18 })]),
   p([run("Miller, G. A. (1995). WordNet: A Lexical Database for English. Communications of the ACM 38(11), 39–41.", { size: 18 })]),
+  p([run("Lin, J. (1991). Divergence Measures Based on the Shannon Entropy. IEEE Transactions on Information Theory 37(1), 145–151.", { size: 18 })]),
+  p([run("Zhai, C. and Lafferty, J. (2004). A Study of Smoothing Methods for Language Models Applied to Information Retrieval. ACM Transactions on Information Systems 22(2), 179–214.", { size: 18 })]),
+  p([run("Radford, A., Wu, J., Child, R., Luan, D., Amodei, D. and Sutskever, I. (2019). Language Models are Unsupervised Multitask Learners. OpenAI technical report.", { size: 18 })]),
+  p([run("Sanh, V., Debut, L., Chaumond, J. and Wolf, T. (2019). DistilBERT, a Distilled Version of BERT: Smaller, Faster, Cheaper and Lighter. arXiv:1910.01108.", { size: 18 })]),
 ];
 
 const doc = new Document({

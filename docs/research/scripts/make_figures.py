@@ -156,10 +156,43 @@ def sweep_figure():
     plt.close(fig)
 
 
+def family_figure():
+    names = ("poisoned", "poisoned_pwws_rerun", "poisoned_adaptive", "control")
+    paths = {c: RESULTS / f"entropy-family/family-{c}.json" for c in names}
+    if not all(p.exists() for p in paths.values()):
+        return
+    res = {c: json.loads(p.read_text())["results"]["all"] for c, p in paths.items()}
+    detectors = [("syngap_top3_domain", "Synonym gap, 50/50 q\n(deployed)"), ("syngap_top3_dirichlet", "Synonym gap,\nDirichlet q"),
+                 ("js_domain", "Jensen-Shannon\nvs domain"), ("lm_top5_surprisal", "LM surprisal,\ntop 5 tokens"),
+                 ("ctx_syngap_top3", "Contextual synonym gap\n(LM as q)")]
+    series = [("poisoned", "Original PWWS", BLUE), ("poisoned_pwws_rerun", "PWWS, retrained surrogate", AQUA),
+              ("poisoned_adaptive", "Adaptive PWWS", ORANGE), ("control", "Control (no substitutions)", YELLOW)]
+    fig, ax = plt.subplots(figsize=(7.6, 4.4), dpi=200)
+    h = 0.2
+    for i, (c, label, color) in enumerate(series):
+        ys = [k + (i - 1.5) * h for k in range(len(detectors))]
+        vals = [res[c][d]["auroc"] for d, _ in detectors]
+        bars = ax.barh(ys, vals, height=h - 0.03, color=color, label=label)
+        for bar, v in zip(bars, vals):
+            ax.text(v + 0.008, bar.get_y() + bar.get_height() / 2, f"{v:.2f}", va="center", fontsize=6.5, color=INK)
+    ax.axvline(0.5, color=MUTED, lw=1, ls="--")
+    ax.set_yticks(range(len(detectors)), [label for _, label in detectors], fontsize=8)
+    ax.set_ylim(len(detectors) - 0.5, -0.6)
+    ax.set_xlim(0, 1.05)
+    ax.set_xlabel("AUROC for finding chunks with substituted words (0.5 = chance)")
+    ax.grid(axis="x", color=GRID, lw=0.6)
+    ax.set_axisbelow(True)
+    ax.legend(loc="upper center", bbox_to_anchor=(0.42, -0.14), ncol=2, frameon=False, fontsize=7.5)
+    fig.tight_layout()
+    fig.savefig(OUT / "fig5_entropy_family.png")
+    plt.close(fig)
+
+
 if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
     auroc_figure()
     roc_figure()
     defence_figure()
     sweep_figure()
+    family_figure()
     print(sorted(p.name for p in OUT.glob("*.png")))
