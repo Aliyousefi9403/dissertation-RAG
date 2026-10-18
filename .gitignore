@@ -36,7 +36,9 @@ data/raw/datasets/
 experiments/results/*
 !experiments/results/.gitkeep
 # Local Qdrant database
-qdrant_storage/node_modules/
+qdrant_storage/
+node_modules/
+.pytest_cache/
 .venv/
 qdrant_storage/
 __pycache__/
