@@ -14,7 +14,11 @@ lambda 0.5 domain / 0.5 English), built from the clean knowledge base the attack
 is poisoning. This is the strongest adaptive attacker for this detector: it knows
 the detector's reference exactly.
 
-  --variant adaptive   constrained attack  -> data/poisoned_adaptive/
+  --variant adaptive     constrained attack  -> data/poisoned_adaptive/
+  --variant adaptive_lm  second-order attack -> data/poisoned_adaptive_lm/
+                         adds a second rule aimed at the contextual detector
+                         (app/defence/contextual_filter.py): the swapped passage must be at
+                         least as probable as the original under the same language model
   --variant control    unconstrained PWWS  -> data/poisoned_pwws_rerun/
                        (matched control when the surrogate had to be retrained)
 
@@ -37,17 +41,23 @@ CLEAN_KB = base.CLEAN_KB
 VARIANTS = {
     "adaptive": PROJECT_ROOT / "data" / "poisoned_adaptive",
     "control": PROJECT_ROOT / "data" / "poisoned_pwws_rerun",
+    "adaptive_lm": PROJECT_ROOT / "data" / "poisoned_adaptive_lm",
 }
 
 
-def domain_frequency_constraint(reference: DomainReference):
-    """TextAttack constraint: reject swaps that make a word rarer under q."""
+def domain_frequency_constraint(reference: DomainReference, lm=None):
+    """TextAttack constraint: reject swaps that make a word rarer under q.
+
+    With `lm` (an object with log2_prob(texts) -> list[float]), also reject any
+    transformed text that is less probable than the original under that model.
+    """
     from textattack.constraints import Constraint
 
     class DomainFrequencyConstraint(Constraint):
         def __init__(self):
             super().__init__(compare_against_original=True)
             self.document = ""
+            self._base = {}
 
         def _check_constraint(self, transformed_text, reference_text):
             indices = transformed_text.attack_attrs.get("newly_modified_indices", set())
@@ -55,7 +65,12 @@ def domain_frequency_constraint(reference: DomainReference):
                 new, old = transformed_text.words[i].lower(), reference_text.words[i].lower()
                 if reference.probability(new, self.document) < reference.probability(old, self.document):
                     return False
-            return True
+            if lm is None or not indices:
+                return True
+            original = reference_text.text
+            if original not in self._base:
+                self._base = {original: lm.log2_prob([original])[0]}
+            return lm.log2_prob([transformed_text.text])[0] >= self._base[original]
 
         def extra_repr_keys(self):
             return ["compare_against_original"]
@@ -124,7 +139,11 @@ def main(variant: str) -> None:
     kb, manifest = prepare_output(VARIANTS[variant])
     wrapper = HuggingFaceModelWrapper(AutoModelForSequenceClassification.from_pretrained(base.MODEL_DIR),
                                       AutoTokenizer.from_pretrained(base.MODEL_DIR))
-    constraint = domain_frequency_constraint(DomainReference(CLEAN_KB)) if variant == "adaptive" else None
+    lm = None
+    if variant == "adaptive_lm":
+        from app.defence.contextual_filter import LanguageModel
+        lm = LanguageModel(max_tokens=1024)  # the whole section, so no swap escapes the rule
+    constraint = domain_frequency_constraint(DomainReference(CLEAN_KB), lm) if variant.startswith("adaptive") else None
     attack = build_attack(wrapper, constraint)
     label_map = json.loads(base.LABEL_MAP_FILE.read_text(encoding="utf-8"))
     entries = []

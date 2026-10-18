@@ -51,6 +51,24 @@ def test_constraint_allows_a_swap_to_an_equally_or_more_common_word(reference):
     assert constraint._check_constraint(untouched, untouched)
 
 
+class StubLM:
+    def __init__(self, scores):
+        self.scores = scores
+
+    def log2_prob(self, texts):
+        return [self.scores.get(t, -100.0) for t in texts]
+
+
+def test_second_order_constraint_also_requires_the_language_model_not_to_object(reference):
+    original, transformed = swap("An adversary may abnegate users access to a server", 3, "deny")
+    allowed = adaptive.domain_frequency_constraint(reference, StubLM({original.text: -50.0, transformed.text: -40.0}))
+    allowed.document = "ddos/http_flood.md"
+    assert allowed._check_constraint(transformed, original)
+    vetoed = adaptive.domain_frequency_constraint(reference, StubLM({original.text: -50.0, transformed.text: -60.0}))
+    vetoed.document = "ddos/http_flood.md"
+    assert not vetoed._check_constraint(transformed, original)
+
+
 def test_constraint_compares_against_the_original_text(reference):
     assert adaptive.domain_frequency_constraint(reference).compare_against_original
 
@@ -78,5 +96,5 @@ def test_outputs_are_create_only_and_never_touch_existing_corpora(tmp_path, monk
 
 
 def test_variants_write_only_to_new_folders():
-    assert {p.name for p in adaptive.VARIANTS.values()} == {"poisoned_adaptive", "poisoned_pwws_rerun"}
+    assert {p.name for p in adaptive.VARIANTS.values()} == {"poisoned_adaptive", "poisoned_pwws_rerun", "poisoned_adaptive_lm"}
     assert all(p.name != "poisoned" for p in adaptive.VARIANTS.values())

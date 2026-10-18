@@ -50,13 +50,14 @@ BATCH = 16
 
 
 class LanguageModel:
-    def __init__(self, name: str = LM_NAME):
+    def __init__(self, name: str = LM_NAME, max_tokens: int = MAX_TOKENS):
         try:
             import torch
             from transformers import AutoModelForCausalLM, AutoTokenizer
         except ImportError as error:
             raise DetectorUnavailable("transformers and torch are required for the contextual filter") from error
         self.torch = torch
+        self.max_tokens = max_tokens
         self.tok = AutoTokenizer.from_pretrained(name)
         self.tok.pad_token = self.tok.eos_token
         self.model = AutoModelForCausalLM.from_pretrained(name).eval()
@@ -68,7 +69,7 @@ class LanguageModel:
         with torch.no_grad():
             for i in range(0, len(texts), BATCH):
                 enc = self.tok([self.tok.bos_token + t for t in texts[i:i + BATCH]], return_tensors="pt",
-                               padding=True, truncation=True, max_length=MAX_TOKENS)
+                               padding=True, truncation=True, max_length=self.max_tokens)
                 logits = self.model(**enc).logits[:, :-1]
                 target = enc.input_ids[:, 1:]
                 mask = enc.attention_mask[:, 1:].bool()
