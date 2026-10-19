@@ -6,7 +6,7 @@ date: "Draft, October 2026"
 
 # Abstract
 
-Retrieval-augmented generation (RAG) makes the knowledge base part of a system's trust boundary. We study a quiet form of knowledge-base poisoning: word-level adversarial substitution (PWWS), which rewrites passages with plausible synonyms rather than injecting new text. On a cybersecurity RAG system over MITRE ATT&CK and CAPEC material, with a reviewed 44-question benchmark, paired repeated runs and a formatting-only control corpus, PWWS reduces answer correctness from 0.714 to 0.555 (Δ −0.159, 95% CI [−0.254, −0.068]), with the whole effect concentrated in questions whose source section was perturbed. We then treat detection as a relative-entropy problem. Whole-distribution divergences fail: letter-frequency KL is below chance (AUROC 0.33) and Jensen–Shannon divergence is near chance (0.47), because only a few words change in a passage. A per-word log-ratio between a word and its most probable synonym under a reference distribution q (a *synonym gap*) works, and replacing a word-frequency q by a small language model raises AUROC from 0.82 to 0.95 while falling to chance (0.53) on the formatting-only control. Deployed as a retrieval filter, this contextual detector halves the poisoned text reaching the generator (41% → 20% of questions, p = 0.012) and removes confidently wrong answers at no measurable correctness cost on clean data, but it does not restore correctness on poisoned data: filtering makes a poisoned knowledge base safe to read, not useful again. Against adaptive attackers, a frequency-matched PWWS defeats the word-frequency detector (AUROC 0.47) but not the contextual one (0.92), and an attacker that must also keep the passage as probable under the language model succeeds on none of 57 attackable sections: 98% of the swaps PWWS needs make the passage less probable, by a median of 17.9 bits. [TBD: budgeted attacker and TextFooler sentence.] All runs, records and analyses are released with checksums.
+Retrieval-augmented generation (RAG) makes the knowledge base part of a system's trust boundary. We study a quiet form of knowledge-base poisoning: word-level adversarial substitution (PWWS), which rewrites passages with plausible synonyms rather than injecting new text. On a cybersecurity RAG system over MITRE ATT&CK and CAPEC material, with a reviewed 44-question benchmark, paired repeated runs and a formatting-only control corpus, PWWS reduces answer correctness from 0.714 to 0.555 (Δ −0.159, 95% CI [−0.254, −0.068]), with the whole effect concentrated in questions whose source section was perturbed. We then treat detection as a relative-entropy problem. Whole-distribution divergences fail: letter-frequency KL is below chance (AUROC 0.33) and Jensen–Shannon divergence is near chance (0.47), because only a few words change in a passage. A per-word log-ratio between a word and its most probable synonym under a reference distribution q (a *synonym gap*) works, and replacing a word-frequency q by a small language model raises AUROC from 0.82 to 0.95 while falling to chance (0.53) on the formatting-only control. Deployed as a retrieval filter, this contextual detector halves the poisoned text reaching the generator (41% → 20% of questions, p = 0.012) and removes confidently wrong answers at no measurable correctness cost on clean data, but it does not restore correctness on poisoned data: filtering makes a poisoned knowledge base safe to read, not useful again. Against adaptive attackers, a frequency-matched PWWS defeats the word-frequency detector (AUROC 0.47) but not the contextual one (0.92), and an attacker that must also keep the passage as probable under the language model succeeds on none of 57 attackable sections: 98% of the swaps PWWS needs make the passage less probable, by a median of 17.9 bits. Relaxing that rule, the attacker needs to give up more than 20 bits of likelihood before it succeeds at all, and at most it reaches the 8 sections of the frequency-matched attacker, whose edits the contextual filter still flags (10 of 13). Both detectors generalise to TextFooler, a second attack with embedding-based substitutes (AUROC 0.90 and 0.91; the frozen contextual filter flags 85% of its edits). All runs, records and analyses are released with checksums.
 
 # 1 Introduction
 
@@ -26,7 +26,7 @@ We approach detection through relative entropy. If a passage's word distribution
 - A measured mechanism: PWWS poisoning works mainly by *displacing* relevant evidence and causing abstention, and only rarely by injecting misinformation that the model repeats (§5.1).
 - A family of relative-entropy detectors evaluated against a formatting-only control, showing that whole-distribution divergences fail, the per-word synonym gap works, and a language-model reference is both stronger and free of the layout confound (§4, §5.2).
 - Live evaluations of three retrieval-time defences (drop, repair-then-rescore, contextual drop) showing a consistent safety/utility trade-off (§5.3).
-- Adaptive attackers at increasing knowledge, with a swap-level explanation of why fooling the classifier while staying probable under a language model is hard in this setting (§5.4).
+- Adaptive attackers at increasing knowledge and budget, with a swap-level explanation of why fooling the classifier while staying probable under a language model is hard in this setting (§5.4), and a second attack, TextFooler, to test generality (§5.5).
 
 # 2 Related work
 
@@ -48,23 +48,25 @@ We approach detection through relative entropy. If a passage's word distribution
 
 **Formatting-only control.** The poisoning script also flattens the layout of the sections it rewrites. A control corpus applies the same flattening to the same sections with the original words, so that clean, control and poisoned isolate layout from substitution. Retrieval quality on the control equals clean, so the layout change alone does not harm retrieval.
 
-**Benchmark and protocol.** 44 reviewed questions, each with atomic reference facts and an exact source anchor (file hash, character offsets); development and held-out questions are separated by source document (35 / 9). Every question runs 3 times per condition, paired by schedule index with condition order alternated. Correctness (against reference facts) and faithfulness (against retrieved passages) are scored by an LLM judge with a fixed rubric; retrieval relevance by Hit@3 and reciprocal rank under a section-level rule; *edited-text exposure* records whether any PWWS-edited word reached the generator. Repetitions are deterministic at retrieval level, so the question is the unit of analysis: we report question-level cluster-bootstrap 95% intervals (10,000 resamples) and two-sided Wilcoxon signed-rank tests. Every run writes create-only JSON records with a SHA-256 completion manifest, and every number in this paper is checked against its source file by a script.
+**Benchmark and protocol.** 44 reviewed questions, each with atomic reference facts and an exact source anchor (file hash, character offsets); development and held-out questions are separated by source document (35 / 9). Every question runs 3 times per condition, paired by schedule index with condition order alternated. Correctness (against reference facts) and faithfulness (against retrieved passages) are scored by an LLM judge with a fixed rubric; retrieval relevance by Hit@3 and reciprocal rank under a section-level rule; *edited-text exposure* records whether any PWWS-edited word reached the generator. Repetitions are deterministic at retrieval level, so the question is the unit of analysis: we report question-level cluster-bootstrap 95% intervals (10,000 resamples) and two-sided Wilcoxon signed-rank tests. Every run writes create-only JSON records with a SHA-256 completion manifest, and the headline numbers in this paper are checked against their source files by a script.
 
 # 4 Relative-entropy detectors
 
-Let a passage contain words w₁…wₙ with empirical distribution p, and let q be a reference distribution over words.
+Let a passage contain words $w_1, \dots, w_n$ with empirical distribution $p$, and let $q$ be a reference distribution over words.
 
-**Whole-passage divergences.** KL(p‖q), Jensen–Shannon divergence JS(p, q) [16] and mean surprisal −(1/n) Σ log₂ q(wᵢ). We also report KL over letter frequencies, the textbook illustration of relative entropy.
+**Whole-passage divergences.** $\mathrm{KL}(p \,\|\, q) = \sum_x p(x) \log_2 \frac{p(x)}{q(x)}$ [13], Jensen–Shannon divergence $\mathrm{JS}(p, q)$ [16] and mean surprisal $-\frac{1}{n}\sum_i \log_2 q(w_i)$. We also report KL over letter frequencies, the textbook illustration of relative entropy.
 
-**Synonym gap.** For each content word w with WordNet synonyms S(w), the gap is
-g(w) = max over s in S(w) of [log₂ q(s) − log₂ q(w)],
+**Synonym gap.** For each content word $w$ with WordNet synonyms $S(w)$, the gap is
+
+$$g(w) = \max_{s \in S(w)} \big[\log_2 q(s) - \log_2 q(w)\big],$$
+
 the number of bits by which the most probable synonym beats the word actually used. This is the log-ratio term of KL evaluated at the substitution itself: a PWWS substitute ("abnegate") scores high because its likely original ("deny") is far more probable. A passage's score is the mean of its three largest gaps, so a few substitutions are enough to raise it.
 
-**References.** (i) General English word frequencies; (ii) a *domain* reference: leave-one-document-out counts from the rest of the knowledge base interpolated 50/50 with English, which needs no clean copy of the poisoned document; (iii) the same with a Dirichlet prior, q(w) = (c(w) + μ q_en(w)) / (N + μ), μ = 2000 [17]; and (iv) a *contextual* reference from a small causal language model (distilgpt2 [15]). For (iv), the candidate words are the 10 with the largest domain gap, and for each of their 5 most probable synonyms s,
+**References.** (i) General English word frequencies; (ii) a *domain* reference: leave-one-document-out counts from the rest of the knowledge base interpolated 50/50 with English, which needs no clean copy of the poisoned document; (iii) the same with a Dirichlet prior, $q(w) = \frac{c(w) + \mu\, q_{\mathrm{en}}(w)}{N + \mu}$ with $\mu = 2000$ [17]; and (iv) a *contextual* reference from a small causal language model (distilgpt2 [15]). For (iv), the candidate words are the 10 with the largest domain gap, and for each of their 5 most probable synonyms $s$,
 
-g_ctx(w) = log₂ p_LM(passage with w → s) − log₂ p_LM(passage),
+$$g_{\mathrm{ctx}}(w, s) = \log_2 p_{\mathrm{LM}}(\text{passage with } w \to s) - \log_2 p_{\mathrm{LM}}(\text{passage}),$$
 
-so the reference sees the whole sentence rather than the word alone. All scores use only information a defender has; attack labels are used for evaluation only. Thresholds are fixed on development documents at a 10% false-positive rate and never tuned on held-out documents or live answers.
+and the passage score is again the mean of the three largest gaps, so the reference sees the whole sentence rather than the word alone. All scores use only information a defender has; attack labels are used for evaluation only. Thresholds are fixed on development documents at a 10% false-positive rate and never tuned on held-out documents or live answers.
 
 # 5 Results
 
@@ -82,16 +84,19 @@ The degradation is confined to questions whose source section was perturbed; que
 
 ## 5.2 Detection
 
-| Detector (AUROC) | PWWS | PWWS, matched rerun | Control (layout only) | Adaptive, frequency-matched |
-|---|---|---|---|---|
-| Letter-frequency KL | 0.33 | – | 0.35 | 0.36 |
-| Word KL vs domain | 0.72 | – | 0.62 | 0.50 |
-| Jensen–Shannon vs domain | 0.47 | – | 0.43 | 0.44 |
-| Synonym gap, domain q (word frequency) | 0.82 [0.72, 0.90] | 0.88 [0.82, 0.94] | 0.67 [0.57, 0.77] | 0.47 [0.33, 0.72] |
-| Synonym gap, Dirichlet q | 0.83 | – | 0.68 | 0.48 |
-| **Contextual synonym gap (LM as q)** | **0.95 [0.87, 0.99]** | **0.97 [0.93, 1.00]** | **0.53 [0.45, 0.60]** | **0.92 [0.54, 0.96]** |
+| Detector (AUROC) | PWWS | PWWS, matched rerun | TextFooler | Control (layout only) | Adaptive, frequency-matched |
+|---|---|---|---|---|---|
+| Letter-frequency KL | 0.33 | – | 0.28 | 0.35 | 0.36 |
+| Word KL vs domain | 0.72 | – | 0.83 | 0.62 | 0.50 |
+| Jensen–Shannon vs domain | 0.47 | – | 0.48 | 0.43 | 0.44 |
+| Synonym gap, domain q (word frequency) | 0.82 [0.72, 0.90] | 0.88 [0.82, 0.94] | 0.90 [0.85, 0.94] | 0.67 [0.57, 0.77] | 0.47 [0.33, 0.72] |
+| Synonym gap, Dirichlet q | 0.83 | – | 0.90 | 0.68 | 0.48 |
+| **Contextual synonym gap (LM as q)** | **0.95 [0.87, 0.99]** | **0.97 [0.93, 1.00]** | **0.91 [0.84, 0.97]** | **0.53 [0.45, 0.60]** | **0.92 [0.54, 0.96]** |
+| *Edits flagged at the frozen contextual threshold* | *42 / 47* | *54 / 59* | *70 / 82* | – | *10 / 13* |
 
-*Table 2. Detection of passages containing substituted words (191 passages; 47 edited for PWWS, 59 for the matched rerun, 13 for the adaptive attack). Brackets: 95% bootstrap intervals resampling documents. [TBD: TextFooler column.]*
+*Table 2. Detection of passages containing substituted words (191 passages; 193 for TextFooler, whose edits change passage boundaries; edited passages: 47 PWWS, 59 matched rerun, 82 TextFooler, 13 adaptive). Brackets: 95% bootstrap intervals resampling documents (10,000 resamples). The frozen threshold (4.46 bits) was fixed on PWWS development documents and never re-tuned; it flags 9–14% of unedited passages.*
+
+![Figure 1. Word-frequency versus contextual synonym gap on every corpus, with document-clustered 95% intervals.](fig6_detector_robustness.png){width=95%}
 
 Three findings follow. First, **whole-distribution divergences fail**: letters keep English statistics under word swaps, and KL or JS over the whole word distribution dilutes the handful of changed words among a passage's hundred. Second, **the per-word log-ratio works**, and the choice of q matters more than the choice of divergence or smoothing (Dirichlet vs interpolation: 0.83 vs 0.82). Third, **the contextual reference is both stronger and cleaner**: it improves AUROC over the word-frequency gap on both PWWS corpora (paired differences +0.13 [+0.03, +0.21] and +0.09 [+0.03, +0.16]) and is at chance on the control, where the word-frequency gap still scores 0.67 because part of its signal comes from which (topic-specific) sections were attacked. Detections are also self-explaining: of 47 edited passages, the word-frequency gap flags 27, and for 22 of these its explanation (the highest-gap words with their likely originals) names the exact word PWWS had replaced (abnegate → deny, meshing → network, noesis → knowledge).
 
@@ -117,17 +122,24 @@ All three defences remove the confidently wrong answers. The contextual filter h
 | Unrestricted PWWS (matched control) | 39 | 59 | 0.88 | 0.97 |
 | First-order: every swap at least as frequent under the defender's q | 8 | 13 | **0.47** (0 of 13 flagged) | **0.92** |
 | Second-order, strict: also at least as probable under the LM | **0** | 0 | – | – |
-| [TBD] Second-order, budget 4.46 bits | [TBD] | [TBD] | [TBD] | [TBD] |
+| Second-order, may lose ≤ 4.46 bits (the detector's threshold) | **0** | 0 | – | – |
+| Second-order, may lose ≤ 20 bits | **0** | 0 | – | – |
+| Second-order, may lose ≤ 100 bits | 5 | 6 | 0.51 | 0.78 (3 of 6 flagged) |
+| Second-order, may lose ≤ 300 bits | 8 | 13 | 0.47 | 0.92 (10 of 13 flagged) |
 
 *Table 4. Adaptive attackers. The surrogate and sections are identical across rows, so the evasion rule is the only difference.*
 
 A first-order attacker that knows the word-frequency reference evades that detector completely, as designed, but the contextual detector still finds its edits: the attacker matched how common its words are, not whether they fit the sentence. Being sneaky is expensive: success falls from 39 to 8 sections.
 
-An attacker that must also keep each passage at least as probable under the detector's language model succeeds on none. A swap-level diagnostic explains why. Of the 550 swaps unrestricted PWWS used in its 39 successful attacks, 109 (20%) satisfy the frequency rule but only 9 (1.6%) leave the passage at least as probable, and 5 (0.9%) satisfy both; the median swap makes its passage 17.9 bits less probable, and none of the 39 complete attacks satisfies the rule. Natural source text sits close to a local maximum of language-model likelihood, and the substitutions that move a classifier are, almost by definition, ones that move the text away from it. [TBD: budgeted attacker result and interpretation.]
+An attacker that must also keep each passage at least as probable under the detector's language model succeeds on none. A swap-level diagnostic explains why. Of the 550 swaps unrestricted PWWS used in its 39 successful attacks, 109 (20%) satisfy the frequency rule but only 9 (1.6%) leave the passage at least as probable, and 5 (0.9%) satisfy both; the median swap makes its passage 17.9 bits less probable, and none of the 39 complete attacks satisfies the rule. Natural source text sits close to a local maximum of language-model likelihood, and the substitutions that move a classifier are, almost by definition, ones that move the text away from it.
+
+Relaxing the rule shows how much likelihood the attacker must give up (Figure 2). Allowed to lose up to 4.46 bits, the contextual filter's own threshold, or even 20 bits, it still succeeds on no section. At 100 bits it succeeds on 5; the word-frequency detector is at chance on the resulting 6 edited passages, while the contextual detector scores 0.78 and the frozen filter flags 3 of them (with 6 positives this interval is wide, [0.53, 1.00]). At 300 bits the language-model rule stops binding: the attack produces exactly the same knowledge base as the frequency-matched attacker (identical edits in the same 8 sections), and the 5 successes at 100 bits are a subset of those 8. Because the second-order attacker must also satisfy the frequency rule, its success is capped at those 8 sections, not at plain PWWS's 39, and at that cap the contextual filter flags 10 of the 13 edits. In this attacker family, then, no attacker evades the contextual detector: those that satisfy its rule fail to attack, and those that succeed are flagged.
+
+![Figure 2. Second-order attacker: successful sections as the allowed loss of language-model likelihood grows, with the share of resulting edits flagged by the frozen contextual filter.](fig7_attacker_budget.png){width=95%}
 
 ## 5.5 A second attack
 
-[TBD: TextFooler (counter-fitted embeddings, sentence-encoder constraint) with the same surrogate and sections: successful sections, detector AUROCs with intervals.]
+TextFooler [6] draws substitutes from counter-fitted word embeddings under part-of-speech and sentence-encoder constraints, rather than from WordNet. Run with the same surrogate on the same sections, it is the stronger attack: 49 of 57 sections (PWWS: 39), 82 edited passages. Both synonym-gap detectors transfer without change (Table 2): AUROC 0.90 for the word-frequency reference and 0.91 for the contextual one, and at the thresholds frozen on PWWS development documents the contextual filter flags 70 of 82 edits (85%) at a 9% false-positive rate, against 43 of 82 (52%) for the word-frequency filter. The synonym gap looks for likely originals among WordNet synonyms even though TextFooler's substitutes do not come from WordNet; a likely reason, not measured separately, is that embedding neighbours are also rarer in this domain and less fitting in context than the words they replace. Whole-distribution measures again fail (letter KL 0.28, JS 0.48).
 
 # 6 Discussion
 
@@ -141,7 +153,7 @@ An attacker that must also keep each passage at least as probable under the dete
 
 # 7 Limitations
 
-One knowledge base (18 documents), one generation model, one embedding model and 44 questions, of which 9 are held out; held-out detection results rest on few positive passages, and the adaptive results rest on 13 edited passages. The attack targets a surrogate classifier, not the RAG pipeline itself; transfer to retrieval and answers is measured, not optimised. Correctness and faithfulness are scored by an LLM judge; a blind manual check of a stratified sample of 75 answers is prepared but not yet graded. The contextual detector uses a small language model (distilgpt2); a larger or domain-tuned model may change both detection and the attacker's budget. Thresholds were fixed once on development data; the safety/utility balance depends on them.
+One knowledge base (18 documents), one generation model, one embedding model and 44 questions, of which 9 are held out; held-out detection results rest on few positive passages, and the adaptive results rest on 13 (frequency-matched, 300-bit) and 6 (100-bit) edited passages, all in development documents. The second-order attacker constrains whole-passage likelihood, which is what the contextual log-ratio compares, but it does not optimise against the detector's score directly; such an attacker, or a larger reference model, may behave differently. The attack targets a surrogate classifier, not the RAG pipeline itself; transfer to retrieval and answers is measured, not optimised. Correctness and faithfulness are scored by an LLM judge; a blind manual check of a stratified sample of 75 answers is prepared but not yet graded. The contextual detector uses a small language model (distilgpt2); a larger or domain-tuned model may change both detection and the attacker's budget. Thresholds were fixed once on development data; the safety/utility balance depends on them.
 
 # 8 Ethics
 
