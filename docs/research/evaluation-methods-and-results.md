@@ -568,6 +568,47 @@ Outcomes (132 answers each): poisoned 49 correct, 36 partial, 2 incorrect, 45 ab
 
 **Limits.** One generation model, one corpus, 44 questions (9 held-out); the contextual-vs-word-frequency differences in exposure and correctness are not significant at this size. The threshold was fixed offline at a 10% development false-positive rate; a lower threshold would trade more abstention for less exposure (§13 shows the shape of that trade-off for the word-frequency score).
 
+## 18. A second attack (TextFooler) and second-order adaptive attackers (Plans B and C, 18–19 Oct 2026)
+
+All attacks in this section use the retrained surrogate of §16 and the same 88 eligible sections; the same 31 sections are skipped by every attack (the surrogate already misclassifies them), leaving 57 attackable sections. Attack code: `backend/app/attack/pwws_adaptive_kb.py` (create-only outputs under `backend/data/poisoned_*/`, each with an attack manifest, per-file checkpoints in `parts/` and a `run_log.jsonl` of start/resume/finish events). Detector code and labels as in §16; intervals and frozen-threshold rates from `docs/research/scripts/auroc_uncertainty.py` → `docs/research/results/detector-uncertainty/auroc-intervals.json`.
+
+**Infrastructure note.** The container restarted twice during these runs. The attack script now checkpoints each finished file and resumes with `--resume` (an unfinished file restarts from its clean text), several workers can share a corpus through per-file locks (boot-aware, since process ids are reused after a restart), and the language-model rule is checked in batches of 4 (16 whole sections at once exhausted memory). These changes do not alter any attack rule; a test checks the batched rule against the one-at-a-time rule. Partial outputs of the first, interrupted attempts were set aside unused.
+
+**TextFooler (Plan C).** `--variant textfooler` runs TextFoolerJin2019 [Jin et al. 2020]: substitutes from counter-fitted word embeddings, with part-of-speech and sentence-encoder constraints, instead of WordNet. It is the stronger attack here: **49 of 57** sections (PWWS: 39), 82 edited chunks of 193.
+
+| AUROC [95% document-clustered interval] | PWWS (matched) | TextFooler |
+|---|---|---|
+| Letter-frequency KL | – | 0.28 |
+| Word KL vs domain | – | 0.83 |
+| Jensen–Shannon vs domain | – | 0.48 |
+| Synonym gap, word-frequency q (deployed) | 0.88 [0.82, 0.94] | 0.90 [0.85, 0.94] |
+| Contextual synonym gap (LM as q) | 0.97 [0.93, 1.00] | 0.91 [0.84, 0.97] |
+
+At the **frozen deployed thresholds** (fixed on the original PWWS development documents, never re-tuned), the contextual filter flags 70 of 82 TextFooler edits (85%) at a 9% false-positive rate, and the word-frequency filter 43 of 82 (52%) at 6%. Both detectors therefore generalise to an attack whose substitutes do not come from WordNet, although the synonym gap looks for originals among WordNet synonyms. A likely explanation (not measured separately) is that TextFooler's embedding neighbours are, like PWWS's WordNet substitutes, rarer in this domain and less fitting in context than the words they replace, and that a WordNet synonym of the substitute is often close to the original.
+
+**Second-order adaptive attackers (Plan B).** `--variant adaptive_lm` adds a second rule to the first-order attacker of §16: the attacked section must be at least as probable under distilgpt2 (whole section, up to 1024 tokens) as the original. `--variant adaptive_lm_budget --budget-bits B` relaxes it: the section may become up to B bits less probable. B = 4.46 is the contextual filter's threshold.
+
+| Attacker (57 attackable sections) | Successful | Edited chunks | Word-frequency gap AUROC | Contextual gap AUROC |
+|---|---|---|---|---|
+| Unrestricted PWWS (matched control) | 39 | 59 | 0.88 | 0.97 |
+| First-order (frequency rule only, §16) | 8 | 13 | 0.47 | 0.92 |
+| Second-order, strict (B = 0) | **0** | 0 | – | – |
+| Second-order, B = 4.46 bits | **0** | 0 | – | – |
+| Second-order, B = 20 bits | **0** | 0 | – | – |
+| Second-order, B = 100 bits | 5 | 6 | 0.51 [0.26, 0.69] | 0.78 [0.53, 1.00] |
+| Second-order, B = 300 bits | 8 | 13 | 0.47 | 0.92 |
+
+*Why the strict attacker fails* (`docs/research/scripts/second_order_diagnostic.py` → `results/adaptive-attack/second-order-diagnostic.json`). Of the 550 word swaps unrestricted PWWS used in its 39 successful attacks, 109 (20%) satisfy the frequency rule, 9 (1.6%) leave the section at least as probable under the language model, and 5 (0.9%) satisfy both. The median swap makes its section 17.9 bits less probable; the complete attacks cost between 7 and 1,041 bits (median 106), and none satisfies the strict rule. The rule is not vacuous: it accepts the identity edit and the few swaps that raise probability.
+
+**Findings.**
+- *Fooling the classifier and staying natural are in conflict.* Source text sits near a local maximum of language-model likelihood, and the swaps that move the classifier move the text away from it. An attacker who must not lower likelihood at all, or by no more than the detector's threshold, or even by 20 bits, succeeds on none of 57 sections; at 100 bits it succeeds on 5.
+- *What gets through at 100 bits is still partly visible.* The word-frequency detector is at chance on those 6 edited chunks (0.51), the contextual detector is not (0.78; the frozen filter flags 3 of the 6), but with 6 positives, all in development documents, the interval is wide.
+- *At 300 bits the language-model rule stops binding.* The 300-bit attack produces exactly the same knowledge base as the first-order attacker of §16 (same 8 sections, identical adversarial text; `diff -r` of the two corpora is empty), and its 5 successes at 100 bits are a subset of those 8. So the curve runs from 0 successes (B ≤ 20) to the first-order attacker's 8 (B ≥ 300), never towards unrestricted PWWS's 39, because the second-order attacker also keeps the frequency rule. At that end the contextual detector still scores 0.92 and the frozen filter flags 10 of 13 edits (Figure 7, `docs/research/figures/fig7_attacker_budget.png`).
+- *No attacker in this family evades the contextual detector:* those that satisfy its rule fail to attack, and those that succeed are flagged.
+- *The detector constrains the attacker more than the attacker evades the detector.* Each step of knowledge the attacker uses to evade a better reference removes most of the swaps that make the attack work: 39 → 8 sections against the word-frequency reference, 39 → 0 against the language-model reference at its threshold.
+
+**Limits.** One surrogate, one corpus and a small language model (distilgpt2); a larger reference model, or an attacker optimising directly against the contextual score rather than total likelihood, could behave differently. The second-order rule measures whole-section likelihood, which is what the contextual detector's log-ratio compares, but it is not identical to the detector's score.
+
 ## 9. Reproducing every number in this document
 
 ```bash
@@ -585,4 +626,18 @@ cat backend/data/poisoned/pwws_attack_manifest_summary.json
 cd backend && PYTHONPATH=. python ../docs/research/scripts/threshold_sweep.py /tmp/sweep && cd ..
 python docs/research/scripts/judge_agreement.py score docs/research/results/judge-agreement
 python docs/research/scripts/verify_evidence.py
+# §17: live contextual-filter run (needs Qdrant and LLM_API_KEY), then its offline analysis
+cd backend && AEGIS_BENCHMARK_FILE=$PWD/data/evaluation/questions_v1.json PYTHONPATH=. python ../docs/research/scripts/run_defence_eval.py ../pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e ../pilot-runs contextual
+PYTHONPATH=. python ../docs/research/scripts/analyse_defence.py ../pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e ../pilot-runs/20261018T180113Z-contextual-a2eb543b82974c5aa4c1502de6e555a7 /tmp/ctx ../pilot-runs/20261017T165331Z-defence-cebfb27c1e9048cdb61fbfe15f37e50d ../pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c
+# §18: attacks (attack environment; create-only; add --resume to continue, several workers may run at once)
+python -m app.attack.pwws_adaptive_kb --variant textfooler
+python -m app.attack.pwws_adaptive_kb --variant adaptive_lm
+python -m app.attack.pwws_adaptive_kb --variant adaptive_lm_budget                     # 4.4611 bits
+python -m app.attack.pwws_adaptive_kb --variant adaptive_lm_budget --budget-bits 20    # also 100, 300
+python ../docs/research/scripts/second_order_diagnostic.py /tmp/diag.json
+# detectors on any corpus (e.g. poisoned_textfooler), then intervals, frozen-threshold rates and figures
+PYTHONPATH=. python ../docs/research/scripts/entropy_detection_eval.py /tmp/det.json poisoned_textfooler
+PYTHONPATH=. python ../docs/research/scripts/entropy_family_eval.py /tmp/fam.json poisoned_textfooler && cd ..
+python docs/research/scripts/auroc_uncertainty.py /tmp/intervals.json
+python docs/research/scripts/make_figures.py
 ```

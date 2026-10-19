@@ -29,6 +29,7 @@ RUNS = ("pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e",
         "pilot-runs/20261018T180113Z-contextual-a2eb543b82974c5aa4c1502de6e555a7")
 CTX = f"{RES}/contextual-defence/live-paired/summary.json"
 DIAG = f"{RES}/adaptive-attack/second-order-diagnostic.json"
+IV = f"{RES}/detector-uncertainty/auroc-intervals.json"
 
 
 def manifest_count(corpus, result):
@@ -112,6 +113,19 @@ CLAIMS = [
     ("Diagnostic: swaps passing the LM rule", DIAG, ["summary", "pass_lm_rule"], 9),
     ("Diagnostic: swaps passing both rules", DIAG, ["summary", "pass_both_rules"], 5),
     ("Diagnostic: median LM cost of a swap (bits)", DIAG, ["summary", "median_lm_delta_bits"], -17.861),
+    ("Second-order (20-bit budget): successful sections", "backend/data/poisoned_adaptive_lm_budget_20/pwws_attack_manifest.jsonl",
+     [manifest_count("poisoned_adaptive_lm_budget_20", "SuccessfulAttackResult")], 0),
+    ("Second-order (100-bit budget): successful sections", "backend/data/poisoned_adaptive_lm_budget_100/pwws_attack_manifest.jsonl",
+     [manifest_count("poisoned_adaptive_lm_budget_100", "SuccessfulAttackResult")], 5),
+    ("Second-order (300-bit budget): successful sections", "backend/data/poisoned_adaptive_lm_budget_300/pwws_attack_manifest.jsonl",
+     [manifest_count("poisoned_adaptive_lm_budget_300", "SuccessfulAttackResult")], 8),
+    ("Second-order (100-bit): contextual gap AUROC", f"{FAM}/family-poisoned_adaptive_lm_budget_100.json", ["results", "all", "ctx_syngap_top3", "auroc"], 0.78),
+    ("Second-order (300-bit): contextual gap AUROC", f"{FAM}/family-poisoned_adaptive_lm_budget_300.json", ["results", "all", "ctx_syngap_top3", "auroc"], 0.92),
+    ("Intervals: contextual minus word-frequency AUROC, PWWS", IV, ["corpora", "poisoned", "family", "scores", "ctx_syngap_top3_minus_syngap_top3_domain", "difference"], 0.131),
+    ("Intervals: contextual AUROC on PWWS, lower bound", IV, ["corpora", "poisoned", "family", "scores", "ctx_syngap_top3", "ci95", 0], 0.87),
+    ("Frozen contextual threshold: TextFooler edits flagged", IV, ["corpora", "poisoned_textfooler", "frozen_thresholds", "ctx_syngap_top3", "edited_flagged"], 70),
+    ("Frozen contextual threshold: first-order adaptive edits flagged", IV, ["corpora", "poisoned_adaptive", "frozen_thresholds", "ctx_syngap_top3", "edited_flagged"], 10),
+    ("Frozen contextual threshold: PWWS edits flagged", IV, ["corpora", "poisoned", "frozen_thresholds", "ctx_syngap_top3", "edited_flagged"], 42),
 ]
 
 

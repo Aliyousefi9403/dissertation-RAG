@@ -227,7 +227,8 @@ def dose_response_figure():
     data = ROOT / "backend/data"
     levels = [("poisoned_adaptive_lm", "0\n(strict)"), ("poisoned_adaptive_lm_budget", "4.46\n(= threshold)"),
               ("poisoned_adaptive_lm_budget_20", "20"), ("poisoned_adaptive_lm_budget_100", "100"),
-              ("poisoned_adaptive_lm_budget_300", "300"), ("poisoned_pwws_rerun", "no limit\n(plain PWWS)")]
+              ("poisoned_adaptive_lm_budget_300", "300"), ("poisoned_adaptive", "no LM rule\n(first-order)"),
+              ("poisoned_pwws_rerun", "reference:\nplain PWWS")]
     levels = [(c, label) for c, label in levels if (data / c / "pwws_attack_manifest.jsonl").exists()]
     intervals = RESULTS / "detector-uncertainty/auroc-intervals.json"
     frozen = json.loads(intervals.read_text())["corpora"] if intervals.exists() else {}
@@ -235,8 +236,9 @@ def dose_response_figure():
     for c, _ in levels:
         lines = (data / c / "pwws_attack_manifest.jsonl").read_text().splitlines()
         counts.append(sum(json.loads(line)["success"] for line in lines if line.strip()))
-    fig, ax = plt.subplots(figsize=(7.2, 3.8), dpi=200)
-    bars = ax.bar(range(len(levels)), counts, width=0.6, color=BLUE)
+    fig, ax = plt.subplots(figsize=(7.6, 4.0), dpi=200)
+    bars = ax.bar(range(len(levels)), counts, width=0.6,
+                  color=[MUTED if c == "poisoned_pwws_rerun" else BLUE for c, _ in levels])
     for k, ((c, _), bar, n) in enumerate(zip(levels, bars, counts)):
         ax.text(k, n + 0.8, f"{n} of 57", ha="center", fontsize=8, color=INK)
         ctx = frozen.get(c, {}).get("frozen_thresholds", {}).get("ctx_syngap_top3")
@@ -244,7 +246,8 @@ def dose_response_figure():
             ax.text(k, n + 3.6, f"filter flags\n{ctx['edited_flagged']} of {ctx['edited']} edits", ha="center",
                     fontsize=6.5, color=MUTED)
     ax.set_xticks(range(len(levels)), [label for _, label in levels], fontsize=8)
-    ax.set_xlabel("How much less probable (bits, distilgpt2) the attacker may make each passage")
+    ax.set_xlabel("Second-order attacker: how much less probable (bits, distilgpt2) each passage may become\n"
+                  "(every bar but the grey reference also keeps the word-frequency rule)", fontsize=8)
     ax.set_ylabel("Sections attacked successfully")
     ax.set_ylim(0, 57)
     ax.grid(axis="y", color=GRID, lw=0.6)
