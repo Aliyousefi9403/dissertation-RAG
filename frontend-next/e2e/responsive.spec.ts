@@ -24,17 +24,23 @@ for (const viewport of VIEWPORTS) {
 
     test(`idle state adapts sidebar and has no horizontal clipping`, async ({ page }) => {
       await page.goto("/");
-      // Backend health text lives inside the sidebar, which is hidden at
-      // <=900px width per the `@media (max-width: 900px)` rule — the
-      // status text itself is not expected to be visible on this
-      // viewport, only the composer/living-core.
       await expect(page.locator(".composer textarea")).toBeVisible({ timeout: 20_000 });
 
-      // Sidebar should be present in the DOM but not visually rendered
-      // (display: none) below the 900px breakpoint.
+      // Sidebar per globals.css: <=1024px an icons-only rail (60px);
+      // <=768px a slide-in drawer, translated off-screen until the toggle
+      // opens it (Playwright counts a translated element as visible, so
+      // check its box rather than visibility).
       const sidebar = page.locator(".sidebar");
       await expect(sidebar).toBeAttached();
-      await expect(sidebar).toBeHidden();
+      const box = await sidebar.boundingBox();
+      expect(box).not.toBeNull();
+      if (viewport.width > 768) {
+        await expect(sidebar).toBeVisible();
+        expect(box!.width).toBeLessThanOrEqual(64);
+      } else {
+        expect(box!.x + box!.width).toBeLessThanOrEqual(1);
+        await expect(page.locator(".sidebar-toggle")).toBeVisible();
+      }
 
       await assertNoHorizontalOverflow(page);
 

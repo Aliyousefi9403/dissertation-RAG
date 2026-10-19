@@ -8,9 +8,10 @@ test.describe("Desktop (1440x900)", () => {
     await page.goto("/");
     await waitForBackendOnline(page);
 
-    // Living core hero slot present and visible.
-    await expect(page.locator(".living-core-stage--hero")).toBeVisible();
-    await expect(page.locator(".living-core-slot")).toBeVisible();
+    // Living core hero slot present (a layout slot: the core itself is drawn
+    // by the fixed canvas frame, checked as canvas-or-fallback below).
+    await expect(page.locator(".living-core-stage--hero")).toBeAttached();
+    await expect(page.locator(".living-core-slot")).toBeAttached(); // zero-height marker (globals.css)
 
     // Either the real 3D canvas or the static DOM/CSS fallback must be
     // present (never neither) — whichever WebGL resolves to in this
