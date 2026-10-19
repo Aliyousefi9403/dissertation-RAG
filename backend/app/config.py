@@ -12,12 +12,15 @@ KNOWLEDGE_BASE_PATHS = {
     "clean": PROJECT_ROOT / "data" / "raw" / "knowledge_base",
     "poisoned": PROJECT_ROOT / "data" / "poisoned" / "knowledge_base",
     "defended": PROJECT_ROOT / "data" / "defended" / "knowledge_base",
+    # Research-only state (not accepted by the API): the TextFooler-poisoned corpus.
+    "textfooler": PROJECT_ROOT / "data" / "poisoned_textfooler" / "knowledge_base",
 }
 QDRANT_URL = "http://localhost:6333"
 QDRANT_COLLECTIONS = {
     "clean": "cybersecurity_knowledge_base",
     "poisoned": "cybersecurity_knowledge_base_poisoned",
     "defended": "cybersecurity_knowledge_base_defended",
+    "textfooler": "cybersecurity_knowledge_base_textfooler",
 }
 
 DEFAULT_SYSTEM_STATE = "clean"

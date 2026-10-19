@@ -10,6 +10,10 @@ retries. Records are create-only JSON with a completion checksum file.
 
 With a third argument `contextual`, the conditions are `contextual` and `clean_contextual`
 (policy contextual-filter-v1: the drop defence with a language-model reference q).
+With a third argument `textfooler`, the conditions are `textfooler` (the TextFooler-poisoned
+collection, no defence), `textfooler_defended` (behind entropy-filter-v1) and
+`textfooler_contextual` (behind contextual-filter-v1), all on the same corpus, so both frozen
+filters are tested on a second attack without re-tuning.
 With a third argument `repair`, the conditions are `repaired` and `clean_repaired`
 (policy entropy-repair-v1: repair words above 9.5 bits, rescore, keep if under the
 same threshold); everything else is identical.
@@ -40,6 +44,7 @@ from app.generation import rag_chain
 CONDITIONS = {"defended": "poisoned", "clean_filtered": "clean"}
 REPAIR_CONDITIONS = {"repaired": "poisoned", "clean_repaired": "clean"}
 CONTEXTUAL_CONDITIONS = {"contextual": "poisoned", "clean_contextual": "clean"}
+TEXTFOOLER_CONDITIONS = {"textfooler": "textfooler", "textfooler_defended": "textfooler", "textfooler_contextual": "textfooler"}
 TIMEOUT = 60
 # Code changes shown not to alter a run's behaviour, so a run may resume across them.
 # contextual_filter.py: LanguageModel gained an optional max_tokens (default unchanged, used by the
@@ -61,10 +66,23 @@ def llm_factory(temperature=None):
 
 
 def main(main_run_dir, output_root, mode="drop"):
-    repair, contextual = mode == "repair", mode == "contextual"
-    conditions = REPAIR_CONDITIONS if repair else CONTEXTUAL_CONDITIONS if contextual else CONDITIONS
-    if contextual:
+    repair, contextual, textfooler = mode == "repair", mode == "contextual", mode == "textfooler"
+    conditions = (REPAIR_CONDITIONS if repair else CONTEXTUAL_CONDITIONS if contextual
+                  else TEXTFOOLER_CONDITIONS if textfooler else CONDITIONS)
+    if contextual or textfooler:
         from app.defence import contextual_filter as cxf
+
+    def retrieval_for(condition, source_state, capture):
+        """The retrieval function for one condition (None: the pipeline's own, undefended)."""
+        if textfooler:
+            if condition == "textfooler":
+                return None
+            if condition.endswith("_contextual"):
+                return cxf.make_filtered_retrieval(source_state, capture=capture)
+            return ef.make_filtered_retrieval(source_state, capture=capture)
+        if contextual:
+            return cxf.make_filtered_retrieval(source_state, capture=capture)
+        return ef.make_filtered_retrieval(source_state, capture=capture, repair=repair)
     main_run = Path(main_run_dir)
     main_manifest = json.loads((main_run / "manifest.json").read_text())
     benchmark_path = Path(config.PROJECT_ROOT) / "data/evaluation/questions_v1.json"
@@ -77,18 +95,20 @@ def main(main_run_dir, output_root, mode="drop"):
                   "docs/research/scripts/run_defence_eval.py"]
     resumed = (Path(output_root) / "manifest.json").exists()
     if resumed:
-        return resume(Path(output_root), main_manifest, questions, conditions, project, code_files,
-                      cxf.make_filtered_retrieval if contextual else None, repair)
-    run = Path(output_root) / (datetime.now(timezone.utc).strftime(f"%Y%m%dT%H%M%SZ-{'repair' if repair else 'contextual' if contextual else 'defence'}-") + uuid.uuid4().hex)
+        return resume(Path(output_root), main_manifest, questions, conditions, project, code_files, retrieval_for)
+    kind = "repair" if repair else "contextual" if contextual else "textfooler" if textfooler else "defence"
+    run = Path(output_root) / (datetime.now(timezone.utc).strftime(f"%Y%m%dT%H%M%SZ-{kind}-") + uuid.uuid4().hex)
     (run / "observations").mkdir(parents=True)
     write_new_json(run / "manifest.json", {
         "schema_version": 1, "run_id": run.name, "started_at": utc_now(),
-        "purpose": f"Live evaluation of the {'entropy-repair' if repair else 'contextual-filter' if contextual else 'entropy-filter'} defence, paired with the main run by schedule index",
+        "purpose": ("Live evaluation of both frozen filters on the TextFooler corpus, paired with the main run by schedule index" if textfooler
+                    else f"Live evaluation of the {'entropy-repair' if repair else 'contextual-filter' if contextual else 'entropy-filter'} defence, paired with the main run by schedule index"),
         "paired_main_run": main_manifest["run_id"], "benchmark_sha256": sha256(benchmark_bytes),
         "conditions": conditions, "schedule": main_manifest["schedule"],
         "defence": {"policy_version": ef.REPAIR_POLICY_VERSION if repair else cxf.POLICY_VERSION if contextual else ef.POLICY_VERSION,
+                    **({"contextual_policy_version": cxf.POLICY_VERSION} if textfooler else {}),
                     **({"contextual_threshold_bits": cxf.THRESHOLD_BITS, "lm": cxf.LM_NAME,
-                        "candidate_words": cxf.CANDIDATE_WORDS, "candidate_synonyms": cxf.CANDIDATE_SYNONYMS} if contextual else {}),
+                        "candidate_words": cxf.CANDIDATE_WORDS, "candidate_synonyms": cxf.CANDIDATE_SYNONYMS} if contextual or textfooler else {}),
                     **({"word_repair_bits": ef.WORD_REPAIR_BITS} if repair else {}), "score": ef.SCORE_NAME, "threshold_bits": ef.THRESHOLD_BITS,
                     "candidate_k": ef.CANDIDATE_K, "keep": ef.KEEP, "lambda": ef.LAMBDA, "floor": ef.FLOOR},
         "config": {"LLM_MODEL": config.LLM_MODEL, "LLM_TEMPERATURE": config.LLM_TEMPERATURE,
@@ -97,10 +117,10 @@ def main(main_run_dir, output_root, mode="drop"):
                    "timeout_seconds": TIMEOUT, "sdk_retries": 0},
         "code_sha256": {f: sha256((project / f).read_bytes()) for f in code_files},
     })
-    execute(run, main_manifest, questions, conditions, contextual and cxf.make_filtered_retrieval, repair)
+    execute(run, main_manifest, questions, conditions, retrieval_for)
 
 
-def resume(run, main_manifest, questions, conditions, project, code_files, contextual_retrieval, repair):
+def resume(run, main_manifest, questions, conditions, project, code_files, retrieval_for):
     manifest = json.loads((run / "manifest.json").read_text())
     assert manifest["paired_main_run"] == main_manifest["run_id"], "run is paired with a different main run"
     assert manifest["conditions"] == conditions, "run was started in a different mode"
@@ -115,10 +135,10 @@ def resume(run, main_manifest, questions, conditions, project, code_files, conte
         handle.write(json.dumps({"event": "resume", "at": utc_now(), "records_already_written": len(done),
                                  "runner_sha256_at_start": manifest["code_sha256"].get(runner),
                                  "runner_sha256_now": current[runner]}) + "\n")
-    execute(run, main_manifest, questions, conditions, contextual_retrieval, repair)
+    execute(run, main_manifest, questions, conditions, retrieval_for)
 
 
-def execute(run, main_manifest, questions, conditions, contextual_retrieval, repair):
+def execute(run, main_manifest, questions, conditions, retrieval_for):
     written = []
     for unit in main_manifest["schedule"]:
         q = questions[unit["question_id"]]
@@ -135,8 +155,7 @@ def execute(run, main_manifest, questions, conditions, contextual_retrieval, rep
             try:
                 result = rag_chain.answer_question(
                     q["question"], system_state=condition, capture=capture, llm_factory=llm_factory,
-                    retrieval_fn=(contextual_retrieval(source_state, capture=capture) if contextual_retrieval
-                                  else ef.make_filtered_retrieval(source_state, capture=capture, repair=repair)))
+                    retrieval_fn=retrieval_for(condition, source_state, capture))
                 answer = result["answer"]
             except Exception as error:  # recorded, never hidden
                 answer = None
