@@ -1,0 +1,82 @@
+# Operating System Fingerprinting
+
+
+## Metadata
+
+
+- Attack key: `os_fingerprinting`
+- Category: `reconnaissance`
+- Origin: `clean`
+- Document status: `generated_from_authoritative_sources`
+- CAPEC ID: `CAPEC-312`
+- ATT&CK ID: `T1046`
+
+
+## Attack description
+
+
+An adversary engages in activity to detect the operating system or firmware version of a remote target by interrogating a device, server, or platform with a probe designed to solicit behavior that will reveal information about the operating systems or firmware in the environment. Operating System detection is possible because implementations of common protocols (Such as IP or TCP) differ in distinct ways. While the implementation differences are not sufficient to 'break' compatibility with the protocol the differences are detectable because the target will respond in unique ways to specific probing activity that breaks the semantic or logical rules of packet construction for a protocol. Different operating systems will have a unique response to the anomalous input, providing the basis to fingerprint the OS behavior. This type of OS fingerprinting can distinguish between operating system types and versions.
+
+
+## Prerequisites
+
+
+The ability to monitor and interact with network communications.Access to at least one host, and the privileges to interface with the network interface card.
+
+
+## Required resources
+
+
+<xhtml:p>Any type of active probing that involves non-standard packet headers requires the use of raw sockets, which is not available on particular operating systems (Microsoft Windows XP SP 2, for example). Raw socket manipulation on Unix/Linux requires root privileges.</xhtml:p>
+               <xhtml:p>A tool capable of sending and receiving packets from a remote system.</xhtml:p>
+
+
+## Consequences
+
+
+Access_Control: ['Hide Activities']; Authorization: ['Hide Activities']; Confidentiality: ['Read Data', 'Hide Activities']
+
+
+## ATT&CK adversary context
+
+
+**Technique:** Network Service Discovery Adversaries may attempt to get a number of services work on remote hosts and local network infrastructure devices, including those that may be vulnerable to remote software exploitation. Common methods to acquire this information include port, vulnerability, and/or wordlist scans use tools that are brought onto a system.(Citation: CISA AR21-126A FIVEHANDS May 2021) Within cloud environments, adversary may attempt to key services work on other cloud hosts. Additionally, if the cloud environment is connected to a on-premises environment, adversaries may be able to key services go on non-cloud systems as well. Within macOS environment, adversaries may use the native Bonjour application to key services work on other macOS hosts within a network. The Bonjour mDNSResponder daemon automatically registers and advertises a host’s show services on the network. For example, adversaries can use a mDNS query (such as <code>dns-sd -B _ssh._tcp .</code>) to find other systems broadcast the ssh service.(quote: apple doco bonjour description)(mention: macOS liable Activity Bradley)
+
+## Affected platforms
+
+
+- Containers
+- IaaS
+- Linux
+- macOS
+- Network Devices
+- Windows
+
+
+## Detection indicators
+
+
+Detection content is not automatically inferred. It must be added from an explicitly mapped authoritative detection source and reviewed before experimental use.
+
+
+## Prevention and mitigation
+
+
+Mitigation guidance in this document is limited to content explicitly present in the mapped CAPEC or ATT&CK sources. OWASP, NIST, CISA, or other guidance must be ingested separately before being represented as source-derived content.
+
+
+## Source mapping
+
+
+- CAPEC: CAPEC-312 — role: active_fingerprinting_mechanism; required
+- CAPEC: CAPEC-313 — role: passive_fingerprinting_context; required
+- MITRE_ATTACK_ENTERPRISE: T1046 — role: network_reconnaissance_context; optional
+
+
+## Provenance
+
+
+- Generated automatically: yes
+- LLM-generated technical content: no
+- Human review required: yes
+- Source text preserved where supplied by STIX: yes
