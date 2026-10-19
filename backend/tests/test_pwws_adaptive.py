@@ -146,14 +146,17 @@ def test_small_batches_preserve_order_and_cap_the_batch():
 
 def test_workers_claim_files_once_and_stale_locks_are_released(tmp_path):
     part = tmp_path / "ddos__http_flood.md.json"
+    import os
     assert adaptive.claim(part)
     assert adaptive.claim(part)  # this process already holds it
     lock = part.with_suffix(".lock")
-    lock.write_text("1")  # pid 1 is alive and is not us
+    lock.write_text(f"1 {adaptive.boot_id()}")  # pid 1 is alive and is not us
     assert not adaptive.claim(part)
-    lock.write_text("999999999")  # no such process
+    lock.write_text(f"999999999 {adaptive.boot_id()}")  # no such process
     assert adaptive.claim(part)
-    assert lock.read_text() == str(__import__("os").getpid())
+    lock.write_text("1 another-boot")  # a live pid, but from a previous boot
+    assert adaptive.claim(part)
+    assert lock.read_text() == f"{os.getpid()} {adaptive.boot_id()}"
 
 
 def test_collect_waits_for_every_file_and_keeps_file_order(tmp_path):
@@ -185,3 +188,11 @@ def test_budget_lets_the_passage_become_slightly_less_probable(reference):
 def test_budget_equals_the_contextual_threshold():
     from app.defence import contextual_filter
     assert adaptive.LM_BUDGET_BITS == contextual_filter.THRESHOLD_BITS
+
+
+def test_budget_levels_write_to_their_own_folders():
+    assert adaptive.output_dir("adaptive_lm_budget") == adaptive.VARIANTS["adaptive_lm_budget"]
+    assert adaptive.output_dir("adaptive_lm_budget", 20.0).name == "poisoned_adaptive_lm_budget_20"
+    assert adaptive.output_dir("adaptive", 20.0) == adaptive.VARIANTS["adaptive"]
+    with pytest.raises(ValueError):
+        adaptive.main("adaptive", budget_bits=20.0)

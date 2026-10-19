@@ -21,7 +21,8 @@ the detector's reference exactly.
                          least as probable as the original under the same language model
   --variant adaptive_lm_budget  budgeted second-order attack -> data/poisoned_adaptive_lm_budget/
                          as adaptive_lm, but the passage may become up to LM_BUDGET_BITS less
-                         probable (the strict rule of adaptive_lm allowed almost no swaps)
+                         probable (the strict rule of adaptive_lm allowed almost no swaps);
+                         --budget-bits B writes to data/poisoned_adaptive_lm_budget_B/ instead
   --variant control    unconstrained PWWS  -> data/poisoned_pwws_rerun/
                        (matched control when the surrogate had to be retrained)
   --variant textfooler   TextFooler (Jin et al. 2020) instead of PWWS -> data/poisoned_textfooler/
@@ -34,8 +35,8 @@ knowledge base and the original poisoned corpus are never touched. Each finished
 file is checkpointed in <out>/parts/; `--resume` continues an interrupted run,
 restoring every unfinished file from the clean copy before attacking it, and
 appends start/resume events to <out>/run_log.jsonl. Several `--resume` workers may run
-at once: each claims a file with <out>/parts/<file>.lock (holding its pid; a lock whose
-process has gone is stale), and whichever worker finds every file done writes the
+at once: each claims a file with <out>/parts/<file>.lock (holding its pid and the boot id;
+a lock from another boot, or whose process has gone, is stale), and whichever worker finds every file done writes the
 manifest, in file order, from the parts.
 """
 
@@ -162,20 +163,33 @@ def write_part(part: Path, entries: list[dict]) -> None:
     os.replace(tmp, part)  # atomic: a part exists only once its file is fully attacked
 
 
-def claim(part: Path) -> bool:
-    """Take the file for this worker unless a live process holds it."""
-    lock = part.with_suffix(".lock")
+CODE_SHA256 = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()  # the code this process runs
+
+
+def boot_id() -> str:
     try:
-        holder = int(lock.read_text() or 0)
-        os.kill(holder, 0)
-        return holder == os.getpid()
+        return Path("/proc/sys/kernel/random/boot_id").read_text().strip()
+    except OSError:
+        return "unknown"
+
+
+def claim(part: Path) -> bool:
+    """Take the file for this worker unless a live process of this boot holds it."""
+    lock = part.with_suffix(".lock")
+    me = f"{os.getpid()} {boot_id()}"
+    try:
+        pid, _, boot = lock.read_text().strip().partition(" ")
+        if boot != boot_id():
+            raise ProcessLookupError  # left by a previous boot: pids may have been reused
+        os.kill(int(pid), 0)
+        return f"{pid} {boot}" == me
     except (FileNotFoundError, ValueError, ProcessLookupError):
         lock.unlink(missing_ok=True)  # stale or absent
     try:
         fd = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
     except FileExistsError:
         return False
-    os.write(fd, str(os.getpid()).encode())
+    os.write(fd, me.encode())
     os.close(fd)
     return True
 
@@ -194,10 +208,9 @@ def collect(out_dir: Path, kb: Path):
 
 
 def log_event(out_dir: Path, event: str, **fields) -> None:
-    code = Path(__file__).read_bytes()
     with (out_dir / "run_log.jsonl").open("a", encoding="utf-8") as handle:
         handle.write(json.dumps({"event": event, "at": datetime.now(timezone.utc).isoformat(),
-                                 "code_sha256": hashlib.sha256(code).hexdigest(), **fields}) + "\n")
+                                 "code_sha256": CODE_SHA256, **fields}) + "\n")
 
 
 def poison_file(path: Path, kb: Path, attack, label_map: dict, constraint=None) -> list[dict]:
@@ -233,13 +246,21 @@ def poison_file(path: Path, kb: Path, attack, label_map: dict, constraint=None) 
     return entries
 
 
-def main(variant: str, resume: bool = False) -> None:
+def output_dir(variant: str, budget_bits: float | None = None) -> Path:
+    if budget_bits is None or variant != "adaptive_lm_budget":
+        return VARIANTS[variant]
+    return PROJECT_ROOT / "data" / f"poisoned_adaptive_lm_budget_{budget_bits:g}"
+
+
+def main(variant: str, resume: bool = False, budget_bits: float | None = None) -> None:
     from textattack.models.wrappers import HuggingFaceModelWrapper
     from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
     if not base.MODEL_DIR.exists():
         raise RuntimeError(f"Surrogate not found: {base.MODEL_DIR}")
-    out_dir = VARIANTS[variant]
+    if budget_bits is not None and variant != "adaptive_lm_budget":
+        raise ValueError("--budget-bits applies only to --variant adaptive_lm_budget")
+    out_dir = output_dir(variant, budget_bits)
     kb, manifest = prepare_output(out_dir, resume)
     wrapper = HuggingFaceModelWrapper(AutoModelForSequenceClassification.from_pretrained(base.MODEL_DIR),
                                       AutoTokenizer.from_pretrained(base.MODEL_DIR))
@@ -247,12 +268,12 @@ def main(variant: str, resume: bool = False) -> None:
     if variant in ("adaptive_lm", "adaptive_lm_budget"):
         from app.defence.contextual_filter import LanguageModel
         lm = SmallBatches(LanguageModel(max_tokens=1024))  # the whole section, so no swap escapes the rule
-    budget = LM_BUDGET_BITS if variant == "adaptive_lm_budget" else 0.0
+    budget = (LM_BUDGET_BITS if budget_bits is None else budget_bits) if variant == "adaptive_lm_budget" else 0.0
     constraint = domain_frequency_constraint(DomainReference(CLEAN_KB), lm, budget) if variant.startswith("adaptive") else None
     attack = build_attack(wrapper, constraint, "textfooler" if variant == "textfooler" else "pwws")
     label_map = json.loads(base.LABEL_MAP_FILE.read_text(encoding="utf-8"))
     done = sorted(p.name for p in (out_dir / "parts").glob("*.json"))
-    log_event(out_dir, "resume" if resume else "start", variant=variant, files_already_done=done)
+    log_event(out_dir, "resume" if resume else "start", variant=variant, budget_bits=budget, files_already_done=done)
     for path in sorted(kb.rglob("*.md")):
         if path.parent.name == "devices":
             continue
@@ -282,5 +303,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     parser.add_argument("--variant", choices=sorted(VARIANTS), required=True)
     parser.add_argument("--resume", action="store_true", help="continue an interrupted run from its checkpoints")
+    parser.add_argument("--budget-bits", type=float, help=f"LM budget for adaptive_lm_budget (default {LM_BUDGET_BITS})")
     args = parser.parse_args()
-    main(args.variant, args.resume)
+    main(args.variant, args.resume, args.budget_bits)
