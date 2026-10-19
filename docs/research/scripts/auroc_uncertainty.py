@@ -9,6 +9,10 @@ difference to the word-frequency synonym gap (same resamples). Resamples without
 classes are skipped and counted. With few attacked documents the intervals are wide;
 that is the honest statement of what these corpora can show.
 
+It also reports, per corpus, the share of edited and unedited chunks flagged at the
+two *deployed* thresholds, frozen on the original PWWS development documents and never
+re-tuned: word-frequency synonym gap 7.2262 bits, contextual synonym gap 4.4611 bits.
+
 Usage: python docs/research/scripts/auroc_uncertainty.py OUT.json
 """
 
@@ -20,6 +24,7 @@ from pathlib import Path
 
 RES = Path(__file__).resolve().parents[1] / "results"
 SEED, B = 20261016, 10000
+FROZEN = {"syngap_top3_domain": 7.2262, "ctx_syngap_top3": 4.4611}  # entropy_filter / contextual_filter
 FAMILY_SCORES = ("syngap_top3_domain", "syngap_top3_dirichlet", "js_domain", "lm_mean_surprisal", "ctx_syngap_top3")
 DETECTOR_SCORES = ("char_kl", "kl_english", "kl_domain", "mean_domain", "syngap_top3_english", "syngap_top3_domain")
 
@@ -78,24 +83,44 @@ def intervals(rows, scores, paired=None):
     return {**meta, "scores": out}
 
 
+def frozen_rates(rows, score):
+    pos = [r for r in rows if r["label"]]
+    neg = [r for r in rows if not r["label"]]
+    thr = FROZEN[score]
+    return {"threshold_bits": thr, "edited_flagged": sum(r[score] > thr for r in pos), "edited": len(pos),
+            "tpr": round(sum(r[score] > thr for r in pos) / len(pos), 4) if pos else None,
+            "unedited_flagged": sum(r[score] > thr for r in neg), "unedited": len(neg),
+            "fpr": round(sum(r[score] > thr for r in neg) / len(neg), 4)}
+
+
 def main(out_path):
     report = {"method": "document-clustered percentile bootstrap", "B": B, "seed": SEED, "corpora": {}}
     for path in sorted((RES / "entropy-family").glob("family-*.json")):
         corpus = path.stem.removeprefix("family-")
         rows = json.loads(path.read_text())["rows"]
+        if not any(r["label"] for r in rows):
+            report["corpora"].setdefault(corpus, {})["family"] = {"chunks": len(rows), "attacked_chunks": 0}
+            continue
         report["corpora"].setdefault(corpus, {})["family"] = intervals(
             rows, FAMILY_SCORES, paired=("ctx_syngap_top3", "syngap_top3_domain"))
+        report["corpora"][corpus]["frozen_thresholds"] = {"ctx_syngap_top3": frozen_rates(rows, "ctx_syngap_top3")}
     detector_files = {"poisoned": RES / "entropy-detector-20261016/detector-poisoned.json",
                       "control": RES / "entropy-detector-20261016/detector-control.json"}
     detector_files |= {p.stem.removeprefix("detector-"): p for p in (RES / "entropy-family").glob("detector-*.json")}
     for corpus, path in sorted(detector_files.items()):
         rows = json.loads(path.read_text())["rows"]
+        if not any(r["label"] for r in rows):
+            continue
         report["corpora"].setdefault(corpus, {})["word_frequency"] = intervals(rows, DETECTOR_SCORES)
+        report["corpora"][corpus].setdefault("frozen_thresholds", {})["syngap_top3_domain"] = frozen_rates(rows, "syngap_top3_domain")
     Path(out_path).parent.mkdir(parents=True, exist_ok=True)
     with open(out_path, "x", encoding="utf-8") as handle:  # create-only
         json.dump(report, handle, indent=1)
     for corpus, parts in report["corpora"].items():
         fam = parts.get("family", {}).get("scores", {})
+        ft = parts.get("frozen_thresholds", {})
+        if ft:
+            print(f"{corpus:22s} frozen: " + "  ".join(f"{k} {v['edited_flagged']}/{v['edited']} (FPR {v['fpr']})" for k, v in ft.items()))
         if fam:
             c, w = fam["ctx_syngap_top3"], fam["syngap_top3_domain"]
             print(f"{corpus:22s} word-freq {w['auroc']:.3f} {w['ci95']}  contextual {c['auroc']:.3f} {c['ci95']}")
