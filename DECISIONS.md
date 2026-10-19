@@ -275,3 +275,16 @@ defence-engine implementation
 ablation studies
 deployment testing
 Substantial changes should be documented as new decisions or explicit revisions rather than silently replacing the original rationale.
+## ADR-008: Relative-entropy defences, adaptive attackers and resumable runs (16–19 Oct 2026)
+
+### Decisions
+- **Detector.** Detect substituted words with the *synonym gap*, the per-word log-ratio log₂ q(synonym) − log₂ q(word), rather than whole-passage KL or Jensen–Shannon divergence, which dilute a few changed words (results §11, §16).
+- **Reference.** Offer two deployed references as separate system states: a word-frequency reference (`defended`, `entropy-filter-v1`, threshold 7.2262 bits) and a language-model reference, distilgpt2 (`contextual`, `contextual-filter-v1`, threshold 4.4611 bits). Both thresholds were fixed once on development documents at a 10% false-positive rate and never re-tuned. Clean and poisoned states are unchanged.
+- **Drop, not repair.** Dropping flagged passages is kept as the policy; WordNet repair (`repaired`, `entropy-repair-v1`) is retained only as an evaluated alternative, because it restored too few substitutions (§13, §15).
+- **Adaptive evaluation.** Every detector is evaluated against a formatting-only control, a matched unrestricted rerun, a first-order (frequency-matched) attacker, second-order attackers with language-model budgets 0, 4.46, 20, 100 and 300 bits, and a second attack (TextFooler), all with the same retrained surrogate (§16, §18).
+- **Resumable, create-only runs.** Attack generation checkpoints each file and can resume, with several workers sharing a corpus through boot-aware locks; live runs resume in place only when the run's code hashes match, or after a recorded equivalence check (§17). No record is ever rewritten.
+
+### Consequences
+- The contextual state costs about 1.3 s more per answer (language-model scoring, cached per passage) and needs `torch` and `transformers` in the backend environment.
+- Filtering reduces exposure to poisoned text and removes confidently wrong answers, but does not restore correctness on poisoned data; that requires restoring the original text and is future work.
+- All headline numbers are checked by `docs/research/scripts/verify_evidence.py` (73 claims) against saved files.
