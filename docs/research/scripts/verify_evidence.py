@@ -25,7 +25,17 @@ REP = f"{RES}/entropy-repair/live-paired/summary.json"
 FAM = f"{RES}/entropy-family"
 RUNS = ("pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e",
         "pilot-runs/20261017T165331Z-defence-cebfb27c1e9048cdb61fbfe15f37e50d",
-        "pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c")
+        "pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c",
+        "pilot-runs/20261018T180113Z-contextual-a2eb543b82974c5aa4c1502de6e555a7")
+CTX = f"{RES}/contextual-defence/live-paired/summary.json"
+DIAG = f"{RES}/adaptive-attack/second-order-diagnostic.json"
+
+
+def manifest_count(corpus, result):
+    def count(_):
+        lines = (ROOT / f"backend/data/{corpus}/pwws_attack_manifest.jsonl").read_text().splitlines()
+        return sum(json.loads(line)["result"] == result for line in lines if line.strip())
+    return count
 
 
 def deployed(rows):
@@ -82,6 +92,26 @@ CLAIMS = [
     ("Matched control: contextual synonym gap AUROC", f"{FAM}/family-poisoned_pwws_rerun.json", ["results", "all", "ctx_syngap_top3", "auroc"], 0.97),
     ("Adaptive attack: successful sections", f"{RES}/adaptive-attack/surrogate-and-attack-record.json", ["adaptive_attack", "successful"], 8),
     ("Sweep: deployed setting keeps clean Hit@3", SWEEP, [lambda s: deployed(s["grid"])["clean_all_hit3"]], 0.7045),
+    ("Contextual defence: exposure, contextual", CTX, ["comparisons", "contextual_vs_poisoned", "all", "exposure", "a"], 0.204),
+    ("Contextual defence: exposure change, Wilcoxon p", CTX, ["comparisons", "contextual_vs_poisoned", "all", "exposure", "wilcoxon_p"], 0.012),
+    ("Contextual defence: correctness, contextual", CTX, ["comparisons", "contextual_vs_poisoned", "all", "correctness", "a"], 0.485),
+    ("Contextual defence: correctness change, Wilcoxon p", CTX, ["comparisons", "contextual_vs_poisoned", "all", "correctness", "wilcoxon_p"], 0.020),
+    ("Contextual defence: cost on clean correctness", CTX, ["comparisons", "clean_contextual_vs_clean", "all", "correctness", "delta"], -0.013),
+    ("Contextual defence: confident errors", CTX, ["outcomes", "contextual", "incorrect"], 0),
+    ("Contextual defence: abstentions", CTX, ["outcomes", "contextual", "abstained"], 63),
+    ("Contextual defence: ASR (edited exposure)", CTX, ["asr_edited_exposure", "contextual"], 0.1136),
+    ("TextFooler: successful sections", "backend/data/poisoned_textfooler/pwws_attack_manifest.jsonl",
+     [manifest_count("poisoned_textfooler", "SuccessfulAttackResult")], 49),
+    ("TextFooler: deployed synonym gap AUROC", f"{FAM}/detector-poisoned_textfooler.json", ["results", "all", "syngap_top3_domain", "auroc"], 0.90),
+    ("TextFooler: contextual synonym gap AUROC", f"{FAM}/family-poisoned_textfooler.json", ["results", "all", "ctx_syngap_top3", "auroc"], 0.91),
+    ("Second-order (strict): successful sections", "backend/data/poisoned_adaptive_lm/pwws_attack_manifest.jsonl",
+     [manifest_count("poisoned_adaptive_lm", "SuccessfulAttackResult")], 0),
+    ("Second-order (4.46-bit budget): successful sections", "backend/data/poisoned_adaptive_lm_budget/pwws_attack_manifest.jsonl",
+     [manifest_count("poisoned_adaptive_lm_budget", "SuccessfulAttackResult")], 0),
+    ("Diagnostic: swaps used by unrestricted PWWS", DIAG, ["summary", "swaps"], 550),
+    ("Diagnostic: swaps passing the LM rule", DIAG, ["summary", "pass_lm_rule"], 9),
+    ("Diagnostic: swaps passing both rules", DIAG, ["summary", "pass_both_rules"], 5),
+    ("Diagnostic: median LM cost of a swap (bits)", DIAG, ["summary", "median_lm_delta_bits"], -17.861),
 ]
 
 
@@ -110,7 +140,8 @@ def sha256_of(path):
 def main():
     failures, lines = 0, []
     for claim, file, path, expected in CLAIMS:
-        found = lookup(json.loads((ROOT / file).read_text()), path)
+        data = None if file.endswith(".jsonl") else json.loads((ROOT / file).read_text())  # .jsonl claims count lines
+        found = lookup(data, path)
         ok = matches(found, expected)
         failures += not ok
         lines.append(f"| {claim} | {expected} | {found} | {'ok' if ok else 'MISMATCH'} | `{file}` |")
@@ -135,6 +166,10 @@ def main():
         "matched-control corpus": "backend/data/poisoned_pwws_rerun/knowledge_base",
         "matched-control manifest": "backend/data/poisoned_pwws_rerun/pwws_attack_manifest.jsonl",
         "entropy-filter defence code": "backend/app/defence/entropy_filter.py",
+        "contextual-filter defence code": "backend/app/defence/contextual_filter.py",
+        **{f"{c} corpus and manifest": f"backend/data/{c}" for c in
+           ("poisoned_textfooler", "poisoned_adaptive_lm", "poisoned_adaptive_lm_budget",
+            "poisoned_adaptive_lm_budget_20", "poisoned_adaptive_lm_budget_100") if (ROOT / f"backend/data/{c}/pwws_attack_manifest.jsonl").exists()},
         **{f"run {Path(r).name}": r for r in RUNS},
         **{f"results {p.relative_to(ROOT / RES)}": str(p.relative_to(ROOT)) for p in sorted((ROOT / RES).rglob("*")) if p.is_file()},
     }
