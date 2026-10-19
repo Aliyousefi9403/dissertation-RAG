@@ -1,153 +1,157 @@
-// Builds AegisRAG-Project-Definition-Document.docx (IN3007 PDD).
-// Run: node build_pdd.js   (from docs/pdd/)
+// Builds AegisRAG-Project-Definition-Document.docx (IN3007 PDD, structure of Project Handbook 2026/27 §4.5).
+// Run: node build_pdd.js   (from docs/pdd/; needs gantt.png from make_gantt.py)
+// Word limit (BSc): 1,700 words excluding the cover page, references and Appendix A; check with count_words.py.
 const fs = require("fs");
 const {
-  Document, Packer, Paragraph, TextRun, Header, Footer, AlignmentType, HeadingLevel,
+  Document, Packer, Paragraph, TextRun, Footer, AlignmentType, HeadingLevel, ImageRun, PageBreak,
   Table, TableRow, TableCell, WidthType, ShadingType, BorderStyle, LevelFormat, PageNumber,
 } = require("docx");
 
 const FONT = "Arial";
-const W = 9026; // A4 text width at 1" margins (DXA)
+const W = 9026; // A4 text width at 2.5 cm margins (DXA)
+const SZ = 22; // 11 pt
 
-const p = (text, opts = {}) => new Paragraph({
-  spacing: { after: 120, line: 276 }, ...opts,
-  children: (Array.isArray(text) ? text : [text]).map((t) => typeof t === "string" ? new TextRun(t) : t),
-});
+const runs = (parts) => (Array.isArray(parts) ? parts : [parts]).map((t) => (typeof t === "string" ? new TextRun(t) : t));
+const p = (parts, opts = {}) => new Paragraph({ spacing: { after: 120, line: 276 }, ...opts, children: runs(parts) });
 const b = (t) => new TextRun({ text: t, bold: true });
 const i = (t) => new TextRun({ text: t, italics: true });
 const h1 = (t) => new Paragraph({ heading: HeadingLevel.HEADING_1, children: [new TextRun(t)] });
-const h2 = (t) => new Paragraph({ heading: HeadingLevel.HEADING_2, children: [new TextRun(t)] });
-const bullet = (runs) => new Paragraph({ numbering: { reference: "bullets", level: 0 }, spacing: { after: 80, line: 264 },
-  children: (Array.isArray(runs) ? runs : [runs]).map((t) => typeof t === "string" ? new TextRun(t) : t) });
-const ref = (t) => new Paragraph({ spacing: { after: 40, line: 240 }, indent: { left: 400, hanging: 400 }, children: [new TextRun({ text: t, size: 18 })] });
+const bullet = (parts) => new Paragraph({ numbering: { reference: "bullets", level: 0 }, spacing: { after: 80, line: 264 }, children: runs(parts) });
+const ref = (t) => new Paragraph({ spacing: { after: 60, line: 252 }, indent: { left: 400, hanging: 400 }, children: runs(t) });
 
 const border = { style: BorderStyle.SINGLE, size: 4, color: "BFBFBF" };
 const cell = (text, width, head = false) => new TableCell({
   width: { size: width, type: WidthType.DXA },
   borders: { top: border, bottom: border, left: border, right: border },
   shading: head ? { fill: "E8EEF4", type: ShadingType.CLEAR, color: "auto" } : undefined,
-  margins: { top: 70, bottom: 70, left: 110, right: 110 },
-  children: [new Paragraph({ spacing: { after: 0, line: 252 }, children: [new TextRun({ text, bold: head, size: 20 })] })],
+  margins: { top: 60, bottom: 60, left: 100, right: 100 },
+  children: [new Paragraph({ spacing: { after: 0, line: 240 }, children: [new TextRun({ text, bold: head, size: 19 })] })],
 });
 const table = (widths, rows) => new Table({
   width: { size: W, type: WidthType.DXA }, columnWidths: widths,
   rows: rows.map((r, n) => new TableRow({ children: r.map((t, k) => cell(t, widths[k], n === 0)) })),
 });
+const coverLine = (label, value) => p([b(label + ": "), value], { spacing: { after: 140 } });
 
-const children = [
-  new Paragraph({ spacing: { after: 60 }, children: [new TextRun({ text: "AegisRAG — Project Definition Document (Project Proposal)", bold: true, size: 34 })] }),
-  p([b("Project title: "), "Evaluating answer reliability under knowledge base poisoning in cybersecurity RAG systems"]),
-  p(["Ali Yousefi | BSc Computer Science | IN3007 Individual Project | ", "November 2026"], { spacing: { after: 240 } }),
+const WORDS = process.env.PDD_WORDS || "[word count]";
 
-  h1("1 Abstract"),
-  p("I propose to develop and evaluate AegisRAG, a cybersecurity question-answering system that compares responses generated from a clean knowledge base and from a deliberately altered copy. My aim is to measure how a word-substitution poisoning attack affects retrieval and answer quality, and to investigate whether practical reliability indicators can identify answers that need checking. I will use a controlled text attack (PWWS), a reviewed and frozen benchmark, a formatting-only control condition and repeated paired experiments. I will develop information-theoretic detectors that use relative entropy (KL divergence) and the log-ratio between a word and its likely original under a reference distribution, first with word-frequency references and then with a language-model reference, and use them as a defence mode that filters retrieval in the live system. I will test them against attackers who know the detector, at two levels of knowledge, and against a second, different word-substitution attack (TextFooler), and compare them with an evidence-support check. Answers that are wrong are separated from answers that decline for lack of evidence, and cases where incorrect answers are stated confidently are examined. The project will produce a working comparison interface, a versioned benchmark, recorded experimental evidence and reproducible tables and figures. It will assess the usefulness and limitations of this detection-and-filtering approach rather than claim a general-purpose defence."),
+const cover = [
+  new Paragraph({ spacing: { before: 1200, after: 120 }, children: [new TextRun({ text: "Project Definition Document", bold: true, size: 36 })] }),
+  new Paragraph({ spacing: { after: 600 }, children: [new TextRun({ text: "IN3007 Individual Project, 2026/27", size: 24, color: "444444" })] }),
+  coverLine("Degree programme", "BSc (Hons) Computer Science"),
+  coverLine("Project title", "AegisRAG: detecting word-substitution poisoning of a cybersecurity RAG knowledge base with relative entropy"),
+  coverLine("Student", "Ali Yousefi, [City St George's email address]"),
+  coverLine("Consultant", "[consultant name]"),
+  coverLine("Client", "None (academic research project)"),
+  coverLine("Proposed by", "The student; the relative-entropy detection approach was suggested by Nikos [surname]"),
+  coverLine("Other promises made", "None"),
+  coverLine("Word count", `${WORDS} words (excluding cover page, references and Appendix A)`),
+  new Paragraph({ children: [new PageBreak()] }),
+];
 
-  h1("2 Introduction and problem statement"),
-  p("Retrieval-augmented generation (RAG) retrieves relevant passages and gives them to a language model to help it answer a question [1]. This makes the source material part of the system's trust boundary: a plausible but misleading passage can influence the answer, and an answer may sound certain even when its evidence is unreliable. Knowledge-corruption attacks show that injecting a few crafted texts into a retrieval corpus can steer answers to attacker-chosen targets [4], and that adversarial passages can mislead dense retrievers across domains [5]. Work on an LLM-based threat detection and mitigation framework shows that word-level adversarial perturbation of its knowledge base, using TextFooler [6], degrades the framework [2]. My attack condition instead uses probability weighted word saliency (PWWS) [3], implemented with TextAttack [7]. I will treat this as a distinct experimental setting rather than claim to reproduce the original study."),
-  p("The practical problem is that users can mistake a fluent, well-supported-looking response for a correct one. A retrieved passage can be relevant and still misleading, and a poisoned passage can even support a false answer. Defences with formal guarantees exist, for example isolating and aggregating per-passage answers [11], but they change the pipeline and do not tell a user whether a particular answer should be trusted. I will therefore assess retrieval quality, answer correctness and reliability indicators separately, so the evaluation shows where a failure occurs and whether it can be flagged."),
+const body = [
+  h1("1 Problem to be solved"),
+  p("Retrieval-augmented generation (RAG) answers questions by retrieving passages from a knowledge base and passing them to a large language model (Lewis et al., 2020). The knowledge base therefore becomes part of the system's trust boundary. Injected passages can steer RAG answers (Zhong et al., 2023; Zou et al., 2025), and word-level adversarial perturbation of a knowledge base degrades an LLM-based threat-detection framework (Ikbarieh, Aryal and Gupta, 2025). Attacks such as PWWS (Ren et al., 2019) and TextFooler (Jin et al., 2020) replace words with plausible synonyms, so poisoned text still reads almost normally."),
+  p("Two problems follow for a cybersecurity question-answering assistant. First, it is not known how much in-place word substitution harms retrieval and answers, or through what mechanism. Second, existing defences either change the generation pipeline (Xiang et al., 2024), need access to the attacked classifier (Mozes et al., 2021), or filter whole inputs by language-model perplexity (Jain et al., 2023); none tells an operator which retrieved passages look tampered with, or which words. Information theory suggests a test: a substituted word should be improbable under a reference distribution q of normal text, measurable with relative entropy (Kullback and Leibler, 1951). Whether such a detector works, which reference it needs, and whether it survives an attacker who knows it, is an open question."),
 
-  h1("3 Aims, objectives and research question"),
-  p("My overall aim is to build an auditable experimental framework for measuring the effects of knowledge base poisoning and for evaluating observable indicators of answer reliability."),
-  p([b("Research question. "), "To what extent does knowledge base poisoning reduce retrieval and answer quality in a cybersecurity RAG system, how well can information-theoretic detection of poisoned passages, and evidence-support checking of answers, reduce exposure to poisoned content and flag unreliable answers, and how robust is that detection to an attacker who adapts to it?"]),
-  bullet([b("Objective 1 – Define the experiment. "), "Review the literature and specify the attacker's access, the permitted text changes, fixed system settings and evaluation rules. Output: a literature comparison and a written protocol frozen before the main experiment."]),
-  bullet([b("Objective 2 – Build a reviewed benchmark. "), "At least 44 questions across 14 attack types in 5 categories, each with a stable identifier, atomic reference facts and an exact source anchor (file hash and character offsets). Development and held-out questions are separated by source document, chosen before any main run. Output: a versioned benchmark with a review record."]),
-  bullet([b("Objective 3 – Run controlled comparisons. "), "Clean, PWWS-poisoned and formatting-only control knowledge bases in separate collections, with matched retrieval and generation settings. Classifier attack success is reported separately from effects on the RAG system. Output: repeatable paired runs with saved answers, retrieved passages and errors."]),
-  bullet([b("Objective 4 – Detect poisoned passages and check answers. "), "(a) Relative-entropy detectors: score each retrieved passage by its KL divergence and word surprisal against a reference distribution, and by the log-ratio between each word and its most probable WordNet synonym [9, 13, 14], comparing word-frequency references (with interpolation or Dirichlet smoothing [17]), a symmetric divergence [16] and a contextual reference from a small language model [15]; deploy the word-frequency and the contextual detector as selectable defence modes that filter retrieval, and compare dropping suspicious passages with repairing them. (b) Adaptive attackers that know the detector: a first-order attacker that may only use substitutions at least as frequent as the original word, and a second-order attacker that must also keep the passage at least as likely under the language-model reference. (c) A second attack, TextFooler [6], run with the same surrogate classifier, to test whether the detectors are specific to PWWS. (d) An evidence-support check of answers against retrieved passages with verbatim quotations. Thresholds are fixed on development data; outputs are scores and decision rules, never calibrated probabilities. Sampling-based consistency checks [8] are an extension."]),
-  bullet([b("Objective 5 – Measure effects and indicator usefulness. "), "Correctness, faithfulness, Hit@3, mean reciprocal rank, edited-text exposure and an outcome category (correct / incorrect / abstained). Indicators are evaluated against reference-based error labels (precision, recall, false alarms) with thresholds chosen on development data and then frozen. Output: reproducible tables, plots and uncertainty estimates, including negative findings."]),
-  bullet([b("Objective 6 – Deliver an auditable system and report. "), "A comparison interface that shows answers, evidence and indicator results; automated tests; run instructions; saved experiment records; and a dissertation explaining methods and limitations. Every reported number must be traceable to its question, source material, settings and analysis code."]),
-  p([b("Scope and success criteria. "), "The core project uses one RAG pipeline, PWWS as the main attack with TextFooler as a second attack, relative-entropy detectors used as retrieval-filtering defence modes, the two adaptive attackers and an evidence-support check. A second generation model and a larger language-model reference are extensions only if time permits. Success means a reproducible evaluation with clear limitations, including negative findings; it does not depend on a predetermined attack effect or detection accuracy."], { spacing: { before: 120, after: 120 } }),
+  h1("2 Project objectives"),
+  p([b("Main objective. "), "This project shall build AegisRAG, an auditable cybersecurity RAG system with clean and poisoned knowledge bases, and use it to measure the effect of word-substitution poisoning and to evaluate relative-entropy detection of poisoned passages as a retrieval-time defence."]),
+  p([b("Research questions. "), "RQ1: How much does PWWS poisoning reduce retrieval quality and answer correctness, and through what mechanism? RQ2: How well do relative-entropy detectors, with word-frequency and language-model references, identify poisoned passages, and do they react to substitutions rather than formatting? RQ3: Does filtering detected passages reduce exposure to poisoned text and confidently wrong answers, and at what cost on clean data? RQ4: Does detection survive adaptive attackers and a second attack (TextFooler)?"]),
+  p([b("Hypotheses. "), "H1: poisoning lowers correctness only for questions whose source section was perturbed. H2: a per-word log-ratio detector exceeds AUROC 0.8 on poisoned passages and stays near 0.5 on a formatting-only control. H3: filtering significantly reduces exposure with no significant correctness loss on clean data. H4: an attacker constrained to evade the detector loses most of its successful attacks."]),
+  p(b("Sub-objectives and how each will be tested")),
+  bullet([b("O1. "), "Build the RAG system and comparison interface (FastAPI, Qdrant, Next.js). ", i("Test: "), "automated tests pass; the same question returns recorded answers and sources from each corpus."]),
+  bullet([b("O2. "), "Create clean, PWWS-poisoned and formatting-only control knowledge bases from MITRE ATT&CK and CAPEC. ", i("Test: "), "attack manifest records every original and edited section; corpora are checksummed."]),
+  bullet([b("O3. "), "Build and freeze a reviewed benchmark of at least 44 questions with reference facts and source anchors, split into development and held-out documents. ", i("Test: "), "benchmark hash recorded before the main run."]),
+  bullet([b("O4. "), "Run paired, repeated clean-versus-poisoned evaluations. ", i("Test: "), "complete create-only records; question-level bootstrap intervals and Wilcoxon tests answer RQ1."]),
+  bullet([b("O5. "), "Implement relative-entropy detectors (KL divergence, surprisal, synonym gap with word-frequency and language-model references). ", i("Test: "), "AUROC on poisoned, control and held-out passages answers RQ2 and H2."]),
+  bullet([b("O6. "), "Deploy the best detectors as retrieval filters and evaluate them live. ", i("Test: "), "paired exposure, correctness, abstention and clean-data cost answer RQ3 and H3; a blind manual check of the LLM judge (Zheng et al., 2023) reports agreement."]),
+  bullet([b("O7. "), "Evaluate adaptive attackers and TextFooler. ", i("Test: "), "attack success and detector AUROC per attacker answer RQ4 and H4."]),
+  bullet([b("O8. "), "Evaluate the answer evidence-check indicator (Es et al., 2024). ", i("Test: "), "precision, recall and false alarms against reference-based error labels."]),
 
-  h1("4 Technical approach and methodology"),
-  h2("System architecture"),
-  p("Python and FastAPI for the backend, Qdrant for vector retrieval and Next.js for the comparison interface. The interface sends the same question to the clean and poisoned conditions and displays answers and retrieved evidence side by side; selectable modes add the evidence check (claim-level result) and the two detector-based defences, which show which passages were removed and why. An experiment runner uses the same pipeline and records outputs for offline analysis."),
-  h2("Knowledge base and controlled poisoning"),
-  p("The knowledge base is a local, versioned collection of MITRE ATT&CK and CAPEC material (18 documents), split into overlapping passages that keep their document identity and position. A DistilBERT attack-type classifier acts as a surrogate target: PWWS proposes word substitutions against it, and successfully attacked sections are written to a separate poisoned copy. Original and altered text are recorded in an attack manifest. Because the poisoning script also flattens the layout of attacked sections, I add a formatting-only control copy in which the same sections are flattened but keep their original words; clean, control and poisoned then isolate layout effects from substitution effects. Classifier success is reported as successful ÷ (successful + failed) attacks, separately from any transfer to retrieval or answers. To check that conclusions are not specific to one attack, I also generate a second poisoned copy with TextFooler [6], which chooses substitutes by word-embedding similarity rather than from WordNet, using the same surrogate classifier and sections."),
-  h2("Matched generation and benchmark"),
-  p("The same embedding model, retrieval depth (three passages), prompt and language-model settings are used in every condition, and all versions and settings are recorded. The attacker may alter eligible source text but not the question, reference facts or evaluation code. The benchmark consists of at least 44 reviewed questions, with development and held-out questions separated by source document (the held-out documents are not used while designing the method). Reference facts are verbatim source sentences, except CAPEC consequence fields, which are rewritten as plain impact statements and flagged as derived."),
-  h2("Pilot and repeated evaluation"),
-  p("A small pilot on development questions comes first, to confirm that every model call, retrieved passage and error is recorded and that the analysis can be reproduced offline. The main evaluation runs every benchmark question three times per condition. Repetitions are not treated as independent questions, failures stay in the record and are reported as missing rather than as zero scores, and the protocol is frozen before the main run with any later amendment recorded."),
-  h2("Relative-entropy detection and filtering"),
-  p("PWWS replaces words with WordNet synonyms [14] that are often unusual for the domain, so a poisoned passage's word distribution p should diverge from a reference distribution q. I will measure this with relative entropy, KL(p‖q) = Σ p(x) log p(x)/q(x) [13], with mean surprisal −log q(w), and with a synonym gap: how many bits more probable a word's best synonym is than the word used, adapting frequency-guided detection [9]. The reference q will be built only from information a defender has: general English frequencies and leave-one-document-out counts from the rest of the collection, with Dirichlet smoothing [17] as an alternative to simple interpolation, Jensen–Shannon divergence [16] as a symmetric alternative to KL, and a small language model [15] as a contextual reference that sees the whole sentence. Clean copies and attack labels are used only for evaluation. I will start from the letter-frequency comparison used to introduce relative entropy and move to word level, report every variant including those that fail, and evaluate each one against the formatting-only control, because the poisoning script also changes layout and a detector could otherwise learn the layout rather than the substitutions."),
-  p("A detector that only works against an attacker who does not know it is weak evidence. I will therefore build adaptive versions of the attack at two levels. A first-order attacker is allowed only substitutions that are at least as frequent as the original under the word-frequency reference; a second-order attacker must in addition keep each passage at least as likely under the language-model reference, which is the strongest test of the contextual detector. Each uses the same surrogate classifier as an unrestricted control run, so the restriction is the only difference, and I report both how well each detector survives and how much each restriction costs the attacker in successful attacks."),
-  h2("Evidence-support check and confident errors"),
-  p("The evidence-support indicator uses a separate verifier call: it splits the answer into claims, labels each supported, unsupported or contradicted by the retrieved passages, and must give quotations that are checked verbatim against those passages. A versioned policy releases an answer only if every claim is supported, records abstentions separately, and never treats a failed check as a pass. A stratified sample is manually checked for assertive language alongside correctness labels; assertive wording, self-reported certainty and calibrated probability are kept distinct. Because poisoned evidence can support a wrong answer, missed errors and false alarms are reported explicitly, and both methods are compared with simple retrieval-score baselines and with each other."),
-  h2("Measurements"),
-  bullet([b("Answer correctness "), "against atomic reference facts with a fixed rubric (LLM judge), plus manual checks on a stratified sample to estimate judge agreement, given known judge biases [10]."]),
-  bullet([b("Faithfulness: "), "whether the answer's claims follow from the retrieved passages [12]. A faithful answer can still be wrong if the passages are misleading; abstentions are reported separately rather than scored as unfaithful."]),
-  bullet([b("Hit@3 and mean reciprocal rank "), "using a documented section-level relevance rule."]),
-  bullet([b("Exposure: "), "both whether an attacked section was retrieved and whether actually edited text was retrieved; edited-text exposure is the primary measure. Exposure is not harm."]),
-  bullet([b("Detector performance: "), "AUROC, true- and false-positive rates for poisoned-passage detection (development thresholds applied unchanged to held-out documents), always alongside the formatting-only control, both adaptive attackers and the TextFooler corpus; the effect of filtering (and of repairing instead of dropping) on exposure, Hit@3, correctness, abstention and confident errors, and a threshold sweep showing the safety/utility trade-off."]),
-  bullet([b("Evidence-check performance: "), "precision, recall and false alarms against reference-based error labels, with counts and uncertainty; plus latency and model-call cost."]),
-  h2("Evidence recording and statistical analysis"),
-  p("Each run stores its ID, benchmark hash, corpus snapshots and hashes, attack manifest, code version, settings, retrieved passages, answers, raw evaluations, timings and errors, in create-only files with a checksum record. Scripts regenerate every table and figure from these records. I will report paired clean-versus-poisoned differences, results stratified by attack type and by whether a question's target section was actually perturbed, and question-level (cluster) bootstrap intervals that respect pairing and source groups. No result will be described as statistically significant without an appropriate test."),
-  h2("Testing and deliverables"),
-  p("Automated tests cover document identities, passage offsets, metric calculations, verifier-output validation, failed-run handling and record integrity; integration checks cover retrieval, the API and the interface. Deliverables: the application, the documented benchmark, attack and control records, experiment outputs, analysis scripts, tables and figures, run instructions and the dissertation."),
+  h1("3 Project beneficiaries"),
+  p("The first beneficiaries are researchers in RAG security and adversarial NLP, who receive a measured attack mechanism, a detector with its failure modes, and a reproducible benchmark, corpora and evaluation records. Developers of security assistants benefit from a defence that needs no access to the attacked model and explains each decision. Security analysts using such assistants benefit later, if these results inform deployed systems. By the end of the project, benefit will be shown by the objective tests above, a public code and data release, and a research paper submitted for peer review."),
 
-  h1("5 Milestones and project management"),
-  table([2300, W - 2300], [
-    ["Period", "Planned work and checkpoint"],
-    ["Oct – 11 Nov 2026", "Consultant meetings; literature review; threat model; RAG pipeline and comparison interface; clean, PWWS-poisoned and formatting-only control knowledge bases; benchmark review and freeze (v1); pilot and first full clean/poisoned evaluation; first relative-entropy detector prototype; PDD submitted by Wed 11 Nov, 20:00."],
-    ["Nov – Dec 2026", "Detector variants (smoothing, symmetric divergence, language-model reference) evaluated against the control corpus; word-frequency and contextual defence modes with live paired evaluation; drop versus repair; manual judge-agreement sample."],
-    ["Jan 2027", "First- and second-order adaptive attackers with their matched control; TextFooler corpus; evidence-support check evaluation; extension if on schedule: a second generation model."],
-    ["Feb 2027", "Held-out evaluation, threshold sweep and uncertainty analysis; final ethics materials submitted by Sun 21 Feb, 17:00."],
-    ["Mar – 4 Apr 2027", "Tables, figures, dissertation and reproducibility checks; submission of all elements by Sun 4 Apr, 17:00."],
-    ["1 – 11 Jun 2027", "Project review (in person) with demonstration."],
+  h1("4 Work plan"),
+  p("The project follows an iterative, experiment-driven method: build the minimal pipeline, freeze the benchmark and protocol, pilot, then add detectors and attackers one at a time, each evaluated against fixed settings (gpt-4o-mini, temperature 0, all-MiniLM-L6-v2 embeddings, top-3 retrieval). Attacks use TextAttack (Morris et al., 2020); the contextual reference uses distilgpt2 (Radford et al., 2019). Version control is on GitHub."),
+  p("Evaluation protocol. Every benchmark question runs three times per condition, paired by schedule index with alternating condition order. Each run writes create-only, checksummed records of prompts, retrieved passages, answers and judge scores, so every reported number can be regenerated offline. Detector thresholds are fixed on development documents at a 10% false-positive rate before held-out evaluation. A first-order adaptive attacker may only make substitutions the word-frequency reference does not penalise; a second-order attacker must also keep each passage as probable under the language model; both use the same surrogate classifier as an unrestricted control run, so the restriction is the only difference."),
+  table([600, 3100, 3026, 1100, 1200], [
+    ["ID", "Activity", "Output", "Start", "End"],
+    ["A1", "Literature review, threat model", "Context notes, protocol", "1 Oct 26", "8 Nov 26"],
+    ["A2", "RAG pipeline, interface, three corpora", "Software, corpora, manifest", "1 Oct 26", "31 Oct 26"],
+    ["A3", "Benchmark build, review, freeze", "Benchmark v1", "15 Oct 26", "8 Nov 26"],
+    ["A4", "Pilot, first paired evaluation", "Run records, analysis", "1 Nov 26", "22 Nov 26"],
+    ["A5", "Relative-entropy detectors (offline)", "Detector results", "9 Nov 26", "20 Dec 26"],
+    ["A6", "Live defences, judge check", "Defence runs, agreement", "1 Dec 26", "31 Jan 27"],
+    ["A7", "Adaptive attackers, TextFooler", "Attack corpora, results", "4 Jan 27", "14 Feb 27"],
+    ["A8", "Evidence check, held-out, uncertainty", "Final analyses", "1 Feb 27", "7 Mar 27"],
+    ["A9", "Report, demo video, paper", "Final submission", "1 Feb 27", "4 Apr 27"],
   ]),
-  p("Dependencies: the benchmark must be frozen before the main experiments; the pilot must show complete recording before larger runs; thresholds are frozen before held-out evaluation; tables must be reproducible from saved records before the report is finalised. I keep version control on GitHub, backups, a weekly progress log and a decision record, and reserve time for failed runs and corrections, cutting optional extensions if the core work is at risk.", { spacing: { before: 160, after: 120 } }),
+  new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 160, after: 60 },
+    children: [new ImageRun({ type: "png", data: fs.readFileSync("gantt.png"), transformation: { width: 600, height: 300 } })] }),
+  p([i("Figure 1. Work plan. Milestones: PDD and ethics form, 11 Nov 2026; final submission, 4 Apr 2027; project review, 1–11 Jun 2027.")], { alignment: AlignmentType.CENTER }),
+  p("Project outputs: (1) the AegisRAG software with its defences; (2) the benchmark, corpora and attack manifests; (3) an evaluation report with checksummed run records; (4) a research paper manuscript."),
 
-  h1("6 Project risks"),
-  p("The attack changes stored text only; it does not execute malware or attack any system, and retrieved content is treated as data with no authority to run commands."),
-  table([2600, W - 2600], [
-    ["Risk", "Mitigation"],
-    ["Scope and schedule", "PWWS with TextFooler as a second attack, the detectors with filtering, the two adaptive attackers and the evidence-support check are the core; a second generation model and a larger reference model only if milestones are met. Attack generation and detector scoring run locally, so they do not depend on API budget."],
-    ["Data loss or contamination", "Separate collections per condition; create-only records with checksums; hashes of corpora and benchmark checked before every run; backups on GitHub."],
-    ["Cost and service failures", "Call volume measured in a small pilot before full runs (about 800 calls per full paired run); spending limit; explicit timeouts and bounded retries; completed records analysed offline; detector evaluation runs locally without API calls."],
-    ["Invalid conclusions", "Frozen protocol, held-out split, formatting-only control, manual judge checks, question-level uncertainty; limitations reported."],
-    ["Weak attack transfer or weak indicators", "Treated as findings, not reasons to redefine success after seeing the data."],
+  h1("5 Risks to the project"),
+  table([2300, 3300, 3426], [
+    ["Risk", "Prevention", "Fallback if it happens"],
+    ["Scope too large for 450 hours", "Fixed core (O1–O6); O7–O8 scheduled after", "Drop O8, then reduce O7 to one attacker"],
+    ["Attack does not transfer to RAG answers", "Pilot before main runs; report attack success separately", "Report as a negative finding; detection results remain valid"],
+    ["API cost or outages", "Pilot measures calls; spending cap; timeouts", "Detectors run offline; resume interrupted runs"],
+    ["Data loss or contaminated results", "Create-only records, checksums, GitHub backups", "Re-run from frozen benchmark and corpora"],
+    ["Invalid conclusions", "Frozen protocol, held-out split, control corpus", "Report limitations; avoid claims beyond evidence"],
+    ["Licence of data or models unclear", "Check MITRE terms and model licences in A1", "Replace the affected source"],
+    ["Attack libraries fail with current dependencies", "Separate pinned environment for attacks", "Use the recorded attack corpora already produced"],
   ]),
 
-  h1("7 Legal, social, ethical and professional issues"),
-  p([b("Legal and information handling. "), "MITRE ATT&CK and CAPEC content is used under MITRE's terms of use with attribution, and licences of datasets, model weights and software are recorded. Question, passage and answer text is sent to the OpenAI API; it contains no personal or confidential data, and the provider and settings are documented. API keys are kept outside the repository and are redacted from saved evidence."]),
-  p([b("Social and ethical considerations. "), "The system could give misleading cybersecurity advice: a warning may miss an incorrect answer and a false alarm may discourage a correct one. AegisRAG is presented as a research prototype, and no score is described as proof that an answer is true or that a source is clean. The study uses public documents and synthetic questions with no participants; I will complete the university's ethics screening before any activity that needs approval and seek approval before any user testing."]),
-  p([b("Professional practice. "), "I distinguish planned methods, implemented functionality and measured results; document assumptions, failed runs and protocol changes; and do not claim a new defence, a universal vulnerability or statistical significance without evidence. AI tools assisted with drafting, coding and organising this work; I record and acknowledge this assistance in line with the module's policy and remain responsible for checking all code, references and conclusions."]),
+  h1("6 Legal, social, ethical and professional issues"),
+  p([b("Category. "), "This is a category 1 project: AegisRAG is a research prototype for evaluation, not for distribution or operational use."]),
+  p([b("Legal. "), "MITRE ATT&CK and CAPEC content is used under MITRE's terms of use with attribution (MITRE, 2026a; 2026b); software and model licences will be recorded. Questions and passages are sent to the OpenAI API; they contain no personal data. API keys are kept out of the repository."]),
+  p([b("Social and ethical. "), "If deployed, the assistant could give wrong security advice, and a detector could miss poisoned text or wrongly flag clean text; users might over-trust a fluent answer. The interface will label AegisRAG as a prototype, show retrieved evidence and detector explanations, and never present a score as proof that a source is clean. The attack code reproduces published methods on a local copy of public documents and attacks no live system. There are no human participants, so research-ethics risk is low."]),
+  p([b("Dual use. "), "Publishing how the detector works also tells attackers what to avoid. The project therefore evaluates attackers who know the detector and reports where it fails, so that the published defence is not over-trusted; no new attack technique beyond the published ones is released."]),
+  p([b("Professional. "), "Following the BCS Code of Conduct, results will be reported as measured, including negative findings, and all reused code, data and tools will be acknowledged."]),
+];
 
+const references = [
+  new Paragraph({ children: [new PageBreak()] }),
   h1("References"),
-  ref("[1] Lewis, P. et al. (2020). Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks. NeurIPS 33. https://arxiv.org/abs/2005.11401"),
-  ref("[2] Ikbarieh, S., Aryal, K. and Gupta, M. (2025). RAG-targeted Adversarial Attack on LLM-based Threat Detection and Mitigation Framework. arXiv:2511.06212."),
-  ref("[3] Ren, S., Deng, Y., He, K. and Che, W. (2019). Generating Natural Language Adversarial Examples through Probability Weighted Word Saliency. Proc. ACL, 1085–1097. https://doi.org/10.18653/v1/P19-1103"),
-  ref("[4] Zou, W., Geng, R., Wang, B. and Jia, J. (2025). PoisonedRAG: Knowledge Corruption Attacks to Retrieval-Augmented Generation of Large Language Models. USENIX Security Symposium. arXiv:2402.07867"),
-  ref("[5] Zhong, Z., Huang, Z., Wettig, A. and Chen, D. (2023). Poisoning Retrieval Corpora by Injecting Adversarial Passages. Proc. EMNLP, 13764–13775."),
-  ref("[6] Jin, D., Jin, Z., Zhou, J. T. and Szolovits, P. (2020). Is BERT Really Robust? A Strong Baseline for Natural Language Attack on Text Classification and Entailment. Proc. AAAI 34(5), 8018–8025."),
-  ref("[7] Morris, J. et al. (2020). TextAttack: A Framework for Adversarial Attacks, Data Augmentation, and Adversarial Training in NLP. Proc. EMNLP: System Demonstrations, 119–126."),
-  ref("[8] Manakul, P., Liusie, A. and Gales, M. (2023). SelfCheckGPT: Zero-Resource Black-Box Hallucination Detection for Generative Large Language Models. Proc. EMNLP, 9004–9017."),
-  ref("[9] Mozes, M., Stenetorp, P., Kleinberg, B. and Griffin, L. (2021). Frequency-Guided Word Substitutions for Detecting Textual Adversarial Examples. Proc. EACL, 171–186."),
-  ref("[10] Zheng, L. et al. (2023). Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena. NeurIPS 36, Datasets and Benchmarks Track."),
-  ref("[11] Xiang, C., Wu, T., Zhong, Z., Wagner, D., Chen, D. and Mittal, P. (2024). Certifiably Robust RAG against Retrieval Corruption. arXiv:2405.15556."),
-  ref("[12] Es, S., James, J., Espinosa Anke, L. and Schockaert, S. (2024). RAGAs: Automated Evaluation of Retrieval Augmented Generation. Proc. EACL: System Demonstrations, 150–158."),
-  ref("[13] Kullback, S. and Leibler, R. A. (1951). On Information and Sufficiency. The Annals of Mathematical Statistics, 22(1), 79–86."),
-  ref("[14] Miller, G. A. (1995). WordNet: A Lexical Database for English. Communications of the ACM, 38(11), 39–41."),
-  ref("[15] Radford, A., Wu, J., Child, R., Luan, D., Amodei, D. and Sutskever, I. (2019). Language Models are Unsupervised Multitask Learners. OpenAI technical report."),
-  ref("[16] Lin, J. (1991). Divergence Measures Based on the Shannon Entropy. IEEE Transactions on Information Theory, 37(1), 145–151."),
-  ref("[17] Zhai, C. and Lafferty, J. (2004). A Study of Smoothing Methods for Language Models Applied to Information Retrieval. ACM Transactions on Information Systems, 22(2), 179–214."),
+  ref("Es, S., James, J., Espinosa Anke, L. and Schockaert, S. (2024) 'RAGAs: automated evaluation of retrieval augmented generation', in Proceedings of the 18th Conference of the European Chapter of the Association for Computational Linguistics: System Demonstrations. St. Julians: ACL, pp. 150–158."),
+  ref("Ikbarieh, S., Aryal, K. and Gupta, M. (2025) 'RAG-targeted adversarial attack on LLM-based threat detection and mitigation framework', arXiv preprint, arXiv:2511.06212."),
+  ref("Jin, D., Jin, Z., Zhou, J.T. and Szolovits, P. (2020) 'Is BERT really robust? A strong baseline for natural language attack on text classification and entailment', in Proceedings of the AAAI Conference on Artificial Intelligence, 34(5), pp. 8018–8025."),
+  ref("Jain, N. et al. (2023) 'Baseline defenses for adversarial attacks against aligned language models', arXiv preprint, arXiv:2309.00614."),
+  ref("Kullback, S. and Leibler, R.A. (1951) 'On information and sufficiency', The Annals of Mathematical Statistics, 22(1), pp. 79–86."),
+  ref("Lewis, P. et al. (2020) 'Retrieval-augmented generation for knowledge-intensive NLP tasks', in Advances in Neural Information Processing Systems 33, pp. 9459–9474."),
+  ref("MITRE (2026a) MITRE ATT&CK. Available at: https://attack.mitre.org/ (Accessed: 19 October 2026)."),
+  ref("MITRE (2026b) CAPEC: Common Attack Pattern Enumeration and Classification. Available at: https://capec.mitre.org/ (Accessed: 19 October 2026)."),
+  ref("Morris, J., Lifland, E., Yoo, J.Y., Grigsby, J., Jin, D. and Qi, Y. (2020) 'TextAttack: a framework for adversarial attacks, data augmentation, and adversarial training in NLP', in Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing: System Demonstrations. Online: ACL, pp. 119–126."),
+  ref("Mozes, M., Stenetorp, P., Kleinberg, B. and Griffin, L. (2021) 'Frequency-guided word substitutions for detecting textual adversarial examples', in Proceedings of the 16th Conference of the European Chapter of the Association for Computational Linguistics. Online: ACL, pp. 171–186."),
+  ref("Radford, A., Wu, J., Child, R., Luan, D., Amodei, D. and Sutskever, I. (2019) Language models are unsupervised multitask learners. San Francisco: OpenAI."),
+  ref("Ren, S., Deng, Y., He, K. and Che, W. (2019) 'Generating natural language adversarial examples through probability weighted word saliency', in Proceedings of the 57th Annual Meeting of the Association for Computational Linguistics. Florence: ACL, pp. 1085–1097."),
+  ref("Xiang, C., Wu, T., Zhong, Z., Wagner, D., Chen, D. and Mittal, P. (2024) 'Certifiably robust RAG against retrieval corruption', arXiv preprint, arXiv:2405.15556."),
+  ref("Zheng, L. et al. (2023) 'Judging LLM-as-a-judge with MT-Bench and Chatbot Arena', in Advances in Neural Information Processing Systems 36, Datasets and Benchmarks Track."),
+  ref("Zhong, Z., Huang, Z., Wettig, A. and Chen, D. (2023) 'Poisoning retrieval corpora by injecting adversarial passages', in Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing. Singapore: ACL, pp. 13764–13775."),
+  ref("Zou, W., Geng, R., Wang, B. and Jia, J. (2025) 'PoisonedRAG: knowledge corruption attacks to retrieval-augmented generation of large language models', in Proceedings of the 34th USENIX Security Symposium. Seattle: USENIX Association."),
+];
+
+const appendix = [
+  new Paragraph({ children: [new PageBreak()] }),
+  h1("Appendix A: Use of AI"),
+  p(i("[To be completed by the student: every use of AI in preparing this PDD, with the prompts used and summaries of the responses, as required by Project Handbook §4.5.9.]")),
 ];
 
 const doc = new Document({
   styles: {
-    default: { document: { run: { font: FONT, size: 21 } } },
+    default: { document: { run: { font: FONT, size: SZ } } },
     paragraphStyles: [
       { id: "Heading1", name: "Heading 1", basedOn: "Normal", next: "Normal", quickFormat: true,
-        run: { size: 26, bold: true, font: FONT, color: "1F3A5F" }, paragraph: { spacing: { before: 280, after: 120 }, outlineLevel: 0 } },
-      { id: "Heading2", name: "Heading 2", basedOn: "Normal", next: "Normal", quickFormat: true,
-        run: { size: 22, bold: true, font: FONT, color: "1F3A5F" }, paragraph: { spacing: { before: 180, after: 80 }, outlineLevel: 1 } },
+        run: { size: 26, bold: true, font: FONT, color: "1F3A5F" }, paragraph: { spacing: { before: 260, after: 120 }, outlineLevel: 0 } },
     ],
   },
   numbering: { config: [{ reference: "bullets", levels: [{ level: 0, format: LevelFormat.BULLET, text: "•", alignment: AlignmentType.LEFT,
     style: { paragraph: { indent: { left: 400, hanging: 260 } } } }] }] },
   sections: [{
-    properties: { page: { size: { width: 11906, height: 16838 }, margin: { top: 1300, right: 1440, bottom: 1300, left: 1440 } } },
-    headers: { default: new Header({ children: [new Paragraph({ children: [new TextRun({ text: "Ali Yousefi | IN3007 Individual Project | Project Definition Document", size: 17, color: "666666" })] })] }) },
-    footers: { default: new Footer({ children: [new Paragraph({ alignment: AlignmentType.RIGHT, children: [new TextRun({ text: "AegisRAG | ", size: 17, color: "666666" }), new TextRun({ children: [PageNumber.CURRENT], size: 17, color: "666666" })] })] }) },
-    children,
+    properties: { page: { size: { width: 11906, height: 16838 }, margin: { top: 1418, right: 1418, bottom: 1418, left: 1418 } } },
+    footers: { default: new Footer({ children: [new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ children: [PageNumber.CURRENT], size: 18, color: "666666" })] })] }) },
+    children: [...cover, ...body, ...references, ...appendix],
   }],
 });
 
