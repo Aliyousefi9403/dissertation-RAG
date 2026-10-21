@@ -1,0 +1,84 @@
+{
+ "source_run": "pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c",
+ "index": 16,
+ "condition": "repaired",
+ "question_id": "expanded_uploading_required_resources_01",
+ "rag_record_sha256": "3b628206aca3a74f0636c531c325725c24c201e4e3979b9bc1f26b338978c849",
+ "latency_seconds": 4.357,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"CAPEC-17 is required for Malicious File Upload.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"CAPEC: CAPEC-17 — role: malicious_file_mechanism; required\"}], \"explanation\": \"The source explicitly states that CAPEC-17 is required.\"}, {\"claim\": \"OWASP File Upload Cheat Sheet is required for Malicious File Upload.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"OWASP: File Upload Cheat Sheet — role: prevention_and_mitigation; required\"}], \"explanation\": \"The source explicitly states that the OWASP File Upload Cheat Sheet is required.\"}, {\"claim\": \"CWE-434 is required for Malicious File Upload.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"CWE: CWE-434 — role: dangerous_file_type_context; required\"}], \"explanation\": \"The source explicitly states that CWE-434 is required.\"}, {\"claim\": \"MITRE ATT&CK ID T1190 is optional in the context of public-facing applications.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"MITRE_ATTACK_ENTERPRISE: T1190 — role: public_facing_application_context; optional\"}], \"explanation\": \"The source explicitly states that T1190 is optional.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "CAPEC-17 is required for Malicious File Upload.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "CAPEC: CAPEC-17 — role: malicious_file_mechanism; required",
+     "verified": true
+    }
+   ],
+   "explanation": "The source explicitly states that CAPEC-17 is required.",
+   "problems": []
+  },
+  {
+   "claim": "OWASP File Upload Cheat Sheet is required for Malicious File Upload.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "OWASP: File Upload Cheat Sheet — role: prevention_and_mitigation; required",
+     "verified": true
+    }
+   ],
+   "explanation": "The source explicitly states that the OWASP File Upload Cheat Sheet is required.",
+   "problems": []
+  },
+  {
+   "claim": "CWE-434 is required for Malicious File Upload.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "CWE: CWE-434 — role: dangerous_file_type_context; required",
+     "verified": true
+    }
+   ],
+   "explanation": "The source explicitly states that CWE-434 is required.",
+   "problems": []
+  },
+  {
+   "claim": "MITRE ATT&CK ID T1190 is optional in the context of public-facing applications.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "MITRE_ATTACK_ENTERPRISE: T1190 — role: public_facing_application_context; optional",
+     "verified": true
+    }
+   ],
+   "explanation": "The source explicitly states that T1190 is optional.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 4 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

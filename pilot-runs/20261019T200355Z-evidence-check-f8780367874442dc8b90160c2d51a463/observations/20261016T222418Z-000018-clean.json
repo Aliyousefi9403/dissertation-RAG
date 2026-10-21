@@ -1,0 +1,120 @@
+{
+ "source_run": "pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e",
+ "index": 18,
+ "condition": "clean",
+ "question_id": "expanded_xss_attack_description_01",
+ "rag_record_sha256": "c85e4f64669bcd05d1bb3d0ac636f49389ff1b841f00030afb92c04d89280838",
+ "latency_seconds": 6.519,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"Cross-Site Scripting (XSS) works by allowing an adversary to embed malicious scripts into content that is served to web browsers.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"An adversary embeds malicious scripts in content that will be served to web browsers.\"}], \"explanation\": \"This claim is directly supported by Source 2.\"}, {\"claim\": \"The primary goal of the attack is for the client-side browser to execute the injected script with the user's privilege level.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"The goal of the attack is for the target software, the client-side browser, to execute the script with the users' privilege level.\"}], \"explanation\": \"This claim is directly supported by Source 2.\"}, {\"claim\": \"This type of attack exploits vulnerabilities in programs that permit remote hosts to execute code and scripts.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"An attack of this type exploits a programs' vulnerabilities that are brought on by allowing remote hosts to execute code and scripts.\"}], \"explanation\": \"This claim is directly supported by Source 2.\"}, {\"claim\": \"An attacker can inject scripts into user-generated content on platforms like bulletin boards or blogs, which are then echoed back to other users' browsers.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"an attacker can simply place a script in bulletin board, blog, wiki, or other user-generated content site that are echoed back to other client machines.\"}], \"explanation\": \"This claim is directly supported by Source 1.\"}, {\"claim\": \"Although web browsers have some security controls, these can be bypassed if remote attackers can execute scripts through such injections.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"web browsers... have some simple security controls in place, but if a remote attacker is allowed to execute scripts (through injecting them in to user-generated content like bulletin boards) then these controls may be bypassed.\"}], \"explanation\": \"This claim is directly supported by Source 3.\"}, {\"claim\": \"These attacks are difficult for end users to detect.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"these attacks are very difficult for an end user to detect.\"}], \"explanation\": \"This claim is directly supported by Source 3.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "Cross-Site Scripting (XSS) works by allowing an adversary to embed malicious scripts into content that is served to web browsers.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "An adversary embeds malicious scripts in content that will be served to web browsers.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is directly supported by Source 2.",
+   "problems": []
+  },
+  {
+   "claim": "The primary goal of the attack is for the client-side browser to execute the injected script with the user's privilege level.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "The goal of the attack is for the target software, the client-side browser, to execute the script with the users' privilege level.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is directly supported by Source 2.",
+   "problems": []
+  },
+  {
+   "claim": "This type of attack exploits vulnerabilities in programs that permit remote hosts to execute code and scripts.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "An attack of this type exploits a programs' vulnerabilities that are brought on by allowing remote hosts to execute code and scripts.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is directly supported by Source 2.",
+   "problems": []
+  },
+  {
+   "claim": "An attacker can inject scripts into user-generated content on platforms like bulletin boards or blogs, which are then echoed back to other users' browsers.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "an attacker can simply place a script in bulletin board, blog, wiki, or other user-generated content site that are echoed back to other client machines.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is directly supported by Source 1.",
+   "problems": []
+  },
+  {
+   "claim": "Although web browsers have some security controls, these can be bypassed if remote attackers can execute scripts through such injections.",
+   "verifier_verdict": "supported",
+   "status": "unavailable",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "web browsers... have some simple security controls in place, but if a remote attacker is allowed to execute scripts (through injecting them in to user-generated content like bulletin boards) then these controls may be bypassed.",
+     "verified": false
+    }
+   ],
+   "explanation": "This claim is directly supported by Source 3.",
+   "problems": [
+    "a quotation was not found verbatim in the cited source"
+   ]
+  },
+  {
+   "claim": "These attacks are difficult for end users to detect.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "these attacks are very difficult for an end user to detect.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is directly supported by Source 3.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "unavailable",
+ "released": false,
+ "reason": "1 claim(s) could not be tied to verified quotations."
+}

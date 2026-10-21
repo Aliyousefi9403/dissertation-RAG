@@ -1,0 +1,67 @@
+{
+ "source_run": "pilot-runs/20261018T180113Z-contextual-a2eb543b82974c5aa4c1502de6e555a7",
+ "index": 42,
+ "condition": "contextual",
+ "question_id": "expanded_arp_spoofing_prerequisites_01",
+ "rag_record_sha256": "0607b8f461dafba2e30a265b4feaf26c8c769619ef05157746d8ea2609e6382f",
+ "latency_seconds": 2.763,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"The adversary must be able to passively wait for an ARP request from a victim device.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"An adversary may passively wait for an ARP request to poison the ARP cache of the requesting device.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"}, {\"claim\": \"The adversary's reply must be faster than the legitimate reply from the actual owner of the IP address to successfully poison the ARP cache of the requesting device.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"For the adversary to poison the ARP cache, their reply must be faster than the one made by the legitimate IP address owner.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"}, {\"claim\": \"The adversary may also send a gratuitous ARP reply to falsely announce ownership of a particular IP address.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"Adversaries may also send a gratuitous ARP reply that maliciously announces the ownership of a particular IP.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "The adversary must be able to passively wait for an ARP request from a victim device.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "An adversary may passively wait for an ARP request to poison the ARP cache of the requesting device.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "The adversary's reply must be faster than the legitimate reply from the actual owner of the IP address to successfully poison the ARP cache of the requesting device.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "For the adversary to poison the ARP cache, their reply must be faster than the one made by the legitimate IP address owner.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "The adversary may also send a gratuitous ARP reply to falsely announce ownership of a particular IP address.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "Adversaries may also send a gratuitous ARP reply that maliciously announces the ownership of a particular IP.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 3 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

@@ -1,0 +1,84 @@
+{
+ "source_run": "pilot-runs/20261018T180113Z-contextual-a2eb543b82974c5aa4c1502de6e555a7",
+ "index": 12,
+ "condition": "clean_contextual",
+ "question_id": "expanded_sql_injection_consequences_01",
+ "rag_record_sha256": "9a130b5278c9193d305357624c2b6d13521fbe2abf376a3ffd5e6c74dba4223e",
+ "latency_seconds": 4.312,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"Attackers can reveal sensitive database information.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"The goal is to reveal, modify, and/or delete database data.\"}], \"explanation\": \"Source S1 explicitly states that the goal of exploiting SQL Injection is to reveal database data.\"}, {\"claim\": \"Attackers may modify existing data within the database.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"The goal is to reveal, modify, and/or delete database data.\"}], \"explanation\": \"Source S1 explicitly states that modifying database data is a goal of SQL Injection.\"}, {\"claim\": \"Attackers can delete data from the database.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"The goal is to reveal, modify, and/or delete database data.\"}], \"explanation\": \"Source S1 explicitly states that deleting database data is a goal of SQL Injection.\"}, {\"claim\": \"In some cases, SQL Injection can be used to execute multiple queries that lead to a denial of service attack.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"This could entail crafting and executing multiple SQL queries if a denial of service attack is the intent.\"}], \"explanation\": \"Source S1 explicitly states that SQL Injection can lead to denial of service by executing multiple queries.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "Attackers can reveal sensitive database information.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "The goal is to reveal, modify, and/or delete database data.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S1 explicitly states that the goal of exploiting SQL Injection is to reveal database data.",
+   "problems": []
+  },
+  {
+   "claim": "Attackers may modify existing data within the database.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "The goal is to reveal, modify, and/or delete database data.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S1 explicitly states that modifying database data is a goal of SQL Injection.",
+   "problems": []
+  },
+  {
+   "claim": "Attackers can delete data from the database.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "The goal is to reveal, modify, and/or delete database data.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S1 explicitly states that deleting database data is a goal of SQL Injection.",
+   "problems": []
+  },
+  {
+   "claim": "In some cases, SQL Injection can be used to execute multiple queries that lead to a denial of service attack.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "This could entail crafting and executing multiple SQL queries if a denial of service attack is the intent.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S1 explicitly states that SQL Injection can lead to denial of service by executing multiple queries.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 4 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

@@ -1,0 +1,120 @@
+{
+ "source_run": "pilot-runs/20261018T180113Z-contextual-a2eb543b82974c5aa4c1502de6e555a7",
+ "index": 29,
+ "condition": "contextual",
+ "question_id": "expanded_password_cracking_required_resources_01",
+ "rag_record_sha256": "7d2123b272953eaed8aa47ba68b1d06fff8d97b7d13feec6b7a14ec83bc3f62b",
+ "latency_seconds": 5.806,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"Brute Force Tools attempt all possible passwords for a known user ID until access is granted.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"try all possible passwords for a known user ID until application/system grants access.\"}], \"explanation\": \"This is explicitly stated in the source.\"}, {\"claim\": \"Brute Force Tools can be manual or automated, starting with the shortest and simplest passwords.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"Manually or automatically enter all possible passwords through the application/system's interface. In most systems, start with the shortest and simplest possible passwords.\"}], \"explanation\": \"This is explicitly stated in the source.\"}, {\"claim\": \"Offline Dictionary Attack Tools use a pre-defined list of potential passwords to attempt access against a known password hash.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"Perform an offline dictionary attack or a rainbow table attack against a known password hash.\"}], \"explanation\": \"This is explicitly stated in the source.\"}, {\"claim\": \"Rainbow Tables involve using precomputed tables for reversing cryptographic hash functions.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"Perform an offline dictionary attack or a rainbow table attack against a known password hash.\"}], \"explanation\": \"This is explicitly stated in the source.\"}, {\"claim\": \"These methods require knowledge of the target's password policy.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"Determine account lockout policy (a strict account lockout policy will prevent brute force attacks).\"}], \"explanation\": \"This is explicitly stated in the source.\"}, {\"claim\": \"These methods may also need to consider account lockout policies that could hinder brute force attempts.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"Determine account lockout policy (a strict account lockout policy will prevent brute force attacks).\"}], \"explanation\": \"This is explicitly stated in the source.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "Brute Force Tools attempt all possible passwords for a known user ID until access is granted.",
+   "verifier_verdict": "supported",
+   "status": "unavailable",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "try all possible passwords for a known user ID until application/system grants access.",
+     "verified": false
+    }
+   ],
+   "explanation": "This is explicitly stated in the source.",
+   "problems": [
+    "a quotation was not found verbatim in the cited source"
+   ]
+  },
+  {
+   "claim": "Brute Force Tools can be manual or automated, starting with the shortest and simplest passwords.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "Manually or automatically enter all possible passwords through the application/system's interface. In most systems, start with the shortest and simplest possible passwords.",
+     "verified": true
+    }
+   ],
+   "explanation": "This is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "Offline Dictionary Attack Tools use a pre-defined list of potential passwords to attempt access against a known password hash.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "Perform an offline dictionary attack or a rainbow table attack against a known password hash.",
+     "verified": true
+    }
+   ],
+   "explanation": "This is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "Rainbow Tables involve using precomputed tables for reversing cryptographic hash functions.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "Perform an offline dictionary attack or a rainbow table attack against a known password hash.",
+     "verified": true
+    }
+   ],
+   "explanation": "This is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "These methods require knowledge of the target's password policy.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "Determine account lockout policy (a strict account lockout policy will prevent brute force attacks).",
+     "verified": true
+    }
+   ],
+   "explanation": "This is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "These methods may also need to consider account lockout policies that could hinder brute force attempts.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "Determine account lockout policy (a strict account lockout policy will prevent brute force attacks).",
+     "verified": true
+    }
+   ],
+   "explanation": "This is explicitly stated in the source.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "unavailable",
+ "released": false,
+ "reason": "1 claim(s) could not be tied to verified quotations."
+}

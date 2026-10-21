@@ -1,0 +1,84 @@
+{
+ "source_run": "pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e",
+ "index": 12,
+ "condition": "clean",
+ "question_id": "expanded_sql_injection_consequences_01",
+ "rag_record_sha256": "41c09a1479e1ce945e32a8215118147cb93238034245a732fb6627243699cc91",
+ "latency_seconds": 3.32,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"Attackers can reveal sensitive database information.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"The goal is to reveal, modify, and/or delete database data.\"}], \"explanation\": \"The source explicitly states that attackers aim to reveal database data.\"}, {\"claim\": \"Attackers may modify existing data within the database.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"The goal is to reveal, modify, and/or delete database data.\"}], \"explanation\": \"The source explicitly states that attackers aim to modify database data.\"}, {\"claim\": \"Attackers can delete data from the database.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"The goal is to reveal, modify, and/or delete database data.\"}], \"explanation\": \"The source explicitly states that attackers aim to delete database data.\"}, {\"claim\": \"In some cases, SQL Injection can be used to execute multiple queries that lead to a denial of service attack on the target system.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"This could entail crafting and executing multiple SQL queries if a denial of service attack is the intent.\"}], \"explanation\": \"The source explicitly states that SQL Injection can lead to denial of service attacks by executing multiple queries.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "Attackers can reveal sensitive database information.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "The goal is to reveal, modify, and/or delete database data.",
+     "verified": true
+    }
+   ],
+   "explanation": "The source explicitly states that attackers aim to reveal database data.",
+   "problems": []
+  },
+  {
+   "claim": "Attackers may modify existing data within the database.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "The goal is to reveal, modify, and/or delete database data.",
+     "verified": true
+    }
+   ],
+   "explanation": "The source explicitly states that attackers aim to modify database data.",
+   "problems": []
+  },
+  {
+   "claim": "Attackers can delete data from the database.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "The goal is to reveal, modify, and/or delete database data.",
+     "verified": true
+    }
+   ],
+   "explanation": "The source explicitly states that attackers aim to delete database data.",
+   "problems": []
+  },
+  {
+   "claim": "In some cases, SQL Injection can be used to execute multiple queries that lead to a denial of service attack on the target system.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "This could entail crafting and executing multiple SQL queries if a denial of service attack is the intent.",
+     "verified": true
+    }
+   ],
+   "explanation": "The source explicitly states that SQL Injection can lead to denial of service attacks by executing multiple queries.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 4 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

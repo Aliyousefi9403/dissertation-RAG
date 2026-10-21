@@ -1,0 +1,67 @@
+{
+ "source_run": "pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e",
+ "index": 32,
+ "condition": "clean",
+ "question_id": "expanded_os_fingerprinting_prerequisites_01",
+ "rag_record_sha256": "50633707fbb966ab0d05553349b66dbd143155740ec458f43f5bf1cfaee394ad",
+ "latency_seconds": 3.523,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"An adversary must engage in activity that involves interrogating a device, server, or platform with a probe designed to solicit specific behavior from the target.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"An adversary engages in activity to detect the operating system or firmware version of a remote target by interrogating a device, server, or platform with a probe designed to solicit behavior that will reveal information about the operating systems or firmware in the environment.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"}, {\"claim\": \"Different operating systems respond uniquely to specific probing activities.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"Different operating systems will have a unique response to the anomalous input, providing the basis to fingerprint the OS behavior.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"}, {\"claim\": \"The variations in how common protocols (like IP or TCP) are implemented across different operating systems provide the basis for fingerprinting.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"Operating System detection is possible because implementations of common protocols (Such as IP or TCP) differ in distinct ways.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "An adversary must engage in activity that involves interrogating a device, server, or platform with a probe designed to solicit specific behavior from the target.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "An adversary engages in activity to detect the operating system or firmware version of a remote target by interrogating a device, server, or platform with a probe designed to solicit behavior that will reveal information about the operating systems or firmware in the environment.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "Different operating systems respond uniquely to specific probing activities.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "Different operating systems will have a unique response to the anomalous input, providing the basis to fingerprint the OS behavior.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "The variations in how common protocols (like IP or TCP) are implemented across different operating systems provide the basis for fingerprinting.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "Operating System detection is possible because implementations of common protocols (Such as IP or TCP) differ in distinct ways.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 3 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

@@ -1,0 +1,89 @@
+{
+ "source_run": "pilot-runs/20261018T180113Z-contextual-a2eb543b82974c5aa4c1502de6e555a7",
+ "index": 21,
+ "condition": "clean_contextual",
+ "question_id": "expanded_xss_required_resources_01",
+ "rag_record_sha256": "204e6c25ed05fdf81c81e114a87d2f3a1368716c8c71e917715929422cf350b6",
+ "latency_seconds": 3.871,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"Target Client Software: A client that allows scripting communication from remote hosts, such as a JavaScript-enabled web browser.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"Target client software must be a client that allows scripting communication from remote hosts, such as a JavaScript-enabled Web Browser.\"}], \"explanation\": \"This claim is directly supported by Source 1.\"}, {\"claim\": \"Custom Hostile Service: The ability to deploy a custom hostile service for access by targeted clients.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"Ability to deploy a custom hostile service for access by targeted clients.\"}], \"explanation\": \"This claim is directly supported by Source 1.\"}, {\"claim\": \"Communication Capability: The ability to communicate synchronously or asynchronously with the client machine.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"Ability to communicate synchronously or asynchronously with client machine.\"}], \"explanation\": \"This claim is directly supported by Source 1.\"}, {\"claim\": \"Knowledge of exploiting client-side vulnerabilities and the use of platforms like bulletin boards or blogs for script injection can be beneficial.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"High: Exploiting a client side vulnerability to inject malicious scripts into the browser's executable process.\"}, {\"source_id\": \"S2\", \"text\": \"Low: To achieve a redirection and use of less trusted source, an attacker can simply place a script in bulletin board, blog, wiki, or other user-generated content site that are echoed back to other client machines.\"}], \"explanation\": \"This claim is supported by Source 2, which discusses exploiting vulnerabilities and using platforms for script injection.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "Target Client Software: A client that allows scripting communication from remote hosts, such as a JavaScript-enabled web browser.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "Target client software must be a client that allows scripting communication from remote hosts, such as a JavaScript-enabled Web Browser.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is directly supported by Source 1.",
+   "problems": []
+  },
+  {
+   "claim": "Custom Hostile Service: The ability to deploy a custom hostile service for access by targeted clients.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "Ability to deploy a custom hostile service for access by targeted clients.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is directly supported by Source 1.",
+   "problems": []
+  },
+  {
+   "claim": "Communication Capability: The ability to communicate synchronously or asynchronously with the client machine.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "Ability to communicate synchronously or asynchronously with client machine.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is directly supported by Source 1.",
+   "problems": []
+  },
+  {
+   "claim": "Knowledge of exploiting client-side vulnerabilities and the use of platforms like bulletin boards or blogs for script injection can be beneficial.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "High: Exploiting a client side vulnerability to inject malicious scripts into the browser's executable process.",
+     "verified": true
+    },
+    {
+     "source_id": "S2",
+     "text": "Low: To achieve a redirection and use of less trusted source, an attacker can simply place a script in bulletin board, blog, wiki, or other user-generated content site that are echoed back to other client machines.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is supported by Source 2, which discusses exploiting vulnerabilities and using platforms for script injection.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 4 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

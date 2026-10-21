@@ -1,0 +1,50 @@
+{
+ "source_run": "pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c",
+ "index": 5,
+ "condition": "repaired",
+ "question_id": "expanded_tcp_syn_flood_prerequisites_01",
+ "rag_record_sha256": "64d1fc209112debf3c352cb3534844a673d010375cf52efa9d9b56ab8e8d31a0",
+ "latency_seconds": 2.391,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"The ability to generate a large amount of TCP traffic is required for a TCP SYN Flood attack.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"This type of an attack requires the ability to generate a large amount of TCP traffic to send to the target port of a functioning server.\"}], \"explanation\": \"Source S3 explicitly states that generating a large amount of TCP traffic is a requirement for the attack.\"},{\"claim\": \"Targeting the specific port of a functioning server is required for a TCP SYN Flood attack.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"to send to the target port of a functioning server.\"}], \"explanation\": \"Source S3 explicitly mentions targeting the specific port of a functioning server as part of the attack requirements.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "The ability to generate a large amount of TCP traffic is required for a TCP SYN Flood attack.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "This type of an attack requires the ability to generate a large amount of TCP traffic to send to the target port of a functioning server.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S3 explicitly states that generating a large amount of TCP traffic is a requirement for the attack.",
+   "problems": []
+  },
+  {
+   "claim": "Targeting the specific port of a functioning server is required for a TCP SYN Flood attack.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "to send to the target port of a functioning server.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S3 explicitly mentions targeting the specific port of a functioning server as part of the attack requirements.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 2 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

@@ -1,0 +1,67 @@
+{
+ "source_run": "pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c",
+ "index": 14,
+ "condition": "clean_repaired",
+ "question_id": "expanded_uploading_execution_flow_01",
+ "rag_record_sha256": "be9a09eb6c050fbd10329402dc09535df7ede1eb616f803d2085ba6698aa2301",
+ "latency_seconds": 2.798,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"The adversary attempts to upload a malicious file, typically targeting a directory with executable permissions.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"If the adversary discovers a directory that has executable permissions, they will attempt to upload a malicious file to execute.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"},{\"claim\": \"This can involve exploiting a misconfigured FTP server to facilitate the upload.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"Upload a malicious file through a misconfigured FTP server.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"},{\"claim\": \"After the upload, the adversary executes the uploaded malicious file or exploits an existing misconfigured file that allows executable access.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"The adversary either do the uploaded malicious file, or do an existing file that has been misconfigured to allow executable access to the adversary.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "The adversary attempts to upload a malicious file, typically targeting a directory with executable permissions.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "If the adversary discovers a directory that has executable permissions, they will attempt to upload a malicious file to execute.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "This can involve exploiting a misconfigured FTP server to facilitate the upload.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "Upload a malicious file through a misconfigured FTP server.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "After the upload, the adversary executes the uploaded malicious file or exploits an existing misconfigured file that allows executable access.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "The adversary either do the uploaded malicious file, or do an existing file that has been misconfigured to allow executable access to the adversary.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 3 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

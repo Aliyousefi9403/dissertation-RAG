@@ -1,0 +1,88 @@
+{
+ "source_run": "pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e",
+ "index": 30,
+ "condition": "clean",
+ "question_id": "expanded_password_cracking_consequences_01",
+ "rag_record_sha256": "0f40e25e650d8616edea623073188efd8ac46d51ad8a4e17fa9110b152ba0fca",
+ "latency_seconds": 3.935,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"The knowledge base does not explicitly list the consequences of password cracking.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\", \"S2\", \"S3\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"Brute forcing credentials may take place at various points during a breach.\"}, {\"source_id\": \"S2\", \"text\": \"An adversary tries every possible value for a password until they succeed.\"}, {\"source_id\": \"S3\", \"text\": \"Adversaries may use brute force techniques to gain access to accounts when passwords are unknown or when password hashes are obtained.\"}], \"explanation\": \"The sources describe the process of password cracking but do not explicitly list its consequences.\"}, {\"claim\": \"Brute forcing credentials can occur at various points during a breach.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"Brute forcing credentials may take place at various points during a breach.\"}], \"explanation\": \"This is directly stated in the source.\"}, {\"claim\": \"Adversaries may use brute force techniques to gain access to accounts when passwords are unknown or when password hashes are obtained.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"Adversaries may use brute force techniques to gain access to accounts when passwords are unknown or when password hashes are obtained.\"}], \"explanation\": \"This is explicitly stated in the source.\"}, {\"claim\": \"Successful password cracking can lead to unauthorized access to accounts and systems, potentially resulting in further exploitation or data breaches.\", \"verdict\": \"unsupported\", \"source_ids\": [], \"quotes\": [], \"explanation\": \"While the draft implies this, the sources do not explicitly state these consequences.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "The knowledge base does not explicitly list the consequences of password cracking.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1",
+    "S2",
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "Brute forcing credentials may take place at various points during a breach.",
+     "verified": true
+    },
+    {
+     "source_id": "S2",
+     "text": "An adversary tries every possible value for a password until they succeed.",
+     "verified": true
+    },
+    {
+     "source_id": "S3",
+     "text": "Adversaries may use brute force techniques to gain access to accounts when passwords are unknown or when password hashes are obtained.",
+     "verified": true
+    }
+   ],
+   "explanation": "The sources describe the process of password cracking but do not explicitly list its consequences.",
+   "problems": []
+  },
+  {
+   "claim": "Brute forcing credentials can occur at various points during a breach.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "Brute forcing credentials may take place at various points during a breach.",
+     "verified": true
+    }
+   ],
+   "explanation": "This is directly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "Adversaries may use brute force techniques to gain access to accounts when passwords are unknown or when password hashes are obtained.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "Adversaries may use brute force techniques to gain access to accounts when passwords are unknown or when password hashes are obtained.",
+     "verified": true
+    }
+   ],
+   "explanation": "This is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "Successful password cracking can lead to unauthorized access to accounts and systems, potentially resulting in further exploitation or data breaches.",
+   "verifier_verdict": "unsupported",
+   "status": "unsupported",
+   "source_ids": [],
+   "quotes": [],
+   "explanation": "While the draft implies this, the sources do not explicitly state these consequences.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "unsupported",
+ "released": false,
+ "reason": "1 claim(s) are not stated in the retrieved sources."
+}

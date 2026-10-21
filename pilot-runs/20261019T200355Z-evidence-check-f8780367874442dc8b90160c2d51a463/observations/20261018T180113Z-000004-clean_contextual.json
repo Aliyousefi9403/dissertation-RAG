@@ -1,0 +1,76 @@
+{
+ "source_run": "pilot-runs/20261018T180113Z-contextual-a2eb543b82974c5aa4c1502de6e555a7",
+ "index": 4,
+ "condition": "clean_contextual",
+ "question_id": "expanded_tcp_syn_flood_attack_description_01",
+ "rag_record_sha256": "b979d26bbd89ba285b8e2372b8771c25e88ff5072e904207e8e6f1c817dee040",
+ "latency_seconds": 4.902,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"A TCP SYN Flood attack works by exploiting the TCP protocol's requirement for maintaining state information for connections.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"These attacks exploit the weakness within the TCP protocol where there is some state information for the connection the server needs to maintain.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"}, {\"claim\": \"An adversary sends a large number of TCP SYN messages to a target server, which causes the server to allocate resources for these half-open connections.\", \"verdict\": \"unsupported\", \"source_ids\": [], \"quotes\": [], \"explanation\": \"While the concept of sending TCP SYN messages is mentioned, the specific phrasing about half-open connections is not directly supported by the sources.\"}, {\"claim\": \"This can overwhelm the server, denying legitimate users access to the service by exhausting its resources.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"An adversary may execute a flooding attack using the TCP protocol with the intent to deny legitimate users access to a service.\"}], \"explanation\": \"This claim is supported as it aligns with the intent of the attack described in the source.\"}, {\"claim\": \"The attack requires the ability to generate a significant amount of TCP traffic directed at the target server's port.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"This type of an attack requires the ability to generate a large amount of TCP traffic to send to the target port of a functioning server.\"}], \"explanation\": \"This claim is explicitly supported by the source.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "A TCP SYN Flood attack works by exploiting the TCP protocol's requirement for maintaining state information for connections.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "These attacks exploit the weakness within the TCP protocol where there is some state information for the connection the server needs to maintain.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "An adversary sends a large number of TCP SYN messages to a target server, which causes the server to allocate resources for these half-open connections.",
+   "verifier_verdict": "unsupported",
+   "status": "unsupported",
+   "source_ids": [],
+   "quotes": [],
+   "explanation": "While the concept of sending TCP SYN messages is mentioned, the specific phrasing about half-open connections is not directly supported by the sources.",
+   "problems": []
+  },
+  {
+   "claim": "This can overwhelm the server, denying legitimate users access to the service by exhausting its resources.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "An adversary may execute a flooding attack using the TCP protocol with the intent to deny legitimate users access to a service.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is supported as it aligns with the intent of the attack described in the source.",
+   "problems": []
+  },
+  {
+   "claim": "The attack requires the ability to generate a significant amount of TCP traffic directed at the target server's port.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "This type of an attack requires the ability to generate a large amount of TCP traffic to send to the target port of a functioning server.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly supported by the source.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "unsupported",
+ "released": false,
+ "reason": "1 claim(s) are not stated in the retrieved sources."
+}

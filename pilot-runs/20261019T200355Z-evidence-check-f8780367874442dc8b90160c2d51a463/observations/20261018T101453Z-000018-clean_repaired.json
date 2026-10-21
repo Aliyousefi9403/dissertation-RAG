@@ -1,0 +1,101 @@
+{
+ "source_run": "pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c",
+ "index": 18,
+ "condition": "clean_repaired",
+ "question_id": "expanded_xss_attack_description_01",
+ "rag_record_sha256": "00242feb1d605cae3cd2c879657076c0b05b590cfc6fd343cda3e67df0c50639",
+ "latency_seconds": 4.489,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"Cross-Site Scripting (XSS) works by allowing an adversary to implant malicious scripts into content that is served to web browsers.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"An adversary implant malicious scripts in content that will be served to web browsers.\"}], \"explanation\": \"This claim is directly supported by the source.\"}, {\"claim\": \"The goal of the attack is for the client-side browser to execute the script with the user's privilege level.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"The goal of the attack is for the target software, the client-side browser, to execute the script with the users' privilege level.\"}], \"explanation\": \"This claim is directly supported by the source.\"}, {\"claim\": \"This type of attack exploits vulnerabilities in programs that permit remote hosts to execute code and scripts.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"An attack of this type exploits a programs' vulnerabilities that are brought on by allowing remote hosts to execute code and scripts.\"}], \"explanation\": \"This claim is directly supported by the source.\"}, {\"claim\": \"An attacker can inject a script into user-generated content on platforms like bulletin boards or blogs, which is then echoed back to other client machines.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"an attacker can simply place a script in bulletin board, blog, wiki, or other user-generated content site that are echoed back to other client machines.\"}], \"explanation\": \"This claim is directly supported by the source.\"}, {\"claim\": \"To successfully execute an XSS attack, the target client software must be capable of scripting communication from remote hosts, such as a JavaScript-enabled web browser.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"Target client software must be a client that allows scripting communication from remote hosts, such as a JavaScript-enabled Web Browser.\"}], \"explanation\": \"This claim is directly supported by the source.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "Cross-Site Scripting (XSS) works by allowing an adversary to implant malicious scripts into content that is served to web browsers.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "An adversary implant malicious scripts in content that will be served to web browsers.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is directly supported by the source.",
+   "problems": []
+  },
+  {
+   "claim": "The goal of the attack is for the client-side browser to execute the script with the user's privilege level.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "The goal of the attack is for the target software, the client-side browser, to execute the script with the users' privilege level.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is directly supported by the source.",
+   "problems": []
+  },
+  {
+   "claim": "This type of attack exploits vulnerabilities in programs that permit remote hosts to execute code and scripts.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "An attack of this type exploits a programs' vulnerabilities that are brought on by allowing remote hosts to execute code and scripts.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is directly supported by the source.",
+   "problems": []
+  },
+  {
+   "claim": "An attacker can inject a script into user-generated content on platforms like bulletin boards or blogs, which is then echoed back to other client machines.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "an attacker can simply place a script in bulletin board, blog, wiki, or other user-generated content site that are echoed back to other client machines.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is directly supported by the source.",
+   "problems": []
+  },
+  {
+   "claim": "To successfully execute an XSS attack, the target client software must be capable of scripting communication from remote hosts, such as a JavaScript-enabled web browser.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "Target client software must be a client that allows scripting communication from remote hosts, such as a JavaScript-enabled Web Browser.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is directly supported by the source.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 5 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

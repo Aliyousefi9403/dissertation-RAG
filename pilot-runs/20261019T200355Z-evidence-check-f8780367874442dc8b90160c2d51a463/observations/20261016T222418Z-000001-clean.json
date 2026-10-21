@@ -1,0 +1,67 @@
+{
+ "source_run": "pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e",
+ "index": 1,
+ "condition": "clean",
+ "question_id": "expanded_http_flood_prerequisites_01",
+ "rag_record_sha256": "1aad4c09a9ffcb270862bfcd7a5848501a9d80c317e23a01c78feb89998573ab",
+ "latency_seconds": 3.241,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"The prerequisites for executing an HTTP Flood attack include the ability to send legitimate session-based HTTP GET requests that are designed to consume large amounts of a server's resources.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"These attacks use legitimate session-based HTTP GET requests designed to consume large amounts of a server's resources.\"}], \"explanation\": \"Source S1 explicitly states the prerequisites for an HTTP Flood attack.\"},{\"claim\": \"This is necessary to effectively deny legitimate users access to a service by overwhelming the application layer and its infrastructure.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"An adversary may execute a flooding attack using the HTTP protocol with the intent to deny legitimate users access to a service by consuming resources at the application layer such as web services and their infrastructure.\"}], \"explanation\": \"Source S1 confirms that the intent of the attack is to deny access by overwhelming the application layer.\"},{\"claim\": \"Since these requests are legitimate, the attack is particularly difficult to detect.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"Since these are legitimate sessions this attack is very difficult to detect.\"}], \"explanation\": \"Source S1 states that the legitimacy of the requests makes the attack difficult to detect.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "The prerequisites for executing an HTTP Flood attack include the ability to send legitimate session-based HTTP GET requests that are designed to consume large amounts of a server's resources.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "These attacks use legitimate session-based HTTP GET requests designed to consume large amounts of a server's resources.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S1 explicitly states the prerequisites for an HTTP Flood attack.",
+   "problems": []
+  },
+  {
+   "claim": "This is necessary to effectively deny legitimate users access to a service by overwhelming the application layer and its infrastructure.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "An adversary may execute a flooding attack using the HTTP protocol with the intent to deny legitimate users access to a service by consuming resources at the application layer such as web services and their infrastructure.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S1 confirms that the intent of the attack is to deny access by overwhelming the application layer.",
+   "problems": []
+  },
+  {
+   "claim": "Since these requests are legitimate, the attack is particularly difficult to detect.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "Since these are legitimate sessions this attack is very difficult to detect.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S1 states that the legitimacy of the requests makes the attack difficult to detect.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 3 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

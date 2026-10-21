@@ -1,0 +1,94 @@
+{
+ "source_run": "pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c",
+ "index": 38,
+ "condition": "repaired",
+ "question_id": "expanded_port_scanning_consequences_01",
+ "rag_record_sha256": "8f2fb39bf7b6e7f047e910e1c2b409299c82aaabbcdf34b668ac15a89aa1b7e6",
+ "latency_seconds": 4.374,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"The retrieved context does not explicitly list the consequences of port scanning.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\", \"S2\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"Adversaries may attempt to get a listing of services running on remote hosts and local network infrastructure devices, including those that may be vulnerable to remote software exploitation.\"}, {\"source_id\": \"S2\", \"text\": \"Adversaries may attempt to get a listing of services running on remote hosts and local network infrastructure devices, including those that may be vulnerable to remote software exploitation.\"}], \"explanation\": \"The sources describe the use of port scanning for service discovery but do not specify consequences.\"}, {\"claim\": \"Adversaries may use port scanning as a technique for network service discovery to identify services running on remote hosts and local network devices.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\", \"S2\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"Adversaries may attempt to get a listing of services running on remote hosts and local network infrastructure devices.\"}, {\"source_id\": \"S2\", \"text\": \"Adversaries may attempt to get a listing of services running on remote hosts and local network infrastructure devices.\"}], \"explanation\": \"The sources explicitly state that adversaries use port scanning for network service discovery.\"}, {\"claim\": \"The consequences could include increased risk of exploitation of vulnerabilities discovered through such scans.\", \"verdict\": \"unsupported\", \"source_ids\": [], \"quotes\": [], \"explanation\": \"While the sources mention vulnerabilities, they do not explicitly state that the consequences include an increased risk of exploitation.\"}, {\"claim\": \"Specific consequences are not detailed in the provided context.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\", \"S2\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"Adversaries may attempt to get a listing of services running on remote hosts and local network infrastructure devices, including those that may be vulnerable to remote software exploitation.\"}, {\"source_id\": \"S2\", \"text\": \"Adversaries may attempt to get a listing of services running on remote hosts and local network infrastructure devices, including those that may be vulnerable to remote software exploitation.\"}], \"explanation\": \"The sources do not provide specific consequences related to port scanning.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "The retrieved context does not explicitly list the consequences of port scanning.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1",
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "Adversaries may attempt to get a listing of services running on remote hosts and local network infrastructure devices, including those that may be vulnerable to remote software exploitation.",
+     "verified": true
+    },
+    {
+     "source_id": "S2",
+     "text": "Adversaries may attempt to get a listing of services running on remote hosts and local network infrastructure devices, including those that may be vulnerable to remote software exploitation.",
+     "verified": true
+    }
+   ],
+   "explanation": "The sources describe the use of port scanning for service discovery but do not specify consequences.",
+   "problems": []
+  },
+  {
+   "claim": "Adversaries may use port scanning as a technique for network service discovery to identify services running on remote hosts and local network devices.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1",
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "Adversaries may attempt to get a listing of services running on remote hosts and local network infrastructure devices.",
+     "verified": true
+    },
+    {
+     "source_id": "S2",
+     "text": "Adversaries may attempt to get a listing of services running on remote hosts and local network infrastructure devices.",
+     "verified": true
+    }
+   ],
+   "explanation": "The sources explicitly state that adversaries use port scanning for network service discovery.",
+   "problems": []
+  },
+  {
+   "claim": "The consequences could include increased risk of exploitation of vulnerabilities discovered through such scans.",
+   "verifier_verdict": "unsupported",
+   "status": "unsupported",
+   "source_ids": [],
+   "quotes": [],
+   "explanation": "While the sources mention vulnerabilities, they do not explicitly state that the consequences include an increased risk of exploitation.",
+   "problems": []
+  },
+  {
+   "claim": "Specific consequences are not detailed in the provided context.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1",
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "Adversaries may attempt to get a listing of services running on remote hosts and local network infrastructure devices, including those that may be vulnerable to remote software exploitation.",
+     "verified": true
+    },
+    {
+     "source_id": "S2",
+     "text": "Adversaries may attempt to get a listing of services running on remote hosts and local network infrastructure devices, including those that may be vulnerable to remote software exploitation.",
+     "verified": true
+    }
+   ],
+   "explanation": "The sources do not provide specific consequences related to port scanning.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "unsupported",
+ "released": false,
+ "reason": "1 claim(s) are not stated in the retrieved sources."
+}

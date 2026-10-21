@@ -1,0 +1,93 @@
+{
+ "source_run": "pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c",
+ "index": 40,
+ "condition": "repaired",
+ "question_id": "expanded_arp_spoofing_attack_description_01",
+ "rag_record_sha256": "00de92f55785c8ba1add72072e38d689c370e0a5a9f288bcaa58ebf109751029",
+ "latency_seconds": 4.926,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"ARP Spoofing works by an adversary intercepting ARP requests on a network.\", \"verdict\": \"unsupported\", \"source_ids\": [], \"quotes\": [], \"explanation\": \"No source explicitly states that ARP Spoofing involves intercepting ARP requests.\"}, {\"claim\": \"The attacker waits for a device to request the MAC address associated with a specific IP address and then responds with their own MAC address instead.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"An adversary may passively wait for an ARP request to poison the ARP cache of the requesting device. The adversary may reply with their MAC address.\"}], \"explanation\": \"Source S2 confirms that the adversary waits for an ARP request and replies with their MAC address.\"}, {\"claim\": \"This deceives the victim device into believing it is communicating with the legitimate device, effectively poisoning its ARP cache.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"thus deceiving the victim by making them believe that they are communicating with the intended networked device.\"}], \"explanation\": \"Source S2 states that the adversary deceives the victim device into believing it is communicating with the legitimate device.\"}, {\"claim\": \"For the attack to be successful, the adversary's reply must arrive faster than the legitimate device's response.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"For the adversary to poison the ARP cache, their reply must be faster than the one made by the legitimate IP address owner.\"}], \"explanation\": \"Source S2 explicitly states that the adversary's reply must be faster than the legitimate device's response.\"}, {\"claim\": \"Additionally, attackers may send gratuitous ARP replies to falsely claim ownership of an IP address.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"Adversaries may also send a gratuitous ARP reply that maliciously announces the ownership of a particular IP.\"}], \"explanation\": \"Source S2 confirms that attackers may send gratuitous ARP replies to claim ownership of an IP address.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "ARP Spoofing works by an adversary intercepting ARP requests on a network.",
+   "verifier_verdict": "unsupported",
+   "status": "unsupported",
+   "source_ids": [],
+   "quotes": [],
+   "explanation": "No source explicitly states that ARP Spoofing involves intercepting ARP requests.",
+   "problems": []
+  },
+  {
+   "claim": "The attacker waits for a device to request the MAC address associated with a specific IP address and then responds with their own MAC address instead.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "An adversary may passively wait for an ARP request to poison the ARP cache of the requesting device. The adversary may reply with their MAC address.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S2 confirms that the adversary waits for an ARP request and replies with their MAC address.",
+   "problems": []
+  },
+  {
+   "claim": "This deceives the victim device into believing it is communicating with the legitimate device, effectively poisoning its ARP cache.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "thus deceiving the victim by making them believe that they are communicating with the intended networked device.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S2 states that the adversary deceives the victim device into believing it is communicating with the legitimate device.",
+   "problems": []
+  },
+  {
+   "claim": "For the attack to be successful, the adversary's reply must arrive faster than the legitimate device's response.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "For the adversary to poison the ARP cache, their reply must be faster than the one made by the legitimate IP address owner.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S2 explicitly states that the adversary's reply must be faster than the legitimate device's response.",
+   "problems": []
+  },
+  {
+   "claim": "Additionally, attackers may send gratuitous ARP replies to falsely claim ownership of an IP address.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "Adversaries may also send a gratuitous ARP reply that maliciously announces the ownership of a particular IP.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S2 confirms that attackers may send gratuitous ARP replies to claim ownership of an IP address.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "unsupported",
+ "released": false,
+ "reason": "1 claim(s) are not stated in the retrieved sources."
+}

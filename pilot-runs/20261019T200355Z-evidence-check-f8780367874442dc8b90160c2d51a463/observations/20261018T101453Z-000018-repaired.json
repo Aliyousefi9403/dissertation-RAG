@@ -1,0 +1,67 @@
+{
+ "source_run": "pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c",
+ "index": 18,
+ "condition": "repaired",
+ "question_id": "expanded_xss_attack_description_01",
+ "rag_record_sha256": "4f9a77acc91eced0babf31db52fcebdefbd7d67658af9ae11e3409f55cfdcaae",
+ "latency_seconds": 3.833,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"Cross-Site Scripting (XSS) is an injection attack where malicious JavaScript is injected into a web application.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"Cross-Site Scripting\"}], \"explanation\": \"The source categorizes XSS as an injection attack.\"}, {\"claim\": \"This occurs when an attacker identifies vulnerabilities in the application logic, allowing them to load the malicious script into the victim's browser.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"attacks are mostly targeting application logic flaws, but it can also be used to create a widespread attack against a particular website\"}], \"explanation\": \"The source indicates that XSS targets application logic flaws.\"}, {\"claim\": \"As a result, the user unknowingly executes the attack, which can lead to various harmful outcomes, including data theft or widespread attacks against the website being targeted.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"the user will then be the one who perform the attacks without being aware of it.\"}], \"explanation\": \"The source confirms that users can unknowingly execute attacks.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "Cross-Site Scripting (XSS) is an injection attack where malicious JavaScript is injected into a web application.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "Cross-Site Scripting",
+     "verified": true
+    }
+   ],
+   "explanation": "The source categorizes XSS as an injection attack.",
+   "problems": []
+  },
+  {
+   "claim": "This occurs when an attacker identifies vulnerabilities in the application logic, allowing them to load the malicious script into the victim's browser.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "attacks are mostly targeting application logic flaws, but it can also be used to create a widespread attack against a particular website",
+     "verified": true
+    }
+   ],
+   "explanation": "The source indicates that XSS targets application logic flaws.",
+   "problems": []
+  },
+  {
+   "claim": "As a result, the user unknowingly executes the attack, which can lead to various harmful outcomes, including data theft or widespread attacks against the website being targeted.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "the user will then be the one who perform the attacks without being aware of it.",
+     "verified": true
+    }
+   ],
+   "explanation": "The source confirms that users can unknowingly execute attacks.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 3 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

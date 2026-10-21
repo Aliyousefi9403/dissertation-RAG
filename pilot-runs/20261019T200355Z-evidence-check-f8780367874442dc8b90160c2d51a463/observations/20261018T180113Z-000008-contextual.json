@@ -1,0 +1,121 @@
+{
+ "source_run": "pilot-runs/20261018T180113Z-contextual-a2eb543b82974c5aa4c1502de6e555a7",
+ "index": 8,
+ "condition": "contextual",
+ "question_id": "expanded_sql_injection_attack_description_01",
+ "rag_record_sha256": "3cac32e85bc0e4233648bea25de450f63073c3835ec83642d16f79af08800a46",
+ "latency_seconds": 4.543,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"SQL Injection works by exploiting vulnerabilities in a web application's input handling.\", \"verdict\": \"unsupported\", \"source_ids\": [], \"quotes\": [], \"explanation\": \"No source explicitly states this claim.\"}, {\"claim\": \"An attacker can craft and execute SQL queries that manipulate the underlying database.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"craft and execute the underlying SQL query that will be used to attack the target system.\"}], \"explanation\": \"Source S1 supports the claim about crafting and executing SQL queries.\"}, {\"claim\": \"This involves refining the SQL queries to reveal, modify, or delete data within the database.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"The goal is to reveal, modify, and/or delete database data.\"}], \"explanation\": \"Source S1 explicitly states the goal of revealing, modifying, or deleting data.\"}, {\"claim\": \"The attacker may start by determining if a given input is vulnerable.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"After determining that a given input is vulnerable to SQL Injection.\"}], \"explanation\": \"Source S2 supports the claim about determining input vulnerability.\"}, {\"claim\": \"Then iteratively add logic to the query to extract or alter information.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\", \"S3\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"Iteratively try to add logic to the query to extract information from the database.\"}, {\"source_id\": \"S3\", \"text\": \"Iteratively try to add logic to the query to extract information from the database, or to modify or delete information in the database.\"}], \"explanation\": \"Sources S2 and S3 both support the iterative addition of logic to SQL queries.\"}, {\"claim\": \"Techniques include using network-level packet injection tools or modified clients to inject malicious input into the SQL queries.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"Use network-level packet injection tools such as netcat to inject input.\"}, {\"source_id\": \"S2\", \"text\": \"Use modified client (modified by reverse engineering) to inject input.\"}], \"explanation\": \"Source S2 explicitly mentions techniques involving network-level packet injection tools and modified clients.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "SQL Injection works by exploiting vulnerabilities in a web application's input handling.",
+   "verifier_verdict": "unsupported",
+   "status": "unsupported",
+   "source_ids": [],
+   "quotes": [],
+   "explanation": "No source explicitly states this claim.",
+   "problems": []
+  },
+  {
+   "claim": "An attacker can craft and execute SQL queries that manipulate the underlying database.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "craft and execute the underlying SQL query that will be used to attack the target system.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S1 supports the claim about crafting and executing SQL queries.",
+   "problems": []
+  },
+  {
+   "claim": "This involves refining the SQL queries to reveal, modify, or delete data within the database.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "The goal is to reveal, modify, and/or delete database data.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S1 explicitly states the goal of revealing, modifying, or deleting data.",
+   "problems": []
+  },
+  {
+   "claim": "The attacker may start by determining if a given input is vulnerable.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "After determining that a given input is vulnerable to SQL Injection.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S2 supports the claim about determining input vulnerability.",
+   "problems": []
+  },
+  {
+   "claim": "Then iteratively add logic to the query to extract or alter information.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2",
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "Iteratively try to add logic to the query to extract information from the database.",
+     "verified": true
+    },
+    {
+     "source_id": "S3",
+     "text": "Iteratively try to add logic to the query to extract information from the database, or to modify or delete information in the database.",
+     "verified": true
+    }
+   ],
+   "explanation": "Sources S2 and S3 both support the iterative addition of logic to SQL queries.",
+   "problems": []
+  },
+  {
+   "claim": "Techniques include using network-level packet injection tools or modified clients to inject malicious input into the SQL queries.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "Use network-level packet injection tools such as netcat to inject input.",
+     "verified": true
+    },
+    {
+     "source_id": "S2",
+     "text": "Use modified client (modified by reverse engineering) to inject input.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S2 explicitly mentions techniques involving network-level packet injection tools and modified clients.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "unsupported",
+ "released": false,
+ "reason": "1 claim(s) are not stated in the retrieved sources."
+}

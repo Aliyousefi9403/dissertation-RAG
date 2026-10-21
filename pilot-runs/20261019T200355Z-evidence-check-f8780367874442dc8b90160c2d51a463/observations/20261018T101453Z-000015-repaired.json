@@ -1,0 +1,84 @@
+{
+ "source_run": "pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c",
+ "index": 15,
+ "condition": "repaired",
+ "question_id": "expanded_uploading_prerequisites_01",
+ "rag_record_sha256": "e1f1c6e0016c611b077ca39e1fdcc1d50f7522f093485f98b7cdc3a603d1730d",
+ "latency_seconds": 3.12,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"CAPEC ID: CAPEC-17, which relates to the role of malicious file mechanisms and is required.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"CAPEC: CAPEC-17 — role: malicious_file_mechanism; required\"}], \"explanation\": \"The source explicitly states that CAPEC-17 is required for malicious file upload.\"}, {\"claim\": \"OWASP Reference: The OWASP File Upload Cheat Sheet, which is also required for prevention and mitigation.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"OWASP: File Upload Cheat Sheet — role: prevention_and_mitigation; required\"}], \"explanation\": \"The source explicitly states that the OWASP File Upload Cheat Sheet is required.\"}, {\"claim\": \"CWE Reference: CWE-434, which pertains to dangerous file type contexts and is required.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"CWE: CWE-434 — role: dangerous_file_type_context; required\"}], \"explanation\": \"The source explicitly states that CWE-434 is required.\"}, {\"claim\": \"The MITRE ATT&CK ID T1190 is mentioned as optional in the context of public-facing applications.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"MITRE_ATTACK_ENTERPRISE: T1190 — role: public_facing_application_context; optional\"}], \"explanation\": \"The source explicitly states that T1190 is optional in this context.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "CAPEC ID: CAPEC-17, which relates to the role of malicious file mechanisms and is required.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "CAPEC: CAPEC-17 — role: malicious_file_mechanism; required",
+     "verified": true
+    }
+   ],
+   "explanation": "The source explicitly states that CAPEC-17 is required for malicious file upload.",
+   "problems": []
+  },
+  {
+   "claim": "OWASP Reference: The OWASP File Upload Cheat Sheet, which is also required for prevention and mitigation.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "OWASP: File Upload Cheat Sheet — role: prevention_and_mitigation; required",
+     "verified": true
+    }
+   ],
+   "explanation": "The source explicitly states that the OWASP File Upload Cheat Sheet is required.",
+   "problems": []
+  },
+  {
+   "claim": "CWE Reference: CWE-434, which pertains to dangerous file type contexts and is required.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "CWE: CWE-434 — role: dangerous_file_type_context; required",
+     "verified": true
+    }
+   ],
+   "explanation": "The source explicitly states that CWE-434 is required.",
+   "problems": []
+  },
+  {
+   "claim": "The MITRE ATT&CK ID T1190 is mentioned as optional in the context of public-facing applications.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "MITRE_ATTACK_ENTERPRISE: T1190 — role: public_facing_application_context; optional",
+     "verified": true
+    }
+   ],
+   "explanation": "The source explicitly states that T1190 is optional in this context.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 4 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

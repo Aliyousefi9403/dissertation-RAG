@@ -1,0 +1,84 @@
+{
+ "source_run": "pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e",
+ "index": 10,
+ "condition": "clean",
+ "question_id": "expanded_sql_injection_prerequisites_01",
+ "rag_record_sha256": "bb3df35fa1fd80bb9311b5240f649dfb357dbddc975afcf32c90ea86fd8643ce",
+ "latency_seconds": 4.501,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"The application must use SQL queries to store, retrieve, or modify data.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"- SQL queries used by the application to store, retrieve or modify data.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"}, {\"claim\": \"There must be user-controllable input that is not properly validated by the application as part of SQL queries.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"- User-controllable input that is not properly validated by the application as part of SQL queries.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"}, {\"claim\": \"No specialized resources are required to execute this type of attack.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"None: No specialized resources are required to execute this type of attack.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"}, {\"claim\": \"It generally requires only basic SQL knowledge, although specific knowledge of the database may be necessary in some cases.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"Low: It is fairly simple for someone with basic SQL knowledge to perform SQL injection, in general. In certain instances, however, specific knowledge of the database employed may be required.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "The application must use SQL queries to store, retrieve, or modify data.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "- SQL queries used by the application to store, retrieve or modify data.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "There must be user-controllable input that is not properly validated by the application as part of SQL queries.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "- User-controllable input that is not properly validated by the application as part of SQL queries.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "No specialized resources are required to execute this type of attack.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "None: No specialized resources are required to execute this type of attack.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "It generally requires only basic SQL knowledge, although specific knowledge of the database may be necessary in some cases.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "Low: It is fairly simple for someone with basic SQL knowledge to perform SQL injection, in general. In certain instances, however, specific knowledge of the database employed may be required.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 4 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

@@ -1,0 +1,55 @@
+{
+ "source_run": "pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e",
+ "index": 43,
+ "condition": "clean",
+ "question_id": "expanded_dns_spoofing_attack_description_01",
+ "rag_record_sha256": "eff918361ff575c3a2c8ab1b086b72b759a17a511046fd304d58f23fb04e2f80",
+ "latency_seconds": 2.88,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"DNS Spoofing works by manipulating DNS settings to redirect users from legitimate sites to malicious ones or to prevent access to those sites altogether.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"Adversaries may manipulate victim DNS settings to enable other malicious activities such as preventing/redirecting users from accessing legitimate sites.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"},{\"claim\": \"This can enable adversaries to conduct further malicious activities, such as intercepting user credentials or pushing additional malware onto the victim's system.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"Adversaries may also manipulate DNS and leverage their position in order to intercept user credentials, including access tokens.\"}, {\"source_id\": \"S2\", \"text\": \"preventing/redirecting users from accessing legitimate sites and/or pushing additional malware.\"}], \"explanation\": \"The source supports both parts of this claim regarding further malicious activities.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "DNS Spoofing works by manipulating DNS settings to redirect users from legitimate sites to malicious ones or to prevent access to those sites altogether.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "Adversaries may manipulate victim DNS settings to enable other malicious activities such as preventing/redirecting users from accessing legitimate sites.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "This can enable adversaries to conduct further malicious activities, such as intercepting user credentials or pushing additional malware onto the victim's system.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "Adversaries may also manipulate DNS and leverage their position in order to intercept user credentials, including access tokens.",
+     "verified": true
+    },
+    {
+     "source_id": "S2",
+     "text": "preventing/redirecting users from accessing legitimate sites and/or pushing additional malware.",
+     "verified": true
+    }
+   ],
+   "explanation": "The source supports both parts of this claim regarding further malicious activities.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 2 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

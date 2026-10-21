@@ -1,0 +1,33 @@
+{
+ "source_run": "pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e",
+ "index": 5,
+ "condition": "clean",
+ "question_id": "expanded_tcp_syn_flood_prerequisites_01",
+ "rag_record_sha256": "b1d85c8f75bc352bac2929a5dcf8572f17dc3f255ecde6903ea675e1b2e093ee",
+ "latency_seconds": 1.644,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"The conditions required for a TCP SYN Flood attack include the ability to generate a large amount of TCP traffic directed at the target port of a functioning server.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"This type of an attack requires the ability to generate a large amount of TCP traffic to send to the target port of a functioning server.\"}], \"explanation\": \"Source S3 explicitly states that generating a large amount of TCP traffic to the target port of a functioning server is a requirement for a TCP SYN Flood attack.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "The conditions required for a TCP SYN Flood attack include the ability to generate a large amount of TCP traffic directed at the target port of a functioning server.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "This type of an attack requires the ability to generate a large amount of TCP traffic to send to the target port of a functioning server.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S3 explicitly states that generating a large amount of TCP traffic to the target port of a functioning server is a requirement for a TCP SYN Flood attack.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 1 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

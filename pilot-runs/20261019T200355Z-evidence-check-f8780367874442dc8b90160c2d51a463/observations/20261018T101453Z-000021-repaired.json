@@ -1,0 +1,89 @@
+{
+ "source_run": "pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c",
+ "index": 21,
+ "condition": "repaired",
+ "question_id": "expanded_xss_required_resources_01",
+ "rag_record_sha256": "d8ae675b14248b3dfe7745067819ef7d22933262841d94835b5f22379426ef90",
+ "latency_seconds": 4.187,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"CAPEC: CAPEC-63 is required as it describes the attack mechanism.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"CAPEC: CAPEC-63 — role: attack_mechanism; required\"}], \"explanation\": \"The source explicitly states that CAPEC-63 is required for describing the attack mechanism.\"},{\"claim\": \"OWASP: Cross Site Scripting Prevention Cheat Sheet is required for prevention and mitigation strategies.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"OWASP: Cross Site Scripting Prevention Cheat Sheet — role: prevention_and_mitigation; required\"}], \"explanation\": \"The source explicitly states that the OWASP Cheat Sheet is required for prevention and mitigation.\"},{\"claim\": \"OWASP: Web Security Testing Guide - Testing for XSS is required for detection and testing of XSS vulnerabilities.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"OWASP: Web Security Testing Guide - Testing for XSS — role: detection_and_testing; required\"}], \"explanation\": \"The source explicitly states that the OWASP Testing Guide is required for detection and testing.\"},{\"claim\": \"Using a list of XSS probe strings and a proxy tool to record results of manual input of XSS probes are suggested techniques for testing and exploiting XSS vulnerabilities.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"Use a list of XSS probe strings to inject script in parameters of known URLs.\"},{\"source_id\": \"S3\", \"text\": \"Use a proxy tool to record results of manual input of XSS probes in known URLs.\"}], \"explanation\": \"The source provides explicit techniques for testing XSS vulnerabilities using probe strings and proxy tools.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "CAPEC: CAPEC-63 is required as it describes the attack mechanism.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "CAPEC: CAPEC-63 — role: attack_mechanism; required",
+     "verified": true
+    }
+   ],
+   "explanation": "The source explicitly states that CAPEC-63 is required for describing the attack mechanism.",
+   "problems": []
+  },
+  {
+   "claim": "OWASP: Cross Site Scripting Prevention Cheat Sheet is required for prevention and mitigation strategies.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "OWASP: Cross Site Scripting Prevention Cheat Sheet — role: prevention_and_mitigation; required",
+     "verified": true
+    }
+   ],
+   "explanation": "The source explicitly states that the OWASP Cheat Sheet is required for prevention and mitigation.",
+   "problems": []
+  },
+  {
+   "claim": "OWASP: Web Security Testing Guide - Testing for XSS is required for detection and testing of XSS vulnerabilities.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "OWASP: Web Security Testing Guide - Testing for XSS — role: detection_and_testing; required",
+     "verified": true
+    }
+   ],
+   "explanation": "The source explicitly states that the OWASP Testing Guide is required for detection and testing.",
+   "problems": []
+  },
+  {
+   "claim": "Using a list of XSS probe strings and a proxy tool to record results of manual input of XSS probes are suggested techniques for testing and exploiting XSS vulnerabilities.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "Use a list of XSS probe strings to inject script in parameters of known URLs.",
+     "verified": true
+    },
+    {
+     "source_id": "S3",
+     "text": "Use a proxy tool to record results of manual input of XSS probes in known URLs.",
+     "verified": true
+    }
+   ],
+   "explanation": "The source provides explicit techniques for testing XSS vulnerabilities using probe strings and proxy tools.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 4 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

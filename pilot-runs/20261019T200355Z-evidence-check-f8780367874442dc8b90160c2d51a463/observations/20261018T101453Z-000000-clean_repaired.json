@@ -1,0 +1,84 @@
+{
+ "source_run": "pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c",
+ "index": 0,
+ "condition": "clean_repaired",
+ "question_id": "expanded_http_flood_attack_description_01",
+ "rag_record_sha256": "fbc75fdfd711d5ab3917395296e030e16f1be7c83edf8bccb2336d2be871e142",
+ "latency_seconds": 6.884,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"An HTTP Flood attack involves an adversary executing a flooding attack using the HTTP protocol to deny legitimate users access to a service.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"An adversary may execute a flooding attack using the HTTP protocol with the intent to deny legitimate users access to a service.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"},{\"claim\": \"This is achieved by consuming resources at the application layer, such as web services and their infrastructure.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"by consuming resources at the application layer such as web services and their infrastructure.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"},{\"claim\": \"These attacks use legitimate session-based HTTP GET requests designed to utilize large amounts of a server's resources.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"These attacks use legitimate session-based HTTP GET requests designed to have large amounts of a server's resources.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"},{\"claim\": \"Because these requests appear legitimate, the attack is difficult to detect.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"Since these are legitimate sessions this attack is very difficult to detect.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "An HTTP Flood attack involves an adversary executing a flooding attack using the HTTP protocol to deny legitimate users access to a service.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "An adversary may execute a flooding attack using the HTTP protocol with the intent to deny legitimate users access to a service.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "This is achieved by consuming resources at the application layer, such as web services and their infrastructure.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "by consuming resources at the application layer such as web services and their infrastructure.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "These attacks use legitimate session-based HTTP GET requests designed to utilize large amounts of a server's resources.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "These attacks use legitimate session-based HTTP GET requests designed to have large amounts of a server's resources.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "Because these requests appear legitimate, the attack is difficult to detect.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "Since these are legitimate sessions this attack is very difficult to detect.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 4 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

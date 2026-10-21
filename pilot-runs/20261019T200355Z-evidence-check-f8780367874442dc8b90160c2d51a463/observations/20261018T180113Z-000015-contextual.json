@@ -1,0 +1,84 @@
+{
+ "source_run": "pilot-runs/20261018T180113Z-contextual-a2eb543b82974c5aa4c1502de6e555a7",
+ "index": 15,
+ "condition": "contextual",
+ "question_id": "expanded_uploading_prerequisites_01",
+ "rag_record_sha256": "960d7418312d016d1a86c8a16a5417b0bb9bfd700b139f7cd75b77796c928e6d",
+ "latency_seconds": 3.651,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"CAPEC-17 — role: malicious_file_mechanism; required.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"CAPEC: CAPEC-17 — role: malicious_file_mechanism; required\"}], \"explanation\": \"This claim is explicitly stated in the source.\"},{\"claim\": \"OWASP: File Upload Cheat Sheet — role: prevention and mitigation; required.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"OWASP: File Upload Cheat Sheet — role: prevention_and_mitigation; required\"}], \"explanation\": \"This claim is explicitly stated in the source.\"},{\"claim\": \"CWE: CWE-434 — role: dangerous_file_type_context; required.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"CWE: CWE-434 — role: dangerous_file_type_context; required\"}], \"explanation\": \"This claim is explicitly stated in the source.\"},{\"claim\": \"MITRE_ATTACK_ENTERPRISE: T1190 — role: public facing application context; optional.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"MITRE_ATTACK_ENTERPRISE: T1190 — role: public_facing_application_context; optional\"}], \"explanation\": \"This claim is explicitly stated in the source.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "CAPEC-17 — role: malicious_file_mechanism; required.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "CAPEC: CAPEC-17 — role: malicious_file_mechanism; required",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "OWASP: File Upload Cheat Sheet — role: prevention and mitigation; required.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "OWASP: File Upload Cheat Sheet — role: prevention_and_mitigation; required",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "CWE: CWE-434 — role: dangerous_file_type_context; required.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "CWE: CWE-434 — role: dangerous_file_type_context; required",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "MITRE_ATTACK_ENTERPRISE: T1190 — role: public facing application context; optional.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "MITRE_ATTACK_ENTERPRISE: T1190 — role: public_facing_application_context; optional",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 4 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

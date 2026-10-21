@@ -26,10 +26,12 @@ FAM = f"{RES}/entropy-family"
 RUNS = ("pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e",
         "pilot-runs/20261017T165331Z-defence-cebfb27c1e9048cdb61fbfe15f37e50d",
         "pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c",
-        "pilot-runs/20261018T180113Z-contextual-a2eb543b82974c5aa4c1502de6e555a7")
+        "pilot-runs/20261018T180113Z-contextual-a2eb543b82974c5aa4c1502de6e555a7",
+        "pilot-runs/20261019T200355Z-evidence-check-f8780367874442dc8b90160c2d51a463")
 CTX = f"{RES}/contextual-defence/live-paired/summary.json"
 DIAG = f"{RES}/adaptive-attack/second-order-diagnostic.json"
 IV = f"{RES}/detector-uncertainty/auroc-intervals.json"
+EC = f"{RES}/evidence-check/summary.json"
 
 
 def manifest_count(corpus, result):
@@ -125,6 +127,10 @@ CLAIMS = [
     ("Intervals: contextual AUROC on PWWS, lower bound", IV, ["corpora", "poisoned", "family", "scores", "ctx_syngap_top3", "ci95", 0], 0.87),
     ("Frozen contextual threshold: TextFooler edits flagged", IV, ["corpora", "poisoned_textfooler", "frozen_thresholds", "ctx_syngap_top3", "edited_flagged"], 70),
     ("Frozen contextual threshold: first-order adaptive edits flagged", IV, ["corpora", "poisoned_adaptive", "frozen_thresholds", "ctx_syngap_top3", "edited_flagged"], 10),
+    ("Evidence check: precision (error = not correct)", EC, ["primary_error_not_correct", "precision"], 0.28),
+    ("Evidence check: recall", EC, ["primary_error_not_correct", "recall"], 0.20),
+    ("Evidence check: false-alarm rate", EC, ["primary_error_not_correct", "false_alarm"], 0.31),
+    ("Evidence check: partial answers fully supported", EC, ["outcome_by_label", "partial", "supported"], 68),
     ("Frozen contextual threshold: PWWS edits flagged", IV, ["corpora", "poisoned", "frozen_thresholds", "ctx_syngap_top3", "edited_flagged"], 42),
 ]
 

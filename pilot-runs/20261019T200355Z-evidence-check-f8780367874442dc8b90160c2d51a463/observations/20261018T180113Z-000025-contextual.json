@@ -1,0 +1,50 @@
+{
+ "source_run": "pilot-runs/20261018T180113Z-contextual-a2eb543b82974c5aa4c1502de6e555a7",
+ "index": 25,
+ "condition": "contextual",
+ "question_id": "expanded_backdoor_prerequisites_01",
+ "rag_record_sha256": "5a9df5c3e1e0291fe1c550566a0a9c3d6fac9ea557034e1505c22a0cbb705fb2",
+ "latency_seconds": 1.991,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"Physical access to the system after it has left the manufacturer but before it is deployed at the victim location.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"Physical access to the system after it has left the manufacturer but before it is deployed at the victim location.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"}, {\"claim\": \"High level of skill in malicious software creation.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"High: Malicious software creation.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "Physical access to the system after it has left the manufacturer but before it is deployed at the victim location.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "Physical access to the system after it has left the manufacturer but before it is deployed at the victim location.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "High level of skill in malicious software creation.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "High: Malicious software creation.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 2 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

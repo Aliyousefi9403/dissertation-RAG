@@ -1,0 +1,84 @@
+{
+ "source_run": "pilot-runs/20261018T180113Z-contextual-a2eb543b82974c5aa4c1502de6e555a7",
+ "index": 27,
+ "condition": "clean_contextual",
+ "question_id": "expanded_password_cracking_execution_flow_01",
+ "rag_record_sha256": "3ebfad0ad5aafb716942b170b4954568cf3f92c492860f9e7fba8ec010cc0384",
+ "latency_seconds": 4.541,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"An adversary attempts to guess the password by trying every possible value until successful. This is known as a brute force attack.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"An adversary tries every possible value for a password until they succeed. A brute force attack, if feasible computationally, will always be successful because it will essentially go through all possible passwords given the alphabet used.\"}], \"explanation\": \"This claim is directly supported by the description of a brute force attack in Source 1.\"}, {\"claim\": \"Adversaries may utilize brute force techniques to access accounts when passwords are unknown or when password hashes are obtained.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"Adversaries may use brute force techniques to gain access to accounts when passwords are unknown or when password hashes are obtained.\"}], \"explanation\": \"This claim is explicitly stated in Source 2.\"}, {\"claim\": \"They systematically guess the password using a repetitive or iterative mechanism, often interacting with a service that checks the validity of the credentials.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"an adversary may systematically guess the password using a repetitive or iterative mechanism.\"}], \"explanation\": \"This claim is supported by Source 2, which describes the systematic guessing process.\"}, {\"claim\": \"The adversary determines the finite space of possible passwords based on the password policy and then tries all possible passwords for a known user ID until access is granted by the application or system.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"Given the finite space of possible passwords dictated by the password policy determined in the previous step, try all possible passwords for a known user ID until application/system grants.\"}], \"explanation\": \"This claim is supported by Source 3, which discusses the process of trying all possible passwords based on the password policy.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "An adversary attempts to guess the password by trying every possible value until successful. This is known as a brute force attack.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "An adversary tries every possible value for a password until they succeed. A brute force attack, if feasible computationally, will always be successful because it will essentially go through all possible passwords given the alphabet used.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is directly supported by the description of a brute force attack in Source 1.",
+   "problems": []
+  },
+  {
+   "claim": "Adversaries may utilize brute force techniques to access accounts when passwords are unknown or when password hashes are obtained.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "Adversaries may use brute force techniques to gain access to accounts when passwords are unknown or when password hashes are obtained.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in Source 2.",
+   "problems": []
+  },
+  {
+   "claim": "They systematically guess the password using a repetitive or iterative mechanism, often interacting with a service that checks the validity of the credentials.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "an adversary may systematically guess the password using a repetitive or iterative mechanism.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is supported by Source 2, which describes the systematic guessing process.",
+   "problems": []
+  },
+  {
+   "claim": "The adversary determines the finite space of possible passwords based on the password policy and then tries all possible passwords for a known user ID until access is granted by the application or system.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "Given the finite space of possible passwords dictated by the password policy determined in the previous step, try all possible passwords for a known user ID until application/system grants.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is supported by Source 3, which discusses the process of trying all possible passwords based on the password policy.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 4 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

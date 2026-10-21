@@ -1,0 +1,101 @@
+{
+ "source_run": "pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c",
+ "index": 29,
+ "condition": "clean_repaired",
+ "question_id": "expanded_password_cracking_required_resources_01",
+ "rag_record_sha256": "d63db9eb724d4797606fb9aa8269b92cb321838f079fcc2bde35d176e2bb742f",
+ "latency_seconds": 3.806,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"A powerful computer is needed for password cracking with sufficient CPU, RAM, and hard drive space.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"A powerful enough computer for the job with sufficient CPU, RAM and HD.\"}], \"explanation\": \"Source S2 explicitly states the need for a powerful computer with specific resources.\"},{\"claim\": \"The exact specifications of the computer depend on the size of the brute force job and the time required for completion.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"Exact requirements will depend on the size of the brute force job and the time requirement for completion.\"}], \"explanation\": \"Source S2 provides details on how the specifications vary based on the job size and time.\"},{\"claim\": \"Grid or distributed computing may be necessary for larger brute forcing jobs.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"Some brute forcing jobs may require grid or distributed computing (e.g. DES Challenge).\"}], \"explanation\": \"Source S2 mentions that larger jobs may require grid or distributed computing.\"},{\"claim\": \"A variety of password cracking tools are widely available.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"A variety of password cracking tools are widely available.\"}], \"explanation\": \"Source S2 explicitly states the availability of various password cracking tools.\"},{\"claim\": \"The skill level required for executing a brute force attack is considered low, as the process is straightforward.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"Low: A brute force attack is very straightforward.\"}], \"explanation\": \"Source S2 indicates that the skill level required for brute force attacks is low.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "A powerful computer is needed for password cracking with sufficient CPU, RAM, and hard drive space.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "A powerful enough computer for the job with sufficient CPU, RAM and HD.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S2 explicitly states the need for a powerful computer with specific resources.",
+   "problems": []
+  },
+  {
+   "claim": "The exact specifications of the computer depend on the size of the brute force job and the time required for completion.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "Exact requirements will depend on the size of the brute force job and the time requirement for completion.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S2 provides details on how the specifications vary based on the job size and time.",
+   "problems": []
+  },
+  {
+   "claim": "Grid or distributed computing may be necessary for larger brute forcing jobs.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "Some brute forcing jobs may require grid or distributed computing (e.g. DES Challenge).",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S2 mentions that larger jobs may require grid or distributed computing.",
+   "problems": []
+  },
+  {
+   "claim": "A variety of password cracking tools are widely available.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "A variety of password cracking tools are widely available.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S2 explicitly states the availability of various password cracking tools.",
+   "problems": []
+  },
+  {
+   "claim": "The skill level required for executing a brute force attack is considered low, as the process is straightforward.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "Low: A brute force attack is very straightforward.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S2 indicates that the skill level required for brute force attacks is low.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 5 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

@@ -1,0 +1,84 @@
+{
+ "source_run": "pilot-runs/20261018T180113Z-contextual-a2eb543b82974c5aa4c1502de6e555a7",
+ "index": 13,
+ "condition": "clean_contextual",
+ "question_id": "expanded_uploading_attack_description_01",
+ "rag_record_sha256": "d65e5cfb5d387385604a01d9c406a2f33da6d936ee73437a2cf88e7c4e774690",
+ "latency_seconds": 4.574,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"Malicious File Upload works by exploiting a system's configuration that allows an adversary to upload a file and then execute it.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"An attack of this type exploits a system's configuration that allows an adversary to either directly access an executable file, for example through shell access; or in a possible worst case allows an adversary to upload a file and then execute it.\"}], \"explanation\": \"Source S3 explicitly states that the attack exploits a system's configuration to allow file uploads and execution.\"}, {\"claim\": \"This can occur if the adversary discovers a directory with executable permissions and uploads a malicious file to that location.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"If the adversary discovers a directory that has executable permissions, they will attempt to upload a malicious file to execute.\"}], \"explanation\": \"Source S2 confirms that discovering a directory with executable permissions leads to attempts to upload malicious files.\"}, {\"claim\": \"The adversary may either execute the uploaded malicious file directly or execute an existing file that has been misconfigured to allow executable access.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"The adversary either executes the uploaded malicious file, or executes an existing file that has been misconfigured to allow executable access to the adversary.\"}], \"explanation\": \"Source S1 explicitly states both possibilities of executing either the uploaded file or a misconfigured existing file.\"}, {\"claim\": \"Systems such as web servers and FTP servers are particularly vulnerable to this type of attack due to potential misconfigurations and the need for proper synchronization between programmers and administrators regarding interfaces and privileges.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"Web servers, ftp servers, and message oriented middleware systems which have many integration points are particularly vulnerable, because both the programmers and the administrators must be in synch regarding the interfaces and the correct privileges.\"}], \"explanation\": \"Source S3 discusses the vulnerability of web and FTP servers due to misconfigurations and the need for synchronization.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "Malicious File Upload works by exploiting a system's configuration that allows an adversary to upload a file and then execute it.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "An attack of this type exploits a system's configuration that allows an adversary to either directly access an executable file, for example through shell access; or in a possible worst case allows an adversary to upload a file and then execute it.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S3 explicitly states that the attack exploits a system's configuration to allow file uploads and execution.",
+   "problems": []
+  },
+  {
+   "claim": "This can occur if the adversary discovers a directory with executable permissions and uploads a malicious file to that location.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "If the adversary discovers a directory that has executable permissions, they will attempt to upload a malicious file to execute.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S2 confirms that discovering a directory with executable permissions leads to attempts to upload malicious files.",
+   "problems": []
+  },
+  {
+   "claim": "The adversary may either execute the uploaded malicious file directly or execute an existing file that has been misconfigured to allow executable access.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "The adversary either executes the uploaded malicious file, or executes an existing file that has been misconfigured to allow executable access to the adversary.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S1 explicitly states both possibilities of executing either the uploaded file or a misconfigured existing file.",
+   "problems": []
+  },
+  {
+   "claim": "Systems such as web servers and FTP servers are particularly vulnerable to this type of attack due to potential misconfigurations and the need for proper synchronization between programmers and administrators regarding interfaces and privileges.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "Web servers, ftp servers, and message oriented middleware systems which have many integration points are particularly vulnerable, because both the programmers and the administrators must be in synch regarding the interfaces and the correct privileges.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S3 discusses the vulnerability of web and FTP servers due to misconfigurations and the need for synchronization.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 4 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

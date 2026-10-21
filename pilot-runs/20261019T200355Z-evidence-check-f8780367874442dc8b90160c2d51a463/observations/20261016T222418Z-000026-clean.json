@@ -1,0 +1,118 @@
+{
+ "source_run": "pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e",
+ "index": 26,
+ "condition": "clean",
+ "question_id": "expanded_password_cracking_attack_description_01",
+ "rag_record_sha256": "9a855e8b5eaef61d900397d6140b9b17d59ca4967ccbbaa1beef28674af90b62",
+ "latency_seconds": 5.866,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"Password cracking primarily involves an adversary attempting to guess a password by trying every possible combination until the correct one is found.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"An adversary tries every possible value for a password until they succeed.\"}], \"explanation\": \"This claim is directly supported by the source.\"}, {\"claim\": \"This method is known as a brute force attack.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"A brute force attack, if feasible computationally, will always be successful.\"}], \"explanation\": \"The source explicitly identifies the method as a brute force attack.\"}, {\"claim\": \"It is computationally feasible and guarantees success as it systematically goes through all potential passwords based on the character set used (including lower case letters, upper case letters, numbers, and symbols) and the maximum length of the password.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"it will essentially go through all possible passwords given the alphabet used (lower case letters, upper case letters, numbers, symbols, etc.) and the maximum length of the password.\"}], \"explanation\": \"The source confirms the computational feasibility and systematic approach of brute force attacks.\"}, {\"claim\": \"Adversaries may employ brute force techniques to access accounts when they do not know the passwords or when they have obtained password hashes.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"Adversaries may use brute force techniques to gain access to accounts when passwords are unknown or when password hashes are obtained.\"}], \"explanation\": \"This claim is directly supported by the source.\"}, {\"claim\": \"This process can involve systematically guessing passwords using a repetitive or iterative mechanism, often through interaction with a service that verifies the credentials.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"an adversary may systematically guess the password using a repetitive or iterative mechanism.\"}], \"explanation\": \"The source describes the systematic guessing process involved in brute force attacks.\"}, {\"claim\": \"Additionally, brute forcing can occur at various stages during a breach, leveraging information gathered from other activities such as credential dumping or account discovery.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"Brute forcing credentials may take place at various points during a breach.\"}], \"explanation\": \"The source supports the claim about the timing of brute force attacks during breaches.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "Password cracking primarily involves an adversary attempting to guess a password by trying every possible combination until the correct one is found.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "An adversary tries every possible value for a password until they succeed.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is directly supported by the source.",
+   "problems": []
+  },
+  {
+   "claim": "This method is known as a brute force attack.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "A brute force attack, if feasible computationally, will always be successful.",
+     "verified": true
+    }
+   ],
+   "explanation": "The source explicitly identifies the method as a brute force attack.",
+   "problems": []
+  },
+  {
+   "claim": "It is computationally feasible and guarantees success as it systematically goes through all potential passwords based on the character set used (including lower case letters, upper case letters, numbers, and symbols) and the maximum length of the password.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "it will essentially go through all possible passwords given the alphabet used (lower case letters, upper case letters, numbers, symbols, etc.) and the maximum length of the password.",
+     "verified": true
+    }
+   ],
+   "explanation": "The source confirms the computational feasibility and systematic approach of brute force attacks.",
+   "problems": []
+  },
+  {
+   "claim": "Adversaries may employ brute force techniques to access accounts when they do not know the passwords or when they have obtained password hashes.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "Adversaries may use brute force techniques to gain access to accounts when passwords are unknown or when password hashes are obtained.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is directly supported by the source.",
+   "problems": []
+  },
+  {
+   "claim": "This process can involve systematically guessing passwords using a repetitive or iterative mechanism, often through interaction with a service that verifies the credentials.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "an adversary may systematically guess the password using a repetitive or iterative mechanism.",
+     "verified": true
+    }
+   ],
+   "explanation": "The source describes the systematic guessing process involved in brute force attacks.",
+   "problems": []
+  },
+  {
+   "claim": "Additionally, brute forcing can occur at various stages during a breach, leveraging information gathered from other activities such as credential dumping or account discovery.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "Brute forcing credentials may take place at various points during a breach.",
+     "verified": true
+    }
+   ],
+   "explanation": "The source supports the claim about the timing of brute force attacks during breaches.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 6 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

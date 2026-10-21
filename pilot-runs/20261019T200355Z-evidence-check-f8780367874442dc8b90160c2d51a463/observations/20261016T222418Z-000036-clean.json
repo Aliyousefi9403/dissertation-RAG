@@ -1,0 +1,67 @@
+{
+ "source_run": "pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e",
+ "index": 36,
+ "condition": "clean",
+ "question_id": "expanded_port_scanning_prerequisites_01",
+ "rag_record_sha256": "07633935331b81e4fd2cb5bb88337aacde338be5d76e08a3ba2c7573d39a1f73",
+ "latency_seconds": 2.662,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"The ability to monitor and interact with network communications.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"The ability to monitor and interact with network communications.\"}], \"explanation\": \"This claim is explicitly stated in Source 2.\"}, {\"claim\": \"Access to at least one host.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"Access to at least one host.\"}], \"explanation\": \"This claim is explicitly stated in Source 2.\"}, {\"claim\": \"Privileges to interface with the network interface card.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"the privileges to interface with the network interface card.\"}], \"explanation\": \"This claim is explicitly stated in Source 2.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "The ability to monitor and interact with network communications.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "The ability to monitor and interact with network communications.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in Source 2.",
+   "problems": []
+  },
+  {
+   "claim": "Access to at least one host.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "Access to at least one host.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in Source 2.",
+   "problems": []
+  },
+  {
+   "claim": "Privileges to interface with the network interface card.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "the privileges to interface with the network interface card.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in Source 2.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 3 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

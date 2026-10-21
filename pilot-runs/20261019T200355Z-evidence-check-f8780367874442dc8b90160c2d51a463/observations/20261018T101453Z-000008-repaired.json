@@ -1,0 +1,84 @@
+{
+ "source_run": "pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c",
+ "index": 8,
+ "condition": "repaired",
+ "question_id": "expanded_sql_injection_attack_description_01",
+ "rag_record_sha256": "8b59e3873ee8090a4f987d28ed7dd7de85fe29adaa82708d718524f04107356e",
+ "latency_seconds": 3.952,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"SQL Injection works by exploiting software that constructs SQL statements based on user input.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"This attack exploits target software that constructs SQL statements based on user input.\"}], \"explanation\": \"This claim is explicitly stated in Source 3.\"},{\"claim\": \"An attacker crafts input strings that manipulate the SQL query, causing it to perform unintended actions.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"An attacker crafts input strings so that when the target software constructs SQL statements based on the input, the resulting SQL statement performs actions other than those the application intended.\"}], \"explanation\": \"This claim is explicitly stated in Source 3.\"},{\"claim\": \"This vulnerability arises from the application's failure to properly validate input.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"SQL Injection results from failure of the application to appropriately validate input.\"}], \"explanation\": \"This claim is explicitly stated in Source 3.\"},{\"claim\": \"allowing the attacker to modify the query to extract, modify, or delete information from the database.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"Iteratively try to add logic to the query to extract information from the database, or to modify or delete information in the database.\"}], \"explanation\": \"This claim is supported by Source 2.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "SQL Injection works by exploiting software that constructs SQL statements based on user input.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "This attack exploits target software that constructs SQL statements based on user input.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in Source 3.",
+   "problems": []
+  },
+  {
+   "claim": "An attacker crafts input strings that manipulate the SQL query, causing it to perform unintended actions.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "An attacker crafts input strings so that when the target software constructs SQL statements based on the input, the resulting SQL statement performs actions other than those the application intended.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in Source 3.",
+   "problems": []
+  },
+  {
+   "claim": "This vulnerability arises from the application's failure to properly validate input.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "SQL Injection results from failure of the application to appropriately validate input.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in Source 3.",
+   "problems": []
+  },
+  {
+   "claim": "allowing the attacker to modify the query to extract, modify, or delete information from the database.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "Iteratively try to add logic to the query to extract information from the database, or to modify or delete information in the database.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is supported by Source 2.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 4 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

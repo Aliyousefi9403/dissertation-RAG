@@ -1,0 +1,67 @@
+{
+ "source_run": "pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e",
+ "index": 39,
+ "condition": "clean",
+ "question_id": "expanded_vulnerability_scanning_att_ck_adversary_context_01",
+ "rag_record_sha256": "efd36176017125b808aab4c8ffa875329981a13c1025c521f0ee590be4032281",
+ "latency_seconds": 3.538,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"Vulnerability scanning collects information such as running software, version numbers, server banners, and listening ports.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"Vulnerability scans typically harvest running software and version numbers via server banners, listening ports, or other network artifacts.\"}], \"explanation\": \"Source S1 explicitly states the types of information collected during vulnerability scanning.\"},{\"claim\": \"This data helps identify exploitable vulnerabilities and can reveal opportunities for further reconnaissance.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"Information from these scans may reveal opportunities for other forms of reconnaissance.\"}], \"explanation\": \"Source S1 supports the claim about the data helping to identify vulnerabilities and opportunities for reconnaissance.\"},{\"claim\": \"It allows adversaries to determine if the configuration of a target host or application aligns with the requirements of specific exploits they may intend to use.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"Vulnerability scans typically check if the configuration of a target host/application (ex: software and version) potentially aligns with the target of a specific exploit the adversary may seek to use.\"}], \"explanation\": \"Source S2 explicitly states that vulnerability scans help determine if configurations align with specific exploits.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "Vulnerability scanning collects information such as running software, version numbers, server banners, and listening ports.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "Vulnerability scans typically harvest running software and version numbers via server banners, listening ports, or other network artifacts.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S1 explicitly states the types of information collected during vulnerability scanning.",
+   "problems": []
+  },
+  {
+   "claim": "This data helps identify exploitable vulnerabilities and can reveal opportunities for further reconnaissance.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "Information from these scans may reveal opportunities for other forms of reconnaissance.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S1 supports the claim about the data helping to identify vulnerabilities and opportunities for reconnaissance.",
+   "problems": []
+  },
+  {
+   "claim": "It allows adversaries to determine if the configuration of a target host or application aligns with the requirements of specific exploits they may intend to use.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "Vulnerability scans typically check if the configuration of a target host/application (ex: software and version) potentially aligns with the target of a specific exploit the adversary may seek to use.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S2 explicitly states that vulnerability scans help determine if configurations align with specific exploits.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 3 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

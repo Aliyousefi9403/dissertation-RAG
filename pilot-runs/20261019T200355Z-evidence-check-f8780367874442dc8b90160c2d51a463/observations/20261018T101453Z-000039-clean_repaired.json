@@ -1,0 +1,98 @@
+{
+ "source_run": "pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c",
+ "index": 39,
+ "condition": "clean_repaired",
+ "question_id": "expanded_vulnerability_scanning_att_ck_adversary_context_01",
+ "rag_record_sha256": "a222c2030a9bab2fee39c8a8fcc8221332a6d2640bf8f425677e03adefb42964",
+ "latency_seconds": 4.396,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"Vulnerability scanning collects information such as running software, version numbers, and configuration details of target hosts or applications.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\", \"S2\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"Vulnerability scans typically harvest running software and version numbers via server banners, listening ports, or other network artifacts.\"}, {\"source_id\": \"S2\", \"text\": \"Vulnerability scans typically check if the configuration of a target host/application (ex: software and version) potentially aligns with the target of a specific exploit the adversary may seek to use.\"}], \"explanation\": \"Both sources confirm that vulnerability scans collect information about running software, version numbers, and configuration details.\"}, {\"claim\": \"This information is gathered through methods like server banners and listening ports.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"Vulnerability scans typically harvest running software and version numbers via server banners, listening ports, or other network artifacts.\"}], \"explanation\": \"Source S1 explicitly states the methods used to gather this information.\"}, {\"claim\": \"The data obtained can reveal exploitable vulnerabilities and help adversaries identify specific targets for later exploitation.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\", \"S2\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"These scans may also include more broad attempts to Gather Victim Host Information that can be used to identify more commonly known, exploitable vulnerabilities.\"}, {\"source_id\": \"S2\", \"text\": \"Adversaries may scan victims for vulnerabilities that can be used during targeting.\"}], \"explanation\": \"Both sources indicate that the data from vulnerability scans can reveal exploitable vulnerabilities and assist in targeting.\"}, {\"claim\": \"This aligns with the potential exploits they may seek to use.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"Vulnerability scans typically check if the configuration of a target host/application (ex: software and version) potentially aligns with the target of a specific exploit the adversary may seek to use.\"}], \"explanation\": \"Source S2 explicitly states that the information gathered aligns with potential exploits.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "Vulnerability scanning collects information such as running software, version numbers, and configuration details of target hosts or applications.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1",
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "Vulnerability scans typically harvest running software and version numbers via server banners, listening ports, or other network artifacts.",
+     "verified": true
+    },
+    {
+     "source_id": "S2",
+     "text": "Vulnerability scans typically check if the configuration of a target host/application (ex: software and version) potentially aligns with the target of a specific exploit the adversary may seek to use.",
+     "verified": true
+    }
+   ],
+   "explanation": "Both sources confirm that vulnerability scans collect information about running software, version numbers, and configuration details.",
+   "problems": []
+  },
+  {
+   "claim": "This information is gathered through methods like server banners and listening ports.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "Vulnerability scans typically harvest running software and version numbers via server banners, listening ports, or other network artifacts.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S1 explicitly states the methods used to gather this information.",
+   "problems": []
+  },
+  {
+   "claim": "The data obtained can reveal exploitable vulnerabilities and help adversaries identify specific targets for later exploitation.",
+   "verifier_verdict": "supported",
+   "status": "unavailable",
+   "source_ids": [
+    "S1",
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "These scans may also include more broad attempts to Gather Victim Host Information that can be used to identify more commonly known, exploitable vulnerabilities.",
+     "verified": false
+    },
+    {
+     "source_id": "S2",
+     "text": "Adversaries may scan victims for vulnerabilities that can be used during targeting.",
+     "verified": true
+    }
+   ],
+   "explanation": "Both sources indicate that the data from vulnerability scans can reveal exploitable vulnerabilities and assist in targeting.",
+   "problems": [
+    "a quotation was not found verbatim in the cited source"
+   ]
+  },
+  {
+   "claim": "This aligns with the potential exploits they may seek to use.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "Vulnerability scans typically check if the configuration of a target host/application (ex: software and version) potentially aligns with the target of a specific exploit the adversary may seek to use.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S2 explicitly states that the information gathered aligns with potential exploits.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "unavailable",
+ "released": false,
+ "reason": "1 claim(s) could not be tied to verified quotations."
+}

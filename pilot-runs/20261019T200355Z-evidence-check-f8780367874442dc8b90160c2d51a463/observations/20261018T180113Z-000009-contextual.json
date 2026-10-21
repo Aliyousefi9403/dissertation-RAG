@@ -1,0 +1,73 @@
+{
+ "source_run": "pilot-runs/20261018T180113Z-contextual-a2eb543b82974c5aa4c1502de6e555a7",
+ "index": 9,
+ "condition": "contextual",
+ "question_id": "expanded_sql_injection_execution_flow_01",
+ "rag_record_sha256": "421d7802e3a2f1a56470e8025aa8485077232cfa52ac8f1eec308219ded842f1",
+ "latency_seconds": 5.029,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"The knowledge base describes the main stages of SQL Injection as prerequisites and exploit SQL Injection vulnerability.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\", \"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"SQL queries used by the application to store, retrieve or modify data.\"}, {\"source_id\": \"S1\", \"text\": \"craft and execute the underlying SQL query that will be used to attack the target system.\"}], \"explanation\": \"The sources outline the prerequisites and the process of exploiting SQL Injection vulnerabilities.\"},{\"claim\": \"Prerequisites include understanding SQL queries and identifying user-controllable input that is not properly validated.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"User-controllable input that is not properly validated by the application as part of SQL queries.\"}], \"explanation\": \"Source S2 explicitly states the prerequisites for SQL Injection.\"},{\"claim\": \"Exploit SQL Injection Vulnerability involves crafting and executing SQL queries to attack the target system.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"craft and execute the underlying SQL query that will be used to attack the target system.\"}], \"explanation\": \"Source S1 describes the process of exploiting SQL Injection vulnerabilities.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "The knowledge base describes the main stages of SQL Injection as prerequisites and exploit SQL Injection vulnerability.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1",
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "SQL queries used by the application to store, retrieve or modify data.",
+     "verified": true
+    },
+    {
+     "source_id": "S1",
+     "text": "craft and execute the underlying SQL query that will be used to attack the target system.",
+     "verified": true
+    }
+   ],
+   "explanation": "The sources outline the prerequisites and the process of exploiting SQL Injection vulnerabilities.",
+   "problems": []
+  },
+  {
+   "claim": "Prerequisites include understanding SQL queries and identifying user-controllable input that is not properly validated.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "User-controllable input that is not properly validated by the application as part of SQL queries.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S2 explicitly states the prerequisites for SQL Injection.",
+   "problems": []
+  },
+  {
+   "claim": "Exploit SQL Injection Vulnerability involves crafting and executing SQL queries to attack the target system.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "craft and execute the underlying SQL query that will be used to attack the target system.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S1 describes the process of exploiting SQL Injection vulnerabilities.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 3 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

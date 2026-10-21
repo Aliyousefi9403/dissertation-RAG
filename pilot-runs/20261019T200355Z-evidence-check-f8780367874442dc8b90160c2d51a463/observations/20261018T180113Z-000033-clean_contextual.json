@@ -1,0 +1,47 @@
+{
+ "source_run": "pilot-runs/20261018T180113Z-contextual-a2eb543b82974c5aa4c1502de6e555a7",
+ "index": 33,
+ "condition": "clean_contextual",
+ "question_id": "expanded_os_fingerprinting_required_resources_01",
+ "rag_record_sha256": "bce4c70c5c334169070250a9b1a86fe361ba0a3c1cf594d0b8f8c25a5ebdb8cf",
+ "latency_seconds": 2.046,
+ "raw_verifier_response": "{\"abstention\": true, \"claims\": [{\"claim\": \"The retrieved context does not specify particular resources or tools needed for Operating System Fingerprinting.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\", \"S2\", \"S3\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"This type of OS fingerprinting can distinguish between operating system types and versions.\"}, {\"source_id\": \"S2\", \"text\": \"Different operating systems will have a unique response to the anomalous input, providing the basis to fingerprint the OS behavior.\"}, {\"source_id\": \"S3\", \"text\": \"The document status: generated_from_authoritative_sources.\"}], \"explanation\": \"The sources discuss OS fingerprinting but do not mention specific tools or resources.\"}]}",
+ "abstention": true,
+ "findings": [
+  {
+   "claim": "The retrieved context does not specify particular resources or tools needed for Operating System Fingerprinting.",
+   "verifier_verdict": "supported",
+   "status": "unavailable",
+   "source_ids": [
+    "S1",
+    "S2",
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "This type of OS fingerprinting can distinguish between operating system types and versions.",
+     "verified": true
+    },
+    {
+     "source_id": "S2",
+     "text": "Different operating systems will have a unique response to the anomalous input, providing the basis to fingerprint the OS behavior.",
+     "verified": true
+    },
+    {
+     "source_id": "S3",
+     "text": "The document status: generated_from_authoritative_sources.",
+     "verified": false
+    }
+   ],
+   "explanation": "The sources discuss OS fingerprinting but do not mention specific tools or resources.",
+   "problems": [
+    "a quotation was not found verbatim in the cited source"
+   ]
+  }
+ ],
+ "error": null,
+ "outcome": "unavailable",
+ "released": false,
+ "reason": "1 claim(s) could not be tied to verified quotations."
+}

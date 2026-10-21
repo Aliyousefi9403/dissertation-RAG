@@ -1,0 +1,42 @@
+{
+ "source_run": "pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c",
+ "index": 12,
+ "condition": "repaired",
+ "question_id": "expanded_sql_injection_consequences_01",
+ "rag_record_sha256": "47742d8873dcd4deb8721c3c99f3a64aec138caefd9d01767826755e9eeb62d4",
+ "latency_seconds": 10.128,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"SQL Injection can lead to unauthorized actions being performed on the database due to the exploitation of improperly validated user input.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"SQL Injection results from failure of the application to appropriately validate input.\"}], \"explanation\": \"This claim is supported as it directly relates to the exploitation of improperly validated user input.\"},{\"claim\": \"This can result in data breaches, data manipulation, or other unintended actions by the application.\", \"verdict\": \"unsupported\", \"source_ids\": [], \"quotes\": [], \"explanation\": \"The sources do not specify the exact consequences such as data breaches or data manipulation.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "SQL Injection can lead to unauthorized actions being performed on the database due to the exploitation of improperly validated user input.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "SQL Injection results from failure of the application to appropriately validate input.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is supported as it directly relates to the exploitation of improperly validated user input.",
+   "problems": []
+  },
+  {
+   "claim": "This can result in data breaches, data manipulation, or other unintended actions by the application.",
+   "verifier_verdict": "unsupported",
+   "status": "unsupported",
+   "source_ids": [],
+   "quotes": [],
+   "explanation": "The sources do not specify the exact consequences such as data breaches or data manipulation.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "unsupported",
+ "released": false,
+ "reason": "1 claim(s) are not stated in the retrieved sources."
+}

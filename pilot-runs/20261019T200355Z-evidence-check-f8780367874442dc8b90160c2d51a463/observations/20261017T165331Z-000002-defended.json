@@ -1,0 +1,67 @@
+{
+ "source_run": "pilot-runs/20261017T165331Z-defence-cebfb27c1e9048cdb61fbfe15f37e50d",
+ "index": 2,
+ "condition": "defended",
+ "question_id": "expanded_icmp_flood_attack_description_01",
+ "rag_record_sha256": "eba18d0e747aa7bf55360b5ad7de9223a866355d0024f7a516d1ac82dbfc234d",
+ "latency_seconds": 3.461,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"An ICMP Flood attack involves an adversary sending a high rate of ICMP packets to a victim server from a wide range of source addresses.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"A typical attack involves a victim server receiving ICMP packets at a high rate from a wide range of source addresses.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"},{\"claim\": \"The goal is to consume the available network bandwidth, thereby denying legitimate users access to the service.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"with the intent to deny legitimate users access to a service by consuming the available network bandwidth.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"},{\"claim\": \"The session-less nature of the ICMP protocol allows for easy spoofing of packet sources, complicating efforts to identify the attack's origin.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"due to the session-less nature of the ICMP protocol, the source of a packet is easily spoofed making it difficult to find the source of the attack.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "An ICMP Flood attack involves an adversary sending a high rate of ICMP packets to a victim server from a wide range of source addresses.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "A typical attack involves a victim server receiving ICMP packets at a high rate from a wide range of source addresses.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "The goal is to consume the available network bandwidth, thereby denying legitimate users access to the service.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "with the intent to deny legitimate users access to a service by consuming the available network bandwidth.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "The session-less nature of the ICMP protocol allows for easy spoofing of packet sources, complicating efforts to identify the attack's origin.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "due to the session-less nature of the ICMP protocol, the source of a packet is easily spoofed making it difficult to find the source of the attack.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 3 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

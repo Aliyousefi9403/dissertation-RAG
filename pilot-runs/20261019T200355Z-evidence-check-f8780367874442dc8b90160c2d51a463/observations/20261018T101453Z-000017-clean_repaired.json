@@ -1,0 +1,50 @@
+{
+ "source_run": "pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c",
+ "index": 17,
+ "condition": "clean_repaired",
+ "question_id": "expanded_uploading_consequences_01",
+ "rag_record_sha256": "30855a92fc2665fca28668676ff860f31115055361673c220bb3041a811c1651",
+ "latency_seconds": 2.643,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"An adversary may exploit a directory with executable permissions to upload a malicious file, which can then be executed.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"If the adversary discovers a directory that has executable permissions, they will attempt to upload a malicious file to execute.\"}], \"explanation\": \"Source S1 explicitly states that an adversary can upload a malicious file if they find a directory with executable permissions.\"}, {\"claim\": \"The adversary can execute the uploaded malicious file or an existing file that has been misconfigured to allow executable access.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"The adversary either do the uploaded malicious file, or do an existing file that has been misconfigured to allow executable access to the adversary.\"}], \"explanation\": \"Source S2 confirms that the adversary can execute either the uploaded malicious file or an existing misconfigured file.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "An adversary may exploit a directory with executable permissions to upload a malicious file, which can then be executed.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "If the adversary discovers a directory that has executable permissions, they will attempt to upload a malicious file to execute.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S1 explicitly states that an adversary can upload a malicious file if they find a directory with executable permissions.",
+   "problems": []
+  },
+  {
+   "claim": "The adversary can execute the uploaded malicious file or an existing file that has been misconfigured to allow executable access.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "The adversary either do the uploaded malicious file, or do an existing file that has been misconfigured to allow executable access to the adversary.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S2 confirms that the adversary can execute either the uploaded malicious file or an existing misconfigured file.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 2 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

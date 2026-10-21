@@ -1,0 +1,68 @@
+{
+ "source_run": "pilot-runs/20261018T180113Z-contextual-a2eb543b82974c5aa4c1502de6e555a7",
+ "index": 12,
+ "condition": "contextual",
+ "question_id": "expanded_sql_injection_consequences_01",
+ "rag_record_sha256": "b11bc5b8962192c3c35fd455036db59ddb9804ff3dc6fb53b2f89c8be4b6a8a1",
+ "latency_seconds": 3.007,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"The retrieved context does not provide specific details about the consequences of SQL Injection.\", \"verdict\": \"unsupported\", \"source_ids\": [], \"quotes\": [], \"explanation\": \"While the sources mention potential consequences, they do not provide a comprehensive list of consequences.\"}, {\"claim\": \"It mentions the potential for revealing, modifying, or deleting database data.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"The goal is to reveal, modify, and/or delete database data.\"}], \"explanation\": \"Source S1 explicitly states that SQL Injection can reveal, modify, or delete database data.\"}, {\"claim\": \"It indicates that it could be used for denial of service attacks.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"This could entail crafting and executing multiple SQL queries if a denial of service attack is the intent.\"}], \"explanation\": \"Source S1 explicitly mentions that SQL Injection could be used for denial of service attacks.\"}, {\"claim\": \"It does not elaborate on the broader consequences.\", \"verdict\": \"unsupported\", \"source_ids\": [], \"quotes\": [], \"explanation\": \"The sources do not provide a detailed elaboration on broader consequences, but they do mention specific consequences.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "The retrieved context does not provide specific details about the consequences of SQL Injection.",
+   "verifier_verdict": "unsupported",
+   "status": "unsupported",
+   "source_ids": [],
+   "quotes": [],
+   "explanation": "While the sources mention potential consequences, they do not provide a comprehensive list of consequences.",
+   "problems": []
+  },
+  {
+   "claim": "It mentions the potential for revealing, modifying, or deleting database data.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "The goal is to reveal, modify, and/or delete database data.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S1 explicitly states that SQL Injection can reveal, modify, or delete database data.",
+   "problems": []
+  },
+  {
+   "claim": "It indicates that it could be used for denial of service attacks.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "This could entail crafting and executing multiple SQL queries if a denial of service attack is the intent.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S1 explicitly mentions that SQL Injection could be used for denial of service attacks.",
+   "problems": []
+  },
+  {
+   "claim": "It does not elaborate on the broader consequences.",
+   "verifier_verdict": "unsupported",
+   "status": "unsupported",
+   "source_ids": [],
+   "quotes": [],
+   "explanation": "The sources do not provide a detailed elaboration on broader consequences, but they do mention specific consequences.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "unsupported",
+ "released": false,
+ "reason": "2 claim(s) are not stated in the retrieved sources."
+}

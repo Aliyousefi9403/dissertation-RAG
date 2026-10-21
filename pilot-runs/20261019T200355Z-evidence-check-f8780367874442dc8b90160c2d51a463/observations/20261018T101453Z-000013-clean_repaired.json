@@ -1,0 +1,76 @@
+{
+ "source_run": "pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c",
+ "index": 13,
+ "condition": "clean_repaired",
+ "question_id": "expanded_uploading_attack_description_01",
+ "rag_record_sha256": "8b273d4533587548b9a8d8abbab54e9ddadcfd93fcfbdda8ff81931cff138f46",
+ "latency_seconds": 3.37,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"Malicious File Upload occurs when an adversary uploads a file that is designed to be executed on the server.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"If the adversary discovers a directory that has executable permissions, they will attempt to upload a malicious file to execute.\"}], \"explanation\": \"This claim is supported by the source which describes the process of uploading a malicious file for execution.\"},{\"claim\": \"This can happen if the adversary finds a directory with executable permissions and uploads a malicious file to that location.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"If the adversary discovers a directory that has executable permissions, they will attempt to upload a malicious file to execute.\"}], \"explanation\": \"The source explicitly states that adversaries upload files to directories with executable permissions.\"},{\"claim\": \"The uploaded file can either be a new malicious file or an existing file that has been misconfigured to allow executable access.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"The adversary either do the uploaded malicious file, or do an existing file that has been misconfigured to allow executable access to the adversary.\"}], \"explanation\": \"This claim is supported by the source which mentions both new and existing files being used.\"},{\"claim\": \"Once uploaded, the adversary can execute the file, leading to potential exploitation of the system.\", \"verdict\": \"unsupported\", \"source_ids\": [], \"quotes\": [], \"explanation\": \"The sources do not explicitly state that the execution of the uploaded file leads to exploitation of the system.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "Malicious File Upload occurs when an adversary uploads a file that is designed to be executed on the server.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "If the adversary discovers a directory that has executable permissions, they will attempt to upload a malicious file to execute.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is supported by the source which describes the process of uploading a malicious file for execution.",
+   "problems": []
+  },
+  {
+   "claim": "This can happen if the adversary finds a directory with executable permissions and uploads a malicious file to that location.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "If the adversary discovers a directory that has executable permissions, they will attempt to upload a malicious file to execute.",
+     "verified": true
+    }
+   ],
+   "explanation": "The source explicitly states that adversaries upload files to directories with executable permissions.",
+   "problems": []
+  },
+  {
+   "claim": "The uploaded file can either be a new malicious file or an existing file that has been misconfigured to allow executable access.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "The adversary either do the uploaded malicious file, or do an existing file that has been misconfigured to allow executable access to the adversary.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is supported by the source which mentions both new and existing files being used.",
+   "problems": []
+  },
+  {
+   "claim": "Once uploaded, the adversary can execute the file, leading to potential exploitation of the system.",
+   "verifier_verdict": "unsupported",
+   "status": "unsupported",
+   "source_ids": [],
+   "quotes": [],
+   "explanation": "The sources do not explicitly state that the execution of the uploaded file leads to exploitation of the system.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "unsupported",
+ "released": false,
+ "reason": "1 claim(s) are not stated in the retrieved sources."
+}

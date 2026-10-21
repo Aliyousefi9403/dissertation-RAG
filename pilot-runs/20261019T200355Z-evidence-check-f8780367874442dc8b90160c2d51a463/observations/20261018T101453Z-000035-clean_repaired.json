@@ -1,0 +1,59 @@
+{
+ "source_run": "pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c",
+ "index": 35,
+ "condition": "clean_repaired",
+ "question_id": "expanded_port_scanning_attack_description_01",
+ "rag_record_sha256": "d1c5c8423c8c817dd03a41cdc41928e02aaddf8fa81645a65d4af69e2c338a58",
+ "latency_seconds": 3.1,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"Port scanning involves an adversary using various techniques to determine the state of the ports on a remote target.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"An adversary uses a combination of techniques to determine the state of the ports on a remote target.\"}], \"explanation\": \"This claim is directly supported by the description in Source S1.\"},{\"claim\": \"Each service or application that operates over TCP or UDP networking will have specific ports open for communication.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"Any service or application available for TCP or UDP networking will have a port open for communications over the network.\"}], \"explanation\": \"This claim is directly supported by the information in Source S1.\"},{\"claim\": \"By scanning these ports, the adversary can gather information about the services available on the target system, which may help in identifying potential vulnerabilities or attack vectors.\", \"verdict\": \"unsupported\", \"source_ids\": [], \"quotes\": [], \"explanation\": \"While the draft implies this, the sources do not explicitly state that port scanning helps identify vulnerabilities or attack vectors.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "Port scanning involves an adversary using various techniques to determine the state of the ports on a remote target.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "An adversary uses a combination of techniques to determine the state of the ports on a remote target.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is directly supported by the description in Source S1.",
+   "problems": []
+  },
+  {
+   "claim": "Each service or application that operates over TCP or UDP networking will have specific ports open for communication.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "Any service or application available for TCP or UDP networking will have a port open for communications over the network.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is directly supported by the information in Source S1.",
+   "problems": []
+  },
+  {
+   "claim": "By scanning these ports, the adversary can gather information about the services available on the target system, which may help in identifying potential vulnerabilities or attack vectors.",
+   "verifier_verdict": "unsupported",
+   "status": "unsupported",
+   "source_ids": [],
+   "quotes": [],
+   "explanation": "While the draft implies this, the sources do not explicitly state that port scanning helps identify vulnerabilities or attack vectors.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "unsupported",
+ "released": false,
+ "reason": "1 claim(s) are not stated in the retrieved sources."
+}

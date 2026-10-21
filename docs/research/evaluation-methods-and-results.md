@@ -609,6 +609,28 @@ At the **frozen deployed thresholds** (fixed on the original PWWS development do
 
 **Limits.** One surrogate, one corpus and a small language model (distilgpt2); a larger reference model, or an attacker optimising directly against the contextual score rather than total likelihood, could behave differently. The second-order rule measures whole-section likelihood, which is what the contextual detector's log-ratio compares, but it is not identical to the detector's score.
 
+## 19. Evidence-check indicator at benchmark scale (objective O8, 19–21 Oct 2026)
+
+**Method** (`docs/research/scripts/evidence_check_eval.py`; labels and metrics committed before the run, `a89f692`). The evidence check (`app/defence/evidence_guard.py`, policy `evidence-guard-policy-v2`) drafts with the unchanged pipeline and then asks a separate verifier call (gpt-4o-mini, temperature 0) to split the draft into claims, judge each against the retrieved sources, and quote its evidence verbatim; quotations are checked in code. Because the recorded runs already contain exactly those drafts and sources, only the verifier was replayed: repetition 1 of all 44 questions in eight conditions (clean, poisoned, defended, clean_filtered, repaired, clean_repaired, contextual, clean_contextual), 352 records, none failed, all checksums verified. Run `20261019T200355Z-evidence-check-f8780367874442dc8b90160c2d51a463` (resumed after two container restarts; records are create-only). The indicator *flags* an answer when the policy withholds it (unsupported, contradicted or unavailable). Error labels come from the correctness judge: correct ≥ 0.75, partial 0.25–0.75, incorrect < 0.25; refusals are separated by the same pattern as §12.
+
+| Over the 238 non-refusal answers (error = not fully correct) | Value | 95% CI (questions resampled) |
+|---|---|---|
+| Errors (base rate) | 90 of 238 (38%) | |
+| Flagged | 64 | |
+| Precision: share of flagged answers that are errors | 0.28 | [0.13, 0.48] |
+| Recall: share of errors that are flagged | 0.20 | [0.11, 0.33] |
+| False-alarm rate: share of correct answers flagged | 0.31 | [0.18, 0.45] |
+
+Outcome by label: correct answers 102 supported, 31 unsupported, 15 unavailable; partial answers 68 supported, 14 unsupported, 3 unavailable, 4 marked as refusals; the single incorrect answer (the "Engraft Malicious Package" case, poisoned condition) **unsupported, so withheld**; refusals 83 recognised as refusals, 24 unavailable, 6 unsupported, 1 supported. The verifier's own refusal flag agrees with the refusal pattern on 86 answers, misses 28 and adds 4. Clean and poisoned-family conditions behave alike (precision 0.29 vs 0.27, recall 0.20 vs 0.20; false alarms 0.25 vs 0.40). Results: `docs/research/results/evidence-check/summary.json`.
+
+**Findings.**
+- *An evidence-support check is not a correctness indicator in this setting.* Flagged answers are no more likely to be wrong than unflagged ones (precision 0.28 below the 0.38 base rate), it finds one error in five, and it withholds almost a third of correct answers.
+- *The reason is the attack's mechanism (§10).* Word-substitution poisoning mostly displaces evidence, so the typical error is an incomplete answer whose every statement is in the retrieved text: 68 of 89 partial answers are fully supported. A grounding check cannot see what is missing. Its false alarms come from correct answers that add general knowledge not in the three passages, or quote imprecisely (15 "unavailable").
+- *It does catch the rare harmful case:* the one confidently wrong answer, which repeated a poisoned phrase, was withheld.
+- Together with §16–§18 this supports the project's design choice: against in-place substitution, the useful defence acts on passages before generation (the contextual filter), not on answers afterwards.
+
+**Limits.** One verifier model; repetition 1 only; 238 answered items with few outright errors (1 incorrect), so the strict-error analysis (`secondary_error_incorrect` in the summary) is not informative; the judge labels are themselves unvalidated until the manual check (§13) is complete.
+
 ## 9. Reproducing every number in this document
 
 ```bash
@@ -626,6 +648,9 @@ cat backend/data/poisoned/pwws_attack_manifest_summary.json
 cd backend && PYTHONPATH=. python ../docs/research/scripts/threshold_sweep.py /tmp/sweep && cd ..
 python docs/research/scripts/judge_agreement.py score docs/research/results/judge-agreement
 python docs/research/scripts/verify_evidence.py
+# §19: evidence-check replay (LLM_API_KEY set) and analysis
+cd backend && PYTHONPATH=. python ../docs/research/scripts/evidence_check_eval.py run ../pilot-runs
+PYTHONPATH=. python ../docs/research/scripts/evidence_check_eval.py analyse ../pilot-runs/20261019T200355Z-evidence-check-f8780367874442dc8b90160c2d51a463 /tmp/ec && cd ..
 # §17: live contextual-filter run (needs Qdrant and LLM_API_KEY), then its offline analysis
 cd backend && AEGIS_BENCHMARK_FILE=$PWD/data/evaluation/questions_v1.json PYTHONPATH=. python ../docs/research/scripts/run_defence_eval.py ../pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e ../pilot-runs contextual
 PYTHONPATH=. python ../docs/research/scripts/analyse_defence.py ../pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e ../pilot-runs/20261018T180113Z-contextual-a2eb543b82974c5aa4c1502de6e555a7 /tmp/ctx ../pilot-runs/20261017T165331Z-defence-cebfb27c1e9048cdb61fbfe15f37e50d ../pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c

@@ -1,0 +1,84 @@
+{
+ "source_run": "pilot-runs/20261018T180113Z-contextual-a2eb543b82974c5aa4c1502de6e555a7",
+ "index": 35,
+ "condition": "contextual",
+ "question_id": "expanded_port_scanning_attack_description_01",
+ "rag_record_sha256": "4c3cd9c8cfae8d3d97458d0956d39249dda1097b82596eeb6d40eb617d052286",
+ "latency_seconds": 4.22,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"Port scanning is a technique used in network service discovery where adversaries attempt to identify services running on remote hosts and local network infrastructure devices.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"Adversaries may attempt to get a listing of services running on remote hosts and local network infrastructure devices.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"}, {\"claim\": \"This process may reveal services that could be vulnerable to remote software exploitation.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"including those that may be vulnerable to remote software exploitation.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"}, {\"claim\": \"Common methods for acquiring this information include using port scans, vulnerability scans, and wordlist scans.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"Common methods to acquire this information include port, vulnerability, and/or wordlist scans\"}], \"explanation\": \"This claim is explicitly stated in the source.\"}, {\"claim\": \"Often employing specific tools designed for these purposes.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"using tools that are brought onto a system.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "Port scanning is a technique used in network service discovery where adversaries attempt to identify services running on remote hosts and local network infrastructure devices.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "Adversaries may attempt to get a listing of services running on remote hosts and local network infrastructure devices.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "This process may reveal services that could be vulnerable to remote software exploitation.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "including those that may be vulnerable to remote software exploitation.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "Common methods for acquiring this information include using port scans, vulnerability scans, and wordlist scans.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "Common methods to acquire this information include port, vulnerability, and/or wordlist scans",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "Often employing specific tools designed for these purposes.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "using tools that are brought onto a system.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 4 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

@@ -1,0 +1,67 @@
+{
+ "source_run": "pilot-runs/20261018T180113Z-contextual-a2eb543b82974c5aa4c1502de6e555a7",
+ "index": 22,
+ "condition": "clean_contextual",
+ "question_id": "expanded_xss_consequences_01",
+ "rag_record_sha256": "2df8b419addbbe342f612d572d187b4732fd25fd8dc27c72c2b925439a10cecb",
+ "latency_seconds": 2.621,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"Bypassing Security Controls\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"if a remote attacker is allowed to execute scripts (through injecting them in to user-generated content like bulletin boards) then these controls may be bypassed.\"}], \"explanation\": \"Source S2 explicitly states that security controls may be bypassed if an attacker can execute scripts.\"}, {\"claim\": \"Difficulty in Detection\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"these attacks are very difficult for an end user to detect.\"}], \"explanation\": \"Source S2 confirms that XSS attacks are difficult for end users to detect.\"}, {\"claim\": \"Exploitation of Client-Side Vulnerabilities\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"Exploiting a client side vulnerability to inject malicious scripts into the browser's executable process.\"}], \"explanation\": \"Source S1 states that attackers exploit client-side vulnerabilities to inject malicious scripts.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "Bypassing Security Controls",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "if a remote attacker is allowed to execute scripts (through injecting them in to user-generated content like bulletin boards) then these controls may be bypassed.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S2 explicitly states that security controls may be bypassed if an attacker can execute scripts.",
+   "problems": []
+  },
+  {
+   "claim": "Difficulty in Detection",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "these attacks are very difficult for an end user to detect.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S2 confirms that XSS attacks are difficult for end users to detect.",
+   "problems": []
+  },
+  {
+   "claim": "Exploitation of Client-Side Vulnerabilities",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "Exploiting a client side vulnerability to inject malicious scripts into the browser's executable process.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S1 states that attackers exploit client-side vulnerabilities to inject malicious scripts.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 3 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

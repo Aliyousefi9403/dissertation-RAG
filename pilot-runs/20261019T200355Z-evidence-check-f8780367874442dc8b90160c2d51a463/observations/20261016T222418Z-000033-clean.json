@@ -1,0 +1,25 @@
+{
+ "source_run": "pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e",
+ "index": 33,
+ "condition": "clean",
+ "question_id": "expanded_os_fingerprinting_required_resources_01",
+ "rag_record_sha256": "916f42035d7b4ee036c7135d449a372036e9ad9ad193e44a070e56962c503005",
+ "latency_seconds": 1.335,
+ "raw_verifier_response": "{\"abstention\": true, \"claims\": [{\"claim\": \"The retrieved context does not specify particular resources or tools needed for Operating System Fingerprinting.\", \"verdict\": \"unsupported\", \"source_ids\": [], \"quotes\": [], \"explanation\": \"The sources do not provide any information about specific resources or tools needed for OS fingerprinting.\"}]}",
+ "abstention": true,
+ "findings": [
+  {
+   "claim": "The retrieved context does not specify particular resources or tools needed for Operating System Fingerprinting.",
+   "verifier_verdict": "unsupported",
+   "status": "unsupported",
+   "source_ids": [],
+   "quotes": [],
+   "explanation": "The sources do not provide any information about specific resources or tools needed for OS fingerprinting.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "unsupported",
+ "released": false,
+ "reason": "1 claim(s) are not stated in the retrieved sources."
+}

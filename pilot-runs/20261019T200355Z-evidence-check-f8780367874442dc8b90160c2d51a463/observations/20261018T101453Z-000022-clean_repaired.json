@@ -1,0 +1,67 @@
+{
+ "source_run": "pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c",
+ "index": 22,
+ "condition": "clean_repaired",
+ "question_id": "expanded_xss_consequences_01",
+ "rag_record_sha256": "3d42261f515702b1bfbd35041d85e52f6c5e3b044af36cdbf860648e8e1bcaeb",
+ "latency_seconds": 2.965,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"The consequences of Cross-Site Scripting (XSS) include the ability for an adversary to implant malicious scripts in content served to web browsers.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"An adversary implant malicious scripts in content that will be served to web browsers.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"}, {\"claim\": \"This allows the attacker to execute scripts with the user's privilege level, potentially leading to unauthorized actions or data exposure.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"The goal of the attack is for the target software, the client-side browser, to execute the script with the users' privilege level.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"}, {\"claim\": \"The attack exploits vulnerabilities in programs that permit remote hosts to execute code and scripts, despite some security controls in web browsers.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"An attack of this type exploits a programs' vulnerabilities that are brought on by allowing remote hosts to execute code and scripts.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "The consequences of Cross-Site Scripting (XSS) include the ability for an adversary to implant malicious scripts in content served to web browsers.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "An adversary implant malicious scripts in content that will be served to web browsers.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "This allows the attacker to execute scripts with the user's privilege level, potentially leading to unauthorized actions or data exposure.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "The goal of the attack is for the target software, the client-side browser, to execute the script with the users' privilege level.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "The attack exploits vulnerabilities in programs that permit remote hosts to execute code and scripts, despite some security controls in web browsers.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "An attack of this type exploits a programs' vulnerabilities that are brought on by allowing remote hosts to execute code and scripts.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 3 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

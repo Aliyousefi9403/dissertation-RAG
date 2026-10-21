@@ -1,0 +1,68 @@
+{
+ "source_run": "pilot-runs/20261018T180113Z-contextual-a2eb543b82974c5aa4c1502de6e555a7",
+ "index": 35,
+ "condition": "clean_contextual",
+ "question_id": "expanded_port_scanning_attack_description_01",
+ "rag_record_sha256": "bd22c1df80e51c8b2a5cd21131298a749240c5cc20fe2d2735c5f45843baedbe",
+ "latency_seconds": 3.248,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"Port scanning involves an adversary using various techniques to determine the state of the ports on a remote target.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"An adversary uses a combination of techniques to determine the state of the ports on a remote target.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"},{\"claim\": \"Each service or application that operates over TCP or UDP networking will have specific ports open for communication.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"Any service or application available for TCP or UDP networking will have a port open for communications over the network.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"},{\"claim\": \"By scanning these ports, the adversary can identify which services are available on the target system.\", \"verdict\": \"unsupported\", \"source_ids\": [], \"quotes\": [], \"explanation\": \"While the source discusses port scanning, it does not explicitly state that scanning identifies available services.\"},{\"claim\": \"Identifying available services is a crucial step in reconnaissance activities.\", \"verdict\": \"unsupported\", \"source_ids\": [], \"quotes\": [], \"explanation\": \"The source does not explicitly connect identifying services to reconnaissance activities.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "Port scanning involves an adversary using various techniques to determine the state of the ports on a remote target.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "An adversary uses a combination of techniques to determine the state of the ports on a remote target.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "Each service or application that operates over TCP or UDP networking will have specific ports open for communication.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "Any service or application available for TCP or UDP networking will have a port open for communications over the network.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "By scanning these ports, the adversary can identify which services are available on the target system.",
+   "verifier_verdict": "unsupported",
+   "status": "unsupported",
+   "source_ids": [],
+   "quotes": [],
+   "explanation": "While the source discusses port scanning, it does not explicitly state that scanning identifies available services.",
+   "problems": []
+  },
+  {
+   "claim": "Identifying available services is a crucial step in reconnaissance activities.",
+   "verifier_verdict": "unsupported",
+   "status": "unsupported",
+   "source_ids": [],
+   "quotes": [],
+   "explanation": "The source does not explicitly connect identifying services to reconnaissance activities.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "unsupported",
+ "released": false,
+ "reason": "2 claim(s) are not stated in the retrieved sources."
+}

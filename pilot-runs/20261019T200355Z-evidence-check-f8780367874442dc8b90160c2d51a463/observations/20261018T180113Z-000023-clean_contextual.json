@@ -1,0 +1,73 @@
+{
+ "source_run": "pilot-runs/20261018T180113Z-contextual-a2eb543b82974c5aa4c1502de6e555a7",
+ "index": 23,
+ "condition": "clean_contextual",
+ "question_id": "expanded_backdoor_attack_description_01",
+ "rag_record_sha256": "313dacbead20c0edc0f93516535fb868eb6c0850ef9bda2bbfa621aff39da3d3",
+ "latency_seconds": 3.408,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"A backdoor works by implanting malicious software into a system during the supply chain distribution process.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"An attacker implants malicious software into the system in the supply chain distribution channel\"}], \"explanation\": \"This claim is directly supported by the description of how backdoors operate in the source.\"},{\"claim\": \"This allows an attacker to cause disruption or gain unauthorized access once the system is deployed to the victim.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"with purpose of causing malicious disruption or allowing for additional compromise when the system is deployed.\"}], \"explanation\": \"The source explicitly states that the purpose of implanting the backdoor is to cause disruption or allow for further compromise.\"},{\"claim\": \"The backdoor enables additional compromises and unintended access to systems, which can lead to various follow-up attacks.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\", \"S3\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"allowing for additional compromise when the system is deployed.\"}, {\"source_id\": \"S3\", \"text\": \"unintended access to systems once they reach the victim and can lead to a variety of follow up attacks.\"}], \"explanation\": \"Both sources confirm that backdoors facilitate further compromises and unintended access, leading to follow-up attacks.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "A backdoor works by implanting malicious software into a system during the supply chain distribution process.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "An attacker implants malicious software into the system in the supply chain distribution channel",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is directly supported by the description of how backdoors operate in the source.",
+   "problems": []
+  },
+  {
+   "claim": "This allows an attacker to cause disruption or gain unauthorized access once the system is deployed to the victim.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "with purpose of causing malicious disruption or allowing for additional compromise when the system is deployed.",
+     "verified": true
+    }
+   ],
+   "explanation": "The source explicitly states that the purpose of implanting the backdoor is to cause disruption or allow for further compromise.",
+   "problems": []
+  },
+  {
+   "claim": "The backdoor enables additional compromises and unintended access to systems, which can lead to various follow-up attacks.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2",
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "allowing for additional compromise when the system is deployed.",
+     "verified": true
+    },
+    {
+     "source_id": "S3",
+     "text": "unintended access to systems once they reach the victim and can lead to a variety of follow up attacks.",
+     "verified": true
+    }
+   ],
+   "explanation": "Both sources confirm that backdoors facilitate further compromises and unintended access, leading to follow-up attacks.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 3 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

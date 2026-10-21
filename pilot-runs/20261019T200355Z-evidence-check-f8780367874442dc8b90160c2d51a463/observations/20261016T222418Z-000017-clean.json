@@ -1,0 +1,76 @@
+{
+ "source_run": "pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e",
+ "index": 17,
+ "condition": "clean",
+ "question_id": "expanded_uploading_consequences_01",
+ "rag_record_sha256": "5333a15cb15e129b72a27ff6aad7e0b62b86ce0f9c6aa5a1bb0258e0819c2d83",
+ "latency_seconds": 3.496,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"An adversary may upload a malicious file if they find a directory with executable permissions.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"If the adversary discovers a directory that has executable permissions, they will attempt to upload a malicious file to execute.\"}], \"explanation\": \"This claim is directly supported by Source 1.\"}, {\"claim\": \"This can occur through methods such as exploiting a misconfigured FTP server.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"Upload a malicious file through a misconfigured FTP server.\"}], \"explanation\": \"This claim is directly supported by Source 1.\"}, {\"claim\": \"Once the malicious file is uploaded, the adversary can either execute this file directly or exploit an existing file that has been misconfigured to allow executable access.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"The adversary either executes the uploaded malicious file, or executes an existing file that has been misconfigured to allow executable access to the adversary.\"}], \"explanation\": \"This claim is directly supported by Source 2.\"}, {\"claim\": \"These actions can lead to unauthorized access and potential compromise of the system.\", \"verdict\": \"unsupported\", \"source_ids\": [], \"quotes\": [], \"explanation\": \"No source explicitly states the consequences of unauthorized access and potential compromise.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "An adversary may upload a malicious file if they find a directory with executable permissions.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "If the adversary discovers a directory that has executable permissions, they will attempt to upload a malicious file to execute.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is directly supported by Source 1.",
+   "problems": []
+  },
+  {
+   "claim": "This can occur through methods such as exploiting a misconfigured FTP server.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "Upload a malicious file through a misconfigured FTP server.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is directly supported by Source 1.",
+   "problems": []
+  },
+  {
+   "claim": "Once the malicious file is uploaded, the adversary can either execute this file directly or exploit an existing file that has been misconfigured to allow executable access.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "The adversary either executes the uploaded malicious file, or executes an existing file that has been misconfigured to allow executable access to the adversary.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is directly supported by Source 2.",
+   "problems": []
+  },
+  {
+   "claim": "These actions can lead to unauthorized access and potential compromise of the system.",
+   "verifier_verdict": "unsupported",
+   "status": "unsupported",
+   "source_ids": [],
+   "quotes": [],
+   "explanation": "No source explicitly states the consequences of unauthorized access and potential compromise.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "unsupported",
+ "released": false,
+ "reason": "1 claim(s) are not stated in the retrieved sources."
+}

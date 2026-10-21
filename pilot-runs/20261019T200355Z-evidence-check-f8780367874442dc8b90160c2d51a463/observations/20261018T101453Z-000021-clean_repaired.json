@@ -1,0 +1,67 @@
+{
+ "source_run": "pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c",
+ "index": 21,
+ "condition": "clean_repaired",
+ "question_id": "expanded_xss_required_resources_01",
+ "rag_record_sha256": "952640079d7d6c77972d000f21ded22cceb5b671788d40c12ddc9767bd2320d4",
+ "latency_seconds": 3.359,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"Client Software: A client that allows scripting communication from remote hosts, such as a JavaScript-enabled web browser.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"Target client software must be a client that allows scripting communication from remote hosts, such as a JavaScript-enabled Web Browser.\"}], \"explanation\": \"This claim is directly supported by the source.\"},{\"claim\": \"Custom Hostile Service: The ability to deploy a custom hostile service for access by targeted clients.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"Ability to deploy a custom hostile service for access by targeted clients.\"}], \"explanation\": \"This claim is directly supported by the source.\"},{\"claim\": \"Communication Capability: The ability to communicate synchronously or asynchronously with the client machine.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"Ability to communicate synchronously or asynchronously with client machine.\"}], \"explanation\": \"This claim is directly supported by the source.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "Client Software: A client that allows scripting communication from remote hosts, such as a JavaScript-enabled web browser.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "Target client software must be a client that allows scripting communication from remote hosts, such as a JavaScript-enabled Web Browser.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is directly supported by the source.",
+   "problems": []
+  },
+  {
+   "claim": "Custom Hostile Service: The ability to deploy a custom hostile service for access by targeted clients.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "Ability to deploy a custom hostile service for access by targeted clients.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is directly supported by the source.",
+   "problems": []
+  },
+  {
+   "claim": "Communication Capability: The ability to communicate synchronously or asynchronously with the client machine.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "Ability to communicate synchronously or asynchronously with client machine.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is directly supported by the source.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 3 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

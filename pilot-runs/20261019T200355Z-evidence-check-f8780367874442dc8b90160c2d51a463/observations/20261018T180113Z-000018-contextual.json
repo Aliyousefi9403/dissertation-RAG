@@ -1,0 +1,61 @@
+{
+ "source_run": "pilot-runs/20261018T180113Z-contextual-a2eb543b82974c5aa4c1502de6e555a7",
+ "index": 18,
+ "condition": "contextual",
+ "question_id": "expanded_xss_attack_description_01",
+ "rag_record_sha256": "6f24f697af055996db18d593239fdbb89cf4c042a86bb9976718b471921cb2c5",
+ "latency_seconds": 3.654,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"Cross-Site Scripting (XSS) is an injection attack where an attacker injects malicious JavaScript into a web application.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"Category: `injection`\"}], \"explanation\": \"XSS is categorized as an injection attack.\"}, {\"claim\": \"The attacker identifies potential entry points for XSS vulnerabilities and then injects various script payloads to test if these points are indeed vulnerable.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"Probe identified potential entry points for XSS vulnerability: The attacker uses the entry points gathered in the 'Explore' phase as a target list and injects various common script payloads to determine if an entry point actually represents a vulnerability.\"}], \"explanation\": \"The source describes the process of identifying entry points and testing them with payloads.\"}, {\"claim\": \"Once a vulnerability is confirmed, the malicious script is executed in the context of the victim's browser, allowing the attacker to manipulate the victim's session or steal sensitive information without the victim's awareness.\", \"verdict\": \"unsupported\", \"source_ids\": [], \"quotes\": [], \"explanation\": \"The sources do not explicitly state this outcome of XSS attacks.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "Cross-Site Scripting (XSS) is an injection attack where an attacker injects malicious JavaScript into a web application.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "Category: `injection`",
+     "verified": true
+    }
+   ],
+   "explanation": "XSS is categorized as an injection attack.",
+   "problems": []
+  },
+  {
+   "claim": "The attacker identifies potential entry points for XSS vulnerabilities and then injects various script payloads to test if these points are indeed vulnerable.",
+   "verifier_verdict": "supported",
+   "status": "unavailable",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "Probe identified potential entry points for XSS vulnerability: The attacker uses the entry points gathered in the 'Explore' phase as a target list and injects various common script payloads to determine if an entry point actually represents a vulnerability.",
+     "verified": false
+    }
+   ],
+   "explanation": "The source describes the process of identifying entry points and testing them with payloads.",
+   "problems": [
+    "a quotation was not found verbatim in the cited source"
+   ]
+  },
+  {
+   "claim": "Once a vulnerability is confirmed, the malicious script is executed in the context of the victim's browser, allowing the attacker to manipulate the victim's session or steal sensitive information without the victim's awareness.",
+   "verifier_verdict": "unsupported",
+   "status": "unsupported",
+   "source_ids": [],
+   "quotes": [],
+   "explanation": "The sources do not explicitly state this outcome of XSS attacks.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "unsupported",
+ "released": false,
+ "reason": "1 claim(s) are not stated in the retrieved sources."
+}

@@ -1,0 +1,84 @@
+{
+ "source_run": "pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c",
+ "index": 11,
+ "condition": "repaired",
+ "question_id": "expanded_sql_injection_required_resources_01",
+ "rag_record_sha256": "7254f0e71df24eda9375763c779b3687f079e449bb39acec6e45f47882c17002",
+ "latency_seconds": 3.259,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"No specialized resources are required to execute an SQL injection attack.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"None: No specialized resources are required to execute this type of attack.\"}], \"explanation\": \"Source S1 explicitly states that no specialized resources are needed for SQL injection.\"},{\"claim\": \"The prerequisites include having access to SQL queries used by the application and user-controllable input that is not properly validated as part of those queries.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"- SQL queries used by the application to store, retrieve or modify data.\\n- User-controllable input that is not properly validated by the application as part of SQL queries.\"}], \"explanation\": \"Source S2 lists the prerequisites for SQL injection, confirming the claim.\"},{\"claim\": \"Basic SQL knowledge is sufficient for someone to perform SQL injection.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"Low: It is fairly simple for someone with basic SQL knowledge to perform SQL injection, in general.\"}], \"explanation\": \"Source S1 states that basic SQL knowledge is enough to perform SQL injection.\"},{\"claim\": \"Specific knowledge of the database may be necessary in some cases.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"In certain instances, however, specific knowledge of the database employed may be required.\"}], \"explanation\": \"Source S1 mentions that specific database knowledge may be required in some instances.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "No specialized resources are required to execute an SQL injection attack.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "None: No specialized resources are required to execute this type of attack.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S1 explicitly states that no specialized resources are needed for SQL injection.",
+   "problems": []
+  },
+  {
+   "claim": "The prerequisites include having access to SQL queries used by the application and user-controllable input that is not properly validated as part of those queries.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "- SQL queries used by the application to store, retrieve or modify data.\n- User-controllable input that is not properly validated by the application as part of SQL queries.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S2 lists the prerequisites for SQL injection, confirming the claim.",
+   "problems": []
+  },
+  {
+   "claim": "Basic SQL knowledge is sufficient for someone to perform SQL injection.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "Low: It is fairly simple for someone with basic SQL knowledge to perform SQL injection, in general.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S1 states that basic SQL knowledge is enough to perform SQL injection.",
+   "problems": []
+  },
+  {
+   "claim": "Specific knowledge of the database may be necessary in some cases.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "In certain instances, however, specific knowledge of the database employed may be required.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S1 mentions that specific database knowledge may be required in some instances.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 4 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

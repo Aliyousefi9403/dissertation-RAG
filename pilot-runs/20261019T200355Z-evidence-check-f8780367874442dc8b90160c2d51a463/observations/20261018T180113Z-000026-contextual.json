@@ -1,0 +1,133 @@
+{
+ "source_run": "pilot-runs/20261018T180113Z-contextual-a2eb543b82974c5aa4c1502de6e555a7",
+ "index": 26,
+ "condition": "contextual",
+ "question_id": "expanded_password_cracking_attack_description_01",
+ "rag_record_sha256": "3ed77d5b224a68ed827449586f07a7f02b99c31e44dd3dfb7dd759e54908e44a",
+ "latency_seconds": 6.173,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"Password cracking typically involves several techniques aimed at gaining unauthorized access to accounts by guessing or recovering passwords.\", \"verdict\": \"unsupported\", \"source_ids\": [], \"quotes\": [], \"explanation\": \"While the sources discuss specific techniques, they do not provide a general statement about password cracking involving several techniques.\"}, {\"claim\": \"Brute Force Attack involves systematically trying all possible combinations of passwords for a known user ID until access is granted.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"try all possible passwords for a known user ID until application/system grants access.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"}, {\"claim\": \"Brute Force Attack can be time-consuming, especially if the password is complex and the account lockout policy is strict.\", \"verdict\": \"unsupported\", \"source_ids\": [], \"quotes\": [], \"explanation\": \"The sources do not mention the time-consuming nature of brute force attacks or the impact of password complexity.\"}, {\"claim\": \"Dictionary Attack uses a pre-defined list of potential passwords and attempts to match them against the target password.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"Perform an offline dictionary attack...against a known password hash.\"}], \"explanation\": \"This claim is supported by the source discussing dictionary attacks.\"}, {\"claim\": \"Dictionary Attack is generally faster than brute force since it leverages common passwords that users might choose.\", \"verdict\": \"unsupported\", \"source_ids\": [], \"quotes\": [], \"explanation\": \"The sources do not compare the speed of dictionary attacks to brute force attacks.\"}, {\"claim\": \"Rainbow Table Attack involves using precomputed tables of hash values for common passwords.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"perform an offline dictionary attack or a rainbow table attack against a known password hash.\"}], \"explanation\": \"This claim is supported by the source discussing rainbow table attacks.\"}, {\"claim\": \"Rainbow Table Attack allows attackers to quickly find the original password from its hash.\", \"verdict\": \"unsupported\", \"source_ids\": [], \"quotes\": [], \"explanation\": \"The sources do not explicitly state that rainbow table attacks allow for quick retrieval of original passwords.\"}, {\"claim\": \"Attackers may analyze the password policy of the target system to optimize their cracking attempts.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"start with the shortest and simplest possible passwords, because most users tend to select such passwords if allowed to do so.\"}], \"explanation\": \"This claim is supported by the source discussing the analysis of password policies.\"}, {\"claim\": \"These techniques highlight the importance of strong password policies and account lockout mechanisms to mitigate the risk of password cracking.\", \"verdict\": \"unsupported\", \"source_ids\": [], \"quotes\": [], \"explanation\": \"The sources do not discuss the importance of strong password policies or account lockout mechanisms.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "Password cracking typically involves several techniques aimed at gaining unauthorized access to accounts by guessing or recovering passwords.",
+   "verifier_verdict": "unsupported",
+   "status": "unsupported",
+   "source_ids": [],
+   "quotes": [],
+   "explanation": "While the sources discuss specific techniques, they do not provide a general statement about password cracking involving several techniques.",
+   "problems": []
+  },
+  {
+   "claim": "Brute Force Attack involves systematically trying all possible combinations of passwords for a known user ID until access is granted.",
+   "verifier_verdict": "supported",
+   "status": "unavailable",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "try all possible passwords for a known user ID until application/system grants access.",
+     "verified": false
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": [
+    "a quotation was not found verbatim in the cited source"
+   ]
+  },
+  {
+   "claim": "Brute Force Attack can be time-consuming, especially if the password is complex and the account lockout policy is strict.",
+   "verifier_verdict": "unsupported",
+   "status": "unsupported",
+   "source_ids": [],
+   "quotes": [],
+   "explanation": "The sources do not mention the time-consuming nature of brute force attacks or the impact of password complexity.",
+   "problems": []
+  },
+  {
+   "claim": "Dictionary Attack uses a pre-defined list of potential passwords and attempts to match them against the target password.",
+   "verifier_verdict": "supported",
+   "status": "unavailable",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "Perform an offline dictionary attack...against a known password hash.",
+     "verified": false
+    }
+   ],
+   "explanation": "This claim is supported by the source discussing dictionary attacks.",
+   "problems": [
+    "a quotation was not found verbatim in the cited source"
+   ]
+  },
+  {
+   "claim": "Dictionary Attack is generally faster than brute force since it leverages common passwords that users might choose.",
+   "verifier_verdict": "unsupported",
+   "status": "unsupported",
+   "source_ids": [],
+   "quotes": [],
+   "explanation": "The sources do not compare the speed of dictionary attacks to brute force attacks.",
+   "problems": []
+  },
+  {
+   "claim": "Rainbow Table Attack involves using precomputed tables of hash values for common passwords.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "perform an offline dictionary attack or a rainbow table attack against a known password hash.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is supported by the source discussing rainbow table attacks.",
+   "problems": []
+  },
+  {
+   "claim": "Rainbow Table Attack allows attackers to quickly find the original password from its hash.",
+   "verifier_verdict": "unsupported",
+   "status": "unsupported",
+   "source_ids": [],
+   "quotes": [],
+   "explanation": "The sources do not explicitly state that rainbow table attacks allow for quick retrieval of original passwords.",
+   "problems": []
+  },
+  {
+   "claim": "Attackers may analyze the password policy of the target system to optimize their cracking attempts.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "start with the shortest and simplest possible passwords, because most users tend to select such passwords if allowed to do so.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is supported by the source discussing the analysis of password policies.",
+   "problems": []
+  },
+  {
+   "claim": "These techniques highlight the importance of strong password policies and account lockout mechanisms to mitigate the risk of password cracking.",
+   "verifier_verdict": "unsupported",
+   "status": "unsupported",
+   "source_ids": [],
+   "quotes": [],
+   "explanation": "The sources do not discuss the importance of strong password policies or account lockout mechanisms.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "unsupported",
+ "released": false,
+ "reason": "5 claim(s) are not stated in the retrieved sources."
+}

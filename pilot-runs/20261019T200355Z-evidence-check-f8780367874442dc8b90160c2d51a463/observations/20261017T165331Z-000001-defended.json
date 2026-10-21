@@ -1,0 +1,25 @@
+{
+ "source_run": "pilot-runs/20261017T165331Z-defence-cebfb27c1e9048cdb61fbfe15f37e50d",
+ "index": 1,
+ "condition": "defended",
+ "question_id": "expanded_http_flood_prerequisites_01",
+ "rag_record_sha256": "e530630cbaa08a3f6eefd7fd0c5a6cf036749e0969308dc40f36d0099990ad7a",
+ "latency_seconds": 1.241,
+ "raw_verifier_response": "{\"abstention\": true, \"claims\": [{\"claim\": \"The retrieved context does not provide specific conditions required for an HTTP Flood attack.\", \"verdict\": \"unsupported\", \"source_ids\": [], \"quotes\": [], \"explanation\": \"The sources do not mention HTTP Flood specifically or its conditions.\"}]}",
+ "abstention": true,
+ "findings": [
+  {
+   "claim": "The retrieved context does not provide specific conditions required for an HTTP Flood attack.",
+   "verifier_verdict": "unsupported",
+   "status": "unsupported",
+   "source_ids": [],
+   "quotes": [],
+   "explanation": "The sources do not mention HTTP Flood specifically or its conditions.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "unsupported",
+ "released": false,
+ "reason": "1 claim(s) are not stated in the retrieved sources."
+}

@@ -1,0 +1,69 @@
+{
+ "source_run": "pilot-runs/20261017T165331Z-defence-cebfb27c1e9048cdb61fbfe15f37e50d",
+ "index": 43,
+ "condition": "defended",
+ "question_id": "expanded_dns_spoofing_attack_description_01",
+ "rag_record_sha256": "f6512683213fa7cf3f36e10b21229e1e4673b804f1eedb645700c99fadaa596b",
+ "latency_seconds": 3.079,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"DNS Spoofing works by an adversary sending a malicious DNS response, such as an 'NXDOMAIN' (No such domain) code or a DNS A record, to a target's DNS request before a legitimate resolver can respond.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"An adversary sends a malicious ('NXDOMAIN' ('No such domain') code, or DNS A record) response to a target's route request before a legitimate resolver can.\"}], \"explanation\": \"This claim is directly supported by the source.\"}, {\"claim\": \"This technique requires an On-path or In-path device that can monitor and respond to the target's DNS requests.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"This technique requires an On-path or In-path device that can monitor and respond to the target's DNS requests.\"}], \"explanation\": \"This claim is directly supported by the source.\"}, {\"claim\": \"Unlike BGP Tampering, DNS Spoofing directly responds to the requests made by the target rather than affecting the routing infrastructure used by the target.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"This attack differs from BGP Tampering in that it directly responds to requests made by the target instead of polluting the routing the target's infrastructure uses.\"}], \"explanation\": \"This claim is directly supported by the source.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "DNS Spoofing works by an adversary sending a malicious DNS response, such as an 'NXDOMAIN' (No such domain) code or a DNS A record, to a target's DNS request before a legitimate resolver can respond.",
+   "verifier_verdict": "supported",
+   "status": "unavailable",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "An adversary sends a malicious ('NXDOMAIN' ('No such domain') code, or DNS A record) response to a target's route request before a legitimate resolver can.",
+     "verified": false
+    }
+   ],
+   "explanation": "This claim is directly supported by the source.",
+   "problems": [
+    "a quotation was not found verbatim in the cited source"
+   ]
+  },
+  {
+   "claim": "This technique requires an On-path or In-path device that can monitor and respond to the target's DNS requests.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "This technique requires an On-path or In-path device that can monitor and respond to the target's DNS requests.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is directly supported by the source.",
+   "problems": []
+  },
+  {
+   "claim": "Unlike BGP Tampering, DNS Spoofing directly responds to the requests made by the target rather than affecting the routing infrastructure used by the target.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "This attack differs from BGP Tampering in that it directly responds to requests made by the target instead of polluting the routing the target's infrastructure uses.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is directly supported by the source.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "unavailable",
+ "released": false,
+ "reason": "1 claim(s) could not be tied to verified quotations."
+}

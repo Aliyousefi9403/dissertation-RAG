@@ -1,0 +1,84 @@
+{
+ "source_run": "pilot-runs/20261018T180113Z-contextual-a2eb543b82974c5aa4c1502de6e555a7",
+ "index": 32,
+ "condition": "clean_contextual",
+ "question_id": "expanded_os_fingerprinting_prerequisites_01",
+ "rag_record_sha256": "e0012d194bf46dfda5298c4452e8ad834665cfb73919e8859933cbd6a79aa74f",
+ "latency_seconds": 4.301,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"An adversary must engage in activity that involves interrogating a device, server, or platform with a probe designed to solicit specific behavior from the target.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"An adversary engages in activity to detect the operating system or firmware version of a remote target by interrogating a device, server, or platform with a probe designed to solicit behavior that will reveal information about the operating systems or firmware in the environment.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"}, {\"claim\": \"Different operating systems respond uniquely to specific probing activities.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"Different operating systems will have a unique response to the anomalous input, providing the basis to fingerprint the OS behavior.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"}, {\"claim\": \"The variations in how common protocols (like IP or TCP) are implemented across different operating systems provide the basis for fingerprinting.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"implementations of common protocols (Such as IP or TCP) differ in distinct ways.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"}, {\"claim\": \"These differences are detectable even though they do not break compatibility with the protocol.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"the implementation differences are not sufficient to 'break' compatibility with the protocol the differences are detectable because the target will respond in unique ways to specific probing activity.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "An adversary must engage in activity that involves interrogating a device, server, or platform with a probe designed to solicit specific behavior from the target.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "An adversary engages in activity to detect the operating system or firmware version of a remote target by interrogating a device, server, or platform with a probe designed to solicit behavior that will reveal information about the operating systems or firmware in the environment.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "Different operating systems respond uniquely to specific probing activities.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "Different operating systems will have a unique response to the anomalous input, providing the basis to fingerprint the OS behavior.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "The variations in how common protocols (like IP or TCP) are implemented across different operating systems provide the basis for fingerprinting.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "implementations of common protocols (Such as IP or TCP) differ in distinct ways.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "These differences are detectable even though they do not break compatibility with the protocol.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "the implementation differences are not sufficient to 'break' compatibility with the protocol the differences are detectable because the target will respond in unique ways to specific probing activity.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 4 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

@@ -1,0 +1,67 @@
+{
+ "source_run": "pilot-runs/20261018T180113Z-contextual-a2eb543b82974c5aa4c1502de6e555a7",
+ "index": 16,
+ "condition": "clean_contextual",
+ "question_id": "expanded_uploading_required_resources_01",
+ "rag_record_sha256": "13eeff1a431d8dea964e110bb6858e96ec99e3478e735f0edb5c26ab373c7c9f",
+ "latency_seconds": 2.795,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"Adversaries may upload malicious files through a misconfigured FTP server.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"Upload a malicious file through a misconfigured FTP server.\"}], \"explanation\": \"Source S2 explicitly states that adversaries can upload malicious files via a misconfigured FTP server.\"}, {\"claim\": \"This is a resource from OWASP that provides guidance on prevention and mitigation strategies for file uploads.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"OWASP: File Upload Cheat Sheet — role: prevention_and_mitigation; required\"}], \"explanation\": \"Source S3 confirms that the OWASP File Upload Cheat Sheet is a resource for prevention and mitigation strategies.\"}, {\"claim\": \"Knowledge of dangerous file types is essential, as indicated by the CWE-434 reference.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"CWE: CWE-434 — role: dangerous_file_type_context; required\"}], \"explanation\": \"Source S3 indicates that understanding dangerous file types is essential according to the CWE-434 reference.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "Adversaries may upload malicious files through a misconfigured FTP server.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "Upload a malicious file through a misconfigured FTP server.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S2 explicitly states that adversaries can upload malicious files via a misconfigured FTP server.",
+   "problems": []
+  },
+  {
+   "claim": "This is a resource from OWASP that provides guidance on prevention and mitigation strategies for file uploads.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "OWASP: File Upload Cheat Sheet — role: prevention_and_mitigation; required",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S3 confirms that the OWASP File Upload Cheat Sheet is a resource for prevention and mitigation strategies.",
+   "problems": []
+  },
+  {
+   "claim": "Knowledge of dangerous file types is essential, as indicated by the CWE-434 reference.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "CWE: CWE-434 — role: dangerous_file_type_context; required",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S3 indicates that understanding dangerous file types is essential according to the CWE-434 reference.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 3 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

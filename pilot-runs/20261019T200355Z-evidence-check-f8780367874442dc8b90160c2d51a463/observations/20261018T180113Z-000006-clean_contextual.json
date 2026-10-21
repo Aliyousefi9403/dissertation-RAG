@@ -1,0 +1,78 @@
+{
+ "source_run": "pilot-runs/20261018T180113Z-contextual-a2eb543b82974c5aa4c1502de6e555a7",
+ "index": 6,
+ "condition": "clean_contextual",
+ "question_id": "expanded_udp_flood_attack_description_01",
+ "rag_record_sha256": "82884fb104789eb9b41f42672fa6241b2926f1c019dcc9fa57607df355f7cfce",
+ "latency_seconds": 5.173,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"A UDP Flood attack works by generating a large amount of UDP traffic directed at a specific port of a target service.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"This type of an attack requires the ability to generate a large amount of UDP traffic to send to the desired port of a target service using UDP.\"}], \"explanation\": \"Source S1 explicitly states that a UDP Flood attack involves generating a large amount of UDP traffic directed at a specific port.\"},{\"claim\": \"This high-volume traffic aims to overwhelm the target, potentially causing a denial of service (DoS) by reducing the availability and functionality of the targeted system or network.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"Adversaries may attempt to cause a denial of service (DoS) by directly sending a high-volume of network traffic to a target. This DoS attack may also reduce the availability and functionality of the targeted system(s) and network.\"}], \"explanation\": \"Source S2 confirms that high-volume traffic can cause a denial of service and reduce the availability and functionality of the targeted system.\"},{\"claim\": \"The attack utilizes one or more systems to send numerous UDP packets.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"Direct Network Floods are when one or more systems are used to send a high-volume of network packets towards the targeted service's network.\"}], \"explanation\": \"Source S2 explicitly states that one or more systems are used to send high-volume packets in a Direct Network Flood.\"},{\"claim\": \"The attack exploits the stateless nature of the UDP protocol.\", \"verdict\": \"unsupported\", \"source_ids\": [], \"quotes\": [], \"explanation\": \"None of the sources explicitly mention the stateless nature of the UDP protocol in relation to the UDP Flood attack.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "A UDP Flood attack works by generating a large amount of UDP traffic directed at a specific port of a target service.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "This type of an attack requires the ability to generate a large amount of UDP traffic to send to the desired port of a target service using UDP.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S1 explicitly states that a UDP Flood attack involves generating a large amount of UDP traffic directed at a specific port.",
+   "problems": []
+  },
+  {
+   "claim": "This high-volume traffic aims to overwhelm the target, potentially causing a denial of service (DoS) by reducing the availability and functionality of the targeted system or network.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "Adversaries may attempt to cause a denial of service (DoS) by directly sending a high-volume of network traffic to a target. This DoS attack may also reduce the availability and functionality of the targeted system(s) and network.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S2 confirms that high-volume traffic can cause a denial of service and reduce the availability and functionality of the targeted system.",
+   "problems": []
+  },
+  {
+   "claim": "The attack utilizes one or more systems to send numerous UDP packets.",
+   "verifier_verdict": "supported",
+   "status": "unavailable",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "Direct Network Floods are when one or more systems are used to send a high-volume of network packets towards the targeted service's network.",
+     "verified": false
+    }
+   ],
+   "explanation": "Source S2 explicitly states that one or more systems are used to send high-volume packets in a Direct Network Flood.",
+   "problems": [
+    "a quotation was not found verbatim in the cited source"
+   ]
+  },
+  {
+   "claim": "The attack exploits the stateless nature of the UDP protocol.",
+   "verifier_verdict": "unsupported",
+   "status": "unsupported",
+   "source_ids": [],
+   "quotes": [],
+   "explanation": "None of the sources explicitly mention the stateless nature of the UDP protocol in relation to the UDP Flood attack.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "unsupported",
+ "released": false,
+ "reason": "1 claim(s) are not stated in the retrieved sources."
+}

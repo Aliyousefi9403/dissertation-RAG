@@ -1,0 +1,42 @@
+{
+ "schema_version": 1,
+ "run_id": "20261019T200355Z-evidence-check-f8780367874442dc8b90160c2d51a463",
+ "started_at": "2026-10-19T20:03:55.182494+00:00",
+ "purpose": "Evidence-check verifier replayed on recorded drafts (repetition 1, eight conditions)",
+ "policy_version": "evidence-guard-policy-v2",
+ "settings": {
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "draft_temperature": 0.0,
+  "verifier_temperature": 0.0,
+  "draft_timeout_seconds": 30.0,
+  "verifier_timeout_seconds": 45.0,
+  "max_retries": 1,
+  "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "retrieval_top_k": 3,
+  "chunk_size": 500,
+  "chunk_overlap": 100
+ },
+ "source_runs": {
+  "pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e": [
+   "clean",
+   "poisoned"
+  ],
+  "pilot-runs/20261017T165331Z-defence-cebfb27c1e9048cdb61fbfe15f37e50d": [
+   "defended",
+   "clean_filtered"
+  ],
+  "pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c": [
+   "repaired",
+   "clean_repaired"
+  ],
+  "pilot-runs/20261018T180113Z-contextual-a2eb543b82974c5aa4c1502de6e555a7": [
+   "contextual",
+   "clean_contextual"
+  ]
+ },
+ "code_sha256": {
+  "backend/app/defence/evidence_guard.py": "ca16c7f18da304657a52c4e22fb16bd09b22cfcf14ffd822adef6574ddf77e7e",
+  "docs/research/scripts/evidence_check_eval.py": "2190c55b8c745173a006ccafb4bb59062b750a0291f55755aa2dc9124213f9de"
+ }
+}

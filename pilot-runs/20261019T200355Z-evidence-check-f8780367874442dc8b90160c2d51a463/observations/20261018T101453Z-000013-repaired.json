@@ -1,0 +1,91 @@
+{
+ "source_run": "pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c",
+ "index": 13,
+ "condition": "repaired",
+ "question_id": "expanded_uploading_attack_description_01",
+ "rag_record_sha256": "14dea0df9dc8031d18339a5587bb128b8c49710f3b1e1d0a398e0824ea6f2247",
+ "latency_seconds": 4.618,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"Malicious File Upload is an attack that falls under the category of injection.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"Category: `injection`\"}], \"explanation\": \"The source explicitly categorizes Malicious File Upload as an injection attack.\"},{\"claim\": \"It involves an adversary uploading a file that can be executed on the server or client-side, potentially leading to unauthorized actions or access.\", \"verdict\": \"unsupported\", \"source_ids\": [], \"quotes\": [], \"explanation\": \"The sources do not specify that the uploaded file can be executed on the server or client-side.\"},{\"claim\": \"The attack is characterized by the ability to exploit vulnerabilities in applications that allow file uploads without proper validation or restrictions on file types.\", \"verdict\": \"unsupported\", \"source_ids\": [], \"quotes\": [], \"explanation\": \"The sources do not provide specific details about the exploitation of vulnerabilities related to file uploads.\"},{\"claim\": \"The attack is associated with CAPEC ID CAPEC-17 and MITRE ATT&CK ID T1190.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\", \"S2\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"CAPEC ID: `CAPEC-17`\"}, {\"source_id\": \"S2\", \"text\": \"MITRE_ATTACK_ENTERPRISE: T1190\"}], \"explanation\": \"Both sources confirm the association of the attack with the specified CAPEC and MITRE ATT&CK IDs.\"},{\"claim\": \"It is crucial to implement prevention and mitigation strategies, such as those outlined in the OWASP File Upload Cheat Sheet, to safeguard against such vulnerabilities.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"OWASP: File Upload Cheat Sheet — role: prevention_and_mitigation; required\"}], \"explanation\": \"The source indicates that the OWASP File Upload Cheat Sheet is a required resource for prevention and mitigation.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "Malicious File Upload is an attack that falls under the category of injection.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "Category: `injection`",
+     "verified": true
+    }
+   ],
+   "explanation": "The source explicitly categorizes Malicious File Upload as an injection attack.",
+   "problems": []
+  },
+  {
+   "claim": "It involves an adversary uploading a file that can be executed on the server or client-side, potentially leading to unauthorized actions or access.",
+   "verifier_verdict": "unsupported",
+   "status": "unsupported",
+   "source_ids": [],
+   "quotes": [],
+   "explanation": "The sources do not specify that the uploaded file can be executed on the server or client-side.",
+   "problems": []
+  },
+  {
+   "claim": "The attack is characterized by the ability to exploit vulnerabilities in applications that allow file uploads without proper validation or restrictions on file types.",
+   "verifier_verdict": "unsupported",
+   "status": "unsupported",
+   "source_ids": [],
+   "quotes": [],
+   "explanation": "The sources do not provide specific details about the exploitation of vulnerabilities related to file uploads.",
+   "problems": []
+  },
+  {
+   "claim": "The attack is associated with CAPEC ID CAPEC-17 and MITRE ATT&CK ID T1190.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1",
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "CAPEC ID: `CAPEC-17`",
+     "verified": true
+    },
+    {
+     "source_id": "S2",
+     "text": "MITRE_ATTACK_ENTERPRISE: T1190",
+     "verified": true
+    }
+   ],
+   "explanation": "Both sources confirm the association of the attack with the specified CAPEC and MITRE ATT&CK IDs.",
+   "problems": []
+  },
+  {
+   "claim": "It is crucial to implement prevention and mitigation strategies, such as those outlined in the OWASP File Upload Cheat Sheet, to safeguard against such vulnerabilities.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "OWASP: File Upload Cheat Sheet — role: prevention_and_mitigation; required",
+     "verified": true
+    }
+   ],
+   "explanation": "The source indicates that the OWASP File Upload Cheat Sheet is a required resource for prevention and mitigation.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "unsupported",
+ "released": false,
+ "reason": "2 claim(s) are not stated in the retrieved sources."
+}

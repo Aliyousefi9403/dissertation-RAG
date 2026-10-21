@@ -1,0 +1,76 @@
+{
+ "source_run": "pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c",
+ "index": 23,
+ "condition": "repaired",
+ "question_id": "expanded_backdoor_attack_description_01",
+ "rag_record_sha256": "351540b39d2769c1a38fbd38e52fe844327936ae05e3af991a17803383480fca",
+ "latency_seconds": 5.023,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"A backdoor works by allowing an adversary to gain unintended access to a system once it is deployed to the victim.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"unintended access to systems once they reach the victim and can lead to a variety of follow up attacks.\"}], \"explanation\": \"Source S2 explicitly states that backdoors allow unintended access to systems.\"},{\"claim\": \"This access can lead to various follow-up attacks.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"can lead to a variety of follow up attacks.\"}], \"explanation\": \"Source S2 confirms that unintended access can lead to follow-up attacks.\"},{\"claim\": \"The backdoor is typically implemented through a malicious package that is applied to the system.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"pattern malicious package that will apply an adversary a backdoor into the scheme once it is deployed to the victim.\"}], \"explanation\": \"Source S1 states that a backdoor is applied through a malicious package.\"},{\"claim\": \"The adversary can control the system after deployment.\", \"verdict\": \"unsupported\", \"source_ids\": [], \"quotes\": [], \"explanation\": \"No source explicitly states that the adversary can control the system after deployment.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "A backdoor works by allowing an adversary to gain unintended access to a system once it is deployed to the victim.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "unintended access to systems once they reach the victim and can lead to a variety of follow up attacks.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S2 explicitly states that backdoors allow unintended access to systems.",
+   "problems": []
+  },
+  {
+   "claim": "This access can lead to various follow-up attacks.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "can lead to a variety of follow up attacks.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S2 confirms that unintended access can lead to follow-up attacks.",
+   "problems": []
+  },
+  {
+   "claim": "The backdoor is typically implemented through a malicious package that is applied to the system.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "pattern malicious package that will apply an adversary a backdoor into the scheme once it is deployed to the victim.",
+     "verified": true
+    }
+   ],
+   "explanation": "Source S1 states that a backdoor is applied through a malicious package.",
+   "problems": []
+  },
+  {
+   "claim": "The adversary can control the system after deployment.",
+   "verifier_verdict": "unsupported",
+   "status": "unsupported",
+   "source_ids": [],
+   "quotes": [],
+   "explanation": "No source explicitly states that the adversary can control the system after deployment.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "unsupported",
+ "released": false,
+ "reason": "1 claim(s) are not stated in the retrieved sources."
+}

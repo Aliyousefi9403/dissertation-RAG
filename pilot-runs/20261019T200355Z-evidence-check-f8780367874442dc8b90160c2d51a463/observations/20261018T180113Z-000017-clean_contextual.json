@@ -1,0 +1,57 @@
+{
+ "source_run": "pilot-runs/20261018T180113Z-contextual-a2eb543b82974c5aa4c1502de6e555a7",
+ "index": 17,
+ "condition": "clean_contextual",
+ "question_id": "expanded_uploading_consequences_01",
+ "rag_record_sha256": "e230a4ab817dd9c1d50d64ed8285a99c321853726b70408e7b954052d4871f9d",
+ "latency_seconds": 2.341,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"The retrieved context does not explicitly list the consequences of a malicious file upload.\", \"verdict\": \"unsupported\", \"source_ids\": [], \"quotes\": [], \"explanation\": \"While the sources discuss the actions an adversary can take, they do not explicitly list consequences.\"}, {\"claim\": \"An adversary can upload a malicious file to a directory with executable permissions and subsequently execute that file.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\", \"S2\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"If the adversary discovers a directory that has executable permissions, they will attempt to upload a malicious file to execute.\"}, {\"source_id\": \"S2\", \"text\": \"The adversary either executes the uploaded malicious file, or executes an existing file that has been misconfigured to allow executable access to the adversary.\"}], \"explanation\": \"Both sources confirm that an adversary can upload and execute a malicious file in a directory with executable permissions.\"}, {\"claim\": \"This can lead to unauthorized access or control over the system.\", \"verdict\": \"unsupported\", \"source_ids\": [], \"quotes\": [], \"explanation\": \"The sources do not explicitly state that this leads to unauthorized access or control over the system.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "The retrieved context does not explicitly list the consequences of a malicious file upload.",
+   "verifier_verdict": "unsupported",
+   "status": "unsupported",
+   "source_ids": [],
+   "quotes": [],
+   "explanation": "While the sources discuss the actions an adversary can take, they do not explicitly list consequences.",
+   "problems": []
+  },
+  {
+   "claim": "An adversary can upload a malicious file to a directory with executable permissions and subsequently execute that file.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1",
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "If the adversary discovers a directory that has executable permissions, they will attempt to upload a malicious file to execute.",
+     "verified": true
+    },
+    {
+     "source_id": "S2",
+     "text": "The adversary either executes the uploaded malicious file, or executes an existing file that has been misconfigured to allow executable access to the adversary.",
+     "verified": true
+    }
+   ],
+   "explanation": "Both sources confirm that an adversary can upload and execute a malicious file in a directory with executable permissions.",
+   "problems": []
+  },
+  {
+   "claim": "This can lead to unauthorized access or control over the system.",
+   "verifier_verdict": "unsupported",
+   "status": "unsupported",
+   "source_ids": [],
+   "quotes": [],
+   "explanation": "The sources do not explicitly state that this leads to unauthorized access or control over the system.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "unsupported",
+ "released": false,
+ "reason": "2 claim(s) are not stated in the retrieved sources."
+}

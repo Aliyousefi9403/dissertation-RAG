@@ -1,0 +1,50 @@
+{
+ "source_run": "pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c",
+ "index": 15,
+ "condition": "clean_repaired",
+ "question_id": "expanded_uploading_prerequisites_01",
+ "rag_record_sha256": "b6280d6538f37cef7d9aeda64855bbef7c21a1e371f23e4dbd6c07d23786839e",
+ "latency_seconds": 1.69,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"Discovery of a Directory with Executable Permissions\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"If the adversary discovers a directory that has executable permissions, they will attempt to upload a malicious file to execute.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"},{\"claim\": \"Misconfigured FTP Server\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"Upload a malicious file through a misconfigured FTP server.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "Discovery of a Directory with Executable Permissions",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "If the adversary discovers a directory that has executable permissions, they will attempt to upload a malicious file to execute.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "Misconfigured FTP Server",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "Upload a malicious file through a misconfigured FTP server.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 2 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

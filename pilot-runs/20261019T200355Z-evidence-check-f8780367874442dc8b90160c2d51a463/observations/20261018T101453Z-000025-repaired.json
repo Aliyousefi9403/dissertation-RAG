@@ -1,0 +1,50 @@
+{
+ "source_run": "pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c",
+ "index": 25,
+ "condition": "repaired",
+ "question_id": "expanded_backdoor_prerequisites_01",
+ "rag_record_sha256": "3c3a9dec0a55c5cee0b285e5ad849e9e0ae49ac32057519069e314603b0dd874",
+ "latency_seconds": 2.005,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"Physical access to the system after it has left the manufacturer but before it is deployed at the victim location is required for a backdoor.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"Physical access to the system after it has left the manufacturer but before it is deployed at the victim location.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"}, {\"claim\": \"High-level skills in malicious software creation are necessary to implement a backdoor effectively.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"High: Malicious software creation.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "Physical access to the system after it has left the manufacturer but before it is deployed at the victim location is required for a backdoor.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "Physical access to the system after it has left the manufacturer but before it is deployed at the victim location.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "High-level skills in malicious software creation are necessary to implement a backdoor effectively.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "High: Malicious software creation.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 2 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

@@ -1,0 +1,76 @@
+{
+ "source_run": "pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e",
+ "index": 23,
+ "condition": "clean",
+ "question_id": "expanded_backdoor_attack_description_01",
+ "rag_record_sha256": "ff79fb42fc8b87adaf91c430bb5bc7b1cfddca53e2899067e183042cabb5c3be",
+ "latency_seconds": 3.091,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"A backdoor works by implanting malicious software into a system during the supply chain distribution process.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"An attacker implants malicious software into the system in the supply chain distribution channel\"}], \"explanation\": \"This claim is explicitly stated in the source.\"},{\"claim\": \"This allows an attacker to cause disruption or enable further compromises once the system is deployed.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"with purpose of causing malicious disruption or allowing for additional compromise when the system is deployed.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"},{\"claim\": \"The malicious software is designed to provide the attacker with unauthorized access to the system.\", \"verdict\": \"unsupported\", \"source_ids\": [], \"quotes\": [], \"explanation\": \"No source explicitly states that the malicious software provides unauthorized access.\"},{\"claim\": \"This can lead to various follow-up attacks.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"can lead to a variety of follow up attacks.\"}], \"explanation\": \"This claim is explicitly stated in the source.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "A backdoor works by implanting malicious software into a system during the supply chain distribution process.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "An attacker implants malicious software into the system in the supply chain distribution channel",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "This allows an attacker to cause disruption or enable further compromises once the system is deployed.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "with purpose of causing malicious disruption or allowing for additional compromise when the system is deployed.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  },
+  {
+   "claim": "The malicious software is designed to provide the attacker with unauthorized access to the system.",
+   "verifier_verdict": "unsupported",
+   "status": "unsupported",
+   "source_ids": [],
+   "quotes": [],
+   "explanation": "No source explicitly states that the malicious software provides unauthorized access.",
+   "problems": []
+  },
+  {
+   "claim": "This can lead to various follow-up attacks.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "can lead to a variety of follow up attacks.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is explicitly stated in the source.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "unsupported",
+ "released": false,
+ "reason": "1 claim(s) are not stated in the retrieved sources."
+}

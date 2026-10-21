@@ -1,0 +1,72 @@
+{
+ "source_run": "pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e",
+ "index": 24,
+ "condition": "clean",
+ "question_id": "expanded_backdoor_execution_flow_01",
+ "rag_record_sha256": "960834dc6a9ab6f0fc66e3ab89a3e6fa4bd28a8c776059457478aed97569384c",
+ "latency_seconds": 3.617,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"An attacker implants malicious software into the system during the supply chain distribution channel to cause disruption or allow for further compromise once the system is deployed.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"An attacker implants malicious software into the system in the supply chain distribution channel, with purpose of causing malicious disruption or allowing for additional compromise when the system is deployed.\"}], \"explanation\": \"This claim is directly supported by Source 1.\"}, {\"claim\": \"Before executing the attack in the wild, the adversary tests the malicious software on a system they have procured to ensure it achieves the desired outcome.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"Before performing the attack in the wild, an adversary will test the attack on a system they have procured to ensure that the desired outcome will be achieved.\"}], \"explanation\": \"This claim is directly supported by Source 2.\"}, {\"claim\": \"The attacker either designs malicious software that provides a backdoor into the system or obtains pre-designed malicious software that needs to be deployed to the victim's system.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"Design malicious software that will give an adversary a backdoor into the system once it is deployed to the victim.\"}, {\"source_id\": \"S2\", \"text\": \"Obtain already designed malicious software that just need to be placed into the\"}], \"explanation\": \"This claim is supported by Source 2, which discusses both designing and obtaining malicious software.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "An attacker implants malicious software into the system during the supply chain distribution channel to cause disruption or allow for further compromise once the system is deployed.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "An attacker implants malicious software into the system in the supply chain distribution channel, with purpose of causing malicious disruption or allowing for additional compromise when the system is deployed.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is directly supported by Source 1.",
+   "problems": []
+  },
+  {
+   "claim": "Before executing the attack in the wild, the adversary tests the malicious software on a system they have procured to ensure it achieves the desired outcome.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "Before performing the attack in the wild, an adversary will test the attack on a system they have procured to ensure that the desired outcome will be achieved.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is directly supported by Source 2.",
+   "problems": []
+  },
+  {
+   "claim": "The attacker either designs malicious software that provides a backdoor into the system or obtains pre-designed malicious software that needs to be deployed to the victim's system.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "Design malicious software that will give an adversary a backdoor into the system once it is deployed to the victim.",
+     "verified": true
+    },
+    {
+     "source_id": "S2",
+     "text": "Obtain already designed malicious software that just need to be placed into the",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is supported by Source 2, which discusses both designing and obtaining malicious software.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "supported",
+ "released": true,
+ "reason": "All 3 claim(s) are stated in the retrieved sources. This does not show the sources themselves are correct or unpoisoned."
+}

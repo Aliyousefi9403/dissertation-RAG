@@ -1,0 +1,42 @@
+{
+ "source_run": "pilot-runs/20261017T165331Z-defence-cebfb27c1e9048cdb61fbfe15f37e50d",
+ "index": 12,
+ "condition": "defended",
+ "question_id": "expanded_sql_injection_consequences_01",
+ "rag_record_sha256": "2b1ec5ee6cb243328559e64e83c911829e22f0fffb521323589ed45db002fdd7",
+ "latency_seconds": 1.784,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"SQL Injection can lead to unauthorized actions being performed on the database due to the exploitation of improperly validated user input.\", \"verdict\": \"supported\", \"source_ids\": [\"S2\"], \"quotes\": [{\"source_id\": \"S2\", \"text\": \"SQL Injection results from failure of the application to appropriately validate input.\"}], \"explanation\": \"This claim is supported as it directly relates to the failure of input validation leading to unauthorized actions.\"},{\"claim\": \"SQL Injection can result in data breaches, data manipulation, or unauthorized access to sensitive information, depending on the attacker's intent and the application's vulnerabilities.\", \"verdict\": \"unsupported\", \"source_ids\": [], \"quotes\": [], \"explanation\": \"The sources do not specify these particular consequences of SQL Injection.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "SQL Injection can lead to unauthorized actions being performed on the database due to the exploitation of improperly validated user input.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S2"
+   ],
+   "quotes": [
+    {
+     "source_id": "S2",
+     "text": "SQL Injection results from failure of the application to appropriately validate input.",
+     "verified": true
+    }
+   ],
+   "explanation": "This claim is supported as it directly relates to the failure of input validation leading to unauthorized actions.",
+   "problems": []
+  },
+  {
+   "claim": "SQL Injection can result in data breaches, data manipulation, or unauthorized access to sensitive information, depending on the attacker's intent and the application's vulnerabilities.",
+   "verifier_verdict": "unsupported",
+   "status": "unsupported",
+   "source_ids": [],
+   "quotes": [],
+   "explanation": "The sources do not specify these particular consequences of SQL Injection.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "unsupported",
+ "released": false,
+ "reason": "1 claim(s) are not stated in the retrieved sources."
+}

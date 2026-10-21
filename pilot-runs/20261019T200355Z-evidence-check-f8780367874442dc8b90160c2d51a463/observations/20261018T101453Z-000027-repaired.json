@@ -1,0 +1,85 @@
+{
+ "source_run": "pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c",
+ "index": 27,
+ "condition": "repaired",
+ "question_id": "expanded_password_cracking_execution_flow_01",
+ "rag_record_sha256": "c586a19b9fc46b7994564b082ec34416165ae44a186d9cf8ce29fb4934917c38",
+ "latency_seconds": 3.378,
+ "raw_verifier_response": "{\"abstention\": false, \"claims\": [{\"claim\": \"The knowledge base describes the following main stages for Password Cracking: Explore and Exploit.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\", \"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"Explore: Determine the password policies of the target application/system.\"}, {\"source_id\": \"S1\", \"text\": \"Exploit: Brute force password: Given the finite space of possible passwords dictated by the password policy...\"}], \"explanation\": \"The sources explicitly mention both the Explore and Exploit stages in the context of password cracking.\"},{\"claim\": \"Explore involves determining the application's or system's password policy, including minimum and maximum password lengths, allowed formats, and the account lockout policy.\", \"verdict\": \"supported\", \"source_ids\": [\"S3\"], \"quotes\": [{\"source_id\": \"S3\", \"text\": \"Determine minimum and maximum allowed password lengths.\"}, {\"source_id\": \"S3\", \"text\": \"Determine format of allowed passwords (whether they are required or allowed to contain numbers, special characters, etc.).\"}, {\"source_id\": \"S3\", \"text\": \"Determine account lockout policy.\"}], \"explanation\": \"The source provides detailed information about what the Explore stage entails.\"},{\"claim\": \"Exploit involves conducting a brute force attack by trying all possible passwords for a known user ID until access is granted.\", \"verdict\": \"supported\", \"source_ids\": [\"S1\"], \"quotes\": [{\"source_id\": \"S1\", \"text\": \"try all possible passwords for a known user ID until application/system grants\"}], \"explanation\": \"The source explicitly describes the Exploit stage as involving a brute force attack.\"}]}",
+ "abstention": false,
+ "findings": [
+  {
+   "claim": "The knowledge base describes the following main stages for Password Cracking: Explore and Exploit.",
+   "verifier_verdict": "supported",
+   "status": "unavailable",
+   "source_ids": [
+    "S1",
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "Explore: Determine the password policies of the target application/system.",
+     "verified": false
+    },
+    {
+     "source_id": "S1",
+     "text": "Exploit: Brute force password: Given the finite space of possible passwords dictated by the password policy...",
+     "verified": false
+    }
+   ],
+   "explanation": "The sources explicitly mention both the Explore and Exploit stages in the context of password cracking.",
+   "problems": [
+    "a quotation was not found verbatim in the cited source"
+   ]
+  },
+  {
+   "claim": "Explore involves determining the application's or system's password policy, including minimum and maximum password lengths, allowed formats, and the account lockout policy.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S3"
+   ],
+   "quotes": [
+    {
+     "source_id": "S3",
+     "text": "Determine minimum and maximum allowed password lengths.",
+     "verified": true
+    },
+    {
+     "source_id": "S3",
+     "text": "Determine format of allowed passwords (whether they are required or allowed to contain numbers, special characters, etc.).",
+     "verified": true
+    },
+    {
+     "source_id": "S3",
+     "text": "Determine account lockout policy.",
+     "verified": true
+    }
+   ],
+   "explanation": "The source provides detailed information about what the Explore stage entails.",
+   "problems": []
+  },
+  {
+   "claim": "Exploit involves conducting a brute force attack by trying all possible passwords for a known user ID until access is granted.",
+   "verifier_verdict": "supported",
+   "status": "supported",
+   "source_ids": [
+    "S1"
+   ],
+   "quotes": [
+    {
+     "source_id": "S1",
+     "text": "try all possible passwords for a known user ID until application/system grants",
+     "verified": true
+    }
+   ],
+   "explanation": "The source explicitly describes the Exploit stage as involving a brute force attack.",
+   "problems": []
+  }
+ ],
+ "error": null,
+ "outcome": "unavailable",
+ "released": false,
+ "reason": "1 claim(s) could not be tied to verified quotations."
+}
