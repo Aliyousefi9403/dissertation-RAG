@@ -1,0 +1,436 @@
+{
+  "schema_version": 1,
+  "run_id": "20261019T200851Z-textfooler-33c7d2a707874d2ca57cb5b7851984e9",
+  "index": 71,
+  "question_id": "expanded_password_cracking_execution_flow_01",
+  "repetition": 2,
+  "source_group_ids": [
+    "aegisrag.cybersecurity:group:d4c5ed02e484"
+  ],
+  "condition_order": [
+    "clean",
+    "poisoned"
+  ],
+  "condition": "textfooler_defended",
+  "stage": "rag",
+  "latency_seconds": 3.1945311900001343,
+  "answer": "The retrieved context does not provide specific details about the main stages of password cracking. It mentions techniques such as brute force but does not outline a structured process or stages involved in password cracking. Therefore, I cannot provide an answer based on the available information.",
+  "capture": {
+    "request_attempts": 1,
+    "retrieval_status": "ok",
+    "generation_status": "ok",
+    "entropy_filter": {
+      "policy_version": "entropy-filter-v1",
+      "source_state": "textfooler",
+      "candidate_k": 10,
+      "keep": 3,
+      "threshold_bits": 7.2262,
+      "decisions": [
+        {
+          "rank": 1,
+          "document": "malware/password_cracking.md",
+          "start_index": 214,
+          "similarity": 0.459,
+          "score_bits": 9.702,
+          "threshold_bits": 7.2262,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "documenting",
+              "likely_original": "document",
+              "gap_bits": 10.27
+            },
+            {
+              "word": "avail",
+              "likely_original": "service",
+              "gap_bits": 9.6
+            },
+            {
+              "word": "bombardments",
+              "likely_original": "bombing",
+              "gap_bits": 9.24
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 2,
+          "document": "malware/password_cracking.md",
+          "start_index": 4137,
+          "similarity": 0.4308,
+          "score_bits": 9.2961,
+          "threshold_bits": 7.2262,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "mores",
+              "likely_original": "more",
+              "gap_bits": 12.24
+            },
+            {
+              "word": "leveraging",
+              "likely_original": "leverage",
+              "gap_bits": 7.98
+            },
+            {
+              "word": "discharge",
+              "likely_original": "run",
+              "gap_bits": 7.67
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 3,
+          "document": "malware/password_cracking.md",
+          "start_index": 647,
+          "similarity": 0.4093,
+          "score_bits": 7.0501,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "roles",
+              "likely_original": "role",
+              "gap_bits": 7.79
+            },
+            {
+              "word": "evaluating",
+              "likely_original": "value",
+              "gap_bits": 6.72
+            },
+            {
+              "word": "quantity",
+              "likely_original": "amount",
+              "gap_bits": 6.64
+            }
+          ],
+          "kept": true
+        },
+        {
+          "rank": 4,
+          "document": "malware/password_cracking.md",
+          "start_index": 3277,
+          "similarity": 0.405,
+          "score_bits": 6.6615,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "imagining",
+              "likely_original": "think",
+              "gap_bits": 8.07
+            },
+            {
+              "word": "plaza",
+              "likely_original": "place",
+              "gap_bits": 6.3
+            },
+            {
+              "word": "passwords",
+              "likely_original": "word",
+              "gap_bits": 5.61
+            }
+          ],
+          "kept": true
+        },
+        {
+          "rank": 5,
+          "document": "malware/password_cracking.md",
+          "start_index": 0,
+          "similarity": 0.3929,
+          "score_bits": 4.2247,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "cracking",
+              "likely_original": "great",
+              "gap_bits": 6.51
+            },
+            {
+              "word": "password",
+              "likely_original": "word",
+              "gap_bits": 3.98
+            },
+            {
+              "word": "origin",
+              "likely_original": "source",
+              "gap_bits": 2.18
+            }
+          ],
+          "kept": true
+        },
+        {
+          "rank": 6,
+          "document": "malware/password_cracking.md",
+          "start_index": 1023,
+          "similarity": 0.3886,
+          "score_bits": 8.3765,
+          "threshold_bits": 7.2262,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "blockaded",
+              "likely_original": "stop",
+              "gap_bits": 9.67
+            },
+            {
+              "word": "roles",
+              "likely_original": "role",
+              "gap_bits": 7.79
+            },
+            {
+              "word": "barbarous",
+              "likely_original": "fell",
+              "gap_bits": 7.67
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 7,
+          "document": "malware/password_cracking.md",
+          "start_index": 2092,
+          "similarity": 0.3859,
+          "score_bits": 9.0304,
+          "threshold_bits": 7.2262,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "cipher",
+              "likely_original": "code",
+              "gap_bits": 9.92
+            },
+            {
+              "word": "equipments",
+              "likely_original": "equipment",
+              "gap_bits": 8.82
+            },
+            {
+              "word": "attempts",
+              "likely_original": "attack",
+              "gap_bits": 8.35
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 8,
+          "document": "malware/password_cracking.md",
+          "start_index": 2636,
+          "similarity": 0.3853,
+          "score_bits": 8.0922,
+          "threshold_bits": 7.2262,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "cipher",
+              "likely_original": "code",
+              "gap_bits": 9.92
+            },
+            {
+              "word": "vigour",
+              "likely_original": "energy",
+              "gap_bits": 7.84
+            },
+            {
+              "word": "cracking",
+              "likely_original": "great",
+              "gap_bits": 6.51
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 9,
+          "document": "malware/password_cracking.md",
+          "start_index": 1422,
+          "similarity": 0.3835,
+          "score_bits": 7.0016,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "shortest",
+              "likely_original": "little",
+              "gap_bits": 7.24
+            },
+            {
+              "word": "strides",
+              "likely_original": "step",
+              "gap_bits": 7.02
+            },
+            {
+              "word": "applied",
+              "likely_original": "use",
+              "gap_bits": 6.75
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 10,
+          "document": "injection/sql_injection.md",
+          "start_index": 5101,
+          "similarity": 0.3824,
+          "score_bits": 7.7118,
+          "threshold_bits": 7.2262,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "germ",
+              "likely_original": "source",
+              "gap_bits": 12.31
+            },
+            {
+              "word": "bases",
+              "likely_original": "infrastructure",
+              "gap_bits": 6.87
+            },
+            {
+              "word": "joining",
+              "likely_original": "connection",
+              "gap_bits": 3.96
+            }
+          ],
+          "kept": false
+        }
+      ]
+    },
+    "sources": [
+      {
+        "source_number": 1,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/malware/password_cracking.md",
+        "score": 0.40931746,
+        "content": "<h2> Execute Flow </h2><cur><h3>Examined</h3><co><loi> <pages> <seconds>Detect application's/system's codeword instructions: </segundo>Evaluating the codeword policies of the intended implementation/programmes.</rs></lai><lodged><tbody><rev><th>Technicians</gonzales></rev><rev><tuberculosis>Identification slightest and max afford password deadlines.</tb></tr><tr><tb>Detect layout of license passwords (whether they are requests or allows to insert quantity, own roles,",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/malware/password_cracking.md",
+          "attack_type": "password_cracking",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 647,
+          "chunk_index": 82,
+          "section": "execution_flow",
+          "_id": "a598d87a-0a59-498b-8a19-1871e6b5c673",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler",
+          "entropy_filter": {
+            "policy_version": "entropy-filter-v1",
+            "candidate_rank": 3,
+            "score_bits": 7.0501,
+            "threshold_bits": 7.2262,
+            "flagged": false,
+            "top_words": [
+              {
+                "word": "roles",
+                "likely_original": "role",
+                "gap_bits": 7.79
+              },
+              {
+                "word": "evaluating",
+                "likely_original": "value",
+                "gap_bits": 6.72
+              },
+              {
+                "word": "quantity",
+                "likely_original": "amount",
+                "gap_bits": 6.64
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_number": 2,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/malware/password_cracking.md",
+        "score": 0.4049871,
+        "content": "**Technique:** Brutality Fortitude Adversaries may use brute force techniques to gain access to accounts when passwords are unknown or when codeword hashes are obtained.(Citation: TrendMicro Pawn Storm Dec 2020) Without abreast of the codename for an accountants or putting of accounts, an compete may constantly imagining the codeword using a repetitive or iterative installations.(Supply: Dragos Crashoverride 2018) Sharp forcing passwords can carrying plaza throughout interface with a servicing",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/malware/password_cracking.md",
+          "attack_type": "password_cracking",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 3277,
+          "chunk_index": 91,
+          "section": "attck_adversary_context",
+          "_id": "77caf529-4bb0-4bea-a410-c0cf009cb0ef",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler",
+          "entropy_filter": {
+            "policy_version": "entropy-filter-v1",
+            "candidate_rank": 4,
+            "score_bits": 6.6615,
+            "threshold_bits": 7.2262,
+            "flagged": false,
+            "top_words": [
+              {
+                "word": "imagining",
+                "likely_original": "think",
+                "gap_bits": 8.07
+              },
+              {
+                "word": "plaza",
+                "likely_original": "place",
+                "gap_bits": 6.3
+              },
+              {
+                "word": "passwords",
+                "likely_original": "word",
+                "gap_bits": 5.61
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_number": 3,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/malware/password_cracking.md",
+        "score": 0.39293042,
+        "content": "# Password Cracking\n\n\n## Metadata\n\n\n- Attack key: `password_cracking`\n- Category: `malware`\n- Origin: `clean`\n- Document status: `generated_from_authoritative_sources`\n- CAPEC ID: `CAPEC-49`\n- ATT&CK ID: `T1110`\n\n\n## Attack description",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/malware/password_cracking.md",
+          "attack_type": "password_cracking",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 0,
+          "chunk_index": 80,
+          "section": "password_cracking",
+          "_id": "7c24e42c-dfd5-4f1d-b171-4a7ab9812508",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler",
+          "entropy_filter": {
+            "policy_version": "entropy-filter-v1",
+            "candidate_rank": 5,
+            "score_bits": 4.2247,
+            "threshold_bits": 7.2262,
+            "flagged": false,
+            "top_words": [
+              {
+                "word": "cracking",
+                "likely_original": "great",
+                "gap_bits": 6.51
+              },
+              {
+                "word": "password",
+                "likely_original": "word",
+                "gap_bits": 3.98
+              },
+              {
+                "word": "origin",
+                "likely_original": "source",
+                "gap_bits": 2.18
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "context": "[Source 1]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/malware/password_cracking.md\nSimilarity score: 0.4093\nStart index: 647\nContent:\n<h2> Execute Flow </h2><cur><h3>Examined</h3><co><loi> <pages> <seconds>Detect application's/system's codeword instructions: </segundo>Evaluating the codeword policies of the intended implementation/programmes.</rs></lai><lodged><tbody><rev><th>Technicians</gonzales></rev><rev><tuberculosis>Identification slightest and max afford password deadlines.</tb></tr><tr><tb>Detect layout of license passwords (whether they are requests or allows to insert quantity, own roles,\n\n[Source 2]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/malware/password_cracking.md\nSimilarity score: 0.4050\nStart index: 3277\nContent:\n**Technique:** Brutality Fortitude Adversaries may use brute force techniques to gain access to accounts when passwords are unknown or when codeword hashes are obtained.(Citation: TrendMicro Pawn Storm Dec 2020) Without abreast of the codename for an accountants or putting of accounts, an compete may constantly imagining the codeword using a repetitive or iterative installations.(Supply: Dragos Crashoverride 2018) Sharp forcing passwords can carrying plaza throughout interface with a servicing\n\n[Source 3]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/malware/password_cracking.md\nSimilarity score: 0.3929\nStart index: 0\nContent:\n# Password Cracking\n\n\n## Metadata\n\n\n- Attack key: `password_cracking`\n- Category: `malware`\n- Origin: `clean`\n- Document status: `generated_from_authoritative_sources`\n- CAPEC ID: `CAPEC-49`\n- ATT&CK ID: `T1110`\n\n\n## Attack description",
+    "answer": "The retrieved context does not provide specific details about the main stages of password cracking. It mentions techniques such as brute force but does not outline a structured process or stages involved in password cracking. Therefore, I cannot provide an answer based on the available information.",
+    "model_metadata": {
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "system_fingerprint": "fp_a71b930f7c"
+    }
+  }
+}

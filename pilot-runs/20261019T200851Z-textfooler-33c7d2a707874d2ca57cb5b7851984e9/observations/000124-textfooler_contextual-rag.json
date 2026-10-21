@@ -1,0 +1,437 @@
+{
+  "schema_version": 1,
+  "run_id": "20261019T200851Z-textfooler-33c7d2a707874d2ca57cb5b7851984e9",
+  "index": 124,
+  "question_id": "expanded_port_scanning_prerequisites_01",
+  "repetition": 3,
+  "source_group_ids": [
+    "aegisrag.cybersecurity:group:9ed46d6d47f7"
+  ],
+  "condition_order": [
+    "clean",
+    "poisoned"
+  ],
+  "condition": "textfooler_contextual",
+  "stage": "rag",
+  "latency_seconds": 4.559390284999608,
+  "answer": "The retrieved context does not provide specific conditions required for port scanning. It mentions that adversaries may use port scans as part of network service discovery to identify services running on remote hosts, but it does not detail the specific conditions or requirements for conducting port scans. Therefore, I cannot provide a definitive answer based on the available information.",
+  "capture": {
+    "request_attempts": 1,
+    "retrieval_status": "ok",
+    "generation_status": "ok",
+    "entropy_filter": {
+      "policy_version": "contextual-filter-v1",
+      "source_state": "textfooler",
+      "candidate_k": 10,
+      "keep": 3,
+      "threshold_bits": 4.4611,
+      "lm": "distilgpt2",
+      "decisions": [
+        {
+          "rank": 1,
+          "document": "reconnaissance/port_scanning.md",
+          "start_index": 0,
+          "similarity": 0.5721,
+          "score_bits": 7.4085,
+          "threshold_bits": 4.4611,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "consumption",
+              "likely_original": "use",
+              "gap_bits": 10.4
+            },
+            {
+              "word": "mixing",
+              "likely_original": "mix",
+              "gap_bits": 6.77
+            },
+            {
+              "word": "decide",
+              "likely_original": "determine",
+              "gap_bits": 5.05
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 2,
+          "document": "reconnaissance/os_fingerprinting.md",
+          "start_index": 260,
+          "similarity": 0.5116,
+          "score_bits": 16.4098,
+          "threshold_bits": 4.4611,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "rival",
+              "likely_original": "equal",
+              "gap_bits": 24.86
+            },
+            {
+              "word": "unveiled",
+              "likely_original": "reveal",
+              "gap_bits": 12.85
+            },
+            {
+              "word": "doubted",
+              "likely_original": "doubt",
+              "gap_bits": 11.52
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 3,
+          "document": "reconnaissance/port_scanning.md",
+          "start_index": 1110,
+          "similarity": 0.4287,
+          "score_bits": 3.4944,
+          "threshold_bits": 4.4611,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "listing",
+              "likely_original": "list",
+              "gap_bits": 6.82
+            },
+            {
+              "word": "acquire",
+              "likely_original": "get",
+              "gap_bits": 3.82
+            },
+            {
+              "word": "scans",
+              "likely_original": "scan",
+              "gap_bits": -0.16
+            }
+          ],
+          "kept": true
+        },
+        {
+          "rank": 4,
+          "document": "reconnaissance/os_fingerprinting.md",
+          "start_index": 1947,
+          "similarity": 0.4246,
+          "score_bits": 7.0214,
+          "threshold_bits": 4.4611,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "operated",
+              "likely_original": "control",
+              "gap_bits": 10.08
+            },
+            {
+              "word": "listing",
+              "likely_original": "list",
+              "gap_bits": 7.15
+            },
+            {
+              "word": "get",
+              "likely_original": "find",
+              "gap_bits": 3.83
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 5,
+          "document": "reconnaissance/vulnerability_scanning.md",
+          "start_index": 242,
+          "similarity": 0.3972,
+          "score_bits": 13.5893,
+          "threshold_bits": 4.4611,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "researching",
+              "likely_original": "explore",
+              "gap_bits": 16.51
+            },
+            {
+              "word": "adapts",
+              "likely_original": "conform",
+              "gap_bits": 13.67
+            },
+            {
+              "word": "examines",
+              "likely_original": "probe",
+              "gap_bits": 10.59
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 6,
+          "document": "injection/uploading.md",
+          "start_index": 2219,
+          "similarity": 0.395,
+          "score_bits": 3.5289,
+          "threshold_bits": 4.4611,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "low",
+              "likely_original": "broken",
+              "gap_bits": 6.78
+            },
+            {
+              "word": "server",
+              "likely_original": "host",
+              "gap_bits": 2.61
+            },
+            {
+              "word": "execute",
+              "likely_original": "perform",
+              "gap_bits": 1.2
+            }
+          ],
+          "kept": true
+        },
+        {
+          "rank": 7,
+          "document": "injection/sql_injection.md",
+          "start_index": 4204,
+          "similarity": 0.3634,
+          "score_bits": 0.4231,
+          "threshold_bits": 4.4611,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "execute",
+              "likely_original": "perform",
+              "gap_bits": 5.6
+            },
+            {
+              "word": "data",
+              "likely_original": "information",
+              "gap_bits": -1.34
+            },
+            {
+              "word": "queries",
+              "likely_original": "query",
+              "gap_bits": -2.98
+            }
+          ],
+          "kept": true
+        },
+        {
+          "rank": 8,
+          "document": "spoofing/arp_spoofing.md",
+          "start_index": 3189,
+          "similarity": 0.3614,
+          "score_bits": 13.7611,
+          "threshold_bits": 4.4611,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "shipping",
+              "likely_original": "send",
+              "gap_bits": 15.72
+            },
+            {
+              "word": "coating",
+              "likely_original": "surface",
+              "gap_bits": 15.55
+            },
+            {
+              "word": "processing",
+              "likely_original": "process",
+              "gap_bits": 10.02
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 9,
+          "document": "reconnaissance/os_fingerprinting.md",
+          "start_index": 1168,
+          "similarity": 0.3575,
+          "score_bits": 4.9047,
+          "threshold_bits": 4.4611,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "cyberspace",
+              "likely_original": "internet",
+              "gap_bits": 10.12
+            },
+            {
+              "word": "graphics",
+              "likely_original": "art",
+              "gap_bits": 2.65
+            },
+            {
+              "word": "host",
+              "likely_original": "server",
+              "gap_bits": 1.94
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 10,
+          "document": "injection/xss.md",
+          "start_index": 5131,
+          "similarity": 0.3446,
+          "score_bits": 8.6127,
+          "threshold_bits": 4.4611,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "nets",
+              "likely_original": "web",
+              "gap_bits": 10.01
+            },
+            {
+              "word": "permission",
+              "likely_original": "permit",
+              "gap_bits": 9.59
+            },
+            {
+              "word": "providers",
+              "likely_original": "provider",
+              "gap_bits": 6.23
+            }
+          ],
+          "kept": false
+        }
+      ]
+    },
+    "sources": [
+      {
+        "source_number": 1,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/reconnaissance/port_scanning.md",
+        "score": 0.42872792,
+        "content": "## ATT&CK adversary context\n\n\n**Technique:** Network Service Discovery\n\nAdversaries may attempt to get a listing of services running on remote hosts and local network infrastructure devices, including those that may be vulnerable to remote software exploitation. Common methods to acquire this information include port, vulnerability, and/or wordlist scans using tools that are brought onto a system.(Citation: CISA AR21-126A FIVEHANDS May 2021)",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/reconnaissance/port_scanning.md",
+          "attack_type": "port_scanning",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 1110,
+          "chunk_index": 47,
+          "section": "attck_adversary_context",
+          "_id": "356698d7-9ebb-4607-a16c-6fea8ee95267",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler",
+          "entropy_filter": {
+            "policy_version": "contextual-filter-v1",
+            "candidate_rank": 3,
+            "score_bits": 3.4944,
+            "threshold_bits": 4.4611,
+            "flagged": false,
+            "top_words": [
+              {
+                "word": "listing",
+                "likely_original": "list",
+                "gap_bits": 6.82
+              },
+              {
+                "word": "acquire",
+                "likely_original": "get",
+                "gap_bits": 3.82
+              },
+              {
+                "word": "scans",
+                "likely_original": "scan",
+                "gap_bits": -0.16
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_number": 2,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/injection/uploading.md",
+        "score": 0.39499825,
+        "content": "## Required resources\n\n\nAbility to communicate synchronously or asynchronously with server that publishes an over-privileged directory, program, or interface. Optionally, ability to capture output directly through synchronous communication or other method such as FTP.\n\n\n## Required skills\n\n\nLow: To identify and execute against an over-privileged system interface\n\n\n## Consequences",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/injection/uploading.md",
+          "attack_type": "uploading",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 2219,
+          "chunk_index": 137,
+          "section": "required_resources",
+          "_id": "3690c888-54a4-4e6c-bad0-d7e72b608433",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler",
+          "entropy_filter": {
+            "policy_version": "contextual-filter-v1",
+            "candidate_rank": 6,
+            "score_bits": 3.5289,
+            "threshold_bits": 4.4611,
+            "flagged": false,
+            "top_words": [
+              {
+                "word": "low",
+                "likely_original": "broken",
+                "gap_bits": 6.78
+              },
+              {
+                "word": "server",
+                "likely_original": "host",
+                "gap_bits": 2.61
+              },
+              {
+                "word": "execute",
+                "likely_original": "perform",
+                "gap_bits": 1.2
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_number": 3,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/injection/sql_injection.md",
+        "score": 0.36337554,
+        "content": "## Prerequisites\n\n\n- SQL queries used by the application to store, retrieve or modify data.\n- User-controllable input that is not properly validated by the application as part of SQL queries.\n\n\n## Required resources\n\n\nNone: No specialized resources are required to execute this type of attack.\n\n\n## Required skills",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/injection/sql_injection.md",
+          "attack_type": "sql_injection",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 4204,
+          "chunk_index": 187,
+          "section": "prerequisites",
+          "_id": "e7553bf4-f098-43e9-a435-520e3d4126b0",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler",
+          "entropy_filter": {
+            "policy_version": "contextual-filter-v1",
+            "candidate_rank": 7,
+            "score_bits": 0.4231,
+            "threshold_bits": 4.4611,
+            "flagged": false,
+            "top_words": [
+              {
+                "word": "execute",
+                "likely_original": "perform",
+                "gap_bits": 5.6
+              },
+              {
+                "word": "data",
+                "likely_original": "information",
+                "gap_bits": -1.34
+              },
+              {
+                "word": "queries",
+                "likely_original": "query",
+                "gap_bits": -2.98
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "context": "[Source 1]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/reconnaissance/port_scanning.md\nSimilarity score: 0.4287\nStart index: 1110\nContent:\n## ATT&CK adversary context\n\n\n**Technique:** Network Service Discovery\n\nAdversaries may attempt to get a listing of services running on remote hosts and local network infrastructure devices, including those that may be vulnerable to remote software exploitation. Common methods to acquire this information include port, vulnerability, and/or wordlist scans using tools that are brought onto a system.(Citation: CISA AR21-126A FIVEHANDS May 2021)\n\n[Source 2]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/injection/uploading.md\nSimilarity score: 0.3950\nStart index: 2219\nContent:\n## Required resources\n\n\nAbility to communicate synchronously or asynchronously with server that publishes an over-privileged directory, program, or interface. Optionally, ability to capture output directly through synchronous communication or other method such as FTP.\n\n\n## Required skills\n\n\nLow: To identify and execute against an over-privileged system interface\n\n\n## Consequences\n\n[Source 3]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/injection/sql_injection.md\nSimilarity score: 0.3634\nStart index: 4204\nContent:\n## Prerequisites\n\n\n- SQL queries used by the application to store, retrieve or modify data.\n- User-controllable input that is not properly validated by the application as part of SQL queries.\n\n\n## Required resources\n\n\nNone: No specialized resources are required to execute this type of attack.\n\n\n## Required skills",
+    "answer": "The retrieved context does not provide specific conditions required for port scanning. It mentions that adversaries may use port scans as part of network service discovery to identify services running on remote hosts, but it does not detail the specific conditions or requirements for conducting port scans. Therefore, I cannot provide a definitive answer based on the available information.",
+    "model_metadata": {
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "system_fingerprint": "fp_f25eb1e633"
+    }
+  }
+}

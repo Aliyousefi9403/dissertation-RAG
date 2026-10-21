@@ -1,0 +1,437 @@
+{
+  "schema_version": 1,
+  "run_id": "20261019T200851Z-textfooler-33c7d2a707874d2ca57cb5b7851984e9",
+  "index": 31,
+  "question_id": "expanded_os_fingerprinting_attack_description_01",
+  "repetition": 1,
+  "source_group_ids": [
+    "aegisrag.cybersecurity:group:9ed46d6d47f7"
+  ],
+  "condition_order": [
+    "poisoned",
+    "clean"
+  ],
+  "condition": "textfooler_contextual",
+  "stage": "rag",
+  "latency_seconds": 36.90994209799999,
+  "answer": "Operating System Fingerprinting works by analyzing the behavior of an operating system to distinguish between different types and versions. This technique is categorized under reconnaissance and is associated with specific attack keys and identifiers, such as CAPEC ID: CAPEC-312 and ATT&CK ID: T1046 [Source 2].",
+  "capture": {
+    "request_attempts": 1,
+    "retrieval_status": "ok",
+    "generation_status": "ok",
+    "entropy_filter": {
+      "policy_version": "contextual-filter-v1",
+      "source_state": "textfooler",
+      "candidate_k": 10,
+      "keep": 3,
+      "threshold_bits": 4.4611,
+      "lm": "distilgpt2",
+      "decisions": [
+        {
+          "rank": 1,
+          "document": "reconnaissance/os_fingerprinting.md",
+          "start_index": 1065,
+          "similarity": 0.5464,
+          "score_bits": -2.5854,
+          "threshold_bits": 4.4611,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "versions",
+              "likely_original": "version",
+              "gap_bits": -1.22
+            },
+            {
+              "word": "behavior",
+              "likely_original": "behaviour",
+              "gap_bits": -1.24
+            },
+            {
+              "word": "types",
+              "likely_original": "type",
+              "gap_bits": -5.29
+            }
+          ],
+          "kept": true
+        },
+        {
+          "rank": 2,
+          "document": "reconnaissance/os_fingerprinting.md",
+          "start_index": 659,
+          "similarity": 0.5341,
+          "score_bits": 7.1703,
+          "threshold_bits": 4.4611,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "wishing",
+              "likely_original": "care",
+              "gap_bits": 8.24
+            },
+            {
+              "word": "specialised",
+              "likely_original": "differentiate",
+              "gap_bits": 7.02
+            },
+            {
+              "word": "freakish",
+              "likely_original": "flaky",
+              "gap_bits": 6.25
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 3,
+          "document": "reconnaissance/os_fingerprinting.md",
+          "start_index": 260,
+          "similarity": 0.471,
+          "score_bits": 16.4098,
+          "threshold_bits": 4.4611,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "rival",
+              "likely_original": "equal",
+              "gap_bits": 24.86
+            },
+            {
+              "word": "unveiled",
+              "likely_original": "reveal",
+              "gap_bits": 12.85
+            },
+            {
+              "word": "doubted",
+              "likely_original": "doubt",
+              "gap_bits": 11.52
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 4,
+          "document": "reconnaissance/os_fingerprinting.md",
+          "start_index": 0,
+          "similarity": 0.4589,
+          "score_bits": 3.0029,
+          "threshold_bits": 4.4611,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "key",
+              "likely_original": "name",
+              "gap_bits": 9.01
+            },
+            {
+              "word": "sources",
+              "likely_original": "source",
+              "gap_bits": 0.0
+            },
+            {
+              "word": "generated",
+              "likely_original": "get",
+              "gap_bits": 0.0
+            }
+          ],
+          "kept": true
+        },
+        {
+          "rank": 5,
+          "document": "reconnaissance/port_scanning.md",
+          "start_index": 1110,
+          "similarity": 0.4232,
+          "score_bits": 3.4944,
+          "threshold_bits": 4.4611,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "listing",
+              "likely_original": "list",
+              "gap_bits": 6.82
+            },
+            {
+              "word": "acquire",
+              "likely_original": "get",
+              "gap_bits": 3.82
+            },
+            {
+              "word": "scans",
+              "likely_original": "scan",
+              "gap_bits": -0.16
+            }
+          ],
+          "kept": true
+        },
+        {
+          "rank": 6,
+          "document": "malware/backdoor.md",
+          "start_index": 451,
+          "similarity": 0.387,
+          "score_bits": 4.8103,
+          "threshold_bits": 4.4611,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "determine",
+              "likely_original": "set",
+              "gap_bits": 5.97
+            },
+            {
+              "word": "smaller",
+              "likely_original": "small",
+              "gap_bits": 4.8
+            },
+            {
+              "word": "exposed",
+              "likely_original": "open",
+              "gap_bits": 3.66
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 7,
+          "document": "reconnaissance/os_fingerprinting.md",
+          "start_index": 1947,
+          "similarity": 0.383,
+          "score_bits": 7.0214,
+          "threshold_bits": 4.4611,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "operated",
+              "likely_original": "control",
+              "gap_bits": 10.08
+            },
+            {
+              "word": "listing",
+              "likely_original": "list",
+              "gap_bits": 7.15
+            },
+            {
+              "word": "get",
+              "likely_original": "find",
+              "gap_bits": 3.83
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 8,
+          "document": "spoofing/arp_spoofing.md",
+          "start_index": 3593,
+          "similarity": 0.3753,
+          "score_bits": 15.139,
+          "threshold_bits": 4.4611,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "pelts",
+              "likely_original": "stream",
+              "gap_bits": 22.11
+            },
+            {
+              "word": "macintosh",
+              "likely_original": "mac",
+              "gap_bits": 16.26
+            },
+            {
+              "word": "processing",
+              "likely_original": "process",
+              "gap_bits": 7.05
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 9,
+          "document": "malware/backdoor.md",
+          "start_index": 3550,
+          "similarity": 0.3332,
+          "score_bits": -3.9427,
+          "threshold_bits": 4.4611,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "process",
+              "likely_original": "operation",
+              "gap_bits": -3.67
+            },
+            {
+              "word": "specified",
+              "likely_original": "set",
+              "gap_bits": -3.85
+            },
+            {
+              "word": "task",
+              "likely_original": "project",
+              "gap_bits": -4.31
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 10,
+          "document": "injection/uploading.md",
+          "start_index": 2219,
+          "similarity": 0.3316,
+          "score_bits": 3.5289,
+          "threshold_bits": 4.4611,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "low",
+              "likely_original": "broken",
+              "gap_bits": 6.78
+            },
+            {
+              "word": "server",
+              "likely_original": "host",
+              "gap_bits": 2.61
+            },
+            {
+              "word": "execute",
+              "likely_original": "perform",
+              "gap_bits": 1.2
+            }
+          ],
+          "kept": false
+        }
+      ]
+    },
+    "sources": [
+      {
+        "source_number": 1,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/reconnaissance/os_fingerprinting.md",
+        "score": 0.54636896,
+        "content": "the OS behavior. This type of OS printer can distinguish between operating system types and versions.",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/reconnaissance/os_fingerprinting.md",
+          "attack_type": "os_fingerprinting",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 1065,
+          "chunk_index": 56,
+          "section": "attack_description",
+          "_id": "40a6f747-4056-4583-b8a7-1eb67273d8b8",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler",
+          "entropy_filter": {
+            "policy_version": "contextual-filter-v1",
+            "candidate_rank": 1,
+            "score_bits": -2.5854,
+            "threshold_bits": 4.4611,
+            "flagged": false,
+            "top_words": [
+              {
+                "word": "versions",
+                "likely_original": "version",
+                "gap_bits": -1.22
+              },
+              {
+                "word": "behavior",
+                "likely_original": "behaviour",
+                "gap_bits": -1.24
+              },
+              {
+                "word": "types",
+                "likely_original": "type",
+                "gap_bits": -5.29
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_number": 2,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/reconnaissance/os_fingerprinting.md",
+        "score": 0.45885125,
+        "content": "# Operating System Fingerprinting\n\n\n## Metadata\n\n\n- Attack key: `os_fingerprinting`\n- Category: `reconnaissance`\n- Origin: `clean`\n- Document status: `generated_from_authoritative_sources`\n- CAPEC ID: `CAPEC-312`\n- ATT&CK ID: `T1046`\n\n\n## Attack description",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/reconnaissance/os_fingerprinting.md",
+          "attack_type": "os_fingerprinting",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 0,
+          "chunk_index": 53,
+          "section": "operating_system_fingerprinting",
+          "_id": "767072b7-8a26-4e18-93aa-b2d5826dd029",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler",
+          "entropy_filter": {
+            "policy_version": "contextual-filter-v1",
+            "candidate_rank": 4,
+            "score_bits": 3.0029,
+            "threshold_bits": 4.4611,
+            "flagged": false,
+            "top_words": [
+              {
+                "word": "key",
+                "likely_original": "name",
+                "gap_bits": 9.01
+              },
+              {
+                "word": "sources",
+                "likely_original": "source",
+                "gap_bits": 0.0
+              },
+              {
+                "word": "generated",
+                "likely_original": "get",
+                "gap_bits": 0.0
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_number": 3,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/reconnaissance/port_scanning.md",
+        "score": 0.42317468,
+        "content": "## ATT&CK adversary context\n\n\n**Technique:** Network Service Discovery\n\nAdversaries may attempt to get a listing of services running on remote hosts and local network infrastructure devices, including those that may be vulnerable to remote software exploitation. Common methods to acquire this information include port, vulnerability, and/or wordlist scans using tools that are brought onto a system.(Citation: CISA AR21-126A FIVEHANDS May 2021)",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/reconnaissance/port_scanning.md",
+          "attack_type": "port_scanning",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 1110,
+          "chunk_index": 47,
+          "section": "attck_adversary_context",
+          "_id": "356698d7-9ebb-4607-a16c-6fea8ee95267",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler",
+          "entropy_filter": {
+            "policy_version": "contextual-filter-v1",
+            "candidate_rank": 5,
+            "score_bits": 3.4944,
+            "threshold_bits": 4.4611,
+            "flagged": false,
+            "top_words": [
+              {
+                "word": "listing",
+                "likely_original": "list",
+                "gap_bits": 6.82
+              },
+              {
+                "word": "acquire",
+                "likely_original": "get",
+                "gap_bits": 3.82
+              },
+              {
+                "word": "scans",
+                "likely_original": "scan",
+                "gap_bits": -0.16
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "context": "[Source 1]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/reconnaissance/os_fingerprinting.md\nSimilarity score: 0.5464\nStart index: 1065\nContent:\nthe OS behavior. This type of OS printer can distinguish between operating system types and versions.\n\n[Source 2]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/reconnaissance/os_fingerprinting.md\nSimilarity score: 0.4589\nStart index: 0\nContent:\n# Operating System Fingerprinting\n\n\n## Metadata\n\n\n- Attack key: `os_fingerprinting`\n- Category: `reconnaissance`\n- Origin: `clean`\n- Document status: `generated_from_authoritative_sources`\n- CAPEC ID: `CAPEC-312`\n- ATT&CK ID: `T1046`\n\n\n## Attack description\n\n[Source 3]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/reconnaissance/port_scanning.md\nSimilarity score: 0.4232\nStart index: 1110\nContent:\n## ATT&CK adversary context\n\n\n**Technique:** Network Service Discovery\n\nAdversaries may attempt to get a listing of services running on remote hosts and local network infrastructure devices, including those that may be vulnerable to remote software exploitation. Common methods to acquire this information include port, vulnerability, and/or wordlist scans using tools that are brought onto a system.(Citation: CISA AR21-126A FIVEHANDS May 2021)",
+    "answer": "Operating System Fingerprinting works by analyzing the behavior of an operating system to distinguish between different types and versions. This technique is categorized under reconnaissance and is associated with specific attack keys and identifiers, such as CAPEC ID: CAPEC-312 and ATT&CK ID: T1046 [Source 2].",
+    "model_metadata": {
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "system_fingerprint": "fp_6841159c0c"
+    }
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "run_id": "20261019T200851Z-textfooler-33c7d2a707874d2ca57cb5b7851984e9",
+  "index": 30,
+  "question_id": "expanded_password_cracking_consequences_01",
+  "repetition": 1,
+  "source_group_ids": [
+    "aegisrag.cybersecurity:group:d4c5ed02e484"
+  ],
+  "condition_order": [
+    "clean",
+    "poisoned"
+  ],
+  "condition": "textfooler",
+  "stage": "rag",
+  "latency_seconds": 2.6229259259999935,
+  "answer": "The retrieved context does not provide a clear list of consequences specifically associated with password cracking. It discusses aspects of the attack, such as the need for a username, the use of brute force methods, and the importance of password policies and throttling mechanisms, but does not enumerate specific consequences. Therefore, I cannot provide a definitive answer regarding the consequences of password cracking based on the available information.",
+  "capture": {
+    "request_attempts": 1,
+    "retrieval_status": "ok",
+    "generation_status": "ok",
+    "sources": [
+      {
+        "source_number": 1,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/malware/password_cracking.md",
+        "score": 0.45704734,
+        "content": "## Attack description\n\n\nAn hostile wishing any affordable assessing for a password until they avail. A quarrelsome force bombardments, if controllable computationally, wanting permanently got thrive because it will substantially go through all apt passwords allocated the handwriting used (slower files card, upper files characters, illustrations, documenting, etc.) and the upstairs timetable of the passwords.\n\n## Execution flow",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/malware/password_cracking.md",
+          "attack_type": "password_cracking",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 214,
+          "chunk_index": 81,
+          "section": "attack_description",
+          "_id": "bf6b1c11-bd37-4122-9640-30a4575bbb28",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler"
+        }
+      },
+      {
+        "source_number": 2,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/malware/password_cracking.md",
+        "score": 0.42414057,
+        "content": "within a victim scenery leveraging savoir collecting from other post-compromise mores such as [OS Credential Discharge](https://detonating.mitre.organizations/technicians/T1003), [Account Locate](https://bombardments.mitre.organizing/technicians/T1087), or [Password Policy Discovery](https://attack.mitre.org/techniques/T1201). Adversaries may also combine brute forcing activity with behaviors such as [External Remote Services](https://attack.mitre.org/techniques/T1133) as part of Initial",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/malware/password_cracking.md",
+          "attack_type": "password_cracking",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 4137,
+          "chunk_index": 93,
+          "section": "attck_adversary_context",
+          "_id": "f68cb972-6158-4a69-b042-6f784b4762ea",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler"
+        }
+      },
+      {
+        "source_number": 3,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/malware/password_cracking.md",
+        "score": 0.4135621,
+        "content": "- An adversary requirements to acknowledging a username to target. - The arrangements consuming codename based scrip as the one components credentials equipments. - An implementation wants not have a cipher throttling installations in positioning. A advantageous cipher throttling installations readiness make it almost impossible computationally to stiff force a password as it may either lock out the user after a certain number of incorrect attempts or introduce time out periods. Both of these",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/malware/password_cracking.md",
+          "attack_type": "password_cracking",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 2092,
+          "chunk_index": 87,
+          "section": "prerequisites",
+          "_id": "f8aad38b-fbdd-4e69-9fb5-496cf8825f9f",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler"
+        }
+      }
+    ],
+    "context": "[Source 1]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/malware/password_cracking.md\nSimilarity score: 0.4570\nStart index: 214\nContent:\n## Attack description\n\n\nAn hostile wishing any affordable assessing for a password until they avail. A quarrelsome force bombardments, if controllable computationally, wanting permanently got thrive because it will substantially go through all apt passwords allocated the handwriting used (slower files card, upper files characters, illustrations, documenting, etc.) and the upstairs timetable of the passwords.\n\n## Execution flow\n\n[Source 2]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/malware/password_cracking.md\nSimilarity score: 0.4241\nStart index: 4137\nContent:\nwithin a victim scenery leveraging savoir collecting from other post-compromise mores such as [OS Credential Discharge](https://detonating.mitre.organizations/technicians/T1003), [Account Locate](https://bombardments.mitre.organizing/technicians/T1087), or [Password Policy Discovery](https://attack.mitre.org/techniques/T1201). Adversaries may also combine brute forcing activity with behaviors such as [External Remote Services](https://attack.mitre.org/techniques/T1133) as part of Initial\n\n[Source 3]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/malware/password_cracking.md\nSimilarity score: 0.4136\nStart index: 2092\nContent:\n- An adversary requirements to acknowledging a username to target. - The arrangements consuming codename based scrip as the one components credentials equipments. - An implementation wants not have a cipher throttling installations in positioning. A advantageous cipher throttling installations readiness make it almost impossible computationally to stiff force a password as it may either lock out the user after a certain number of incorrect attempts or introduce time out periods. Both of these",
+    "answer": "The retrieved context does not provide a clear list of consequences specifically associated with password cracking. It discusses aspects of the attack, such as the need for a username, the use of brute force methods, and the importance of password policies and throttling mechanisms, but does not enumerate specific consequences. Therefore, I cannot provide a definitive answer regarding the consequences of password cracking based on the available information.",
+    "model_metadata": {
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "system_fingerprint": "fp_e3af1ca7c9"
+    }
+  }
+}

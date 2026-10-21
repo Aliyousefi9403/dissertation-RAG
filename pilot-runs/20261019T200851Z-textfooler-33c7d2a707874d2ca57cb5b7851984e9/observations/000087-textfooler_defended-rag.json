@@ -1,0 +1,436 @@
+{
+  "schema_version": 1,
+  "run_id": "20261019T200851Z-textfooler-33c7d2a707874d2ca57cb5b7851984e9",
+  "index": 87,
+  "question_id": "expanded_dns_spoofing_attack_description_01",
+  "repetition": 2,
+  "source_group_ids": [
+    "aegisrag.cybersecurity:group:cbfb055d7519"
+  ],
+  "condition_order": [
+    "clean",
+    "poisoned"
+  ],
+  "condition": "textfooler_defended",
+  "stage": "rag",
+  "latency_seconds": 3.4141323369999554,
+  "answer": "DNS Spoofing works by an adversary sending a malicious DNS response, such as an \"NXDOMAIN\" (No such domain) code or a DNS A record, to a target's DNS request before a legitimate resolver can respond. This technique requires an On-path or In-path device that can monitor and respond to the target's DNS requests. Unlike BGP Tampering, DNS Spoofing directly responds to the requests made by the target rather than affecting the routing infrastructure used by the target [Source 1].",
+  "capture": {
+    "request_attempts": 1,
+    "retrieval_status": "ok",
+    "generation_status": "ok",
+    "entropy_filter": {
+      "policy_version": "entropy-filter-v1",
+      "source_state": "textfooler",
+      "candidate_k": 10,
+      "keep": 3,
+      "threshold_bits": 7.2262,
+      "decisions": [
+        {
+          "rank": 1,
+          "document": "spoofing/dns_spoofing.md",
+          "start_index": 0,
+          "similarity": 0.537,
+          "score_bits": 0.8654,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "origin",
+              "likely_original": "source",
+              "gap_bits": 2.18
+            },
+            {
+              "word": "sources",
+              "likely_original": "source",
+              "gap_bits": 1.18
+            },
+            {
+              "word": "key",
+              "likely_original": "identify",
+              "gap_bits": -0.76
+            }
+          ],
+          "kept": true
+        },
+        {
+          "rank": 2,
+          "document": "spoofing/dns_spoofing.md",
+          "start_index": 1577,
+          "similarity": 0.4412,
+          "score_bits": 8.7481,
+          "threshold_bits": 7.2262,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "accessing",
+              "likely_original": "access",
+              "gap_bits": 10.5
+            },
+            {
+              "word": "keystone",
+              "likely_original": "key",
+              "gap_bits": 9.29
+            },
+            {
+              "word": "requiring",
+              "likely_original": "take",
+              "gap_bits": 6.45
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 3,
+          "document": "spoofing/dns_spoofing.md",
+          "start_index": 1175,
+          "similarity": 0.4165,
+          "score_bits": 8.628,
+          "threshold_bits": 7.2262,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "keystone",
+              "likely_original": "key",
+              "gap_bits": 9.29
+            },
+            {
+              "word": "transporting",
+              "likely_original": "send",
+              "gap_bits": 8.72
+            },
+            {
+              "word": "vigor",
+              "likely_original": "vigour",
+              "gap_bits": 7.88
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 4,
+          "document": "ddos/udp_flood.md",
+          "start_index": 630,
+          "similarity": 0.3882,
+          "score_bits": 3.9209,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "utilize",
+              "likely_original": "use",
+              "gap_bits": 5.23
+            },
+            {
+              "word": "making",
+              "likely_original": "have",
+              "gap_bits": 3.44
+            },
+            {
+              "word": "attacks",
+              "likely_original": "attack",
+              "gap_bits": 3.09
+            }
+          ],
+          "kept": true
+        },
+        {
+          "rank": 5,
+          "document": "spoofing/dns_spoofing.md",
+          "start_index": 206,
+          "similarity": 0.3691,
+          "score_bits": 5.0017,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "responds",
+              "likely_original": "reply",
+              "gap_bits": 6.02
+            },
+            {
+              "word": "domain",
+              "likely_original": "world",
+              "gap_bits": 5.25
+            },
+            {
+              "word": "uses",
+              "likely_original": "role",
+              "gap_bits": 3.74
+            }
+          ],
+          "kept": true
+        },
+        {
+          "rank": 6,
+          "document": "reconnaissance/os_fingerprinting.md",
+          "start_index": 2752,
+          "similarity": 0.3667,
+          "score_bits": 2.1336,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "registers",
+              "likely_original": "read",
+              "gap_bits": 2.72
+            },
+            {
+              "word": "registered",
+              "likely_original": "read",
+              "gap_bits": 2.42
+            },
+            {
+              "word": "find",
+              "likely_original": "get",
+              "gap_bits": 1.26
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 7,
+          "document": "spoofing/arp_spoofing.md",
+          "start_index": 0,
+          "similarity": 0.3665,
+          "score_bits": 0.8661,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "origin",
+              "likely_original": "source",
+              "gap_bits": 2.18
+            },
+            {
+              "word": "sources",
+              "likely_original": "source",
+              "gap_bits": 1.18
+            },
+            {
+              "word": "key",
+              "likely_original": "identify",
+              "gap_bits": -0.76
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 8,
+          "document": "spoofing/arp_spoofing.md",
+          "start_index": 4391,
+          "similarity": 0.3408,
+          "score_bits": 7.0704,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "endorsements",
+              "likely_original": "second",
+              "gap_bits": 7.87
+            },
+            {
+              "word": "shipped",
+              "likely_original": "send",
+              "gap_bits": 6.93
+            },
+            {
+              "word": "wrongly",
+              "likely_original": "wrong",
+              "gap_bits": 6.41
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 9,
+          "document": "reconnaissance/port_scanning.md",
+          "start_index": 1828,
+          "similarity": 0.3323,
+          "score_bits": 5.6689,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "broadcasting",
+              "likely_original": "send",
+              "gap_bits": 7.27
+            },
+            {
+              "word": "advertises",
+              "likely_original": "push",
+              "gap_bits": 6.81
+            },
+            {
+              "word": "registers",
+              "likely_original": "read",
+              "gap_bits": 2.92
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 10,
+          "document": "ddos/icmp_flood.md",
+          "start_index": 202,
+          "similarity": 0.3195,
+          "score_bits": 4.8868,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "involves",
+              "likely_original": "take",
+              "gap_bits": 5.78
+            },
+            {
+              "word": "receiving",
+              "likely_original": "have",
+              "gap_bits": 5.25
+            },
+            {
+              "word": "consuming",
+              "likely_original": "have",
+              "gap_bits": 3.62
+            }
+          ],
+          "kept": false
+        }
+      ]
+    },
+    "sources": [
+      {
+        "source_number": 1,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/dns_spoofing.md",
+        "score": 0.53702027,
+        "content": "# DNS Spoofing\n\n\n## Metadata\n\n\n- Attack key: `dns_spoofing`\n- Category: `spoofing`\n- Origin: `clean`\n- Document status: `generated_from_authoritative_sources`\n- CAPEC ID: `CAPEC-598`\n- ATT&CK ID: `T1557`\n\n\n## Attack description",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/dns_spoofing.md",
+          "attack_type": "dns_spoofing",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 0,
+          "chunk_index": 117,
+          "section": "dns_spoofing",
+          "_id": "32699e4f-588d-4912-a8de-b79309f39248",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler",
+          "entropy_filter": {
+            "policy_version": "entropy-filter-v1",
+            "candidate_rank": 1,
+            "score_bits": 0.8654,
+            "threshold_bits": 7.2262,
+            "flagged": false,
+            "top_words": [
+              {
+                "word": "origin",
+                "likely_original": "source",
+                "gap_bits": 2.18
+              },
+              {
+                "word": "sources",
+                "likely_original": "source",
+                "gap_bits": 1.18
+              },
+              {
+                "word": "key",
+                "likely_original": "identify",
+                "gap_bits": -0.76
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_number": 2,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/ddos/udp_flood.md",
+        "score": 0.38815713,
+        "content": "resources allocated to the firewall. UDP attacks can also target services like DNS or VoIP which utilize these protocols. Additionally, due to the session-less nature of the UDP protocol, the source of a packet is easily spoofed making it difficult to find the source of the attack.",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/ddos/udp_flood.md",
+          "attack_type": "udp_flood",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 630,
+          "chunk_index": 29,
+          "section": "attack_description",
+          "_id": "a4dac62d-52da-4719-86cc-fa7c0f02d177",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler",
+          "entropy_filter": {
+            "policy_version": "entropy-filter-v1",
+            "candidate_rank": 4,
+            "score_bits": 3.9209,
+            "threshold_bits": 7.2262,
+            "flagged": false,
+            "top_words": [
+              {
+                "word": "utilize",
+                "likely_original": "use",
+                "gap_bits": 5.23
+              },
+              {
+                "word": "making",
+                "likely_original": "have",
+                "gap_bits": 3.44
+              },
+              {
+                "word": "attacks",
+                "likely_original": "attack",
+                "gap_bits": 3.09
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_number": 3,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/dns_spoofing.md",
+        "score": 0.36909276,
+        "content": "## Attack description\n\n\nAn adversary sends a malicious (\"NXDOMAIN\" (\"No such domain\") code, or DNS A record) response to a target's route request before a legitimate resolver can. This technique requires an On-path or In-path device that can monitor and respond to the target's DNS requests. This attack differs from BGP Tampering in that it directly responds to requests made by the target instead of polluting the routing the target's infrastructure uses.\n\n\n## Prerequisites\n\n\nOn/In Path Device",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/dns_spoofing.md",
+          "attack_type": "dns_spoofing",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 206,
+          "chunk_index": 118,
+          "section": "attack_description",
+          "_id": "bd200cc1-1853-43f5-9156-1281d33236fa",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler",
+          "entropy_filter": {
+            "policy_version": "entropy-filter-v1",
+            "candidate_rank": 5,
+            "score_bits": 5.0017,
+            "threshold_bits": 7.2262,
+            "flagged": false,
+            "top_words": [
+              {
+                "word": "responds",
+                "likely_original": "reply",
+                "gap_bits": 6.02
+              },
+              {
+                "word": "domain",
+                "likely_original": "world",
+                "gap_bits": 5.25
+              },
+              {
+                "word": "uses",
+                "likely_original": "role",
+                "gap_bits": 3.74
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "context": "[Source 1]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/dns_spoofing.md\nSimilarity score: 0.5370\nStart index: 0\nContent:\n# DNS Spoofing\n\n\n## Metadata\n\n\n- Attack key: `dns_spoofing`\n- Category: `spoofing`\n- Origin: `clean`\n- Document status: `generated_from_authoritative_sources`\n- CAPEC ID: `CAPEC-598`\n- ATT&CK ID: `T1557`\n\n\n## Attack description\n\n[Source 2]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/ddos/udp_flood.md\nSimilarity score: 0.3882\nStart index: 630\nContent:\nresources allocated to the firewall. UDP attacks can also target services like DNS or VoIP which utilize these protocols. Additionally, due to the session-less nature of the UDP protocol, the source of a packet is easily spoofed making it difficult to find the source of the attack.\n\n[Source 3]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/dns_spoofing.md\nSimilarity score: 0.3691\nStart index: 206\nContent:\n## Attack description\n\n\nAn adversary sends a malicious (\"NXDOMAIN\" (\"No such domain\") code, or DNS A record) response to a target's route request before a legitimate resolver can. This technique requires an On-path or In-path device that can monitor and respond to the target's DNS requests. This attack differs from BGP Tampering in that it directly responds to requests made by the target instead of polluting the routing the target's infrastructure uses.\n\n\n## Prerequisites\n\n\nOn/In Path Device",
+    "answer": "DNS Spoofing works by an adversary sending a malicious DNS response, such as an \"NXDOMAIN\" (No such domain) code or a DNS A record, to a target's DNS request before a legitimate resolver can respond. This technique requires an On-path or In-path device that can monitor and respond to the target's DNS requests. Unlike BGP Tampering, DNS Spoofing directly responds to the requests made by the target rather than affecting the routing infrastructure used by the target [Source 1].",
+    "model_metadata": {
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "system_fingerprint": "fp_c03a0f9ea3"
+    }
+  }
+}

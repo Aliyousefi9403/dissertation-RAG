@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "run_id": "20261019T200851Z-textfooler-33c7d2a707874d2ca57cb5b7851984e9",
+  "index": 74,
+  "question_id": "expanded_password_cracking_consequences_01",
+  "repetition": 2,
+  "source_group_ids": [
+    "aegisrag.cybersecurity:group:d4c5ed02e484"
+  ],
+  "condition_order": [
+    "poisoned",
+    "clean"
+  ],
+  "condition": "textfooler",
+  "stage": "faithfulness",
+  "capture": {
+    "raw_score": 1.0,
+    "status": "valid",
+    "prompt": "You are a strict faithfulness evaluator for a cybersecurity RAG system.\n\nQuestion:\nWhat consequences does the knowledge base list for Password Cracking?\n\nRetrieved context the answer was supposed to be grounded in:\n[Source 1]\n## Attack description\n\n\nAn hostile wishing any affordable assessing for a password until they avail. A quarrelsome force bombardments, if controllable computationally, wanting permanently got thrive because it will substantially go through all apt passwords allocated the handwriting used (slower files card, upper files characters, illustrations, documenting, etc.) and the upstairs timetable of the passwords.\n\n## Execution flow\n\n[Source 2]\nwithin a victim scenery leveraging savoir collecting from other post-compromise mores such as [OS Credential Discharge](https://detonating.mitre.organizations/technicians/T1003), [Account Locate](https://bombardments.mitre.organizing/technicians/T1087), or [Password Policy Discovery](https://attack.mitre.org/techniques/T1201). Adversaries may also combine brute forcing activity with behaviors such as [External Remote Services](https://attack.mitre.org/techniques/T1133) as part of Initial\n\n[Source 3]\n- An adversary requirements to acknowledging a username to target. - The arrangements consuming codename based scrip as the one components credentials equipments. - An implementation wants not have a cipher throttling installations in positioning. A advantageous cipher throttling installations readiness make it almost impossible computationally to stiff force a password as it may either lock out the user after a certain number of incorrect attempts or introduce time out periods. Both of these\n\nGenerated answer to evaluate:\nThe retrieved context does not provide a clear list of consequences specifically associated with password cracking. It discusses aspects of the attack, such as the need for a username, the use of brute force methods, and the importance of password policies and throttling mechanisms, but does not enumerate specific consequences. Therefore, I cannot provide a definitive answer regarding the consequences of password cracking based on the available information.\n\nScore whether the claims in the generated answer are supported by the\nretrieved context:\n- 1.0 = every claim is supported by the retrieved context\n- 0.0 = unsupported or contradictory claims\nIntermediate values are allowed for partially-supported answers.\n\nRespond with JSON ONLY, no other text, in exactly this shape:\n{\"score\": <0.0-1.0>, \"reason\": \"<short explanation>\"}",
+    "raw_response": "{\"score\": 1.0, \"reason\": \"The generated answer accurately reflects that the retrieved context does not provide a clear list of consequences associated with password cracking, focusing instead on the mechanics of the attack and the importance of security measures.\"}",
+    "reason": "The generated answer accurately reflects that the retrieved context does not provide a clear list of consequences associated with password cracking, focusing instead on the mechanics of the attack and the importance of security measures.",
+    "legacy_result": {
+      "score": 1.0,
+      "reason": "The generated answer accurately reflects that the retrieved context does not provide a clear list of consequences associated with password cracking, focusing instead on the mechanics of the attack and the importance of security measures."
+    },
+    "model_metadata": {
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "system_fingerprint": "fp_4be5992575"
+    }
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "run_id": "20261019T200851Z-textfooler-33c7d2a707874d2ca57cb5b7851984e9",
+  "index": 85,
+  "question_id": "expanded_arp_spoofing_execution_flow_01",
+  "repetition": 2,
+  "source_group_ids": [
+    "aegisrag.cybersecurity:group:fe8ff702814e"
+  ],
+  "condition_order": [
+    "clean",
+    "poisoned"
+  ],
+  "condition": "textfooler",
+  "stage": "rag",
+  "latency_seconds": 1.9769781200000125,
+  "answer": "The retrieved context does not provide specific details about the main stages of ARP Spoofing. Therefore, I cannot answer your question based on the available information.",
+  "capture": {
+    "request_attempts": 1,
+    "retrieval_status": "ok",
+    "generation_status": "ok",
+    "sources": [
+      {
+        "source_number": 1,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/arp_spoofing.md",
+        "score": 0.51832193,
+        "content": "# ARP Spoofing\n\n\n## Metadata\n\n\n- Attack key: `arp_spoofing`\n- Category: `spoofing`\n- Origin: `clean`\n- Document status: `generated_from_authoritative_sources`\n- CAPEC ID: `CAPEC-141`\n- ATT&CK ID: `T1557.002`\n\n\n## Attack description",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/arp_spoofing.md",
+          "attack_type": "arp_spoofing",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 0,
+          "chunk_index": 99,
+          "section": "arp_spoofing",
+          "_id": "86970b21-9c7f-41f2-a112-f19a7fb54734",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler"
+        }
+      },
+      {
+        "source_number": 2,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/arp_spoofing.md",
+        "score": 0.42913038,
+        "content": "specially those shipped over an touchy, unencrypted memos.(Ratings: Sans ARP Spoofing Julio 2003)",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/arp_spoofing.md",
+          "attack_type": "arp_spoofing",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 4798,
+          "chunk_index": 113,
+          "section": "attck_adversary_context",
+          "_id": "54932fd7-06a6-43ed-9292-07b3352c3ef2",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler"
+        }
+      },
+      {
+        "source_number": 3,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/ddos/icmp_flood.md",
+        "score": 0.41967866,
+        "content": "## Attack description\n\n\nAn adversary may execute a flooding attack using the ICMP protocol with the intent to deny legitimate users access to a service by consuming the available network bandwidth. A typical attack involves a victim server receiving ICMP packets at a high rate from a wide range of source addresses. Additionally, due to the session-less nature of the ICMP protocol, the source of a packet is easily spoofed making it difficult to find the source of the attack.\n\n\n## Prerequisites",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/ddos/icmp_flood.md",
+          "attack_type": "icmp_flood",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 202,
+          "chunk_index": 18,
+          "section": "attack_description",
+          "_id": "fb43a048-b919-483e-8c04-a97b018db87c",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler"
+        }
+      }
+    ],
+    "context": "[Source 1]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/arp_spoofing.md\nSimilarity score: 0.5183\nStart index: 0\nContent:\n# ARP Spoofing\n\n\n## Metadata\n\n\n- Attack key: `arp_spoofing`\n- Category: `spoofing`\n- Origin: `clean`\n- Document status: `generated_from_authoritative_sources`\n- CAPEC ID: `CAPEC-141`\n- ATT&CK ID: `T1557.002`\n\n\n## Attack description\n\n[Source 2]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/arp_spoofing.md\nSimilarity score: 0.4291\nStart index: 4798\nContent:\nspecially those shipped over an touchy, unencrypted memos.(Ratings: Sans ARP Spoofing Julio 2003)\n\n[Source 3]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/ddos/icmp_flood.md\nSimilarity score: 0.4197\nStart index: 202\nContent:\n## Attack description\n\n\nAn adversary may execute a flooding attack using the ICMP protocol with the intent to deny legitimate users access to a service by consuming the available network bandwidth. A typical attack involves a victim server receiving ICMP packets at a high rate from a wide range of source addresses. Additionally, due to the session-less nature of the ICMP protocol, the source of a packet is easily spoofed making it difficult to find the source of the attack.\n\n\n## Prerequisites",
+    "answer": "The retrieved context does not provide specific details about the main stages of ARP Spoofing. Therefore, I cannot answer your question based on the available information.",
+    "model_metadata": {
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "system_fingerprint": "fp_ab4674eefd"
+    }
+  }
+}

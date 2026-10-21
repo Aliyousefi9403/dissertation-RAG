@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "run_id": "20261019T200851Z-textfooler-33c7d2a707874d2ca57cb5b7851984e9",
+  "index": 75,
+  "question_id": "expanded_os_fingerprinting_attack_description_01",
+  "repetition": 2,
+  "source_group_ids": [
+    "aegisrag.cybersecurity:group:9ed46d6d47f7"
+  ],
+  "condition_order": [
+    "clean",
+    "poisoned"
+  ],
+  "condition": "textfooler",
+  "stage": "faithfulness",
+  "capture": {
+    "raw_score": 1.0,
+    "status": "valid",
+    "prompt": "You are a strict faithfulness evaluator for a cybersecurity RAG system.\n\nQuestion:\nHow does Operating System Fingerprinting work, according to the knowledge base?\n\nRetrieved context the answer was supposed to be grounded in:\n[Source 1]\nthe OS behavior. This type of OS printer can distinguish between operating system types and versions.\n\n[Source 2]\nrunways. During the implementation differences are not due to 'fracture' accordance with the memorandum the differences are detectable for the target wishing accommodate in special runways to specialised survey operating that leap the semantic or rashid standard of packaged buildings for a protocol. Variables operating systems va es a odd replica to the freakish entrances, tender the kei to fingerprint the OS behavior. This type of OS printer can distinguish between operating system types and\n\n[Source 3]\nAn rival supports in business to revealed the operating device or firmware print of a remote aiming by doubted a paraphernalia, servers, or platforms with a explore designs to recieve execute that wanna unveiled info about the operator mechanism or firmware in the landscaping. Operator Systemic scanner is apt once implementations of joint protocols (Similar as IP or TCP) changed in idiosyncratic runways. During the implementation differences are not due to 'fracture' accordance with the\n\nGenerated answer to evaluate:\nOperating System Fingerprinting works by analyzing the behavior of an operating system to distinguish between different types and versions. This process involves examining how the OS responds to various network protocols and requests, allowing for the identification of the specific operating system or firmware of a remote device. The technique relies on detecting unique characteristics in the implementation of protocols, which can reveal information about the operating system in use [Source 1][Source 2][Source 3].\n\nScore whether the claims in the generated answer are supported by the\nretrieved context:\n- 1.0 = every claim is supported by the retrieved context\n- 0.0 = unsupported or contradictory claims\nIntermediate values are allowed for partially-supported answers.\n\nRespond with JSON ONLY, no other text, in exactly this shape:\n{\"score\": <0.0-1.0>, \"reason\": \"<short explanation>\"}",
+    "raw_response": "{\"score\": 1.0, \"reason\": \"Every claim in the generated answer is supported by the retrieved context, accurately reflecting the process of OS fingerprinting and its reliance on analyzing OS behavior and protocol implementation.\"}",
+    "reason": "Every claim in the generated answer is supported by the retrieved context, accurately reflecting the process of OS fingerprinting and its reliance on analyzing OS behavior and protocol implementation.",
+    "legacy_result": {
+      "score": 1.0,
+      "reason": "Every claim in the generated answer is supported by the retrieved context, accurately reflecting the process of OS fingerprinting and its reliance on analyzing OS behavior and protocol implementation."
+    },
+    "model_metadata": {
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "system_fingerprint": "fp_d3b38c8dc1"
+    }
+  }
+}

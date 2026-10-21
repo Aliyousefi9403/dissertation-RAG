@@ -1,0 +1,436 @@
+{
+  "schema_version": 1,
+  "run_id": "20261019T200851Z-textfooler-33c7d2a707874d2ca57cb5b7851984e9",
+  "index": 41,
+  "question_id": "expanded_arp_spoofing_execution_flow_01",
+  "repetition": 1,
+  "source_group_ids": [
+    "aegisrag.cybersecurity:group:fe8ff702814e"
+  ],
+  "condition_order": [
+    "poisoned",
+    "clean"
+  ],
+  "condition": "textfooler_defended",
+  "stage": "rag",
+  "latency_seconds": 3.0061166130000174,
+  "answer": "The retrieved context does not provide specific details about the main stages of ARP Spoofing. Therefore, I cannot answer your question based on the available information.",
+  "capture": {
+    "request_attempts": 1,
+    "retrieval_status": "ok",
+    "generation_status": "ok",
+    "entropy_filter": {
+      "policy_version": "entropy-filter-v1",
+      "source_state": "textfooler",
+      "candidate_k": 10,
+      "keep": 3,
+      "threshold_bits": 7.2262,
+      "decisions": [
+        {
+          "rank": 1,
+          "document": "spoofing/arp_spoofing.md",
+          "start_index": 0,
+          "similarity": 0.5183,
+          "score_bits": 0.8661,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "origin",
+              "likely_original": "source",
+              "gap_bits": 2.18
+            },
+            {
+              "word": "sources",
+              "likely_original": "source",
+              "gap_bits": 1.18
+            },
+            {
+              "word": "key",
+              "likely_original": "identify",
+              "gap_bits": -0.76
+            }
+          ],
+          "kept": true
+        },
+        {
+          "rank": 2,
+          "document": "spoofing/arp_spoofing.md",
+          "start_index": 4798,
+          "similarity": 0.4291,
+          "score_bits": 4.8843,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "shipped",
+              "likely_original": "send",
+              "gap_bits": 6.93
+            },
+            {
+              "word": "specially",
+              "likely_original": "especially",
+              "gap_bits": 4.84
+            },
+            {
+              "word": "touchy",
+              "likely_original": "delicate",
+              "gap_bits": 2.89
+            }
+          ],
+          "kept": true
+        },
+        {
+          "rank": 3,
+          "document": "ddos/icmp_flood.md",
+          "start_index": 202,
+          "similarity": 0.4197,
+          "score_bits": 4.8868,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "involves",
+              "likely_original": "take",
+              "gap_bits": 5.78
+            },
+            {
+              "word": "receiving",
+              "likely_original": "have",
+              "gap_bits": 5.25
+            },
+            {
+              "word": "consuming",
+              "likely_original": "have",
+              "gap_bits": 3.62
+            }
+          ],
+          "kept": true
+        },
+        {
+          "rank": 4,
+          "document": "spoofing/arp_spoofing.md",
+          "start_index": 4391,
+          "similarity": 0.4037,
+          "score_bits": 7.0704,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "endorsements",
+              "likely_original": "second",
+              "gap_bits": 7.87
+            },
+            {
+              "word": "shipped",
+              "likely_original": "send",
+              "gap_bits": 6.93
+            },
+            {
+              "word": "wrongly",
+              "likely_original": "wrong",
+              "gap_bits": 6.41
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 5,
+          "document": "spoofing/arp_spoofing.md",
+          "start_index": 3593,
+          "similarity": 0.3919,
+          "score_bits": 8.429,
+          "threshold_bits": 7.2262,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "pelts",
+              "likely_original": "hide",
+              "gap_bits": 10.58
+            },
+            {
+              "word": "usage",
+              "likely_original": "use",
+              "gap_bits": 8.18
+            },
+            {
+              "word": "requesting",
+              "likely_original": "request",
+              "gap_bits": 6.52
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 6,
+          "document": "reconnaissance/port_scanning.md",
+          "start_index": 1110,
+          "similarity": 0.3885,
+          "score_bits": 3.4158,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "acquire",
+              "likely_original": "get",
+              "gap_bits": 4.05
+            },
+            {
+              "word": "attempt",
+              "likely_original": "attack",
+              "gap_bits": 3.12
+            },
+            {
+              "word": "brought",
+              "likely_original": "get",
+              "gap_bits": 3.08
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 7,
+          "document": "spoofing/arp_spoofing.md",
+          "start_index": 3990,
+          "similarity": 0.3873,
+          "score_bits": 5.9974,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "wrongly",
+              "likely_original": "wrong",
+              "gap_bits": 6.41
+            },
+            {
+              "word": "networked",
+              "likely_original": "network",
+              "gap_bits": 6.03
+            },
+            {
+              "word": "communicating",
+              "likely_original": "communicate",
+              "gap_bits": 5.55
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 8,
+          "document": "reconnaissance/os_fingerprinting.md",
+          "start_index": 260,
+          "similarity": 0.3766,
+          "score_bits": 7.5491,
+          "threshold_bits": 7.2262,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "implementations",
+              "likely_original": "execution",
+              "gap_bits": 10.06
+            },
+            {
+              "word": "runways",
+              "likely_original": "track",
+              "gap_bits": 6.31
+            },
+            {
+              "word": "fracture",
+              "likely_original": "cracking",
+              "gap_bits": 6.27
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 9,
+          "document": "ddos/tcp_syn_flood.md",
+          "start_index": 575,
+          "similarity": 0.3694,
+          "score_bits": 3.6753,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "manufacture",
+              "likely_original": "industry",
+              "gap_bits": 4.02
+            },
+            {
+              "word": "functioning",
+              "likely_original": "run",
+              "gap_bits": 3.64
+            },
+            {
+              "word": "bombing",
+              "likely_original": "bombardment",
+              "gap_bits": 3.37
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 10,
+          "document": "spoofing/dns_spoofing.md",
+          "start_index": 2785,
+          "similarity": 0.352,
+          "score_bits": 5.6025,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "flowing",
+              "likely_original": "run",
+              "gap_bits": 7.33
+            },
+            {
+              "word": "destination",
+              "likely_original": "address",
+              "gap_bits": 5.79
+            },
+            {
+              "word": "appropriate",
+              "likely_original": "allow",
+              "gap_bits": 3.69
+            }
+          ],
+          "kept": false
+        }
+      ]
+    },
+    "sources": [
+      {
+        "source_number": 1,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/arp_spoofing.md",
+        "score": 0.51832193,
+        "content": "# ARP Spoofing\n\n\n## Metadata\n\n\n- Attack key: `arp_spoofing`\n- Category: `spoofing`\n- Origin: `clean`\n- Document status: `generated_from_authoritative_sources`\n- CAPEC ID: `CAPEC-141`\n- ATT&CK ID: `T1557.002`\n\n\n## Attack description",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/arp_spoofing.md",
+          "attack_type": "arp_spoofing",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 0,
+          "chunk_index": 99,
+          "section": "arp_spoofing",
+          "_id": "86970b21-9c7f-41f2-a112-f19a7fb54734",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler",
+          "entropy_filter": {
+            "policy_version": "entropy-filter-v1",
+            "candidate_rank": 1,
+            "score_bits": 0.8661,
+            "threshold_bits": 7.2262,
+            "flagged": false,
+            "top_words": [
+              {
+                "word": "origin",
+                "likely_original": "source",
+                "gap_bits": 2.18
+              },
+              {
+                "word": "sources",
+                "likely_original": "source",
+                "gap_bits": 1.18
+              },
+              {
+                "word": "key",
+                "likely_original": "identify",
+                "gap_bits": -0.76
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_number": 2,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/arp_spoofing.md",
+        "score": 0.42913038,
+        "content": "specially those shipped over an touchy, unencrypted memos.(Ratings: Sans ARP Spoofing Julio 2003)",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/arp_spoofing.md",
+          "attack_type": "arp_spoofing",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 4798,
+          "chunk_index": 113,
+          "section": "attck_adversary_context",
+          "_id": "54932fd7-06a6-43ed-9292-07b3352c3ef2",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler",
+          "entropy_filter": {
+            "policy_version": "entropy-filter-v1",
+            "candidate_rank": 2,
+            "score_bits": 4.8843,
+            "threshold_bits": 7.2262,
+            "flagged": false,
+            "top_words": [
+              {
+                "word": "shipped",
+                "likely_original": "send",
+                "gap_bits": 6.93
+              },
+              {
+                "word": "specially",
+                "likely_original": "especially",
+                "gap_bits": 4.84
+              },
+              {
+                "word": "touchy",
+                "likely_original": "delicate",
+                "gap_bits": 2.89
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_number": 3,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/ddos/icmp_flood.md",
+        "score": 0.41967866,
+        "content": "## Attack description\n\n\nAn adversary may execute a flooding attack using the ICMP protocol with the intent to deny legitimate users access to a service by consuming the available network bandwidth. A typical attack involves a victim server receiving ICMP packets at a high rate from a wide range of source addresses. Additionally, due to the session-less nature of the ICMP protocol, the source of a packet is easily spoofed making it difficult to find the source of the attack.\n\n\n## Prerequisites",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/ddos/icmp_flood.md",
+          "attack_type": "icmp_flood",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 202,
+          "chunk_index": 18,
+          "section": "attack_description",
+          "_id": "fb43a048-b919-483e-8c04-a97b018db87c",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler",
+          "entropy_filter": {
+            "policy_version": "entropy-filter-v1",
+            "candidate_rank": 3,
+            "score_bits": 4.8868,
+            "threshold_bits": 7.2262,
+            "flagged": false,
+            "top_words": [
+              {
+                "word": "involves",
+                "likely_original": "take",
+                "gap_bits": 5.78
+              },
+              {
+                "word": "receiving",
+                "likely_original": "have",
+                "gap_bits": 5.25
+              },
+              {
+                "word": "consuming",
+                "likely_original": "have",
+                "gap_bits": 3.62
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "context": "[Source 1]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/arp_spoofing.md\nSimilarity score: 0.5183\nStart index: 0\nContent:\n# ARP Spoofing\n\n\n## Metadata\n\n\n- Attack key: `arp_spoofing`\n- Category: `spoofing`\n- Origin: `clean`\n- Document status: `generated_from_authoritative_sources`\n- CAPEC ID: `CAPEC-141`\n- ATT&CK ID: `T1557.002`\n\n\n## Attack description\n\n[Source 2]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/arp_spoofing.md\nSimilarity score: 0.4291\nStart index: 4798\nContent:\nspecially those shipped over an touchy, unencrypted memos.(Ratings: Sans ARP Spoofing Julio 2003)\n\n[Source 3]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/ddos/icmp_flood.md\nSimilarity score: 0.4197\nStart index: 202\nContent:\n## Attack description\n\n\nAn adversary may execute a flooding attack using the ICMP protocol with the intent to deny legitimate users access to a service by consuming the available network bandwidth. A typical attack involves a victim server receiving ICMP packets at a high rate from a wide range of source addresses. Additionally, due to the session-less nature of the ICMP protocol, the source of a packet is easily spoofed making it difficult to find the source of the attack.\n\n\n## Prerequisites",
+    "answer": "The retrieved context does not provide specific details about the main stages of ARP Spoofing. Therefore, I cannot answer your question based on the available information.",
+    "model_metadata": {
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "system_fingerprint": "fp_ab4674eefd"
+    }
+  }
+}

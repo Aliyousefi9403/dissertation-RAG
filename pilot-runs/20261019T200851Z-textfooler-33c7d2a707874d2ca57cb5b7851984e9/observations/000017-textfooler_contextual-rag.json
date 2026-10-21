@@ -1,0 +1,437 @@
+{
+  "schema_version": 1,
+  "run_id": "20261019T200851Z-textfooler-33c7d2a707874d2ca57cb5b7851984e9",
+  "index": 17,
+  "question_id": "expanded_uploading_consequences_01",
+  "repetition": 1,
+  "source_group_ids": [
+    "aegisrag.cybersecurity:group:0ef1e01a064e"
+  ],
+  "condition_order": [
+    "poisoned",
+    "clean"
+  ],
+  "condition": "textfooler_contextual",
+  "stage": "rag",
+  "latency_seconds": 10.446156441000028,
+  "answer": "The retrieved context does not provide specific consequences for Malicious File Upload. It mainly discusses source mapping and prerequisites for such attacks. Therefore, I cannot provide an answer based on the available information.",
+  "capture": {
+    "request_attempts": 1,
+    "retrieval_status": "ok",
+    "generation_status": "ok",
+    "entropy_filter": {
+      "policy_version": "contextual-filter-v1",
+      "source_state": "textfooler",
+      "candidate_k": 10,
+      "keep": 3,
+      "threshold_bits": 4.4611,
+      "lm": "distilgpt2",
+      "decisions": [
+        {
+          "rank": 1,
+          "document": "injection/uploading.md",
+          "start_index": 1175,
+          "similarity": 0.5131,
+          "score_bits": 13.2021,
+          "threshold_bits": 4.4611,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "deportment",
+              "likely_original": "behavior",
+              "gap_bits": 17.95
+            },
+            {
+              "word": "operated",
+              "likely_original": "work",
+              "gap_bits": 13.22
+            },
+            {
+              "word": "antagonistic",
+              "likely_original": "counter",
+              "gap_bits": 8.43
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 2,
+          "document": "injection/uploading.md",
+          "start_index": 0,
+          "similarity": 0.4937,
+          "score_bits": 5.1729,
+          "threshold_bits": 4.4611,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "key",
+              "likely_original": "name",
+              "gap_bits": 8.42
+            },
+            {
+              "word": "uploading",
+              "likely_original": "upload",
+              "gap_bits": 6.49
+            },
+            {
+              "word": "origin",
+              "likely_original": "source",
+              "gap_bits": 0.61
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 3,
+          "document": "injection/uploading.md",
+          "start_index": 1584,
+          "similarity": 0.4459,
+          "score_bits": 9.2634,
+          "threshold_bits": 4.4611,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "operated",
+              "likely_original": "control",
+              "gap_bits": 13.3
+            },
+            {
+              "word": "being",
+              "likely_original": "live",
+              "gap_bits": 8.01
+            },
+            {
+              "word": "executions",
+              "likely_original": "executing",
+              "gap_bits": 6.48
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 4,
+          "document": "injection/uploading.md",
+          "start_index": 5629,
+          "similarity": 0.4413,
+          "score_bits": 3.2885,
+          "threshold_bits": 4.4611,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "role",
+              "likely_original": "use",
+              "gap_bits": 7.77
+            },
+            {
+              "word": "preserved",
+              "likely_original": "save",
+              "gap_bits": 2.09
+            },
+            {
+              "word": "facing",
+              "likely_original": "present",
+              "gap_bits": 0.0
+            }
+          ],
+          "kept": true
+        },
+        {
+          "rank": 5,
+          "document": "malware/backdoor.md",
+          "start_index": 2518,
+          "similarity": 0.418,
+          "score_bits": 9.4419,
+          "threshold_bits": 4.4611,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "fabricating",
+              "likely_original": "construct",
+              "gap_bits": 13.5
+            },
+            {
+              "word": "entrance",
+              "likely_original": "incoming",
+              "gap_bits": 7.65
+            },
+            {
+              "word": "systems",
+              "likely_original": "system",
+              "gap_bits": 7.18
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 6,
+          "document": "injection/xss.md",
+          "start_index": 5475,
+          "similarity": 0.3936,
+          "score_bits": 2.08,
+          "threshold_bits": 4.4611,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "exploiting",
+              "likely_original": "exploit",
+              "gap_bits": 10.3
+            },
+            {
+              "word": "scripts",
+              "likely_original": "script",
+              "gap_bits": -1.19
+            },
+            {
+              "word": "low",
+              "likely_original": "small",
+              "gap_bits": -2.86
+            }
+          ],
+          "kept": true
+        },
+        {
+          "rank": 7,
+          "document": "injection/uploading.md",
+          "start_index": 1902,
+          "similarity": 0.3898,
+          "score_bits": 3.8519,
+          "threshold_bits": 4.4611,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "object",
+              "likely_original": "target",
+              "gap_bits": 7.56
+            },
+            {
+              "word": "subjects",
+              "likely_original": "content",
+              "gap_bits": 3.85
+            },
+            {
+              "word": "documents",
+              "likely_original": "document",
+              "gap_bits": 0.15
+            }
+          ],
+          "kept": true
+        },
+        {
+          "rank": 8,
+          "document": "injection/uploading.md",
+          "start_index": 236,
+          "similarity": 0.3718,
+          "score_bits": 22.6365,
+          "threshold_bits": 4.4611,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "lading",
+              "likely_original": "load",
+              "gap_bits": 27.23
+            },
+            {
+              "word": "documents",
+              "likely_original": "document",
+              "gap_bits": 20.45
+            },
+            {
+              "word": "illustration",
+              "likely_original": "example",
+              "gap_bits": 20.23
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 9,
+          "document": "spoofing/arp_spoofing.md",
+          "start_index": 641,
+          "similarity": 0.3656,
+          "score_bits": 4.0358,
+          "threshold_bits": 4.4611,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "conceals",
+              "likely_original": "hide",
+              "gap_bits": 14.61
+            },
+            {
+              "word": "clients",
+              "likely_original": "client",
+              "gap_bits": 2.29
+            },
+            {
+              "word": "treat",
+              "likely_original": "process",
+              "gap_bits": -4.79
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 10,
+          "document": "reconnaissance/port_scanning.md",
+          "start_index": 1110,
+          "similarity": 0.3645,
+          "score_bits": 3.4944,
+          "threshold_bits": 4.4611,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "listing",
+              "likely_original": "list",
+              "gap_bits": 6.82
+            },
+            {
+              "word": "acquire",
+              "likely_original": "get",
+              "gap_bits": 3.82
+            },
+            {
+              "word": "scans",
+              "likely_original": "scan",
+              "gap_bits": -0.16
+            }
+          ],
+          "kept": false
+        }
+      ]
+    },
+    "sources": [
+      {
+        "source_number": 1,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/injection/uploading.md",
+        "score": 0.4412896,
+        "content": "## Source mapping\n\n\n- CAPEC: CAPEC-17 \u2014 role: malicious_file_mechanism; required\n- MITRE_ATTACK_ENTERPRISE: T1190 \u2014 role: public_facing_application_context; optional\n- OWASP: File Upload Cheat Sheet \u2014 role: prevention_and_mitigation; required\n- CWE: CWE-434 \u2014 role: dangerous_file_type_context; required\n\n\n## Provenance\n\n\n- Generated automatically: yes\n- LLM-generated technical content: no\n- Human review required: yes\n- Source text preserved where supplied by STIX: yes",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/injection/uploading.md",
+          "attack_type": "uploading",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 5629,
+          "chunk_index": 147,
+          "section": "source_mapping",
+          "_id": "53930b17-16f4-46dc-bf4b-9526cb30b9e8",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler",
+          "entropy_filter": {
+            "policy_version": "contextual-filter-v1",
+            "candidate_rank": 4,
+            "score_bits": 3.2885,
+            "threshold_bits": 4.4611,
+            "flagged": false,
+            "top_words": [
+              {
+                "word": "role",
+                "likely_original": "use",
+                "gap_bits": 7.77
+              },
+              {
+                "word": "preserved",
+                "likely_original": "save",
+                "gap_bits": 2.09
+              },
+              {
+                "word": "facing",
+                "likely_original": "present",
+                "gap_bits": 0.0
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_number": 2,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/injection/xss.md",
+        "score": 0.39359438,
+        "content": "## Required skills\n\n\nHigh: Exploiting a client side vulnerability to inject malicious scripts into the browser's executable process.; Low: To achieve a redirection and use of less trusted source, an attacker can simply place a script in bulletin board, blog, wiki, or other user-generated content site that are echoed back to other client machines.\n\n\n## Consequences",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/injection/xss.md",
+          "attack_type": "xss",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 5475,
+          "chunk_index": 164,
+          "section": "required_skills",
+          "_id": "2eef2588-1397-4da8-84d1-2b669b5265d8",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler",
+          "entropy_filter": {
+            "policy_version": "contextual-filter-v1",
+            "candidate_rank": 6,
+            "score_bits": 2.08,
+            "threshold_bits": 4.4611,
+            "flagged": false,
+            "top_words": [
+              {
+                "word": "exploiting",
+                "likely_original": "exploit",
+                "gap_bits": 10.3
+              },
+              {
+                "word": "scripts",
+                "likely_original": "script",
+                "gap_bits": -1.19
+              },
+              {
+                "word": "low",
+                "likely_original": "small",
+                "gap_bits": -2.86
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_number": 3,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/injection/uploading.md",
+        "score": 0.3898383,
+        "content": "## Prerequisites\n\n\nSystem's configuration must allow an attacker to directly access executable documents or uploaded repository to execute. This means that any access control programme that is supposed to mediate communications between the subjects and the object is set incorrectly or assumes a benign environment.\n\n## Required resources",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/injection/uploading.md",
+          "attack_type": "uploading",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 1902,
+          "chunk_index": 136,
+          "section": "prerequisites",
+          "_id": "d2d47598-e548-4888-934b-65ac7252fbfc",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler",
+          "entropy_filter": {
+            "policy_version": "contextual-filter-v1",
+            "candidate_rank": 7,
+            "score_bits": 3.8519,
+            "threshold_bits": 4.4611,
+            "flagged": false,
+            "top_words": [
+              {
+                "word": "object",
+                "likely_original": "target",
+                "gap_bits": 7.56
+              },
+              {
+                "word": "subjects",
+                "likely_original": "content",
+                "gap_bits": 3.85
+              },
+              {
+                "word": "documents",
+                "likely_original": "document",
+                "gap_bits": 0.15
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "context": "[Source 1]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/injection/uploading.md\nSimilarity score: 0.4413\nStart index: 5629\nContent:\n## Source mapping\n\n\n- CAPEC: CAPEC-17 \u2014 role: malicious_file_mechanism; required\n- MITRE_ATTACK_ENTERPRISE: T1190 \u2014 role: public_facing_application_context; optional\n- OWASP: File Upload Cheat Sheet \u2014 role: prevention_and_mitigation; required\n- CWE: CWE-434 \u2014 role: dangerous_file_type_context; required\n\n\n## Provenance\n\n\n- Generated automatically: yes\n- LLM-generated technical content: no\n- Human review required: yes\n- Source text preserved where supplied by STIX: yes\n\n[Source 2]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/injection/xss.md\nSimilarity score: 0.3936\nStart index: 5475\nContent:\n## Required skills\n\n\nHigh: Exploiting a client side vulnerability to inject malicious scripts into the browser's executable process.; Low: To achieve a redirection and use of less trusted source, an attacker can simply place a script in bulletin board, blog, wiki, or other user-generated content site that are echoed back to other client machines.\n\n\n## Consequences\n\n[Source 3]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/injection/uploading.md\nSimilarity score: 0.3898\nStart index: 1902\nContent:\n## Prerequisites\n\n\nSystem's configuration must allow an attacker to directly access executable documents or uploaded repository to execute. This means that any access control programme that is supposed to mediate communications between the subjects and the object is set incorrectly or assumes a benign environment.\n\n## Required resources",
+    "answer": "The retrieved context does not provide specific consequences for Malicious File Upload. It mainly discusses source mapping and prerequisites for such attacks. Therefore, I cannot provide an answer based on the available information.",
+    "model_metadata": {
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "system_fingerprint": "fp_22ba900b6f"
+    }
+  }
+}

@@ -1,0 +1,436 @@
+{
+  "schema_version": 1,
+  "run_id": "20261019T200851Z-textfooler-33c7d2a707874d2ca57cb5b7851984e9",
+  "index": 42,
+  "question_id": "expanded_arp_spoofing_prerequisites_01",
+  "repetition": 1,
+  "source_group_ids": [
+    "aegisrag.cybersecurity:group:fe8ff702814e"
+  ],
+  "condition_order": [
+    "clean",
+    "poisoned"
+  ],
+  "condition": "textfooler_defended",
+  "stage": "rag",
+  "latency_seconds": 5.693656118000035,
+  "answer": "The conditions required for ARP Spoofing include:\n\n1. **Stateless Protocol**: The ARP protocol does not require authentication, allowing devices to incorrectly add or update the MAC address associated with an IP address in their ARP cache [Source 2].\n\n2. **Faster Response**: The attacker must send their ARP reply faster than the legitimate IP address owner\u2019s reply to successfully poison the ARP cache [Source 3].\n\n3. **Local Network Segment**: The attack typically targets devices within the same local network segment, as the attacker sends unverified ARP replies to announce ownership of a particular IP address [Source 3]. \n\nThese conditions facilitate the execution of ARP Spoofing attacks.",
+  "capture": {
+    "request_attempts": 1,
+    "retrieval_status": "ok",
+    "generation_status": "ok",
+    "entropy_filter": {
+      "policy_version": "entropy-filter-v1",
+      "source_state": "textfooler",
+      "candidate_k": 10,
+      "keep": 3,
+      "threshold_bits": 7.2262,
+      "decisions": [
+        {
+          "rank": 1,
+          "document": "spoofing/arp_spoofing.md",
+          "start_index": 0,
+          "similarity": 0.5024,
+          "score_bits": 0.8661,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "origin",
+              "likely_original": "source",
+              "gap_bits": 2.18
+            },
+            {
+              "word": "sources",
+              "likely_original": "source",
+              "gap_bits": 1.18
+            },
+            {
+              "word": "key",
+              "likely_original": "identify",
+              "gap_bits": -0.76
+            }
+          ],
+          "kept": true
+        },
+        {
+          "rank": 2,
+          "document": "spoofing/arp_spoofing.md",
+          "start_index": 4391,
+          "similarity": 0.4617,
+          "score_bits": 7.0704,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "endorsements",
+              "likely_original": "second",
+              "gap_bits": 7.87
+            },
+            {
+              "word": "shipped",
+              "likely_original": "send",
+              "gap_bits": 6.93
+            },
+            {
+              "word": "wrongly",
+              "likely_original": "wrong",
+              "gap_bits": 6.41
+            }
+          ],
+          "kept": true
+        },
+        {
+          "rank": 3,
+          "document": "spoofing/arp_spoofing.md",
+          "start_index": 3990,
+          "similarity": 0.4391,
+          "score_bits": 5.9974,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "wrongly",
+              "likely_original": "wrong",
+              "gap_bits": 6.41
+            },
+            {
+              "word": "networked",
+              "likely_original": "network",
+              "gap_bits": 6.03
+            },
+            {
+              "word": "communicating",
+              "likely_original": "communicate",
+              "gap_bits": 5.55
+            }
+          ],
+          "kept": true
+        },
+        {
+          "rank": 4,
+          "document": "spoofing/arp_spoofing.md",
+          "start_index": 4798,
+          "similarity": 0.4357,
+          "score_bits": 4.8843,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "shipped",
+              "likely_original": "send",
+              "gap_bits": 6.93
+            },
+            {
+              "word": "specially",
+              "likely_original": "especially",
+              "gap_bits": 4.84
+            },
+            {
+              "word": "touchy",
+              "likely_original": "delicate",
+              "gap_bits": 2.89
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 5,
+          "document": "spoofing/arp_spoofing.md",
+          "start_index": 3593,
+          "similarity": 0.3854,
+          "score_bits": 8.429,
+          "threshold_bits": 7.2262,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "pelts",
+              "likely_original": "hide",
+              "gap_bits": 10.58
+            },
+            {
+              "word": "usage",
+              "likely_original": "use",
+              "gap_bits": 8.18
+            },
+            {
+              "word": "requesting",
+              "likely_original": "request",
+              "gap_bits": 6.52
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 6,
+          "document": "spoofing/dns_spoofing.md",
+          "start_index": 2785,
+          "similarity": 0.3414,
+          "score_bits": 5.6025,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "flowing",
+              "likely_original": "run",
+              "gap_bits": 7.33
+            },
+            {
+              "word": "destination",
+              "likely_original": "address",
+              "gap_bits": 5.79
+            },
+            {
+              "word": "appropriate",
+              "likely_original": "allow",
+              "gap_bits": 3.69
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 7,
+          "document": "spoofing/arp_spoofing.md",
+          "start_index": 2406,
+          "similarity": 0.3383,
+          "score_bits": 10.0077,
+          "threshold_bits": 7.2262,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "skilful",
+              "likely_original": "good",
+              "gap_bits": 10.66
+            },
+            {
+              "word": "conceals",
+              "likely_original": "hide",
+              "gap_bits": 10.58
+            },
+            {
+              "word": "discovers",
+              "likely_original": "key",
+              "gap_bits": 8.77
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 8,
+          "document": "spoofing/dns_spoofing.md",
+          "start_index": 0,
+          "similarity": 0.3345,
+          "score_bits": 0.8654,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "origin",
+              "likely_original": "source",
+              "gap_bits": 2.18
+            },
+            {
+              "word": "sources",
+              "likely_original": "source",
+              "gap_bits": 1.18
+            },
+            {
+              "word": "key",
+              "likely_original": "identify",
+              "gap_bits": -0.76
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 9,
+          "document": "reconnaissance/os_fingerprinting.md",
+          "start_index": 260,
+          "similarity": 0.3299,
+          "score_bits": 7.5491,
+          "threshold_bits": 7.2262,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "implementations",
+              "likely_original": "execution",
+              "gap_bits": 10.06
+            },
+            {
+              "word": "runways",
+              "likely_original": "track",
+              "gap_bits": 6.31
+            },
+            {
+              "word": "fracture",
+              "likely_original": "cracking",
+              "gap_bits": 6.27
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 10,
+          "document": "ddos/icmp_flood.md",
+          "start_index": 202,
+          "similarity": 0.3297,
+          "score_bits": 4.8868,
+          "threshold_bits": 7.2262,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "involves",
+              "likely_original": "take",
+              "gap_bits": 5.78
+            },
+            {
+              "word": "receiving",
+              "likely_original": "have",
+              "gap_bits": 5.25
+            },
+            {
+              "word": "consuming",
+              "likely_original": "have",
+              "gap_bits": 3.62
+            }
+          ],
+          "kept": false
+        }
+      ]
+    },
+    "sources": [
+      {
+        "source_number": 1,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/arp_spoofing.md",
+        "score": 0.5024008,
+        "content": "# ARP Spoofing\n\n\n## Metadata\n\n\n- Attack key: `arp_spoofing`\n- Category: `spoofing`\n- Origin: `clean`\n- Document status: `generated_from_authoritative_sources`\n- CAPEC ID: `CAPEC-141`\n- ATT&CK ID: `T1557.002`\n\n\n## Attack description",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/arp_spoofing.md",
+          "attack_type": "arp_spoofing",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 0,
+          "chunk_index": 99,
+          "section": "arp_spoofing",
+          "_id": "86970b21-9c7f-41f2-a112-f19a7fb54734",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler",
+          "entropy_filter": {
+            "policy_version": "entropy-filter-v1",
+            "candidate_rank": 1,
+            "score_bits": 0.8661,
+            "threshold_bits": 7.2262,
+            "flagged": false,
+            "top_words": [
+              {
+                "word": "origin",
+                "likely_original": "source",
+                "gap_bits": 2.18
+              },
+              {
+                "word": "sources",
+                "likely_original": "source",
+                "gap_bits": 1.18
+              },
+              {
+                "word": "key",
+                "likely_original": "identify",
+                "gap_bits": -0.76
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_number": 2,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/arp_spoofing.md",
+        "score": 0.4617052,
+        "content": "The ARP protocol is stateless and does not require authentication. Therefore, devices may wrongly add or update the MAC address of the IP address in their ARP cache.(Citation: Sans ARP Spoofing Aug 2003)(Citation: Cylance Cleaver) Decepticons may use ARP leathers neurotoxin as a instrument to eavesdropping web traffic. These events may es used to perception and/or relay endorsements such as credentials, specially those shipped over an touchy, unencrypted memos.(Ratings: Sans ARP Spoofing Julio",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/arp_spoofing.md",
+          "attack_type": "arp_spoofing",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 4391,
+          "chunk_index": 112,
+          "section": "attck_adversary_context",
+          "_id": "54386f1e-3e3f-411a-bac6-bf452276ec59",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler",
+          "entropy_filter": {
+            "policy_version": "entropy-filter-v1",
+            "candidate_rank": 2,
+            "score_bits": 7.0704,
+            "threshold_bits": 7.2262,
+            "flagged": false,
+            "top_words": [
+              {
+                "word": "endorsements",
+                "likely_original": "second",
+                "gap_bits": 7.87
+              },
+              {
+                "word": "shipped",
+                "likely_original": "send",
+                "gap_bits": 6.93
+              },
+              {
+                "word": "wrongly",
+                "likely_original": "wrong",
+                "gap_bits": 6.41
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_number": 3,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/arp_spoofing.md",
+        "score": 0.43911353,
+        "content": "thus dishonest the victim by making them believe that they are communicating with the intended networked device. For the adversary to poison the ARP cache, their reply must be faster than the one made by the legitimate IP address owner. Decepticons may also send a unproven ARP reply that maliciously announces the ownership of a particular IP address to all the devices in the local network segment. The ARP protocol is stateless and does not require authentication. Therefore, devices may wrongly",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/arp_spoofing.md",
+          "attack_type": "arp_spoofing",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 3990,
+          "chunk_index": 111,
+          "section": "attck_adversary_context",
+          "_id": "97614ad6-fbd5-42f5-ba46-7db1e0854535",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler",
+          "entropy_filter": {
+            "policy_version": "entropy-filter-v1",
+            "candidate_rank": 3,
+            "score_bits": 5.9974,
+            "threshold_bits": 7.2262,
+            "flagged": false,
+            "top_words": [
+              {
+                "word": "wrongly",
+                "likely_original": "wrong",
+                "gap_bits": 6.41
+              },
+              {
+                "word": "networked",
+                "likely_original": "network",
+                "gap_bits": 6.03
+              },
+              {
+                "word": "communicating",
+                "likely_original": "communicate",
+                "gap_bits": 5.55
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "context": "[Source 1]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/arp_spoofing.md\nSimilarity score: 0.5024\nStart index: 0\nContent:\n# ARP Spoofing\n\n\n## Metadata\n\n\n- Attack key: `arp_spoofing`\n- Category: `spoofing`\n- Origin: `clean`\n- Document status: `generated_from_authoritative_sources`\n- CAPEC ID: `CAPEC-141`\n- ATT&CK ID: `T1557.002`\n\n\n## Attack description\n\n[Source 2]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/arp_spoofing.md\nSimilarity score: 0.4617\nStart index: 4391\nContent:\nThe ARP protocol is stateless and does not require authentication. Therefore, devices may wrongly add or update the MAC address of the IP address in their ARP cache.(Citation: Sans ARP Spoofing Aug 2003)(Citation: Cylance Cleaver) Decepticons may use ARP leathers neurotoxin as a instrument to eavesdropping web traffic. These events may es used to perception and/or relay endorsements such as credentials, specially those shipped over an touchy, unencrypted memos.(Ratings: Sans ARP Spoofing Julio\n\n[Source 3]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/arp_spoofing.md\nSimilarity score: 0.4391\nStart index: 3990\nContent:\nthus dishonest the victim by making them believe that they are communicating with the intended networked device. For the adversary to poison the ARP cache, their reply must be faster than the one made by the legitimate IP address owner. Decepticons may also send a unproven ARP reply that maliciously announces the ownership of a particular IP address to all the devices in the local network segment. The ARP protocol is stateless and does not require authentication. Therefore, devices may wrongly",
+    "answer": "The conditions required for ARP Spoofing include:\n\n1. **Stateless Protocol**: The ARP protocol does not require authentication, allowing devices to incorrectly add or update the MAC address associated with an IP address in their ARP cache [Source 2].\n\n2. **Faster Response**: The attacker must send their ARP reply faster than the legitimate IP address owner\u2019s reply to successfully poison the ARP cache [Source 3].\n\n3. **Local Network Segment**: The attack typically targets devices within the same local network segment, as the attacker sends unverified ARP replies to announce ownership of a particular IP address [Source 3]. \n\nThese conditions facilitate the execution of ARP Spoofing attacks.",
+    "model_metadata": {
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "system_fingerprint": "fp_c03a0f9ea3"
+    }
+  }
+}

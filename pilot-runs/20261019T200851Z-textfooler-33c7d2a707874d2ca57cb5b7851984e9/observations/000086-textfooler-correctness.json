@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "run_id": "20261019T200851Z-textfooler-33c7d2a707874d2ca57cb5b7851984e9",
+  "index": 86,
+  "question_id": "expanded_arp_spoofing_prerequisites_01",
+  "repetition": 2,
+  "source_group_ids": [
+    "aegisrag.cybersecurity:group:fe8ff702814e"
+  ],
+  "condition_order": [
+    "poisoned",
+    "clean"
+  ],
+  "condition": "textfooler",
+  "stage": "correctness",
+  "capture": {
+    "raw_score": 0.5,
+    "status": "valid",
+    "prompt": "You are a strict evaluator for a cybersecurity RAG system.\n\nQuestion:\nWhat conditions are required for ARP Spoofing in the knowledge base?\n\nReference facts the answer should reflect (a correct answer does not need\nto restate these verbatim, but must not contradict them and should cover\nthe important ones):\n- - The attacker must be able to modify the value stored in a cache to match a desired value. - The targeted application must not be able to detect the illicit modification of the cache and must trust the cache value in its calculations.\n\nGenerated answer to evaluate:\nThe conditions required for ARP Spoofing include:\n\n1. **Stateless Protocol**: The ARP protocol does not require authentication, allowing devices to incorrectly add or update the MAC address associated with an IP address in their ARP cache [Source 2].\n\n2. **Faster Response**: The attacker must send their ARP reply faster than the legitimate IP address owner\u2019s reply to successfully poison the ARP cache [Source 3].\n\n3. **Local Network Segment**: The attacker can send a malicious ARP reply that claims ownership of a particular IP address to all devices within the same local network segment [Source 3]. \n\nThese conditions enable the attacker to deceive victims into believing they are communicating with the intended networked device.\n\nScore how correct the generated answer is:\n- 1.0 = correct and covers the important expected facts\n- 0.5 = partially correct\n- 0.0 = incorrect / substantially fails to answer\nIntermediate values (e.g. 0.25, 0.75) are allowed when useful.\n\nRespond with JSON ONLY, no other text, in exactly this shape:\n{\"score\": <0.0-1.0>, \"reason\": \"<short explanation>\"}",
+    "raw_response": "{\"score\": 0.5, \"reason\": \"The answer correctly identifies some conditions for ARP Spoofing, such as the lack of authentication in ARP and the need for faster responses. However, it does not explicitly mention the requirement for the attacker to modify the cache value or that the targeted application must trust the cache value, which are critical aspects of ARP Spoofing.\"}",
+    "reason": "The answer correctly identifies some conditions for ARP Spoofing, such as the lack of authentication in ARP and the need for faster responses. However, it does not explicitly mention the requirement for the attacker to modify the cache value or that the targeted application must trust the cache value, which are critical aspects of ARP Spoofing.",
+    "legacy_result": {
+      "score": 0.5,
+      "reason": "The answer correctly identifies some conditions for ARP Spoofing, such as the lack of authentication in ARP and the need for faster responses. However, it does not explicitly mention the requirement for the attacker to modify the cache value or that the targeted application must trust the cache value, which are critical aspects of ARP Spoofing."
+    },
+    "model_metadata": {
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "system_fingerprint": "fp_25be592f13"
+    }
+  }
+}

@@ -1,0 +1,437 @@
+{
+  "schema_version": 1,
+  "run_id": "20261019T200851Z-textfooler-33c7d2a707874d2ca57cb5b7851984e9",
+  "index": 49,
+  "question_id": "expanded_tcp_syn_flood_prerequisites_01",
+  "repetition": 2,
+  "source_group_ids": [
+    "aegisrag.cybersecurity:group:a78cb2be9602"
+  ],
+  "condition_order": [
+    "clean",
+    "poisoned"
+  ],
+  "condition": "textfooler_contextual",
+  "stage": "rag",
+  "latency_seconds": 3.111225007999792,
+  "answer": "The retrieved context does not provide specific conditions required for a TCP SYN Flood attack. It only includes general metadata and a brief description of the attack type without detailing the necessary conditions for its execution. Therefore, I cannot provide an answer based on the available information.",
+  "capture": {
+    "request_attempts": 1,
+    "retrieval_status": "ok",
+    "generation_status": "ok",
+    "entropy_filter": {
+      "policy_version": "contextual-filter-v1",
+      "source_state": "textfooler",
+      "candidate_k": 10,
+      "keep": 3,
+      "threshold_bits": 4.4611,
+      "lm": "distilgpt2",
+      "decisions": [
+        {
+          "rank": 1,
+          "document": "ddos/tcp_syn_flood.md",
+          "start_index": 0,
+          "similarity": 0.5508,
+          "score_bits": 3.8973,
+          "threshold_bits": 4.4611,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "key",
+              "likely_original": "name",
+              "gap_bits": 11.13
+            },
+            {
+              "word": "origin",
+              "likely_original": "source",
+              "gap_bits": 0.35
+            },
+            {
+              "word": "category",
+              "likely_original": "class",
+              "gap_bits": 0.21
+            }
+          ],
+          "kept": true
+        },
+        {
+          "rank": 2,
+          "document": "ddos/tcp_syn_flood.md",
+          "start_index": 575,
+          "similarity": 0.5108,
+          "score_bits": 5.7003,
+          "threshold_bits": 4.4611,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "requirements",
+              "likely_original": "demand",
+              "gap_bits": 7.58
+            },
+            {
+              "word": "aiming",
+              "likely_original": "target",
+              "gap_bits": 6.01
+            },
+            {
+              "word": "bombing",
+              "likely_original": "bomb",
+              "gap_bits": 3.51
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 3,
+          "document": "ddos/tcp_syn_flood.md",
+          "start_index": 208,
+          "similarity": 0.509,
+          "score_bits": 13.4114,
+          "threshold_bits": 4.4611,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "substantiated",
+              "likely_original": "support",
+              "gap_bits": 15.64
+            },
+            {
+              "word": "refusing",
+              "likely_original": "deny",
+              "gap_bits": 14.68
+            },
+            {
+              "word": "customer",
+              "likely_original": "client",
+              "gap_bits": 9.92
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 4,
+          "document": "ddos/udp_flood.md",
+          "start_index": 1111,
+          "similarity": 0.5005,
+          "score_bits": 1.6428,
+          "threshold_bits": 4.4611,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "direct",
+              "likely_original": "target",
+              "gap_bits": 5.5
+            },
+            {
+              "word": "targeted",
+              "likely_original": "target",
+              "gap_bits": 2.15
+            },
+            {
+              "word": "almost",
+              "likely_original": "nearly",
+              "gap_bits": -2.72
+            }
+          ],
+          "kept": true
+        },
+        {
+          "rank": 5,
+          "document": "ddos/icmp_flood.md",
+          "start_index": 888,
+          "similarity": 0.4923,
+          "score_bits": 2.127,
+          "threshold_bits": 4.4611,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "direct",
+              "likely_original": "target",
+              "gap_bits": 5.14
+            },
+            {
+              "word": "attempt",
+              "likely_original": "try",
+              "gap_bits": 1.11
+            },
+            {
+              "word": "cause",
+              "likely_original": "get",
+              "gap_bits": 0.13
+            }
+          ],
+          "kept": true
+        },
+        {
+          "rank": 6,
+          "document": "ddos/tcp_syn_flood.md",
+          "start_index": 811,
+          "similarity": 0.4923,
+          "score_bits": 2.127,
+          "threshold_bits": 4.4611,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "direct",
+              "likely_original": "target",
+              "gap_bits": 5.14
+            },
+            {
+              "word": "attempt",
+              "likely_original": "try",
+              "gap_bits": 1.11
+            },
+            {
+              "word": "cause",
+              "likely_original": "get",
+              "gap_bits": 0.13
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 7,
+          "document": "ddos/tcp_syn_flood.md",
+          "start_index": 1213,
+          "similarity": 0.4825,
+          "score_bits": -0.2241,
+          "threshold_bits": 4.4611,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "commonly",
+              "likely_original": "usually",
+              "gap_bits": 0.99
+            },
+            {
+              "word": "almost",
+              "likely_original": "virtually",
+              "gap_bits": 0.16
+            },
+            {
+              "word": "flooding",
+              "likely_original": "oversupply",
+              "gap_bits": -1.83
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 8,
+          "document": "ddos/icmp_flood.md",
+          "start_index": 1290,
+          "similarity": 0.4825,
+          "score_bits": -0.2241,
+          "threshold_bits": 4.4611,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "commonly",
+              "likely_original": "usually",
+              "gap_bits": 0.99
+            },
+            {
+              "word": "almost",
+              "likely_original": "virtually",
+              "gap_bits": 0.16
+            },
+            {
+              "word": "flooding",
+              "likely_original": "oversupply",
+              "gap_bits": -1.83
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 9,
+          "document": "ddos/icmp_flood.md",
+          "start_index": 683,
+          "similarity": 0.4788,
+          "score_bits": 1.7261,
+          "threshold_bits": 4.4611,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "direct",
+              "likely_original": "target",
+              "gap_bits": 2.85
+            },
+            {
+              "word": "network",
+              "likely_original": "web",
+              "gap_bits": 1.68
+            },
+            {
+              "word": "amount",
+              "likely_original": "number",
+              "gap_bits": 0.64
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 10,
+          "document": "ddos/http_flood.md",
+          "start_index": 779,
+          "similarity": 0.4666,
+          "score_bits": -1.7568,
+          "threshold_bits": 4.4611,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "cause",
+              "likely_original": "have",
+              "gap_bits": -0.71
+            },
+            {
+              "word": "repeated",
+              "likely_original": "repeat",
+              "gap_bits": -1.14
+            },
+            {
+              "word": "server",
+              "likely_original": "host",
+              "gap_bits": -3.43
+            }
+          ],
+          "kept": false
+        }
+      ]
+    },
+    "sources": [
+      {
+        "source_number": 1,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/ddos/tcp_syn_flood.md",
+        "score": 0.5508063,
+        "content": "# TCP SYN Flood\n\n\n## Metadata\n\n\n- Attack key: `tcp_syn_flood`\n- Category: `ddos`\n- Origin: `clean`\n- Document status: `generated_from_authoritative_sources`\n- CAPEC ID: `CAPEC-482`\n- ATT&CK ID: `T1498.001`\n\n\n## Attack description",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/ddos/tcp_syn_flood.md",
+          "attack_type": "tcp_syn_flood",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 0,
+          "chunk_index": 0,
+          "section": "tcp_syn_flood",
+          "_id": "95e15e4d-b1e5-4ff9-9abd-3673e771f3c3",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler",
+          "entropy_filter": {
+            "policy_version": "contextual-filter-v1",
+            "candidate_rank": 1,
+            "score_bits": 3.8973,
+            "threshold_bits": 4.4611,
+            "flagged": false,
+            "top_words": [
+              {
+                "word": "key",
+                "likely_original": "name",
+                "gap_bits": 11.13
+              },
+              {
+                "word": "origin",
+                "likely_original": "source",
+                "gap_bits": 0.35
+              },
+              {
+                "word": "category",
+                "likely_original": "class",
+                "gap_bits": 0.21
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_number": 2,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/ddos/udp_flood.md",
+        "score": 0.50045544,
+        "content": "**Technique:** Direct Network Flood Adversaries may attempt to cause a denial of service (DoS) by directly sending a high-volume of network traffic to a target. This DoS attack may also reduce the availability and functionality of the targeted system(s) and network. [Direct Network Flood](https://incursion.mitre.organiser/techniques/T1498/001)s are when one or more systems are used to send a high-volume of network packets towards the targeted service's network. Almost any network protocol may",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/ddos/udp_flood.md",
+          "attack_type": "udp_flood",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 1111,
+          "chunk_index": 31,
+          "section": "attck_adversary_context",
+          "_id": "481b1b73-d564-4504-b341-da1ab18d1984",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler",
+          "entropy_filter": {
+            "policy_version": "contextual-filter-v1",
+            "candidate_rank": 4,
+            "score_bits": 1.6428,
+            "threshold_bits": 4.4611,
+            "flagged": false,
+            "top_words": [
+              {
+                "word": "direct",
+                "likely_original": "target",
+                "gap_bits": 5.5
+              },
+              {
+                "word": "targeted",
+                "likely_original": "target",
+                "gap_bits": 2.15
+              },
+              {
+                "word": "almost",
+                "likely_original": "nearly",
+                "gap_bits": -2.72
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_number": 3,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/ddos/icmp_flood.md",
+        "score": 0.4923396,
+        "content": "Adversaries may attempt to cause a denial of service (DoS) by directly sending a high-volume of network traffic to a target. This DoS attack may also reduce the availability and functionality of the targeted system(s) and network. [Direct Network Flood](https://attack.mitre.org/techniques/T1498/001)s are when one or more systems are used to send a high-volume of network packets towards the targeted service's network. Almost any network protocol may be used for flooding. Stateless protocols such",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/ddos/icmp_flood.md",
+          "attack_type": "icmp_flood",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 888,
+          "chunk_index": 20,
+          "section": "attck_adversary_context",
+          "_id": "48a581d9-b391-478a-9705-5dfc377efa88",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler",
+          "entropy_filter": {
+            "policy_version": "contextual-filter-v1",
+            "candidate_rank": 5,
+            "score_bits": 2.127,
+            "threshold_bits": 4.4611,
+            "flagged": false,
+            "top_words": [
+              {
+                "word": "direct",
+                "likely_original": "target",
+                "gap_bits": 5.14
+              },
+              {
+                "word": "attempt",
+                "likely_original": "try",
+                "gap_bits": 1.11
+              },
+              {
+                "word": "cause",
+                "likely_original": "get",
+                "gap_bits": 0.13
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "context": "[Source 1]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/ddos/tcp_syn_flood.md\nSimilarity score: 0.5508\nStart index: 0\nContent:\n# TCP SYN Flood\n\n\n## Metadata\n\n\n- Attack key: `tcp_syn_flood`\n- Category: `ddos`\n- Origin: `clean`\n- Document status: `generated_from_authoritative_sources`\n- CAPEC ID: `CAPEC-482`\n- ATT&CK ID: `T1498.001`\n\n\n## Attack description\n\n[Source 2]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/ddos/udp_flood.md\nSimilarity score: 0.5005\nStart index: 1111\nContent:\n**Technique:** Direct Network Flood Adversaries may attempt to cause a denial of service (DoS) by directly sending a high-volume of network traffic to a target. This DoS attack may also reduce the availability and functionality of the targeted system(s) and network. [Direct Network Flood](https://incursion.mitre.organiser/techniques/T1498/001)s are when one or more systems are used to send a high-volume of network packets towards the targeted service's network. Almost any network protocol may\n\n[Source 3]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/ddos/icmp_flood.md\nSimilarity score: 0.4923\nStart index: 888\nContent:\nAdversaries may attempt to cause a denial of service (DoS) by directly sending a high-volume of network traffic to a target. This DoS attack may also reduce the availability and functionality of the targeted system(s) and network. [Direct Network Flood](https://attack.mitre.org/techniques/T1498/001)s are when one or more systems are used to send a high-volume of network packets towards the targeted service's network. Almost any network protocol may be used for flooding. Stateless protocols such",
+    "answer": "The retrieved context does not provide specific conditions required for a TCP SYN Flood attack. It only includes general metadata and a brief description of the attack type without detailing the necessary conditions for its execution. Therefore, I cannot provide an answer based on the available information.",
+    "model_metadata": {
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "system_fingerprint": "fp_7b4718ccca"
+    }
+  }
+}

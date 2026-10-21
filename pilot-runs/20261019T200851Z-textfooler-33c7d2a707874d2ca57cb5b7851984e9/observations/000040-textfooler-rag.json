@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "run_id": "20261019T200851Z-textfooler-33c7d2a707874d2ca57cb5b7851984e9",
+  "index": 40,
+  "question_id": "expanded_arp_spoofing_attack_description_01",
+  "repetition": 1,
+  "source_group_ids": [
+    "aegisrag.cybersecurity:group:fe8ff702814e"
+  ],
+  "condition_order": [
+    "clean",
+    "poisoned"
+  ],
+  "condition": "textfooler",
+  "stage": "rag",
+  "latency_seconds": 4.959751880999988,
+  "answer": "ARP Spoofing works by exploiting the stateless nature of the ARP protocol, which does not require authentication. An attacker sends falsified ARP replies to devices on a local network, causing them to update their ARP cache with incorrect MAC addresses associated with IP addresses. This allows the attacker to intercept or manipulate traffic intended for another device, effectively making the victim believe they are communicating with the legitimate device. The attack is successful if the attacker\u2019s reply is faster than the legitimate device's response, allowing them to poison the ARP cache of the victim devices [Source 2][Source 3].",
+  "capture": {
+    "request_attempts": 1,
+    "retrieval_status": "ok",
+    "generation_status": "ok",
+    "sources": [
+      {
+        "source_number": 1,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/arp_spoofing.md",
+        "score": 0.5242707,
+        "content": "# ARP Spoofing\n\n\n## Metadata\n\n\n- Attack key: `arp_spoofing`\n- Category: `spoofing`\n- Origin: `clean`\n- Document status: `generated_from_authoritative_sources`\n- CAPEC ID: `CAPEC-141`\n- ATT&CK ID: `T1557.002`\n\n\n## Attack description",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/arp_spoofing.md",
+          "attack_type": "arp_spoofing",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 0,
+          "chunk_index": 99,
+          "section": "arp_spoofing",
+          "_id": "86970b21-9c7f-41f2-a112-f19a7fb54734",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler"
+        }
+      },
+      {
+        "source_number": 2,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/arp_spoofing.md",
+        "score": 0.5110716,
+        "content": "The ARP protocol is stateless and does not require authentication. Therefore, devices may wrongly add or update the MAC address of the IP address in their ARP cache.(Citation: Sans ARP Spoofing Aug 2003)(Citation: Cylance Cleaver) Decepticons may use ARP leathers neurotoxin as a instrument to eavesdropping web traffic. These events may es used to perception and/or relay endorsements such as credentials, specially those shipped over an touchy, unencrypted memos.(Ratings: Sans ARP Spoofing Julio",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/arp_spoofing.md",
+          "attack_type": "arp_spoofing",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 4391,
+          "chunk_index": 112,
+          "section": "attck_adversary_context",
+          "_id": "54386f1e-3e3f-411a-bac6-bf452276ec59",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler"
+        }
+      },
+      {
+        "source_number": 3,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/arp_spoofing.md",
+        "score": 0.44932234,
+        "content": "thus dishonest the victim by making them believe that they are communicating with the intended networked device. For the adversary to poison the ARP cache, their reply must be faster than the one made by the legitimate IP address owner. Decepticons may also send a unproven ARP reply that maliciously announces the ownership of a particular IP address to all the devices in the local network segment. The ARP protocol is stateless and does not require authentication. Therefore, devices may wrongly",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/arp_spoofing.md",
+          "attack_type": "arp_spoofing",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 3990,
+          "chunk_index": 111,
+          "section": "attck_adversary_context",
+          "_id": "97614ad6-fbd5-42f5-ba46-7db1e0854535",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler"
+        }
+      }
+    ],
+    "context": "[Source 1]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/arp_spoofing.md\nSimilarity score: 0.5243\nStart index: 0\nContent:\n# ARP Spoofing\n\n\n## Metadata\n\n\n- Attack key: `arp_spoofing`\n- Category: `spoofing`\n- Origin: `clean`\n- Document status: `generated_from_authoritative_sources`\n- CAPEC ID: `CAPEC-141`\n- ATT&CK ID: `T1557.002`\n\n\n## Attack description\n\n[Source 2]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/arp_spoofing.md\nSimilarity score: 0.5111\nStart index: 4391\nContent:\nThe ARP protocol is stateless and does not require authentication. Therefore, devices may wrongly add or update the MAC address of the IP address in their ARP cache.(Citation: Sans ARP Spoofing Aug 2003)(Citation: Cylance Cleaver) Decepticons may use ARP leathers neurotoxin as a instrument to eavesdropping web traffic. These events may es used to perception and/or relay endorsements such as credentials, specially those shipped over an touchy, unencrypted memos.(Ratings: Sans ARP Spoofing Julio\n\n[Source 3]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/arp_spoofing.md\nSimilarity score: 0.4493\nStart index: 3990\nContent:\nthus dishonest the victim by making them believe that they are communicating with the intended networked device. For the adversary to poison the ARP cache, their reply must be faster than the one made by the legitimate IP address owner. Decepticons may also send a unproven ARP reply that maliciously announces the ownership of a particular IP address to all the devices in the local network segment. The ARP protocol is stateless and does not require authentication. Therefore, devices may wrongly",
+    "answer": "ARP Spoofing works by exploiting the stateless nature of the ARP protocol, which does not require authentication. An attacker sends falsified ARP replies to devices on a local network, causing them to update their ARP cache with incorrect MAC addresses associated with IP addresses. This allows the attacker to intercept or manipulate traffic intended for another device, effectively making the victim believe they are communicating with the legitimate device. The attack is successful if the attacker\u2019s reply is faster than the legitimate device's response, allowing them to poison the ARP cache of the victim devices [Source 2][Source 3].",
+    "model_metadata": {
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "system_fingerprint": "fp_109d01f5b1"
+    }
+  }
+}

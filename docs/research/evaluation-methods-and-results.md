@@ -631,6 +631,29 @@ Outcome by label: correct answers 102 supported, 31 unsupported, 15 unavailable;
 
 **Limits.** One verifier model; repetition 1 only; 238 answered items with few outright errors (1 incorrect), so the strict-error analysis (`secondary_error_incorrect` in the summary) is not informative; the judge labels are themselves unvalidated until the manual check (§13) is complete.
 
+## 20. Both frozen filters live on a second attack (TextFooler, 19–21 Oct 2026)
+
+**Setup.** The TextFooler corpus of §18 was indexed into its own collection (`cybersecurity_knowledge_base_textfooler`, 199 chunks; `docs/research/scripts/index_attack_corpus.py`, create-only; the clean, PWWS and control collections are untouched). Run `20261019T200851Z-textfooler-33c7d2a707874d2ca57cb5b7851984e9` (`run_defence_eval.py … textfooler`; 1,188 records, all answers produced, all checksums verified; resumed in place after two container restarts) paired with the main run by schedule index. Conditions: `textfooler` (no defence), `textfooler_defended` (entropy-filter-v1, 7.2262 bits) and `textfooler_contextual` (contextual-filter-v1, 4.4611 bits), with both thresholds as frozen on PWWS development documents. Edited-text exposure and the perturbed-target stratum use the TextFooler manifest: 36 of 44 questions have a perturbed target (PWWS: 27). Analysis: `analyse_textfooler_defence.py` → `docs/research/results/textfooler-defence/`.
+
+| Comparison (question-level means, 44 questions) | A | B | Δ | 95% CI | Wilcoxon p |
+|---|---|---|---|---|---|
+| TextFooler vs clean: correctness | 0.564 | 0.714 | −0.150 | [−0.237, −0.066] | 0.002 |
+| TextFooler vs clean: edited text reaching the model | 0.818 | 0 | +0.818 | [0.705, 0.932] | < 0.001 |
+| Word-frequency filter vs none: exposure | 0.795 | 0.818 | −0.023 | [−0.114, 0.046] | n/a |
+| Word-frequency filter vs none: correctness | 0.525 | 0.564 | −0.040 | [−0.114, 0.036] | 0.250 |
+| **Contextual filter vs none: exposure** | 0.523 | 0.818 | **−0.295** | [−0.432, −0.159] | **< 0.001** |
+| Contextual filter vs none: correctness | 0.447 | 0.564 | −0.117 | [−0.203, −0.032] | 0.008 |
+| Contextual vs word-frequency filter: exposure | 0.523 | 0.795 | −0.273 | [−0.432, −0.114] | 0.003 |
+
+Outcomes (132 answers each): clean 67 correct / 39 partial / 0 incorrect / 26 refusals; TextFooler 50 / 28 / 0 / 54; word-frequency filter 40 / 39 / 0 / 53; contextual filter 37 / 21 / 0 / 74. Share of candidate passages flagged: word-frequency 29.5%, contextual 45.5%. ASR (edited exposure, correctness drop ≥ 0.25): 0.31 / 0.36 / 0.32.
+
+**Findings.**
+- *TextFooler is the more pervasive attack.* It edits text that reaches the model on 82% of questions (PWWS 41%) and costs about the same correctness (−0.150 vs −0.159), again through refusals (26 → 54) rather than confident errors (none).
+- *Only the contextual filter carries over to the live system.* With unchanged thresholds it removes edited text from 30% of questions' contexts (82% → 52%), significantly more than the word-frequency filter, which barely changes exposure although it flags 52% of edits offline: when most candidate passages are edited, dropping some of them mostly promotes other edited ones.
+- *The safety/utility trade-off of §17 holds on the second attack:* less poison reaches the model, but correctness falls further (−0.117) and refusals rise (54 → 74), because the evidence the questions need is itself edited.
+
+**Limits.** One run, one model; exposure counts any edited word in any of the three passages, so a lower bound on how much poisoned text was removed is not measured; thresholds were not re-tuned for TextFooler by design.
+
 ## 9. Reproducing every number in this document
 
 ```bash
@@ -651,6 +674,10 @@ python docs/research/scripts/verify_evidence.py
 # §19: evidence-check replay (LLM_API_KEY set) and analysis
 cd backend && PYTHONPATH=. python ../docs/research/scripts/evidence_check_eval.py run ../pilot-runs
 PYTHONPATH=. python ../docs/research/scripts/evidence_check_eval.py analyse ../pilot-runs/20261019T200355Z-evidence-check-f8780367874442dc8b90160c2d51a463 /tmp/ec && cd ..
+# §20: TextFooler live run (Qdrant, LLM_API_KEY), then its analysis
+cd backend && PYTHONPATH=. python ../docs/research/scripts/index_attack_corpus.py textfooler
+AEGIS_BENCHMARK_FILE=$PWD/data/evaluation/questions_v1.json PYTHONPATH=. python ../docs/research/scripts/run_defence_eval.py ../pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e ../pilot-runs textfooler
+PYTHONPATH=. python ../docs/research/scripts/analyse_textfooler_defence.py ../pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e ../pilot-runs/20261019T200851Z-textfooler-33c7d2a707874d2ca57cb5b7851984e9 /tmp/tf && cd ..
 # §17: live contextual-filter run (needs Qdrant and LLM_API_KEY), then its offline analysis
 cd backend && AEGIS_BENCHMARK_FILE=$PWD/data/evaluation/questions_v1.json PYTHONPATH=. python ../docs/research/scripts/run_defence_eval.py ../pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e ../pilot-runs contextual
 PYTHONPATH=. python ../docs/research/scripts/analyse_defence.py ../pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e ../pilot-runs/20261018T180113Z-contextual-a2eb543b82974c5aa4c1502de6e555a7 /tmp/ctx ../pilot-runs/20261017T165331Z-defence-cebfb27c1e9048cdb61fbfe15f37e50d ../pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c

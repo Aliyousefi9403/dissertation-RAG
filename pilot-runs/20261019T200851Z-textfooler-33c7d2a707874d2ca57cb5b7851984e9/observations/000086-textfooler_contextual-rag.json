@@ -1,0 +1,437 @@
+{
+  "schema_version": 1,
+  "run_id": "20261019T200851Z-textfooler-33c7d2a707874d2ca57cb5b7851984e9",
+  "index": 86,
+  "question_id": "expanded_arp_spoofing_prerequisites_01",
+  "repetition": 2,
+  "source_group_ids": [
+    "aegisrag.cybersecurity:group:fe8ff702814e"
+  ],
+  "condition_order": [
+    "poisoned",
+    "clean"
+  ],
+  "condition": "textfooler_contextual",
+  "stage": "rag",
+  "latency_seconds": 2.4472164209998937,
+  "answer": "The retrieved context does not provide specific conditions required for ARP Spoofing. It only includes metadata and a brief description without detailing the necessary conditions for executing the attack. Therefore, I cannot provide an answer based on the available information.",
+  "capture": {
+    "request_attempts": 1,
+    "retrieval_status": "ok",
+    "generation_status": "ok",
+    "entropy_filter": {
+      "policy_version": "contextual-filter-v1",
+      "source_state": "textfooler",
+      "candidate_k": 10,
+      "keep": 3,
+      "threshold_bits": 4.4611,
+      "lm": "distilgpt2",
+      "decisions": [
+        {
+          "rank": 1,
+          "document": "spoofing/arp_spoofing.md",
+          "start_index": 0,
+          "similarity": 0.5024,
+          "score_bits": 3.2522,
+          "threshold_bits": 4.4611,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "key",
+              "likely_original": "name",
+              "gap_bits": 8.52
+            },
+            {
+              "word": "category",
+              "likely_original": "class",
+              "gap_bits": 1.18
+            },
+            {
+              "word": "clean",
+              "likely_original": "clear",
+              "gap_bits": 0.06
+            }
+          ],
+          "kept": true
+        },
+        {
+          "rank": 2,
+          "document": "spoofing/arp_spoofing.md",
+          "start_index": 4391,
+          "similarity": 0.4617,
+          "score_bits": 9.4496,
+          "threshold_bits": 4.4611,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "leathers",
+              "likely_original": "leather",
+              "gap_bits": 13.1
+            },
+            {
+              "word": "specially",
+              "likely_original": "especially",
+              "gap_bits": 7.7
+            },
+            {
+              "word": "shipped",
+              "likely_original": "send",
+              "gap_bits": 7.55
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 3,
+          "document": "spoofing/arp_spoofing.md",
+          "start_index": 3990,
+          "similarity": 0.4391,
+          "score_bits": 4.9102,
+          "threshold_bits": 4.4611,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "networked",
+              "likely_original": "network",
+              "gap_bits": 6.2
+            },
+            {
+              "word": "reply",
+              "likely_original": "response",
+              "gap_bits": 5.67
+            },
+            {
+              "word": "wrongly",
+              "likely_original": "incorrectly",
+              "gap_bits": 2.86
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 4,
+          "document": "spoofing/arp_spoofing.md",
+          "start_index": 4798,
+          "similarity": 0.4357,
+          "score_bits": 8.2615,
+          "threshold_bits": 4.4611,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "memos",
+              "likely_original": "memo",
+              "gap_bits": 9.55
+            },
+            {
+              "word": "specially",
+              "likely_original": "especially",
+              "gap_bits": 8.3
+            },
+            {
+              "word": "touchy",
+              "likely_original": "feisty",
+              "gap_bits": 6.93
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 5,
+          "document": "spoofing/arp_spoofing.md",
+          "start_index": 3593,
+          "similarity": 0.3854,
+          "score_bits": 15.139,
+          "threshold_bits": 4.4611,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "pelts",
+              "likely_original": "stream",
+              "gap_bits": 22.11
+            },
+            {
+              "word": "macintosh",
+              "likely_original": "mac",
+              "gap_bits": 16.26
+            },
+            {
+              "word": "processing",
+              "likely_original": "process",
+              "gap_bits": 7.05
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 6,
+          "document": "spoofing/dns_spoofing.md",
+          "start_index": 2785,
+          "similarity": 0.3414,
+          "score_bits": 0.2701,
+          "threshold_bits": 4.4611,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "position",
+              "likely_original": "place",
+              "gap_bits": 2.92
+            },
+            {
+              "word": "defenses",
+              "likely_original": "defense",
+              "gap_bits": -0.84
+            },
+            {
+              "word": "adversaries",
+              "likely_original": "opponent",
+              "gap_bits": -1.27
+            }
+          ],
+          "kept": true
+        },
+        {
+          "rank": 7,
+          "document": "spoofing/arp_spoofing.md",
+          "start_index": 2406,
+          "similarity": 0.3383,
+          "score_bits": 12.8033,
+          "threshold_bits": 4.4611,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "waited",
+              "likely_original": "look",
+              "gap_bits": 14.5
+            },
+            {
+              "word": "undercover",
+              "likely_original": "secret",
+              "gap_bits": 12.08
+            },
+            {
+              "word": "discovers",
+              "likely_original": "see",
+              "gap_bits": 11.83
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 8,
+          "document": "spoofing/dns_spoofing.md",
+          "start_index": 0,
+          "similarity": 0.3345,
+          "score_bits": 4.2307,
+          "threshold_bits": 4.4611,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "key",
+              "likely_original": "name",
+              "gap_bits": 10.1
+            },
+            {
+              "word": "category",
+              "likely_original": "class",
+              "gap_bits": 2.59
+            },
+            {
+              "word": "sources",
+              "likely_original": "source",
+              "gap_bits": 0.0
+            }
+          ],
+          "kept": true
+        },
+        {
+          "rank": 9,
+          "document": "reconnaissance/os_fingerprinting.md",
+          "start_index": 260,
+          "similarity": 0.3299,
+          "score_bits": 16.4098,
+          "threshold_bits": 4.4611,
+          "flagged": true,
+          "top_words": [
+            {
+              "word": "rival",
+              "likely_original": "equal",
+              "gap_bits": 24.86
+            },
+            {
+              "word": "unveiled",
+              "likely_original": "reveal",
+              "gap_bits": 12.85
+            },
+            {
+              "word": "doubted",
+              "likely_original": "doubt",
+              "gap_bits": 11.52
+            }
+          ],
+          "kept": false
+        },
+        {
+          "rank": 10,
+          "document": "ddos/icmp_flood.md",
+          "start_index": 202,
+          "similarity": 0.3297,
+          "score_bits": -5.5021,
+          "threshold_bits": 4.4611,
+          "flagged": false,
+          "top_words": [
+            {
+              "word": "addresses",
+              "likely_original": "address",
+              "gap_bits": -3.24
+            },
+            {
+              "word": "making",
+              "likely_original": "make",
+              "gap_bits": -5.8
+            },
+            {
+              "word": "rate",
+              "likely_original": "value",
+              "gap_bits": -7.47
+            }
+          ],
+          "kept": false
+        }
+      ]
+    },
+    "sources": [
+      {
+        "source_number": 1,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/arp_spoofing.md",
+        "score": 0.5024008,
+        "content": "# ARP Spoofing\n\n\n## Metadata\n\n\n- Attack key: `arp_spoofing`\n- Category: `spoofing`\n- Origin: `clean`\n- Document status: `generated_from_authoritative_sources`\n- CAPEC ID: `CAPEC-141`\n- ATT&CK ID: `T1557.002`\n\n\n## Attack description",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/arp_spoofing.md",
+          "attack_type": "arp_spoofing",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 0,
+          "chunk_index": 99,
+          "section": "arp_spoofing",
+          "_id": "86970b21-9c7f-41f2-a112-f19a7fb54734",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler",
+          "entropy_filter": {
+            "policy_version": "contextual-filter-v1",
+            "candidate_rank": 1,
+            "score_bits": 3.2522,
+            "threshold_bits": 4.4611,
+            "flagged": false,
+            "top_words": [
+              {
+                "word": "key",
+                "likely_original": "name",
+                "gap_bits": 8.52
+              },
+              {
+                "word": "category",
+                "likely_original": "class",
+                "gap_bits": 1.18
+              },
+              {
+                "word": "clean",
+                "likely_original": "clear",
+                "gap_bits": 0.06
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_number": 2,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/dns_spoofing.md",
+        "score": 0.3414203,
+        "content": "Adversaries can setup a position similar to AiTM to prevent traffic from flowing to the appropriate destination, potentially to impair defenses and/or in support of a [Network Denial of Service](https://attack.mitre.org/techniques/T1498).",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/dns_spoofing.md",
+          "attack_type": "dns_spoofing",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 2785,
+          "chunk_index": 125,
+          "section": "attck_adversary_context",
+          "_id": "4ad27cae-2e36-4462-bca6-4b370812868c",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler",
+          "entropy_filter": {
+            "policy_version": "contextual-filter-v1",
+            "candidate_rank": 6,
+            "score_bits": 0.2701,
+            "threshold_bits": 4.4611,
+            "flagged": false,
+            "top_words": [
+              {
+                "word": "position",
+                "likely_original": "place",
+                "gap_bits": 2.92
+              },
+              {
+                "word": "defenses",
+                "likely_original": "defense",
+                "gap_bits": -0.84
+              },
+              {
+                "word": "adversaries",
+                "likely_original": "opponent",
+                "gap_bits": -1.27
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_number": 3,
+        "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/dns_spoofing.md",
+        "score": 0.3344544,
+        "content": "# DNS Spoofing\n\n\n## Metadata\n\n\n- Attack key: `dns_spoofing`\n- Category: `spoofing`\n- Origin: `clean`\n- Document status: `generated_from_authoritative_sources`\n- CAPEC ID: `CAPEC-598`\n- ATT&CK ID: `T1557`\n\n\n## Attack description",
+        "metadata": {
+          "source": "/home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/dns_spoofing.md",
+          "attack_type": "dns_spoofing",
+          "origin": "textfooler",
+          "system_state": "textfooler",
+          "source_authority": "pending_kb_rebuild",
+          "start_index": 0,
+          "chunk_index": 117,
+          "section": "dns_spoofing",
+          "_id": "32699e4f-588d-4912-a8de-b79309f39248",
+          "_collection_name": "cybersecurity_knowledge_base_textfooler",
+          "entropy_filter": {
+            "policy_version": "contextual-filter-v1",
+            "candidate_rank": 8,
+            "score_bits": 4.2307,
+            "threshold_bits": 4.4611,
+            "flagged": false,
+            "top_words": [
+              {
+                "word": "key",
+                "likely_original": "name",
+                "gap_bits": 10.1
+              },
+              {
+                "word": "category",
+                "likely_original": "class",
+                "gap_bits": 2.59
+              },
+              {
+                "word": "sources",
+                "likely_original": "source",
+                "gap_bits": 0.0
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "context": "[Source 1]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/arp_spoofing.md\nSimilarity score: 0.5024\nStart index: 0\nContent:\n# ARP Spoofing\n\n\n## Metadata\n\n\n- Attack key: `arp_spoofing`\n- Category: `spoofing`\n- Origin: `clean`\n- Document status: `generated_from_authoritative_sources`\n- CAPEC ID: `CAPEC-141`\n- ATT&CK ID: `T1557.002`\n\n\n## Attack description\n\n[Source 2]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/dns_spoofing.md\nSimilarity score: 0.3414\nStart index: 2785\nContent:\nAdversaries can setup a position similar to AiTM to prevent traffic from flowing to the appropriate destination, potentially to impair defenses and/or in support of a [Network Denial of Service](https://attack.mitre.org/techniques/T1498).\n\n[Source 3]\nFile: /home/user/dissertation-rag/backend/data/poisoned_textfooler/knowledge_base/spoofing/dns_spoofing.md\nSimilarity score: 0.3345\nStart index: 0\nContent:\n# DNS Spoofing\n\n\n## Metadata\n\n\n- Attack key: `dns_spoofing`\n- Category: `spoofing`\n- Origin: `clean`\n- Document status: `generated_from_authoritative_sources`\n- CAPEC ID: `CAPEC-598`\n- ATT&CK ID: `T1557`\n\n\n## Attack description",
+    "answer": "The retrieved context does not provide specific conditions required for ARP Spoofing. It only includes metadata and a brief description without detailing the necessary conditions for executing the attack. Therefore, I cannot provide an answer based on the available information.",
+    "model_metadata": {
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "system_fingerprint": "fp_c03a0f9ea3"
+    }
+  }
+}

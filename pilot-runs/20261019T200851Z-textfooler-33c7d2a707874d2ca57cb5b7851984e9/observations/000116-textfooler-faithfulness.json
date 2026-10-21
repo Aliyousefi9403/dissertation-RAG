@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "run_id": "20261019T200851Z-textfooler-33c7d2a707874d2ca57cb5b7851984e9",
+  "index": 116,
+  "question_id": "expanded_password_cracking_prerequisites_01",
+  "repetition": 3,
+  "source_group_ids": [
+    "aegisrag.cybersecurity:group:d4c5ed02e484"
+  ],
+  "condition_order": [
+    "clean",
+    "poisoned"
+  ],
+  "condition": "textfooler",
+  "stage": "faithfulness",
+  "capture": {
+    "raw_score": 1.0,
+    "status": "valid",
+    "prompt": "You are a strict faithfulness evaluator for a cybersecurity RAG system.\n\nQuestion:\nWhat conditions are required for Password Cracking in the knowledge base?\n\nRetrieved context the answer was supposed to be grounded in:\n[Source 1]\n- An adversary requirements to acknowledging a username to target. - The arrangements consuming codename based scrip as the one components credentials equipments. - An implementation wants not have a cipher throttling installations in positioning. A advantageous cipher throttling installations readiness make it almost impossible computationally to stiff force a password as it may either lock out the user after a certain number of incorrect attempts or introduce time out periods. Both of these\n\n[Source 2]\n## Required resources\n\n\nA persuasive enough computers for the job with properly CPU, RAM and HD. Exact requirements aspiration depend on the magnificence of the brute vigour job and the time requirement for completion. Some brutality forcing jobs may require grid or distributed computing (e.g. DES Challenge).\n\n## Required skills\n\n\nLow: A inhumanity vigour attack is very straightforward. A variety of cipher cracking tools are widely available.\n\n## Consequences\n\n[Source 3]\n## Attack description\n\n\nAn hostile wishing any affordable assessing for a password until they avail. A quarrelsome force bombardments, if controllable computationally, wanting permanently got thrive because it will substantially go through all apt passwords allocated the handwriting used (slower files card, upper files characters, illustrations, documenting, etc.) and the upstairs timetable of the passwords.\n\n## Execution flow\n\nGenerated answer to evaluate:\nThe conditions required for password cracking include:\n\n1. **Knowledge of the Username**: An adversary needs to know the username they are targeting [Source 1].\n\n2. **Absence of Password Throttling**: The implementation should not have cipher throttling mechanisms in place. Effective throttling can lock out users after a certain number of incorrect attempts or introduce timeout periods, making brute force attacks computationally infeasible [Source 1].\n\n3. **Sufficient Computational Resources**: A powerful enough computer with adequate CPU, RAM, and hard drive space is necessary. The specific requirements depend on the complexity of the brute force job and the time needed for completion. Some tasks may require grid or distributed computing [Source 2].\n\n4. **Basic Skills**: Performing a brute force attack is relatively straightforward, and various password cracking tools are readily available [Source 2]. \n\nThese conditions collectively facilitate the success of password cracking attempts.\n\nScore whether the claims in the generated answer are supported by the\nretrieved context:\n- 1.0 = every claim is supported by the retrieved context\n- 0.0 = unsupported or contradictory claims\nIntermediate values are allowed for partially-supported answers.\n\nRespond with JSON ONLY, no other text, in exactly this shape:\n{\"score\": <0.0-1.0>, \"reason\": \"<short explanation>\"}",
+    "raw_response": "{\"score\": 1.0, \"reason\": \"Every claim in the generated answer is supported by the retrieved context, accurately reflecting the conditions required for password cracking.\"}",
+    "reason": "Every claim in the generated answer is supported by the retrieved context, accurately reflecting the conditions required for password cracking.",
+    "legacy_result": {
+      "score": 1.0,
+      "reason": "Every claim in the generated answer is supported by the retrieved context, accurately reflecting the conditions required for password cracking."
+    },
+    "model_metadata": {
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "system_fingerprint": "fp_6841159c0c"
+    }
+  }
+}
