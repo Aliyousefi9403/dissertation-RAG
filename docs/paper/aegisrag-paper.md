@@ -26,6 +26,7 @@ We approach detection through relative entropy. If a passage's word distribution
 - A measured mechanism: PWWS poisoning works mainly by *displacing* relevant evidence and causing abstention, and only rarely by injecting misinformation that the model repeats (§5.1).
 - A family of relative-entropy detectors evaluated against a formatting-only control, showing that whole-distribution divergences fail, the per-word synonym gap works, and a language-model reference is both stronger and free of the layout confound (§4, §5.2).
 - Live evaluations of three retrieval-time defences (drop, repair-then-rescore, contextual drop) showing a consistent safety/utility trade-off (§5.3).
+- An answer-level evidence check evaluated at the same scale, showing why grounding checks miss the errors this attack causes (§5.6).
 - Adaptive attackers at increasing knowledge and budget, with a swap-level explanation of why fooling the classifier while staying probable under a language model is hard in this setting (§5.4), and a second attack, TextFooler, to test generality (§5.5).
 
 # 2 Related work
@@ -140,6 +141,10 @@ Relaxing the rule shows how much likelihood the attacker must give up (Figure 2)
 ## 5.5 A second attack
 
 TextFooler [6] draws substitutes from counter-fitted word embeddings under part-of-speech and sentence-encoder constraints, rather than from WordNet. Run with the same surrogate on the same sections, it is the stronger attack: 49 of 57 sections (PWWS: 39), 82 edited passages. Both synonym-gap detectors transfer without change (Table 2): AUROC 0.90 for the word-frequency reference and 0.91 for the contextual one, and at the thresholds frozen on PWWS development documents the contextual filter flags 70 of 82 edits (85%) at a 9% false-positive rate, against 43 of 82 (52%) for the word-frequency filter. The synonym gap looks for likely originals among WordNet synonyms even though TextFooler's substitutes do not come from WordNet; a likely reason, not measured separately, is that embedding neighbours are also rarer in this domain and less fitting in context than the words they replace. Whole-distribution measures again fail (letter KL 0.28, JS 0.48).
+
+## 5.6 Checking answers instead of passages
+
+We also evaluated an answer-level indicator: a separate verifier call splits each drafted answer into claims, judges each against the three retrieved passages, and must quote its evidence verbatim (checked in code); the answer is withheld unless every claim is supported. Replayed on the recorded drafts (one repetition of all 44 questions in eight conditions, 352 answers), it is not a useful error detector here. Of the 238 answers that are not refusals, 38% are not fully correct, but only 28% of the flagged answers are (precision 0.28 [0.13, 0.48]); it flags 20% of errors (recall [0.11, 0.33]) and 31% of correct answers. The reason is the mechanism of §5.1: substitution poisoning mostly removes evidence, so the typical error is an incomplete answer whose every statement is grounded (68 of 89 partial answers pass the check). It did withhold the single confidently wrong answer. Against in-place substitution, then, the defence has to act on passages before generation; checking grounding afterwards cannot see what is missing.
 
 # 6 Discussion
 
