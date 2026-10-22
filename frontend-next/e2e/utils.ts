@@ -1,8 +1,7 @@
 import { expect, type Page } from "@playwright/test";
 import path from "node:path";
 
-export const SHOTS_DIR =
-  "/tmp/aegisrag-playwright-shots";
+export const SHOTS_DIR = process.env.SHOTS_DIR ?? path.join(process.cwd(), "test-results", "shots");
 
 export function shotPath(name: string): string {
   return path.join(SHOTS_DIR, name);

@@ -108,7 +108,7 @@ WordNet is missing the filter raises `DetectorUnavailable`; it never passes text
 rate (`docs/research/results/entropy-detector-20261016/detector-poisoned.json`) before any
 answer-level run. `test_frozen_threshold_matches_recorded_development_choice` enforces this.
 
-**Change record** (approved by the author on 17 Oct 2026; CLAUDE.md backend checklist):
+**Change record** (approved by the author on 17 Oct 2026; backend change checklist):
 
 1. **Problem:** the `defended` state had no implementation, so `/chat` could not serve it.
 2. **Why backend:** retrieval happens in the backend.
