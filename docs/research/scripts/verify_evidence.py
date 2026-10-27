@@ -34,6 +34,7 @@ DIAG = f"{RES}/adaptive-attack/second-order-diagnostic.json"
 IV = f"{RES}/detector-uncertainty/auroc-intervals.json"
 EC = f"{RES}/evidence-check/summary.json"
 TF = f"{RES}/textfooler-defence/summary.json"
+PB = f"{RES}/detector-uncertainty/perplexity-baseline.json"
 
 
 def manifest_count(corpus, result):
@@ -129,6 +130,11 @@ CLAIMS = [
     ("Intervals: contextual AUROC on PWWS, lower bound", IV, ["corpora", "poisoned", "family", "scores", "ctx_syngap_top3", "ci95", 0], 0.87),
     ("Frozen contextual threshold: TextFooler edits flagged", IV, ["corpora", "poisoned_textfooler", "frozen_thresholds", "ctx_syngap_top3", "edited_flagged"], 70),
     ("Frozen contextual threshold: first-order adaptive edits flagged", IV, ["corpora", "poisoned_adaptive", "frozen_thresholds", "ctx_syngap_top3", "edited_flagged"], 10),
+    ("Perplexity baseline: top-5 surprisal AUROC, PWWS", PB, ["corpora", "poisoned", "scores", "lm_top5_surprisal", "auroc"], 0.909),
+    ("Perplexity baseline: mean surprisal AUROC, PWWS", PB, ["corpora", "poisoned", "scores", "lm_mean_surprisal", "auroc"], 0.768),
+    ("Perplexity baseline: contextual minus mean, PWWS", PB, ["corpora", "poisoned", "scores", "ctx_syngap_top3_minus_lm_mean_surprisal", "difference"], 0.181),
+    ("Perplexity baseline: contextual minus top-5, PWWS", PB, ["corpora", "poisoned", "scores", "ctx_syngap_top3_minus_lm_top5_surprisal", "difference"], 0.040),
+    ("Perplexity baseline: top-5 surprisal AUROC, TextFooler", PB, ["corpora", "poisoned_textfooler", "scores", "lm_top5_surprisal", "auroc"], 0.922),
     ("TextFooler live: exposure without defence", TF, ["comparisons", "textfooler_contextual_vs_textfooler", "all", "exposure", "b"], 0.818),
     ("TextFooler live: exposure with contextual filter", TF, ["comparisons", "textfooler_contextual_vs_textfooler", "all", "exposure", "a"], 0.523),
     ("TextFooler live: contextual exposure change, Wilcoxon p", TF, ["comparisons", "textfooler_contextual_vs_textfooler", "all", "exposure", "wilcoxon_p"], 0.0002),

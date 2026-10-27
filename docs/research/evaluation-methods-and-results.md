@@ -654,6 +654,27 @@ Outcomes (132 answers each): clean 67 correct / 39 partial / 0 incorrect / 26 re
 
 **Limits.** One run, one model; exposure counts any edited word in any of the three passages, so a lower bound on how much poisoned text was removed is not measured; thresholds were not re-tuned for TextFooler by design.
 
+## 21. Perplexity-filter baselines (27 Oct 2026, offline)
+
+**Why.** Language-model perplexity is the standard model-agnostic filter for adversarial and poisoned text (Jain et al., 2023; Alon and Kamfonas, 2023), so the contextual synonym gap must be compared with it. Both variants use the same distilgpt2 and the same chunks as §16 (stored by `entropy_family_eval.py`): *mean surprisal* (log₂ perplexity of the whole passage) and *top-5 surprisal* (mean of the five most surprising tokens, a windowed filter). Script `perplexity_baseline.py`; document-clustered intervals and paired differences as in the detector-uncertainty analysis; a threshold for each perplexity score frozen on PWWS development chunks at a 10% false-positive rate, exactly as the deployed filters were. Results: `results/detector-uncertainty/perplexity-baseline.json`.
+
+| Corpus | Contextual synonym gap | Top-5 surprisal | Mean surprisal (perplexity) | Contextual − top-5 [95% CI] | Contextual − mean [95% CI] |
+|---|---|---|---|---|---|
+| PWWS | **0.949** | 0.909 | 0.768 | +0.040 [−0.003, +0.084] | **+0.181 [+0.109, +0.260]** |
+| PWWS (retrained surrogate) | **0.968** | 0.928 | 0.769 | +0.041 [−0.015, +0.099] | **+0.199 [+0.158, +0.250]** |
+| TextFooler | 0.914 | **0.922** | 0.816 | −0.008 [−0.066, +0.031] | **+0.098 [+0.027, +0.163]** |
+| Frequency-matched adaptive | **0.917** | 0.852 | 0.729 | +0.066 [−0.461, +0.191] | +0.189 [−0.446, +0.391] |
+| Second-order, 100-bit budget | 0.780 | **0.851** | 0.730 | −0.070 [−0.470, +0.060] | +0.051 [−0.456, +0.837] |
+| Layout-only control (lower is better) | **0.529** | 0.564 | 0.454 | −0.035 [−0.127, +0.068] | +0.074 [−0.075, +0.216] |
+
+At frozen thresholds (edited chunks flagged; false-positive rate on unedited chunks): PWWS contextual 42/47 (0.10) vs top-5 40/47 (0.12); TextFooler 70/82 (0.09) vs 71/82 (0.13); frequency-matched 10/13 vs 9/13.
+
+**Findings.**
+- *Whole-passage perplexity is clearly weaker* than the contextual synonym gap on both PWWS corpora and on TextFooler (intervals exclude zero). A few substitutions are diluted in a passage's average, the same failure as whole-distribution KL (§11).
+- *A windowed perplexity filter is close.* Top-5 surprisal is not significantly different from the contextual synonym gap on any corpus; the contextual gap is ahead on PWWS (in 97% of resamples) and on the frequency-matched attacker, the top-5 filter on the 100-bit attacker (6 edited chunks). Both are local, language-model-based scores; what matters is evaluating improbability where the edit is, not over the whole passage.
+- *What the synonym gap adds* is not a large AUROC margin but (i) explanations, naming the suspected word and its likely original (§12), which perplexity cannot give, (ii) a slightly lower false-positive rate at the frozen threshold on every attacked corpus, and (iii) the basis for repair.
+- This changes how the contribution should be stated: the result is that *local* language-model improbability detects word-substitution poisoning and survives these adaptive attackers, with the synonym gap as an explainable member of that family, not that it beats every perplexity filter.
+
 ## 9. Reproducing every number in this document
 
 ```bash
@@ -674,6 +695,8 @@ python docs/research/scripts/verify_evidence.py
 # §19: evidence-check replay (LLM_API_KEY set) and analysis
 cd backend && PYTHONPATH=. python ../docs/research/scripts/evidence_check_eval.py run ../pilot-runs
 PYTHONPATH=. python ../docs/research/scripts/evidence_check_eval.py analyse ../pilot-runs/20261019T200355Z-evidence-check-f8780367874442dc8b90160c2d51a463 /tmp/ec && cd ..
+# §21: perplexity baselines (offline)
+python docs/research/scripts/perplexity_baseline.py /tmp/ppl.json
 # §20: TextFooler live run (Qdrant, LLM_API_KEY), then its analysis
 cd backend && PYTHONPATH=. python ../docs/research/scripts/index_attack_corpus.py textfooler
 AEGIS_BENCHMARK_FILE=$PWD/data/evaluation/questions_v1.json PYTHONPATH=. python ../docs/research/scripts/run_defence_eval.py ../pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e ../pilot-runs textfooler
