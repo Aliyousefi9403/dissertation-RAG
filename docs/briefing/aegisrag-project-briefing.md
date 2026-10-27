@@ -256,6 +256,19 @@ TextFooler (substitutes from word embeddings) is stronger (49 of 57 sections) an
 
 Replayed on 352 recorded answers: precision 0.28, recall 0.20, false-alarm rate 0.31. Errors here are mostly incomplete answers whose every statement is in the sources (68 of 89 partial answers pass), so a grounding check cannot see them. It did catch the one confidently wrong answer. This supports the design choice: act on passages before generation, not on answers afterwards.
 
+## 8.6 Runtime verification monitor (Dr Asad's idea)
+
+A fourth defence that checks every answer against a specification built from the **official MITRE STIX data** (trusted, hash-pinned, separate from the knowledge base the attacker edits): rare words must exist in the trusted vocabulary (catches "engraft"); the system must not refuse when the trusted reference covers the attack; and a quarantined passage is never used again (a temporal property, verified on the trace). On a violation it finds the passages responsible, quarantines them, and regenerates with the monitor's feedback.
+
+| | Result |
+|---|---|
+| Repeated misinformation ("Engraft Malicious Package") | reached the user 3/3 times without the monitor, **0/3** with it |
+| Poisoned text reaching the model (verify mode) | 41% → 28% (p = 0.016) |
+| Correctness with trusted fallback (restore mode) | **0.555 → 0.773** (p = 0.0002); refusals 45 → 7 |
+| Clean data | no passage quarantined; correctness cost −0.013 (not significant) |
+| Memory | quarantined passages skipped more often in repeats; fewer regenerations; never re-admitted |
+| Limitation | 7 false withholds: the MITRE files lack the knowledge base's OWASP/NIST wording |
+
 # 9. Achievements and outputs
 
 | Output | Status |
@@ -267,7 +280,8 @@ Replayed on 352 recorded answers: precision 0.28, recall 0.20, false-alarm rate 
 | Results write-up (20 sections), figures, evidence index | Complete |
 | Project Definition Document (to the handbook) | Complete |
 | Paper draft | Drafted; to be extended for publication |
-| Judge agreement check | In progress (manual grading) |
+| Judge agreement check | Complete: weighted κ 0.82 with blind manual grades of 75 answers |
+| Runtime verification monitor (fourth defence) | Complete, tested, evaluated live |
 
 # 10. Limitations (stated in every write-up)
 

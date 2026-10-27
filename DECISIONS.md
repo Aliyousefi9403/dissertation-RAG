@@ -304,3 +304,5 @@ Substantial changes should be documented as new decisions or explicit revisions 
 9. **Rollback.** Delete the four new files; no existing behaviour depends on them. Run records are create-only and stay as evidence.
 
 **Baseline before the change.** Branch `feature/aegisrag-evidence-check`; backend tests 285 passed, 1 skipped.
+
+**Outcome (27 Oct 2026).** Implemented as planned; backend tests 297 passed, 1 skipped (12 new). Only the planned files changed; no data, corpus or vector collection was modified. Offline dry check passed (no clean answer flagged by φ1). Live run `20261027T225951Z-monitor-7435694678804a8fb151bed0f2cb853d`: verify mode reduces edited-text exposure (0.409 → 0.280) without restoring correctness; restore mode lifts correctness to 0.773 and cuts refusals from 45 to 7; φ3 holds on every trace; nothing is quarantined on clean data; specification coverage (MITRE STIX lacks the knowledge base's OWASP/NIST text) causes 7 false withholds. Results: evaluation write-up §23.

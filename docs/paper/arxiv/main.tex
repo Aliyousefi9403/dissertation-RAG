@@ -13,7 +13,7 @@
 
 \title{Reading the Poison: Relative-Entropy Detection of Word-Substitution Poisoning in a Cybersecurity RAG Knowledge Base}
 
-% Co-authorship to be agreed with Dr Nikos Komninos before submission.
+% Co-authorship to be agreed with Dr Nikos Komninos and Dr Hafizul Asad before submission.
 \author{Ali~Yousefi%
 \thanks{A.~Yousefi is with the Department of Computer Science, City St George's, University of London, London, UK.}}
 
@@ -22,7 +22,7 @@
 \maketitle
 
 \begin{abstract}
-Retrieval-augmented generation (RAG) makes the knowledge base part of a system's trust boundary. We study word-substitution poisoning, in which an attacker rewrites existing passages with plausible synonyms (PWWS, TextFooler) instead of injecting new text, on a cybersecurity RAG system built from MITRE ATT\&CK and CAPEC, with a reviewed benchmark, paired repeated runs and a formatting-only control. Poisoning lowers answer correctness from 0.714 to 0.555, entirely on questions whose source was perturbed, mainly by displacing evidence and causing refusals rather than by injecting misinformation. Treating detection as a relative-entropy problem, whole-distribution divergences fail (letter-frequency KL AUROC 0.33, Jensen--Shannon 0.47), but a per-word log-ratio between a word and its most probable synonym works, and a language-model reference raises AUROC from 0.82 to 0.95 while staying at chance on the control. It clearly outperforms whole-passage perplexity (0.77), matches a windowed perplexity filter, and additionally names the word it suspects was replaced. As a retrieval filter it halves the poisoned text reaching the generator and removes confidently wrong answers at no measurable cost on clean data, but it does not restore correctness. An adaptive attacker that matches word frequencies evades a frequency reference but not the language-model one, and an attacker that must also keep passages as probable under the language model succeeds on none of 57 sections. Both findings transfer to TextFooler in live runs, whereas an answer-level evidence check misses the incomplete answers this attack causes. All records, code and analyses are released.
+Retrieval-augmented generation (RAG) makes the knowledge base part of a system's trust boundary. We study word-substitution poisoning, in which an attacker rewrites existing passages with plausible synonyms (PWWS, TextFooler), on a cybersecurity RAG system built from MITRE ATT\&CK and CAPEC, with a reviewed benchmark, paired repeated runs and a formatting-only control. Poisoning lowers answer correctness from 0.714 to 0.555, entirely on questions whose source was perturbed, mainly by displacing evidence rather than injecting misinformation. Whole-distribution divergences do not detect it (letter-frequency KL AUROC 0.33), but a per-word relative-entropy log-ratio between a word and its most probable synonym does, and a language-model reference raises AUROC from 0.82 to 0.95 while staying at chance on the control; it outperforms whole-passage perplexity, matches a windowed perplexity filter and names the word it suspects was replaced. As a retrieval filter it halves the poisoned text reaching the generator but does not restore correctness, and an attacker that must keep passages as probable under the language model succeeds on none of 57 sections. We then add a runtime verification monitor that checks answers against a specification derived from trusted MITRE STIX data, feeds violations back to the model and quarantines the passages responsible. Its memory removes repeated misinformation and never re-admits a quarantined passage, and when it may fall back to the trusted entry, correctness rises to 0.773 and refusals fall from 45 to 7 of 132. Answer-level grounding checks, by contrast, miss the incomplete answers this attack causes. All records and code are released.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -42,6 +42,7 @@ We approach detection through relative entropy. If a passage's word distribution
 \item A measured mechanism: substitution poisoning works mainly by \emph{displacing} evidence and causing abstention, and only rarely by misinformation the model repeats (Section~\ref{sec:mechanism}).
 \item A family of relative-entropy detectors evaluated against a formatting-only control and against perplexity filters, showing that whole-distribution measures fail and that \emph{local} language-model improbability works, with the synonym gap as an explainable member of that family (Section~\ref{sec:detection}).
 \item Live evaluations of three retrieval-time defences and an answer-level evidence check, showing a consistent safety/utility trade-off (Sections~\ref{sec:defences} and~\ref{sec:evidence}).
+\item A runtime verification monitor with feedback and quarantine memory, specified against trusted MITRE STIX data, which removes repeated misinformation and, with a trusted fallback, restores correctness that passage filters cannot (Section~\ref{sec:monitor}).
 \item Adaptive attackers at increasing knowledge and budget, with a swap-level explanation of why fooling the classifier while staying probable under a language model is hard, and a second attack to test generality (Sections~\ref{sec:adaptive} and~\ref{sec:textfooler}).
 \end{itemize}
 
@@ -195,17 +196,42 @@ Run live with the same frozen thresholds, TextFooler is also the more pervasive 
 \subsection{Checking answers instead of passages}\label{sec:evidence}
 We also evaluated an answer-level indicator: a separate verifier call splits each drafted answer into claims, judges each against the retrieved passages, and must quote its evidence verbatim (checked in code); the answer is withheld unless every claim is supported. Replayed on 352 recorded answers (one repetition of all questions in eight conditions), it is not a useful error detector here. Of the 238 answers that are not refusals, 38\% are not fully correct, but only 28\% of flagged answers are (precision 0.28 [0.13, 0.48]); it flags 20\% of errors and 31\% of correct answers. Substitution poisoning mostly removes evidence, so the typical error is an incomplete answer whose every statement is grounded (68 of 89 partial answers pass). It did withhold the one confidently wrong answer. Against in-place substitution, the defence has to act on passages before generation; checking grounding afterwards cannot see what is missing.
 
+
+\subsection{Runtime verification with feedback and memory}\label{sec:monitor}
+Passage filters remove poison but learn nothing: the same poisoned passage misleads the system each time it is retrieved. We therefore add a runtime monitor in the spirit of runtime verification. Its trusted reference is the official MITRE STIX data (CAPEC and ATT\&CK, hash-pinned), which the attacker, who edits the knowledge base, cannot alter. Every draft answer is checked against three properties: $\varphi_1$, every rare word (Zipf $<3.5$) occurs in the trusted vocabulary or the question; $\varphi_2$, the answer is not a refusal when the trusted reference covers the attack asked about; and the temporal memory-safety property $\varphi_3 = \mathbf{G}(\mathit{quarantined}(p) \rightarrow \mathbf{G}\,\neg\mathit{inContext}(p))$. On a violation the monitor diagnoses the passages that contain rare words outside the trusted vocabulary, quarantines them in an append-only memory, re-retrieves, and regenerates with feedback (the rejected answer and the violated property), at most twice. An unresolved $\varphi_1$ withholds the answer; an unresolved $\varphi_2$ either releases the refusal (\emph{verify}) or adds the trusted entry for the attack as a source (\emph{restore}, an upper bound in which trusted data becomes evidence). Each condition starts with an empty memory; repetitions 2 and 3 meet the same attack again. An offline dry check on recorded answers, with the cut-off fixed beforehand, flagged no clean answer under $\varphi_1$ and both confidently wrong poisoned ones.
+
+\begin{table}[t]
+\caption{Runtime monitor, live (44 questions $\times$ 3; question-level paired comparisons; $p$: Wilcoxon).}\label{tab:monitor}
+\centering\footnotesize\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Comparison & Monitor & Baseline & $\Delta$ [95\% CI]\\
+\midrule
+Verify, PWWS: exposure & .280 & .409 & $-$.129 [$-$.227, $-$.046]$^{a}$\\
+Verify, PWWS: correctness & .525 & .555 & $-$.030 [$-$.076, .008]\\
+Verify vs ctx.\ filter: correct. & .525 & .485 & +.040 [.008, .078]$^{b}$\\
+\textbf{Restore, PWWS: correctness} & \textbf{.773} & .555 & \textbf{+.218} [.121, .324]$^{c}$\\
+Restore vs clean: correct. & .773 & .714 & +.059 [$-$.023, .140]\\
+Verify, clean data: correctness & .701 & .714 & $-$.013 [$-$.030, .004]\\
+Verify, TextFooler: exposure & .583 & .818 & $-$.235 [$-$.356, $-$.114]$^{d}$\\
+\bottomrule
+\multicolumn{4}{@{}l}{\footnotesize $^{a}p=0.016$; $^{b}p=0.04$; $^{c}p=0.0002$; $^{d}p=0.001$.}
+\end{tabular}
+\end{table}
+
+The memory behaves as specified (Table~\ref{tab:monitor}). $\varphi_3$ holds on every replayed trace; quarantined passages are skipped on later questions, so the passages skipped at the first retrieval rise from 0.68 to 1.32 per answer between repetition~1 and repetitions 2--3 on PWWS (1.39 to 2.81 on TextFooler), exposure falls, and regeneration cost falls (1.36 to 1.01 generations per answer on TextFooler). The repeated misinformation of Section~\ref{sec:mechanism}, ``Engraft Malicious Package'', reached the user in 3 of 3 repetitions without the monitor and in 0 of 3 with it. On TextFooler 26 of 27 quarantined passages contain edited text, on PWWS 10 of 18, and on clean data none is quarantined. Verification alone, however, again does not restore correctness: quarantining poisoned passages removes evidence, and refusals rise. With the trusted fallback the picture changes: correctness rises from 0.555 to 0.773 and refusals fall from 45 to 7, statistically indistinguishable from the unattacked system. This depends on the trusted source covering the question, which for MITRE-derived content it largely does; the monitor's contribution is deciding when to fall back (54 of 132 answers) and which passages to stop trusting. Specification coverage also limits $\varphi_1$: 7 answers across conditions, one on clean data, were withheld for words that come from the knowledge base's OWASP and NIST material, which the MITRE files do not contain.
+
 \section{Discussion}
 \textbf{Why the log-ratio and not the sum.} $\KL(p\,\|\,q)$ is a sum of log-ratio terms weighted by $p$. Substitution changes a handful of terms whose weight is small and swamped by the passage's topic, which also differs from $q$. The synonym gap evaluates the log-ratio only where the attack acts, comparing each word with the alternative the attacker would have replaced.
 
 \textbf{Why a better $q$ beats a better divergence.} Smoothing and symmetry leave the result unchanged, while moving from a unigram to a contextual $q$ changes it substantially: a unigram reference can only say a word is rare, a contextual one says it is unlikely \emph{here}. The perplexity baselines point the same way: what matters is evaluating improbability locally, where the edit is; the synonym gap does so while naming the suspected original.
 
-\textbf{Detection is not restoration.} In this corpus the passage that answers a perturbed question is usually the perturbed one, so any filter that removes poison also removes evidence. Restoring utility requires restoring the original text, for example from a trusted structured source or a masked language model conditioned on the domain.
+\textbf{Detection is not restoration, but verification against a trusted source can be.} In this corpus the passage that answers a perturbed question is usually the perturbed one, so any filter that removes poison also removes evidence. The runtime monitor shows the two ways out: remembering what misled the system stops the same poison recurring, and a trusted structured source restores what was lost. Where no trusted source exists, restoration would need the original text back, for example from a masked language model conditioned on the domain.
 
 \textbf{Detection constrains the attacker.} Each additional constraint needed to evade a better reference removes most of the swaps that make the attack work; against the contextual detector the strict attacker has no successful attack in our setting.
 
 \section{Limitations}
-One knowledge base (18 documents), one generation model, one embedding model and 44 questions, of which 9 are held out; the adaptive results rest on 13 and 6 edited passages. The second-order attacker constrains whole-passage likelihood but does not optimise against the detector's score directly; such an attacker, a masked-language-model attack, or a larger reference model may behave differently. The attack targets a surrogate classifier, not the RAG pipeline itself; transfer to retrieval and answers is measured, not optimised. Correctness is scored by an LLM judge; on a blind manual check of 75 stratified answers it agrees well with the author's grades (quadratic weighted $\kappa=0.82$, Spearman $\rho=0.85$) but is slightly more lenient ($+0.08$), more so on poisoned than on clean answers, which if anything understates the attack; a second independent grader would strengthen this. Thresholds were fixed once on development data, and the safety/utility balance depends on them.
+One knowledge base (18 documents), one generation model, one embedding model and 44 questions, of which 9 are held out; the adaptive results rest on 13 and 6 edited passages. The second-order attacker constrains whole-passage likelihood but does not optimise against the detector's score directly; such an attacker, a masked-language-model attack, or a larger reference model may behave differently. The attack targets a surrogate classifier, not the RAG pipeline itself; transfer to retrieval and answers is measured, not optimised. Correctness is scored by an LLM judge; on a blind manual check of 75 stratified answers it agrees well with the author's grades (quadratic weighted $\kappa=0.82$, Spearman $\rho=0.85$) but is slightly more lenient ($+0.08$), more so on poisoned than on clean answers, which if anything understates the attack; a second independent grader would strengthen this. Thresholds were fixed once on development data, and the safety/utility balance depends on them. The runtime monitor's restore mode assumes a trusted reference that covers the questions; its lexical property is evadable by an attacker who chooses substitutes inside the trusted vocabulary, and its memory could be abused to suppress clean passages, which our clean condition did not trigger but an adversary could attempt.
 
 \section{Ethics}
 The attacks edit a local copy of public MITRE material; no system is attacked and no malware is executed. No personal data is used; question and passage text is sent to a commercial LLM API. Detection scores are evidence for review, not proof that a passage is clean or an answer true.
@@ -214,7 +240,7 @@ The attacks edit a local copy of public MITRE material; no system is attacked an
 Code, corpora, attack manifests, run records (create-only JSON with SHA-256 completion manifests) and analysis scripts are released with the paper. A verification script recomputes every headline number from saved files and re-hashes all run records.
 
 \section*{Acknowledgment}
-The relative-entropy framing was suggested by Dr Nikos Komninos. AI tools assisted with coding, analysis and drafting; the author checked all code, numbers and references and takes full responsibility for the content.
+The relative-entropy framing was suggested by Dr Nikos Komninos, and the runtime-verification monitor by Dr Hafizul Asad. AI tools assisted with coding, analysis and drafting; the author checked all code, numbers and references and takes full responsibility for the content.
 
 \bibliographystyle{IEEEtran}
 \bibliography{refs}
