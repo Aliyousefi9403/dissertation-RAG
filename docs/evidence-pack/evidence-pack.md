@@ -43,8 +43,9 @@ The code, data, corpora and all raw run records are in the Git repository (branc
 | `20261018T180113Z…` | Language-model filter live (contextual, clean_contextual) | 792 | yes |
 | `20261019T200355Z…` | Evidence check replayed on 352 answers | 352 | yes |
 | `20261019T200851Z…` | Both filters live on the TextFooler corpus | 1188 | yes |
+| `20261027T225951Z…` | Runtime verification monitor live (verify, restore, clean, TextFooler) | 1584 | yes |
 
-About 5,750 records in total. Every record's checksum still matches (Section 5).
+About 7,300 records in total. Every record's checksum still matches (Section 5).
 
 # 4. Figures
 
@@ -66,7 +67,7 @@ About 5,750 records in total. Every record's checksum still matches (Section 5).
 
 # 5. Every headline number, traced to its file
 
-**83 of 83 claims match; every run record is unchanged since its run finished.** To re-check: `python docs/research/scripts/verify_evidence.py` from the repository root (no model calls, about a minute).
+**107 of 107 claims match; every run record is unchanged since its run finished.** To re-check: `python docs/research/scripts/verify_evidence.py` from the repository root (no model calls, about a minute).
 
 | Claim | Quoted | In file | Check | Source |
 |---|---|---|---|---|
@@ -142,6 +143,30 @@ About 5,750 records in total. Every record's checksum still matches (Section 5).
 | Intervals: contextual AUROC on PWWS, lower bound | 0.87 | 0.8683 | ok | `docs/research/results/detector-uncertainty/auroc-intervals.json` |
 | Frozen contextual threshold: TextFooler edits flagged | 70 | 70 | ok | `docs/research/results/detector-uncertainty/auroc-intervals.json` |
 | Frozen contextual threshold: first-order adaptive edits flagged | 10 | 10 | ok | `docs/research/results/detector-uncertainty/auroc-intervals.json` |
+| Monitor dry check: clean answers with any violation (all refusals, phi2; phi1 flags none) | 26 | 26 | ok | `docs/research/results/runtime-monitor/dry-check.json` |
+| Monitor dry check: poisoned phi1 flags | 3 | 3 | ok | `docs/research/results/runtime-monitor/dry-check.json` |
+| Monitor verify: exposure | 0.28 | 0.2803 | ok | `docs/research/results/runtime-monitor/live/summary.json` |
+| Monitor verify: exposure p | 0.0156 | 0.0156 | ok | `docs/research/results/runtime-monitor/live/summary.json` |
+| Monitor verify vs contextual: correctness delta | 0.04 | 0.0398 | ok | `docs/research/results/runtime-monitor/live/summary.json` |
+| Monitor restore: correctness | 0.773 | 0.7727 | ok | `docs/research/results/runtime-monitor/live/summary.json` |
+| Monitor restore: correctness delta | 0.218 | 0.2178 | ok | `docs/research/results/runtime-monitor/live/summary.json` |
+| Monitor restore: refusals | 7 | 7 | ok | `docs/research/results/runtime-monitor/live/summary.json` |
+| Monitor clean cost | -0.013 | -0.0133 | ok | `docs/research/results/runtime-monitor/live/summary.json` |
+| Monitor clean: quarantined passages | 0 | 0 | ok | `docs/research/results/runtime-monitor/live/summary.json` |
+| Monitor TextFooler: exposure delta | -0.235 | -0.2348 | ok | `docs/research/results/runtime-monitor/live/summary.json` |
+| Monitor TextFooler: quarantined with edited text | 26 | 26 | ok | `docs/research/results/runtime-monitor/live/summary.json` |
+| Monitor PWWS: quarantined with edited text | 10 | 10 | ok | `docs/research/results/runtime-monitor/live/summary.json` |
+| Monitor: phi3 trace violations (PWWS verify) | 0 | 0 | ok | `docs/research/results/runtime-monitor/live/summary.json` |
+| Judge check: weighted kappa | 0.816 | 0.816 | ok | `docs/research/results/judge-agreement/agreement.json` |
+| Judge check: Spearman | 0.853 | 0.853 | ok | `docs/research/results/judge-agreement/agreement.json` |
+| Judge check: within 0.25 | 0.827 | 0.827 | ok | `docs/research/results/judge-agreement/agreement.json` |
+| Judge check: judge minus human | 0.077 | 0.077 | ok | `docs/research/results/judge-agreement/agreement.json` |
+| Judge check: items graded | 75 | 75 | ok | `docs/research/results/judge-agreement/agreement.json` |
+| Perplexity baseline: top-5 surprisal AUROC, PWWS | 0.909 | 0.9093 | ok | `docs/research/results/detector-uncertainty/perplexity-baseline.json` |
+| Perplexity baseline: mean surprisal AUROC, PWWS | 0.768 | 0.768 | ok | `docs/research/results/detector-uncertainty/perplexity-baseline.json` |
+| Perplexity baseline: contextual minus mean, PWWS | 0.181 | 0.1812 | ok | `docs/research/results/detector-uncertainty/perplexity-baseline.json` |
+| Perplexity baseline: contextual minus top-5, PWWS | 0.04 | 0.0399 | ok | `docs/research/results/detector-uncertainty/perplexity-baseline.json` |
+| Perplexity baseline: top-5 surprisal AUROC, TextFooler | 0.922 | 0.9219 | ok | `docs/research/results/detector-uncertainty/perplexity-baseline.json` |
 | TextFooler live: exposure without defence | 0.818 | 0.8182 | ok | `docs/research/results/textfooler-defence/summary.json` |
 | TextFooler live: exposure with contextual filter | 0.523 | 0.5227 | ok | `docs/research/results/textfooler-defence/summary.json` |
 | TextFooler live: contextual exposure change, Wilcoxon p | 0.0002 | 0.0002 | ok | `docs/research/results/textfooler-defence/summary.json` |
