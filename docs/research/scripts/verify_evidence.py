@@ -35,6 +35,7 @@ IV = f"{RES}/detector-uncertainty/auroc-intervals.json"
 EC = f"{RES}/evidence-check/summary.json"
 TF = f"{RES}/textfooler-defence/summary.json"
 PB = f"{RES}/detector-uncertainty/perplexity-baseline.json"
+JA = f"{RES}/judge-agreement/agreement.json"
 
 
 def manifest_count(corpus, result):
@@ -130,6 +131,11 @@ CLAIMS = [
     ("Intervals: contextual AUROC on PWWS, lower bound", IV, ["corpora", "poisoned", "family", "scores", "ctx_syngap_top3", "ci95", 0], 0.87),
     ("Frozen contextual threshold: TextFooler edits flagged", IV, ["corpora", "poisoned_textfooler", "frozen_thresholds", "ctx_syngap_top3", "edited_flagged"], 70),
     ("Frozen contextual threshold: first-order adaptive edits flagged", IV, ["corpora", "poisoned_adaptive", "frozen_thresholds", "ctx_syngap_top3", "edited_flagged"], 10),
+    ("Judge check: weighted kappa", JA, ["all", "quadratic_weighted_kappa"], 0.816),
+    ("Judge check: Spearman", JA, ["all", "spearman"], 0.853),
+    ("Judge check: within 0.25", JA, ["all", "within_0.25"], 0.827),
+    ("Judge check: judge minus human", JA, ["all", "judge_minus_human_mean"], 0.077),
+    ("Judge check: items graded", JA, ["graded"], 75),
     ("Perplexity baseline: top-5 surprisal AUROC, PWWS", PB, ["corpora", "poisoned", "scores", "lm_top5_surprisal", "auroc"], 0.909),
     ("Perplexity baseline: mean surprisal AUROC, PWWS", PB, ["corpora", "poisoned", "scores", "lm_mean_surprisal", "auroc"], 0.768),
     ("Perplexity baseline: contextual minus mean, PWWS", PB, ["corpora", "poisoned", "scores", "ctx_syngap_top3_minus_lm_mean_surprisal", "difference"], 0.181),

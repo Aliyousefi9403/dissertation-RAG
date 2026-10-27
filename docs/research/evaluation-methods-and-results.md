@@ -675,6 +675,20 @@ At frozen thresholds (edited chunks flagged; false-positive rate on unedited chu
 - *What the synonym gap adds* is not a large AUROC margin but (i) explanations, naming the suspected word and its likely original (§12), which perplexity cannot give, (ii) a slightly lower false-positive rate at the frozen threshold on every attacked corpus, and (iii) the basis for repair.
 - This changes how the contribution should be stated: the result is that *local* language-model improbability detects word-substitution poisoning and survives these adaptive attackers, with the synonym gap as an explainable member of that family, not that it beats every perplexity filter.
 
+## 22. Manual check of the LLM judge (75 answers, completed 27 Oct 2026)
+
+**Method.** 75 answers were sampled by `judge_agreement.py sample` (stratified by the judge's score and by condition: clean, poisoned, defended, clean_filtered; seed recorded in `grading-key.json`) and graded blind by the author on a web page that hid the condition and the judge's score, using the judge's own rubric (0, 0.25, 0.5, 0.75, 1). Grades: `results/judge-agreement/human-grades.json` and `grading-sheet.csv`; agreement: `agreement.json`.
+
+| | All 75 | Clean | Poisoned | Defended | Clean, filtered |
+|---|---|---|---|---|---|
+| Quadratic weighted κ | **0.816** | 0.791 | 0.831 | 0.791 | 0.829 |
+| Spearman ρ | **0.853** | 0.739 | 0.877 | 0.887 | 0.866 |
+| Exact agreement | 0.573 | 0.588 | 0.550 | 0.600 | 0.556 |
+| Within 0.25 | 0.827 | 0.882 | 0.850 | 0.750 | 0.833 |
+| Judge − human (mean) | +0.077 | +0.015 | +0.075 | +0.138 | +0.069 |
+
+**Findings.** Agreement is strong (κ_w 0.82; values above 0.8 are conventionally "almost perfect"), so the judge's correctness scores can be used as the outcome measure. The judge is slightly more lenient than the human grader (+0.08 on average). The leniency is larger on poisoned (+0.075) than on clean answers (+0.015), so if anything the judge *under*-states the attack's effect; it is also larger on the word-frequency defended condition (+0.138) than on poisoned (+0.075), so that defence's correctness may be overstated by about 0.06 relative to no defence, which does not change any conclusion (no defence restored correctness). One grader; a second independent grader would strengthen this check.
+
 ## 9. Reproducing every number in this document
 
 ```bash

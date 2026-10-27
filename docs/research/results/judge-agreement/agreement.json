@@ -1,0 +1,51 @@
+{
+ "graded": 75,
+ "of": 75,
+ "all": {
+  "items": 75,
+  "exact_agreement": 0.573,
+  "within_0.25": 0.827,
+  "mean_abs_difference": 0.15,
+  "judge_minus_human_mean": 0.077,
+  "spearman": 0.853,
+  "quadratic_weighted_kappa": 0.816
+ },
+ "by_condition": {
+  "clean": {
+   "items": 17,
+   "exact_agreement": 0.588,
+   "within_0.25": 0.882,
+   "mean_abs_difference": 0.132,
+   "judge_minus_human_mean": 0.015,
+   "spearman": 0.739,
+   "quadratic_weighted_kappa": 0.791
+  },
+  "clean_filtered": {
+   "items": 18,
+   "exact_agreement": 0.556,
+   "within_0.25": 0.833,
+   "mean_abs_difference": 0.153,
+   "judge_minus_human_mean": 0.069,
+   "spearman": 0.866,
+   "quadratic_weighted_kappa": 0.829
+  },
+  "defended": {
+   "items": 20,
+   "exact_agreement": 0.6,
+   "within_0.25": 0.75,
+   "mean_abs_difference": 0.163,
+   "judge_minus_human_mean": 0.138,
+   "spearman": 0.887,
+   "quadratic_weighted_kappa": 0.791
+  },
+  "poisoned": {
+   "items": 20,
+   "exact_agreement": 0.55,
+   "within_0.25": 0.85,
+   "mean_abs_difference": 0.15,
+   "judge_minus_human_mean": 0.075,
+   "spearman": 0.877,
+   "quadratic_weighted_kappa": 0.831
+  }
+ }
+}
