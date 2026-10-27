@@ -689,6 +689,46 @@ At frozen thresholds (edited chunks flagged; false-positive rate on unedited chu
 
 **Findings.** Agreement is strong (κ_w 0.82; values above 0.8 are conventionally "almost perfect"), so the judge's correctness scores can be used as the outcome measure. The judge is slightly more lenient than the human grader (+0.08 on average). The leniency is larger on poisoned (+0.075) than on clean answers (+0.015), so if anything the judge *under*-states the attack's effect; it is also larger on the word-frequency defended condition (+0.138) than on poisoned (+0.075), so that defence's correctness may be overstated by about 0.06 relative to no defence, which does not change any conclusion (no defence restored correctness). One grader; a second independent grader would strengthen this check.
 
+## 23. Runtime verification monitor with feedback and memory (ADR-009, 27 Oct 2026)
+
+**Idea (supervisor, Dr Hafizul Asad).** Check each answer at runtime against a formal specification built from a trusted source, feed violations back to the model, and remember the passages that caused them, so the same poison cannot mislead the system twice.
+
+**Design** (`backend/app/defence/runtime_monitor.py`, policy `runtime-monitor-v1`; 12 tests). Trusted reference: the official MITRE STIX bundles (CAPEC, ATT&CK Enterprise), SHA-256 pinned; the attacker edits the knowledge base, not these. Specifications on every draft answer: **φ1 lexical conformance**, every rare word (Zipf < 3.5) is in the trusted vocabulary or the question; **φ2 evidence availability**, no refusal when the trusted reference covers the attack asked about; **φ3 memory safety**, G(quarantined(p) → G ¬in_context(p)). On a violation the monitor diagnoses the passages responsible (rare words outside the trusted vocabulary), quarantines them in an append-only memory, re-retrieves and regenerates with feedback (the rejected answer and the violated property), at most twice. Unresolved φ1 → answer withheld; unresolved φ2 → *verify* mode releases the refusal, *restore* mode adds the trusted entry for the attack as a source (an upper bound: the trusted data is then evidence, not only a check).
+
+**Offline dry check first** (`monitor_dry_check.py`, no model calls, cut-off fixed beforehand): on the main run, φ1 flags 0 of 132 clean answers and both confidently wrong poisoned answers; the diagnosis would quarantine 6 poisoned passages and no clean ones (`results/runtime-monitor/dry-check.json`). Decision: go.
+
+**Live run** `20261027T225951Z-monitor-7435694678804a8fb151bed0f2cb853d` (`run_monitor_eval.py`; 1,584 records, no failed answers, all checksums and memory files hashed), paired with the main run; each condition starts with an empty memory, and repetitions 2–3 meet the same attack again. Analysis `analyse_monitor.py` → `results/runtime-monitor/live/summary.json`.
+
+| Comparison (44 questions, question-level means) | A | B | Δ [95% CI] | Wilcoxon p |
+|---|---|---|---|---|
+| Monitor (verify) vs none, PWWS: edited text reaching the model | 0.280 | 0.409 | −0.129 [−0.227, −0.046] | 0.016 |
+| Monitor (verify) vs none, PWWS: correctness | 0.525 | 0.555 | −0.030 [−0.076, +0.008] | 0.17 |
+| Monitor (verify) vs contextual filter: correctness | 0.525 | 0.485 | +0.040 [+0.008, +0.078] | 0.04 |
+| Monitor (verify) vs contextual filter: exposure | 0.280 | 0.204 | +0.076 [−0.015, +0.174] | 0.17 |
+| **Monitor (restore) vs none, PWWS: correctness** | **0.773** | 0.555 | **+0.218 [+0.121, +0.324]** | **0.0002** |
+| Monitor (restore) vs clean, no attack: correctness | 0.773 | 0.714 | +0.059 [−0.023, +0.140] | 0.25 |
+| Monitor (verify) on clean data: correctness cost | 0.701 | 0.714 | −0.013 [−0.030, +0.004] | 0.10 |
+| Monitor (verify) vs none, TextFooler: exposure | 0.583 | 0.818 | −0.235 [−0.356, −0.114] | 0.001 |
+| Monitor (verify) vs none, TextFooler: correctness | 0.519 | 0.564 | −0.045 [−0.114, +0.028] | 0.08 |
+
+| Monitor behaviour | PWWS verify | PWWS restore | Clean | TextFooler |
+|---|---|---|---|---|
+| Released / refusal released / restored / withheld | 75 / 55 / – / 2 | 75 / – / 54 / 3 | 101 / 30 / – / 1 | 72 / 56 / – / 4 |
+| Refusals (outcome label) | 55 (none: 45) | **7** (none: 45) | 30 (none: 26) | 56 (none: 54) |
+| Quarantined passages (containing edited text) | 18 (10) | 18 (10) | **0** | 27 (26) |
+| Generations (baseline 132) | 145 | 199 | 132 | 149 |
+| φ3 violations in the replayed trace | 0 | 0 | 0 | 0 |
+
+**Memory across repetitions** (repetition 1 → repetitions 2–3): quarantined passages skipped at the first retrieval 0.68 → 1.32 per answer (PWWS) and 1.39 → 2.81 (TextFooler); edited-text exposure 0.318 → 0.261 (PWWS) and 0.614 → 0.568 (TextFooler); generations per answer 1.18 → 1.06 and 1.36 → 1.01. The repeated poisoned phrase "Engraft Malicious Package" reached the user in 3 of 3 repetitions without the monitor and in 0 of 3 with it: in repetition 1 a passage quarantined after an earlier question was already skipped; in repetition 2 a second, overlapping passage surfaced, was caught by φ1 and quarantined; in repetition 3 both were skipped and no violation occurred.
+
+**Findings.**
+- *The memory works as specified*: φ3 holds on every trace, quarantined passages are skipped on later questions and repetitions, exposure and regeneration cost fall as the memory fills, and the specific repeated misinformation is eliminated. On TextFooler 26 of 27 quarantined passages contain edited text; on PWWS 10 of 18; on clean data nothing is quarantined.
+- *Verification alone does not restore correctness*: removing poisoned passages also removes evidence, so in verify mode refusals rise and correctness is unchanged (slightly lower in repetitions 2–3), the same limit as the passage filters (§17). It is, however, more correct than the contextual filter (+0.040, p = 0.04) at somewhat higher exposure.
+- *With a trusted reference, the monitor turns refusals into answers*: restore mode lifts correctness from 0.555 to 0.773 and cuts refusals from 45 to 7, statistically indistinguishable from (numerically above) the unattacked system. This is an upper bound that depends on the trusted source covering the question; its value is that the monitor decides *when* to fall back (54 of 132 answers) and *which* passages to stop trusting.
+- *Specification coverage limits φ1*: 7 answers across conditions were withheld for words found in the knowledge base's OWASP or NIST material but not in the MITRE STIX files ("misinformation", "wikis", "feasibility"), one of them on clean data. A trusted reference must cover every source the knowledge base draws on.
+
+**Limits.** One run per condition; the restore mode's gain depends on MITRE covering the benchmark's questions, which by construction it largely does; φ1 is a lexical check that a frequency-matched attacker can evade (8% of its substitutes are outside the MITRE vocabulary, §21 probe); the memory could be abused to suppress clean passages, which the clean condition did not trigger but an adversary could attempt.
+
 ## 9. Reproducing every number in this document
 
 ```bash
@@ -709,6 +749,10 @@ python docs/research/scripts/verify_evidence.py
 # §19: evidence-check replay (LLM_API_KEY set) and analysis
 cd backend && PYTHONPATH=. python ../docs/research/scripts/evidence_check_eval.py run ../pilot-runs
 PYTHONPATH=. python ../docs/research/scripts/evidence_check_eval.py analyse ../pilot-runs/20261019T200355Z-evidence-check-f8780367874442dc8b90160c2d51a463 /tmp/ec && cd ..
+# §23: runtime monitor: offline dry check, live run (Qdrant, LLM_API_KEY), analysis
+cd backend && PYTHONPATH=. python ../docs/research/scripts/monitor_dry_check.py /tmp/dry.json
+PYTHONPATH=. python ../docs/research/scripts/run_monitor_eval.py ../pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e ../pilot-runs
+PYTHONPATH=. python ../docs/research/scripts/analyse_monitor.py ../pilot-runs/20261027T225951Z-monitor-7435694678804a8fb151bed0f2cb853d /tmp/mon && cd ..
 # §21: perplexity baselines (offline)
 python docs/research/scripts/perplexity_baseline.py /tmp/ppl.json
 # §20: TextFooler live run (Qdrant, LLM_API_KEY), then its analysis

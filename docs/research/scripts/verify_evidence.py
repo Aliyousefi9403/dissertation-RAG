@@ -28,7 +28,8 @@ RUNS = ("pilot-runs/20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e",
         "pilot-runs/20261018T101453Z-repair-525ce73351064f089bdb62a448ee447c",
         "pilot-runs/20261018T180113Z-contextual-a2eb543b82974c5aa4c1502de6e555a7",
         "pilot-runs/20261019T200355Z-evidence-check-f8780367874442dc8b90160c2d51a463",
-        "pilot-runs/20261019T200851Z-textfooler-33c7d2a707874d2ca57cb5b7851984e9")
+        "pilot-runs/20261019T200851Z-textfooler-33c7d2a707874d2ca57cb5b7851984e9",
+        "pilot-runs/20261027T225951Z-monitor-7435694678804a8fb151bed0f2cb853d")
 CTX = f"{RES}/contextual-defence/live-paired/summary.json"
 DIAG = f"{RES}/adaptive-attack/second-order-diagnostic.json"
 IV = f"{RES}/detector-uncertainty/auroc-intervals.json"
@@ -36,6 +37,8 @@ EC = f"{RES}/evidence-check/summary.json"
 TF = f"{RES}/textfooler-defence/summary.json"
 PB = f"{RES}/detector-uncertainty/perplexity-baseline.json"
 JA = f"{RES}/judge-agreement/agreement.json"
+MD = f"{RES}/runtime-monitor/dry-check.json"
+MO = f"{RES}/runtime-monitor/live/summary.json"
 
 
 def manifest_count(corpus, result):
@@ -131,6 +134,20 @@ CLAIMS = [
     ("Intervals: contextual AUROC on PWWS, lower bound", IV, ["corpora", "poisoned", "family", "scores", "ctx_syngap_top3", "ci95", 0], 0.87),
     ("Frozen contextual threshold: TextFooler edits flagged", IV, ["corpora", "poisoned_textfooler", "frozen_thresholds", "ctx_syngap_top3", "edited_flagged"], 70),
     ("Frozen contextual threshold: first-order adaptive edits flagged", IV, ["corpora", "poisoned_adaptive", "frozen_thresholds", "ctx_syngap_top3", "edited_flagged"], 10),
+    ("Monitor dry check: clean answers with any violation (all refusals, phi2; phi1 flags none)", MD, ["counts", "clean", "any_violation"], 26),
+    ("Monitor dry check: poisoned phi1 flags", MD, ["counts", "poisoned", "phi1_lexical"], 3),
+    ("Monitor verify: exposure", MO, ["comparisons", "monitor_vs_poisoned", "exposure", "a"], 0.280),
+    ("Monitor verify: exposure p", MO, ["comparisons", "monitor_vs_poisoned", "exposure", "wilcoxon_p"], 0.0156),
+    ("Monitor verify vs contextual: correctness delta", MO, ["comparisons", "monitor_vs_contextual", "correctness", "delta"], 0.040),
+    ("Monitor restore: correctness", MO, ["comparisons", "monitor_restore_vs_poisoned", "correctness", "a"], 0.773),
+    ("Monitor restore: correctness delta", MO, ["comparisons", "monitor_restore_vs_poisoned", "correctness", "delta"], 0.218),
+    ("Monitor restore: refusals", MO, ["outcomes", "monitor_restore", "abstained"], 7),
+    ("Monitor clean cost", MO, ["comparisons", "clean_monitor_vs_clean", "correctness", "delta"], -0.013),
+    ("Monitor clean: quarantined passages", MO, ["monitor", "clean_monitor", "quarantined_passages"], 0),
+    ("Monitor TextFooler: exposure delta", MO, ["comparisons", "textfooler_monitor_vs_textfooler", "exposure", "delta"], -0.235),
+    ("Monitor TextFooler: quarantined with edited text", MO, ["monitor", "textfooler_monitor", "quarantined_with_edited_text"], 26),
+    ("Monitor PWWS: quarantined with edited text", MO, ["monitor", "monitor", "quarantined_with_edited_text"], 10),
+    ("Monitor: phi3 trace violations (PWWS verify)", MO, ["monitor", "monitor", "phi3_trace_violations"], 0),
     ("Judge check: weighted kappa", JA, ["all", "quadratic_weighted_kappa"], 0.816),
     ("Judge check: Spearman", JA, ["all", "spearman"], 0.853),
     ("Judge check: within 0.25", JA, ["all", "within_0.25"], 0.827),
