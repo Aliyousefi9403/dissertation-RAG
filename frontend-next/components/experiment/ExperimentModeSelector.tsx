@@ -1,6 +1,6 @@
 "use client";
 
-export type ExperimentMode = "clean" | "poisoned" | "compare" | "defended" | "repaired" | "contextual";
+export type ExperimentMode = "clean" | "poisoned" | "compare" | "defended" | "repaired" | "contextual" | "verified";
 
 interface ExperimentModeSelectorProps {
   mode: ExperimentMode;
@@ -14,6 +14,7 @@ const MODES: Array<{ value: ExperimentMode; label: string; disabled?: boolean }>
   { value: "defended", label: "Defended" },
   { value: "repaired", label: "Repaired" },
   { value: "contextual", label: "Contextual" },
+  { value: "verified", label: "Verified" },
 ];
 
 /**
@@ -75,7 +76,7 @@ export function ExperimentModeSelector({
 
       {mode === "repaired" && (
         <p
-          className="experiment-mode-caption experiment-mode-caption--defended"
+          className="experiment-mode-caption experiment-mode-caption--repaired"
           role="status"
         >
           PWWS poisoned + entropy repair
@@ -84,10 +85,19 @@ export function ExperimentModeSelector({
 
       {mode === "contextual" && (
         <p
-          className="experiment-mode-caption experiment-mode-caption--defended"
+          className="experiment-mode-caption experiment-mode-caption--contextual"
           role="status"
         >
           PWWS poisoned + language-model filter
+        </p>
+      )}
+
+      {mode === "verified" && (
+        <p
+          className="experiment-mode-caption experiment-mode-caption--verified"
+          role="status"
+        >
+          PWWS poisoned + runtime verification monitor
         </p>
       )}
 

@@ -1,5 +1,6 @@
 import type { ChatResponse, SourceItem } from "@/lib/types/chat";
 import type { EvidenceCheckResult } from "@/lib/types/guardedChat";
+import type { MonitorTrace } from "@/lib/types/monitor";
 
 export type ChatState =
   | { status: "idle" }
@@ -15,6 +16,8 @@ export type ChatState =
       /** Result of the experimental evidence check (`POST /guarded-chat`),
        * or null when the plain `/chat` route was used ("Not assessed"). */
       evidenceCheck: EvidenceCheckResult | null;
+      /** Runtime monitor trace (Verified mode), or null. */
+      monitor: MonitorTrace | null;
     }
   | {
       status: "noSources";
@@ -24,6 +27,7 @@ export type ChatState =
        * the "success" variant above. */
       latencyMs: number;
       evidenceCheck: EvidenceCheckResult | null;
+      monitor: MonitorTrace | null;
     }
   | { status: "error"; question: string; message: string };
 
@@ -56,6 +60,7 @@ export function chatReducer(state: ChatState, event: ChatEvent): ChatState {
 
       const { question, answer, sources } = event.response;
       const evidenceCheck = event.evidenceCheck ?? null;
+      const monitor = event.response.monitor ?? null;
 
       if (sources.length > 0) {
         return {
@@ -65,6 +70,7 @@ export function chatReducer(state: ChatState, event: ChatEvent): ChatState {
           sources,
           latencyMs: event.latencyMs,
           evidenceCheck,
+          monitor,
         };
       }
 
@@ -74,6 +80,7 @@ export function chatReducer(state: ChatState, event: ChatEvent): ChatState {
         answer,
         latencyMs: event.latencyMs,
         evidenceCheck,
+        monitor,
       };
     }
 

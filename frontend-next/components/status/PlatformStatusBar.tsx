@@ -31,6 +31,7 @@ const MODE_LABELS: Record<ExperimentMode, string> = {
   defended: "PWWS poisoned + entropy filter",
   repaired: "PWWS poisoned + entropy repair",
   contextual: "PWWS poisoned + language-model filter",
+  verified: "PWWS poisoned + runtime monitor",
 };
 
 const EVIDENCE_CHECK_UNAVAILABLE: Partial<Record<ExperimentMode, string>> = {
@@ -38,6 +39,7 @@ const EVIDENCE_CHECK_UNAVAILABLE: Partial<Record<ExperimentMode, string>> = {
   defended: "Defended",
   repaired: "Repaired",
   contextual: "Contextual",
+  verified: "Verified",
 };
 
 /**

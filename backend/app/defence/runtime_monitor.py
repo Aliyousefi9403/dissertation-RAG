@@ -8,8 +8,9 @@ Trusted reference. The official MITRE STIX bundles in data/external/ (CAPEC and 
 Enterprise), pinned by SHA-256. The attacker edits the RAG knowledge base, not these files.
 
 Specifications, checked on every draft answer a to question q with context C:
-  phi1 lexical conformance:  every rare word of a (Zipf < RARE_ZIPF) is in the trusted
-        vocabulary V_T or in q. A substituted word the model repeats ("engraft") violates it.
+  phi1 lexical conformance:  every rare word of a (Zipf < RARE_ZIPF) that also occurs in C is in
+        the trusted vocabulary V_T or in q. A substituted word the model repeats ("engraft")
+        violates it; a word the model chose itself does not (v2; v1 ignored C).
   phi2 evidence availability: if q asks about an attack the trusted reference covers, a is
         not a refusal. Displaced evidence, the attack's main effect, violates it.
   phi3 memory safety (temporal): G(quarantined(p) -> G not in_context(p)); enforced by the
@@ -50,7 +51,11 @@ from langchain_core.prompts import ChatPromptTemplate
 from app.defence.entropy_filter import DetectorUnavailable
 from app.generation.prompt import RAG_PROMPT, SYSTEM_PROMPT
 
-POLICY_VERSION = "runtime-monitor-v1"
+POLICY_VERSION = "runtime-monitor-v2"
+# v1 (evaluated 27 Oct 2026, evaluation write-up §23): phi1 flagged any rare word outside the trusted
+# vocabulary. v2: phi1 flags such a word only if it also occurs in the retrieved context, i.e. the
+# model copied it from possibly tampered evidence; words the model chose itself are not evidence
+# tampering. `check(..., context=None)` reproduces v1 exactly.
 RARE_ZIPF = 3.5
 MIN_WORD_LENGTH = 3
 MAX_ROUNDS = 2
@@ -239,9 +244,16 @@ def abstains(answer: str) -> bool:
     return bool(ABSTAIN.search(answer or ""))
 
 
-def check(answer: str, question: str, attack: str | None, ontology: TrustedOntology) -> list[Violation]:
+def check(answer: str, question: str, attack: str | None, ontology: TrustedOntology,
+          context: list[str] | None = None) -> list[Violation]:
+    """Check phi1 and phi2. `context` = the retrieved passages' text (v2); None reproduces v1."""
     violations = []
     oov = rare_out_of_vocabulary(answer, ontology.vocabulary, base_words(question) | set(words(question)))
+    if context is not None:
+        seen = set()
+        for text in context:
+            seen |= set(words(text)) | base_words(text)
+        oov = [w for w in oov if w in seen or base_form(w) in seen]
     if oov:
         violations.append(Violation("phi1_lexical", "the answer uses terms absent from the trusted MITRE reference: "
                                     + ", ".join(oov), oov))
@@ -327,7 +339,7 @@ def monitored_answer(question: str, source_state: str, *, memory: QuarantineMemo
         skipped = sum(passage_key(d) in memory for d, _ in candidates)
         attack = attack or ontology.attack_for(question, [d for d, _ in candidates])
         answer = _generate(question, kept, llm_factory, feedback)
-        violations = check(answer, question, attack, ontology)
+        violations = check(answer, question, attack, ontology, [d.page_content for d, _ in kept])
         step = {"round": round_, "skipped_quarantined": skipped, "context_keys": [passage_key(d) for d, _ in kept],
                 "answer": answer, "violations": [asdict(v) for v in violations]}
         trace.append(step)
@@ -352,7 +364,7 @@ def monitored_answer(question: str, source_state: str, *, memory: QuarantineMemo
                                                             "trusted_reference": True})
             final_sources = kept + [(trusted, 1.0)]
             answer = _generate(question, final_sources, llm_factory, None)
-            violations = check(answer, question, attack, ontology)
+            violations = check(answer, question, attack, ontology, [d.page_content for d, _ in kept])
             trace.append({"round": "restore", "trusted_ids": ids, "answer": answer,
                           "violations": [asdict(v) for v in violations]})
             outcome = "restored"

@@ -157,11 +157,23 @@ def test_round_zero_uses_the_unchanged_pipeline_prompt(ontology, tmp_path):
 
 
 def test_unresolved_lexical_violation_withholds_the_answer(ontology, tmp_path):
+    # Every candidate repeats the substituted word, so quarantining cannot remove it in time.
+    tainted = [Document(page_content=f"An attacker will engraft it, variant {i}.", metadata={"source": "kb/b.md", "start_index": i})
+               for i in range(10)]
     llm = StubLLM(["They engraft it."] * 3)
     out = rm.monitored_answer("How does Backdoor work?", "poisoned", memory=rm.QuarantineMemory(tmp_path / "m.jsonl"),
                               llm_factory=_runnable(llm), ontology=ontology,
-                              search_fn=lambda q, k: [(d, 0.5) for d in CLEAN])  # nothing to quarantine
+                              search_fn=lambda q, k: [(d, 0.5) for d in tainted])
     assert out["outcome"] == "withheld" and out["answer"] == rm.WITHHELD
+
+
+def test_v2_flags_only_rare_words_copied_from_the_context(ontology):
+    q = "How does Backdoor work?"
+    answer = "Attackers engraft packages, emphasizing stealth."
+    assert rm.check(answer, q, "backdoor", ontology, ["The adversary implants software."]) == []
+    copied = rm.check(answer, q, "backdoor", ontology, ["An attacker engraft malicious package."])
+    assert [v.witnesses for v in copied] == [["engraft"]]
+    assert rm.check(answer, q, "backdoor", ontology)[0].witnesses == ["emphasizing", "engraft"]  # v1 behaviour
 
 
 def test_restore_adds_the_trusted_reference_only_in_restore_mode(ontology, tmp_path):

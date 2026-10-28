@@ -44,6 +44,8 @@ export interface SubmitOptions {
   /** Route the question through the experimental `POST /guarded-chat`
    * evidence check instead of plain `POST /chat`. */
   evidenceCheck?: boolean;
+  /** Verified mode: fall back to the trusted MITRE entry when a refusal cannot be fixed. */
+  trustedFallback?: boolean;
 }
 
 export interface UseChatSessionResult {
@@ -97,7 +99,7 @@ export function useChatSession(): UseChatSessionResult {
         return;
       }
 
-      const result = await postChat(trimmed, systemState);
+      const result = await postChat(trimmed, systemState, { trustedFallback: options.trustedFallback });
       const latencyMs = performance.now() - startedAt;
 
       if (result.kind === "ok") {

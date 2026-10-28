@@ -17,6 +17,8 @@ import {
   type ExperimentMode,
 } from "@/components/experiment/ExperimentModeSelector";
 import { EvidenceCheckToggle } from "@/components/experiment/EvidenceCheckToggle";
+import { TrustedFallbackToggle } from "@/components/defence/TrustedFallbackToggle";
+import { DefenceView } from "@/components/defence/DefenceView";
 import { getLivingCorePhase } from "@/lib/living-core/livingCoreState";
 import { getLivingCoreStatusText } from "@/lib/living-core/livingCoreCopy";
 import { initialChatState } from "@/lib/state/chatMachine";
@@ -27,6 +29,7 @@ export default function Home() {
   const { state: compareState, submitComparison } = useCompareSession();
   const [experimentMode, setExperimentMode] = useState<ExperimentMode>("clean");
   const [evidenceCheckEnabled, setEvidenceCheckEnabled] = useState(false);
+  const [trustedFallback, setTrustedFallback] = useState(false);
 
   const isComparing = experimentMode === "compare";
   const composerBusy = isComparing
@@ -85,6 +88,7 @@ export default function Home() {
     void submitQuestion(question, systemState, {
       // The evidence check (`/guarded-chat`) supports clean/poisoned only.
       evidenceCheck: evidenceCheckEnabled && (systemState === "clean" || systemState === "poisoned"),
+      trustedFallback: systemState === "verified" && trustedFallback,
     });
   }
 
@@ -98,11 +102,15 @@ export default function Home() {
 
         <div className="topbar-controls">
           <ExperimentModeSelector mode={experimentMode} onChange={setExperimentMode} />
-          <EvidenceCheckToggle
-            enabled={evidenceCheckEnabled}
-            onChange={setEvidenceCheckEnabled}
-            disabled={isComparing || experimentMode === "defended" || experimentMode === "repaired" || experimentMode === "contextual"}
-          />
+          {experimentMode === "verified" ? (
+            <TrustedFallbackToggle enabled={trustedFallback} onChange={setTrustedFallback} />
+          ) : (
+            <EvidenceCheckToggle
+              enabled={evidenceCheckEnabled}
+              onChange={setEvidenceCheckEnabled}
+              disabled={isComparing || experimentMode === "defended" || experimentMode === "repaired" || experimentMode === "contextual"}
+            />
+          )}
         </div>
       </header>
 
@@ -141,9 +149,9 @@ export default function Home() {
                 healthStatus={healthStatus}
                 attackDetected={experimentMode === "poisoned"}
                 compareMode={isComparing}
-                defendedMode={experimentMode === "defended" || experimentMode === "repaired" || experimentMode === "contextual"}
-                contextualMode={experimentMode === "contextual"}
-                repairMode={experimentMode === "repaired"}
+                // Each defence has its own view: the shield is Defended mode's alone; Repaired,
+                // Contextual and Verified render `DefenceView` beside the answer instead.
+                defendedMode={experimentMode === "defended"}
               />
             </div>
           </div>
@@ -151,7 +159,10 @@ export default function Home() {
           {isComparing ? (
             <ComparisonView compareState={compareState} onRetry={handleSubmit} />
           ) : (
-            <AnswerPanel chatState={state} onRetry={handleSubmit} />
+            <>
+              <AnswerPanel chatState={state} onRetry={handleSubmit} />
+              <DefenceView mode={experimentMode} chatState={state} />
+            </>
           )}
         </div>
 

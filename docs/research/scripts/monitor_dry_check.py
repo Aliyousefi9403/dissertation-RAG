@@ -55,7 +55,7 @@ def main(out_path):
                 if len(examples[cond]) < 8 and "phi1_lexical" in specs:
                     examples[cond].append({"question_id": q["id"], "label": label,
                                            "witnesses": [w for v in viol for w in v.witnesses]})
-    report = {"policy_version": rm.POLICY_VERSION, "rare_zipf": rm.RARE_ZIPF, "run": RUN.name,
+    report = {"policy_version": "runtime-monitor-v1 (check without context)", "rare_zipf": rm.RARE_ZIPF, "run": RUN.name,
               "counts": {c: dict(sorted(t.items())) for c, t in table.items()},
               "passages_diagnosis_would_quarantine": {c: len(k) for c, k in quarantine.items()},
               "phi1_examples": examples}
