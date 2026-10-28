@@ -47,7 +47,12 @@ export function MonitorMemoryPanel({ refreshKey }: { refreshKey: string }) {
           Start fresh
         </button>
       </div>
-      {failed && <p className="monitor-memory-empty">Memory unavailable</p>}
+      {failed && (
+        <p className="monitor-memory-empty">
+          Memory unavailable. If the backend was started before the latest update, restart it (run
+          ./start-aegisrag.sh again).
+        </p>
+      )}
       {memory && memory.count === 0 && (
         <p className="monitor-memory-empty">
           Nothing quarantined yet. Ask a question about a poisoned topic.

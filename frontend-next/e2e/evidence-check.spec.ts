@@ -332,14 +332,20 @@ test.describe("Evidence check (mocked backend)", () => {
     await page.goto("/");
     await waitForBackendOnline(page);
     await page.getByRole("radio", { name: "Repaired" }).click();
-    await expect(page.getByTestId("defence-shield")).toContainText("repair, then re-check");
+    // Repaired has its own view (repair ledger), not the Defended shield.
+    await expect(page.getByTestId("defence-shield")).toHaveCount(0);
+    await expect(page.getByTestId("mode-intro")).toContainText("Repair ledger");
     await expect(page.getByRole("switch", { name: "Evidence check" })).toBeDisabled();
     await expect(page.getByRole("status", { name: "Platform status" })).toContainText("PWWS poisoned + entropy repair");
     await askQuestion(page, QUESTION);
     await resolved(page);
 
     expect(bodies).toEqual([{ question: QUESTION, system_state: "repaired" }]);
-    await expect(page.getByTestId("defence-shield")).toContainText("no passages blocked · 2 words repaired");
+    const ledger = page.getByTestId("repair-ledger");
+    await expect(ledger).toContainText("2 words restored before the model read them");
+    await expect(ledger.locator(".repair-change del")).toHaveText(["engraft", "abnegate"]);
+    await expect(ledger.locator(".repair-change ins")).toHaveText(["plant", "deny"]);
+    await expect(ledger).toContainText("10.75 → 4.10 bits");
     await page.locator(".source-row-summary").first().click();
     await expect(page.locator(".source-row-repairs")).toContainText("was 10.75 bits");
     await expect(page.locator(".source-row-repairs")).toContainText("engraft → plant, abnegate → deny");
@@ -368,7 +374,7 @@ test.describe("Evidence check (mocked backend)", () => {
                   score_bits: 1.87,
                   threshold_bits: 4.4611,
                   flagged: false,
-                  top_words: [],
+                  top_words: [{ word: "abnegate", likely_original: "deny", gap_bits: 6.2 }],
                 },
               },
             },
@@ -379,7 +385,9 @@ test.describe("Evidence check (mocked backend)", () => {
     await page.goto("/");
     await waitForBackendOnline(page);
     await page.getByRole("radio", { name: "Contextual" }).click();
-    await expect(page.getByTestId("defence-shield")).toContainText("language-model reference");
+    // Contextual has its own view (context lens), not the Defended shield.
+    await expect(page.getByTestId("defence-shield")).toHaveCount(0);
+    await expect(page.getByTestId("mode-intro")).toContainText("Context lens");
     await expect(page.getByRole("switch", { name: "Evidence check" })).toBeDisabled();
     await expect(page.getByRole("status", { name: "Platform status" })).toContainText("PWWS poisoned + language-model filter");
     await askQuestion(page, QUESTION);
@@ -389,7 +397,76 @@ test.describe("Evidence check (mocked backend)", () => {
     await page.locator(".source-row-summary").first().click();
     await expect(page.locator(".source-row-filter")).toContainText("1.87 bits");
     // One source kept at candidate rank 3 => two candidates were skipped.
-    await expect(page.getByTestId("defence-shield")).toContainText("2 suspicious passages blocked");
+    const lens = page.getByTestId("context-lens");
+    await expect(lens).toContainText("2 passages did not fit their context and were skipped");
+    await expect(lens.locator(".context-word")).toContainText("abnegate");
+    await expect(lens.locator(".context-word")).toContainText("→ deny");
+  });
+
+  test("verified mode: /chat with system_state=verified, monitor trace, memory and trusted fallback", async ({ page }) => {
+    const bodies: unknown[] = [];
+    await page.route("**/health", (route) => route.fulfill({ json: { status: "healthy" } }));
+    // The memory holds the quarantined passage only after the question has been answered.
+    await page.route("**/monitor/memory", (route) => {
+      const answered = bodies.length > 0;
+      return route.fulfill({
+        json: {
+          policy_version: "runtime-monitor-v2",
+          count: answered ? 1 : 0,
+          entries:
+            answered
+              ? [{ key: "abc", source: "malware/backdoor.md", words: ["engraft"], specs: ["phi1_lexical"],
+                   question: QUESTION, round: 0, at: 1 }]
+              : [],
+        },
+      });
+    });
+    await page.route("**/chat", async (route) => {
+      bodies.push(route.request().postDataJSON());
+      await route.fulfill({
+        json: {
+          question: QUESTION,
+          answer: "The adversary implants malicious software [Source 1].",
+          system_state: "verified",
+          sources: [{ source_number: 1, source: "malware/backdoor.md", score: 0.7, content: SQLI, metadata: {} }],
+          monitor: {
+            policy_version: "runtime-monitor-v2",
+            mode: "restore",
+            attack: "backdoor",
+            outcome: "released",
+            generations: 2,
+            trusted_fallback: true,
+            final_violations: [],
+            rounds: [
+              {
+                round: 0,
+                skipped_quarantined: 0,
+                answer: "Engraft Malicious Package",
+                violations: [{ spec: "phi1_lexical", detail: "", witnesses: ["engraft"] }],
+                quarantined: ["abc"],
+              },
+              { round: 1, skipped_quarantined: 1, answer: "ok", violations: [] },
+            ],
+          },
+        },
+      });
+    });
+    await page.goto("/");
+    await waitForBackendOnline(page);
+    await page.getByRole("radio", { name: "Verified" }).click();
+    await expect(page.getByTestId("mode-intro")).toContainText("Runtime monitor");
+    await expect(page.getByTestId("monitor-memory")).toContainText("Nothing quarantined yet");
+    await page.getByRole("switch", { name: "Trusted fallback" }).click();
+    await askQuestion(page, QUESTION);
+    await resolved(page);
+
+    expect(bodies).toEqual([{ question: QUESTION, system_state: "verified", trusted_fallback: true }]);
+    const trace = page.getByTestId("monitor-trace");
+    await expect(trace).toContainText("Verified and released");
+    await expect(trace.locator(".monitor-round")).toHaveCount(2);
+    await expect(trace.locator(".monitor-witnesses")).toContainText("engraft");
+    await expect(trace).toContainText("1 passage quarantined");
+    await expect(page.getByTestId("monitor-memory")).toContainText("malware/backdoor.md");
   });
 
   test("compare mode disables the toggle; status bar shows only real values", async ({ page }) => {

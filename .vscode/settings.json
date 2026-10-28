@@ -1,0 +1,32 @@
+{
+  // Hides generated data, caches and recorded evidence from the Explorer and search.
+  // Nothing is deleted: the files stay on disk and in Git.
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/.pytest_cache": true,
+    "**/.ruff_cache": true,
+    "**/node_modules": true,
+    "**/.next": true,
+    ".venv": true,
+    "backend/.venv": true,
+    "backend/qdrant_storage": true,
+    "backend/runtime": true,
+    "backend/models": true,
+    "backend/data/poisoned*": true,
+    "backend/data/control": true,
+    "backend/data/external": true,
+    "backend/data/*.db": true,
+    "pilot-runs": true,
+    "pilot-config": true,
+    "REVIEW-SNAPSHOT.json": true,
+    ".streamlit": true,
+    "backend.log": true,
+    "docs/paper/arxiv/*.{aux,log,fls,fdb_latexmk,out,blg,bbl}": true
+  },
+  "search.exclude": {
+    "pilot-runs": true,
+    "backend/data": true,
+    "docs/research/results": true
+  },
+  "python.analysis.extraPaths": ["backend"]
+}
