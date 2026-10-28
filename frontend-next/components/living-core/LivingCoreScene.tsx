@@ -29,6 +29,8 @@ interface LivingCoreSceneProps {
   attackDetected?: boolean;
   /** Forwarded to `IntelligentParticleField` — see its own doc comment. */
   compareMode?: boolean;
+  /** Defence-mode edge colour, forwarded to `IntelligentParticleField`. */
+  tint?: string | null;
 }
 
 /**
@@ -150,6 +152,7 @@ export function LivingCoreScene({
   onRuntimeFailure,
   attackDetected = false,
   compareMode = false,
+  tint = null,
 }: LivingCoreSceneProps) {
   const visibleSources = phase === "converged" ? sources : [];
 
@@ -218,6 +221,7 @@ export function LivingCoreScene({
         particleCount={particleCount}
         attackDetected={attackDetected}
         compareMode={compareMode}
+        tint={tint}
       />
       <SourceNodes sources={visibleSources} beat={beat} beatStartedAt={beatStartedAt} />
       <SourceLinkPaths sources={visibleSources} beat={beat} beatStartedAt={beatStartedAt} />

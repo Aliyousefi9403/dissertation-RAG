@@ -9,10 +9,6 @@ interface DefenceShieldProps {
   /** "stage" = centred over the fullscreen 3D core; "inline" = beside the
    * static fallback card (no WebGL / reduced motion). */
   variant?: "stage" | "inline";
-  /** Repaired mode: real count of words the repair policy replaced. */
-  repaired?: number | null;
-  /** Contextual mode: the filter's reference q is a language model. */
-  contextual?: boolean;
 }
 
 // Heater-shield outline centred on (0, 0) in a 240 x 280 viewBox.
@@ -47,41 +43,24 @@ const IMPACT_STEP = 0.32;
  * skipped for the last answer, in the caption, which is announced politely.
  * Every animation is CSS and is disabled under prefers-reduced-motion.
  */
-export function DefenceShield({
-  state,
-  skipped,
-  variant = "stage",
-  repaired,
-  contextual = false,
-}: DefenceShieldProps) {
+export function DefenceShield({ state, skipped, variant = "stage" }: DefenceShieldProps) {
   const impacts = state === "resolved" && skipped ? Math.min(skipped, IMPACTS.length) : 0;
-  const repairMode = repaired !== undefined;
-  const repairNote =
-    repairMode && state === "resolved" && repaired !== null
-      ? ` · ${repaired} ${repaired === 1 ? "word" : "words"} repaired`
-      : "";
   const caption =
     state === "scanning"
       ? "Entropy shield scanning candidates…"
       : state === "resolved" && skipped !== null
-        ? (skipped === 0
-            ? "Entropy shield: no passages blocked"
-            : `Entropy shield: ${skipped} suspicious ${skipped === 1 ? "passage" : "passages"} blocked`) +
-          repairNote
+        ? skipped === 0
+          ? "Entropy shield: no passages blocked"
+          : `Entropy shield: ${skipped} suspicious ${skipped === 1 ? "passage" : "passages"} blocked`
         : state === "fault"
           ? "Entropy shield: request failed"
-          : repairMode
-            ? "Entropy shield armed — repair, then re-check"
-            : contextual
-              ? "Entropy shield armed — language-model reference"
-              : "Entropy shield armed — relative-entropy filter on";
+          : "Entropy shield armed — relative-entropy filter on";
 
   return (
     <div
       className={`defence-shield defence-shield--${variant}`}
       data-state={state}
       data-impacts={impacts > 0}
-      data-mode={repairMode ? "repair" : contextual ? "contextual" : "filter"}
       data-testid="defence-shield"
     >
       <svg

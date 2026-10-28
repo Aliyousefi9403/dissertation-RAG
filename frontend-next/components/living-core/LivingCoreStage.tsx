@@ -18,7 +18,27 @@ import { LivingCoreStaticFallback } from "@/components/living-core/LivingCoreSta
 import { EnergyBeams } from "@/components/living-core/EnergyBeams";
 import { SourcePins } from "@/components/living-core/SourcePins";
 import { DefenceShield } from "@/components/living-core/DefenceShield";
-import { repairedWordCount, skippedPassageCount, type ShieldState } from "@/lib/living-core/defenceShield";
+import {
+  ContextLensEmblem,
+  MonitorGate,
+  RepairLoom,
+} from "@/components/living-core/DefenceEmblems";
+import type { MonitorTrace } from "@/lib/types/monitor";
+
+export type DefenceMode = "defended" | "repaired" | "contextual" | "verified";
+
+/** Particle edge colour per defence mode. */
+const DEFENCE_TINT: Record<DefenceMode, string> = {
+  defended: "#4fd18b",
+  repaired: "#f2b54a",
+  contextual: "#a98bff",
+  verified: "#2fe0c0",
+};
+import {
+  repairedWordCount,
+  skippedPassageCount,
+  type ShieldState,
+} from "@/lib/living-core/defenceShield";
 
 interface LivingCoreStageProps {
   chatState: ChatState;
@@ -30,13 +50,10 @@ interface LivingCoreStageProps {
   attackDetected?: boolean;
   /** Forwarded to `LivingCoreScene` — see its own doc comment. */
   compareMode?: boolean;
-  /** Defended mode: the particle field contracts and fades behind the
-   * entropy shield (`DefenceShield`). */
-  defendedMode?: boolean;
-  /** Repaired mode: same shield, captioned with the real repaired-word count. */
-  repairMode?: boolean;
-  /** Contextual mode: same shield; the caption names the language-model reference. */
-  contextualMode?: boolean;
+  /** The selected defence mode, if any: each has its own centrepiece and particle colour. */
+  defence?: DefenceMode | null;
+  /** Verified mode: the runtime monitor's trace for the last answer. */
+  monitor?: MonitorTrace | null;
 }
 
 function shieldStateFor(phase: LivingCorePhase): ShieldState {
@@ -140,9 +157,8 @@ export function LivingCoreStage({
   healthStatus,
   attackDetected = false,
   compareMode = false,
-  defendedMode = false,
-  repairMode = false,
-  contextualMode = false,
+  defence = null,
+  monitor = null,
 }: LivingCoreStageProps) {
   const phase = getLivingCorePhase(chatState, healthStatus);
   const sources = extractSources(chatState);
@@ -170,18 +186,24 @@ export function LivingCoreStage({
   // and `webglSupport === "checking"` both fall through to the static
   // fallback — the safe default is always the DOM/CSS version, never the
   // 3D scene.
-  const canRender3D =
-    webglSupport === "supported" && reducedMotion === false && !runtimeFailure;
+  const canRender3D = webglSupport === "supported" && reducedMotion === false && !runtimeFailure;
 
-  const shield = defendedMode ? (
-    <DefenceShield
-      state={shieldStateFor(phase)}
-      skipped={skippedPassageCount(sources)}
-      variant={canRender3D ? "stage" : "inline"}
-      repaired={repairMode ? repairedWordCount(sources) : undefined}
-      contextual={contextualMode}
-    />
-  ) : null;
+  const emblemState = shieldStateFor(phase);
+  const variant = canRender3D ? "stage" : "inline";
+  const shield =
+    defence === "defended" ? (
+      <DefenceShield state={emblemState} skipped={skippedPassageCount(sources)} variant={variant} />
+    ) : defence === "repaired" ? (
+      <RepairLoom state={emblemState} variant={variant} repaired={repairedWordCount(sources)} />
+    ) : defence === "contextual" ? (
+      <ContextLensEmblem
+        state={emblemState}
+        variant={variant}
+        skipped={skippedPassageCount(sources)}
+      />
+    ) : defence === "verified" ? (
+      <MonitorGate state={emblemState} variant={variant} trace={monitor} />
+    ) : null;
 
   if (!canRender3D) {
     return (
@@ -202,7 +224,7 @@ export function LivingCoreStage({
   // status caption that used to render below this frame now lives in
   // `PlatformStatusBar` (see `app/page.tsx`) instead.
   return (
-    <div className="living-core-canvas-frame" data-defended={defendedMode}>
+    <div className="living-core-canvas-frame" data-defended={defence !== null}>
       <div className="living-core-canvas-wrap">
         <LivingCoreErrorBoundary onError={handleRuntimeFailure}>
           <DynamicLivingCoreScene
@@ -213,6 +235,7 @@ export function LivingCoreStage({
             onRuntimeFailure={handleRuntimeFailure}
             attackDetected={attackDetected}
             compareMode={compareMode}
+            tint={defence ? DEFENCE_TINT[defence] : null}
           />
         </LivingCoreErrorBoundary>
       </div>

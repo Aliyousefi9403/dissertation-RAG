@@ -3,7 +3,6 @@
 import type { ExperimentMode } from "@/components/experiment/ExperimentModeSelector";
 import type { ChatState } from "@/lib/state/chatMachine";
 import { ContextLens } from "@/components/defence/ContextLens";
-import { ModeIntro } from "@/components/defence/ModeIntro";
 import { MonitorMemoryPanel } from "@/components/defence/MonitorMemoryPanel";
 import { MonitorTraceView } from "@/components/defence/MonitorTraceView";
 import { RepairLedger } from "@/components/defence/RepairLedger";
@@ -19,20 +18,18 @@ export function DefenceView({ mode, chatState }: { mode: ExperimentMode; chatSta
   const done = chatState.status === "success" || chatState.status === "noSources";
   const sources = chatState.status === "success" ? chatState.sources : [];
 
-  const hasIntro = mode === "repaired" || mode === "contextual" || mode === "verified";
-
   if (mode === "verified") {
-    const trace = done ? chatState.monitor : null;
-    const refreshKey = done ? `${chatState.question}|${chatState.latencyMs}` : chatState.status;
+    if (!done) return null;
+    const refreshKey = `${chatState.question}|${chatState.latencyMs}`;
     return (
       <div className="defence-view-stack">
-        {trace ? <MonitorTraceView trace={trace} /> : <ModeIntro mode="verified" />}
+        {chatState.monitor && <MonitorTraceView trace={chatState.monitor} />}
         <MonitorMemoryPanel refreshKey={refreshKey} />
       </div>
     );
   }
   if (!done || sources.length === 0) {
-    return hasIntro && chatState.status === "idle" ? <ModeIntro mode={mode} /> : null;
+    return null;
   }
   if (mode === "repaired") {
     return <RepairLedger sources={sources} />;

@@ -53,9 +53,7 @@ export default function Home() {
   // .conversation--idle/--active and .living-core-stage in globals.css).
   // In Compare mode the same idle/active split is driven by the separate
   // `compareState` instead, since Compare never touches `useChatSession`.
-  const isIdle = isComparing
-    ? compareState.status === "idle"
-    : state.status === "idle";
+  const isIdle = isComparing ? compareState.status === "idle" : state.status === "idle";
   const isSubmitting = composerBusy;
 
   // Same derivation `LivingCoreStage` uses internally for its own r3f
@@ -87,7 +85,8 @@ export default function Home() {
 
     void submitQuestion(question, systemState, {
       // The evidence check (`/guarded-chat`) supports clean/poisoned only.
-      evidenceCheck: evidenceCheckEnabled && (systemState === "clean" || systemState === "poisoned"),
+      evidenceCheck:
+        evidenceCheckEnabled && (systemState === "clean" || systemState === "poisoned"),
       trustedFallback: systemState === "verified" && trustedFallback,
     });
   }
@@ -108,7 +107,12 @@ export default function Home() {
             <EvidenceCheckToggle
               enabled={evidenceCheckEnabled}
               onChange={setEvidenceCheckEnabled}
-              disabled={isComparing || experimentMode === "defended" || experimentMode === "repaired" || experimentMode === "contextual"}
+              disabled={
+                isComparing ||
+                experimentMode === "defended" ||
+                experimentMode === "repaired" ||
+                experimentMode === "contextual"
+              }
             />
           )}
         </div>
@@ -121,12 +125,7 @@ export default function Home() {
         evidenceCheckEnabled={evidenceCheckEnabled}
       />
 
-      <div
-        className={cn(
-          "conversation",
-          isIdle ? "conversation--idle" : "conversation--active",
-        )}
-      >
+      <div className={cn("conversation", isIdle ? "conversation--idle" : "conversation--active")}>
         <div className="conversation-main">
           <div
             className={cn(
@@ -149,9 +148,17 @@ export default function Home() {
                 healthStatus={healthStatus}
                 attackDetected={experimentMode === "poisoned"}
                 compareMode={isComparing}
-                // Each defence has its own view: the shield is Defended mode's alone; Repaired,
-                // Contextual and Verified render `DefenceView` beside the answer instead.
-                defendedMode={experimentMode === "defended"}
+                defence={
+                  experimentMode === "defended" ||
+                  experimentMode === "repaired" ||
+                  experimentMode === "contextual" ||
+                  experimentMode === "verified"
+                    ? experimentMode
+                    : null
+                }
+                monitor={
+                  state.status === "success" || state.status === "noSources" ? state.monitor : null
+                }
               />
             </div>
           </div>

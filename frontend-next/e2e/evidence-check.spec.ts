@@ -334,13 +334,14 @@ test.describe("Evidence check (mocked backend)", () => {
     await page.getByRole("radio", { name: "Repaired" }).click();
     // Repaired has its own view (repair ledger), not the Defended shield.
     await expect(page.getByTestId("defence-shield")).toHaveCount(0);
-    await expect(page.getByTestId("mode-intro")).toContainText("Repair ledger");
+    await expect(page.getByTestId("emblem-repair")).toContainText("Repair loom ready");
     await expect(page.getByRole("switch", { name: "Evidence check" })).toBeDisabled();
     await expect(page.getByRole("status", { name: "Platform status" })).toContainText("PWWS poisoned + entropy repair");
     await askQuestion(page, QUESTION);
     await resolved(page);
 
     expect(bodies).toEqual([{ question: QUESTION, system_state: "repaired" }]);
+    await expect(page.getByTestId("emblem-repair")).toContainText("2 words restored");
     const ledger = page.getByTestId("repair-ledger");
     await expect(ledger).toContainText("2 words restored before the model read them");
     await expect(ledger.locator(".repair-change del")).toHaveText(["engraft", "abnegate"]);
@@ -387,7 +388,7 @@ test.describe("Evidence check (mocked backend)", () => {
     await page.getByRole("radio", { name: "Contextual" }).click();
     // Contextual has its own view (context lens), not the Defended shield.
     await expect(page.getByTestId("defence-shield")).toHaveCount(0);
-    await expect(page.getByTestId("mode-intro")).toContainText("Context lens");
+    await expect(page.getByTestId("emblem-lens")).toContainText("Context lens ready");
     await expect(page.getByRole("switch", { name: "Evidence check" })).toBeDisabled();
     await expect(page.getByRole("status", { name: "Platform status" })).toContainText("PWWS poisoned + language-model filter");
     await askQuestion(page, QUESTION);
@@ -397,6 +398,7 @@ test.describe("Evidence check (mocked backend)", () => {
     await page.locator(".source-row-summary").first().click();
     await expect(page.locator(".source-row-filter")).toContainText("1.87 bits");
     // One source kept at candidate rank 3 => two candidates were skipped.
+    await expect(page.getByTestId("emblem-lens")).toContainText("2 passages did not fit");
     const lens = page.getByTestId("context-lens");
     await expect(lens).toContainText("2 passages did not fit their context and were skipped");
     await expect(lens.locator(".context-word")).toContainText("abnegate");
@@ -454,13 +456,15 @@ test.describe("Evidence check (mocked backend)", () => {
     await page.goto("/");
     await waitForBackendOnline(page);
     await page.getByRole("radio", { name: "Verified" }).click();
-    await expect(page.getByTestId("mode-intro")).toContainText("Runtime monitor");
-    await expect(page.getByTestId("monitor-memory")).toContainText("Nothing quarantined yet");
+    await expect(page.getByTestId("emblem-gate")).toContainText("Monitor armed");
     await page.getByRole("switch", { name: "Trusted fallback" }).click();
     await askQuestion(page, QUESTION);
     await resolved(page);
 
     expect(bodies).toEqual([{ question: QUESTION, system_state: "verified", trusted_fallback: true }]);
+    const gate = page.getByTestId("emblem-gate");
+    await expect(gate).toContainText("Monitor: verified · 1 quarantined");
+    await expect(gate.locator('[data-node="fixed"]')).toHaveCount(2); // phi1 node and its link
     const trace = page.getByTestId("monitor-trace");
     await expect(trace).toContainText("Verified and released");
     await expect(trace.locator(".monitor-round")).toHaveCount(2);

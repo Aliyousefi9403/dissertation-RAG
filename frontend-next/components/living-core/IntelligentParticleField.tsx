@@ -27,6 +27,8 @@ interface IntelligentParticleFieldProps {
    * mutually exclusive with `attackDetected` in practice (experiment mode
    * is a single selection), but independent uniforms either way. */
   compareMode?: boolean;
+  /** Edge colour of the selected defence mode; null keeps the normal blue. */
+  tint?: string | null;
 }
 
 // Constant idle-breathing/turbulence tuning -- always active regardless of
@@ -217,7 +219,9 @@ export function IntelligentParticleField({
   phase,
   attackDetected = false,
   compareMode = false,
+  tint = null,
 }: IntelligentParticleFieldProps) {
+  const tintColor = useMemo(() => (tint ? new THREE.Color(tint) : null), [tint]);
   const { gl } = useThree();
   const pointsMaterialRef = useRef<THREE.ShaderMaterial>(null);
   const linesMaterialRef = useRef<THREE.ShaderMaterial>(null);
@@ -318,6 +322,8 @@ export function IntelligentParticleField({
     let targetEdgeColor = IDLE_EDGE_TARGET;
     if (attackDetected) {
       targetEdgeColor = ATTACK_EDGE_TARGET;
+    } else if (tintColor) {
+      targetEdgeColor = tintColor;
     } else if (phase === "submitting") {
       targetEdgeColor = RETRIEVING_EDGE_TARGET;
     } else if (phase === "converged" && convergedEnteredAtRef.current !== null) {
