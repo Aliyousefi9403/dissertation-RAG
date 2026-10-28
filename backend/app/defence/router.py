@@ -5,7 +5,7 @@ Separate from `/chat` and `/compare`, whose contracts are unchanged.
 
 from __future__ import annotations
 
-from typing import Any, Literal, Optional
+from typing import Any, Literal
 
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
@@ -54,8 +54,8 @@ class FailureResponse(BaseModel):
 class AuditResponse(BaseModel):
     saved: bool
     run_id: str
-    location: Optional[str]
-    error: Optional[str]
+    location: str | None
+    error: str | None
 
 
 class GuardedChatResponse(BaseModel):
@@ -64,15 +64,17 @@ class GuardedChatResponse(BaseModel):
     system_state: Literal["clean", "poisoned"]
     policy_version: str
     label: str
-    outcome: Literal["supported", "unsupported", "contradicted", "unavailable", "abstained"]
+    outcome: Literal[
+        "supported", "unsupported", "contradicted", "unavailable", "abstained"
+    ]
     decision: Literal["released", "withheld"]
-    answer: Optional[str]
+    answer: str | None
     explanation: str
     claims: list[ClaimResponse]
     sources: list[GuardedSourceResponse]
     failures: list[FailureResponse]
     audit: AuditResponse
-    timings_ms: dict[str, Optional[float]]
+    timings_ms: dict[str, float | None]
 
 
 @router.post("/guarded-chat", response_model=GuardedChatResponse)

@@ -4,9 +4,8 @@ import json
 from pathlib import Path
 
 import pytest
-from langchain_core.documents import Document
-
 from app.defence import entropy_filter as ef
+from langchain_core.documents import Document
 
 pytest.importorskip("wordfreq")
 try:
@@ -26,7 +25,9 @@ def corpus(tmp_path):
     for name in ("udp", "icmp", "tcp"):
         (tmp_path / f"ddos/{name}.md").write_text(
             f"An adversary floods the server with {name} traffic to deny service to legitimate users "
-            "of the web application and its server.", encoding="utf-8")
+            "of the web application and its server.",
+            encoding="utf-8",
+        )
     ef.reference_for.cache_clear()
     return tmp_path
 
@@ -50,9 +51,28 @@ def test_reference_is_leave_one_document_out(corpus):
 
 
 def test_filter_drops_flagged_and_backfills(corpus):
-    docs = [(Document(page_content=PWWS, metadata={"source": str(corpus / "ddos/http_flood.md"), "start_index": 0}), 0.9)]
-    docs += [(Document(page_content=CLEAN, metadata={"source": str(corpus / f"ddos/{n}.md"), "start_index": i}), 0.8 - i / 10)
-             for i, n in enumerate(("udp", "icmp", "tcp", "udp"))]
+    docs = [
+        (
+            Document(
+                page_content=PWWS,
+                metadata={
+                    "source": str(corpus / "ddos/http_flood.md"),
+                    "start_index": 0,
+                },
+            ),
+            0.9,
+        )
+    ]
+    docs += [
+        (
+            Document(
+                page_content=CLEAN,
+                metadata={"source": str(corpus / f"ddos/{n}.md"), "start_index": i},
+            ),
+            0.8 - i / 10,
+        )
+        for i, n in enumerate(("udp", "icmp", "tcp", "udp"))
+    ]
     kept, decisions = ef.filter_results(docs, corpus)
     assert len(kept) == 3
     assert all(not d.metadata["entropy_filter"]["flagged"] for d, _ in kept)
@@ -80,14 +100,35 @@ def test_only_defence_states_override_retrieval():
 
 
 def _candidates(corpus):
-    docs = [(Document(page_content=PWWS, metadata={"source": str(corpus / "ddos/http_flood.md"), "start_index": 0}), 0.9)]
-    return docs + [(Document(page_content=CLEAN, metadata={"source": str(corpus / f"ddos/{n}.md"), "start_index": i}), 0.8 - i / 10)
-                   for i, n in enumerate(("udp", "icmp", "tcp", "udp"))]
+    docs = [
+        (
+            Document(
+                page_content=PWWS,
+                metadata={
+                    "source": str(corpus / "ddos/http_flood.md"),
+                    "start_index": 0,
+                },
+            ),
+            0.9,
+        )
+    ]
+    return docs + [
+        (
+            Document(
+                page_content=CLEAN,
+                metadata={"source": str(corpus / f"ddos/{n}.md"), "start_index": i},
+            ),
+            0.8 - i / 10,
+        )
+        for i, n in enumerate(("udp", "icmp", "tcp", "udp"))
+    ]
 
 
 def test_repair_restores_high_gap_words_and_keeps_case(corpus):
     reference = ef.DomainReference(corpus)
-    repaired, repairs = ef.repair_text("Abnegate users. " + PWWS, "ddos/http_flood.md", reference)
+    repaired, repairs = ef.repair_text(
+        "Abnegate users. " + PWWS, "ddos/http_flood.md", reference
+    )
     assert {r["word"]: r["replacement"] for r in repairs}.get("abnegate") == "deny"
     assert repaired.startswith("Deny users. ") and "abnegate" not in repaired.lower()
     assert all(r["gap_bits"] > ef.WORD_REPAIR_BITS for r in repairs)
@@ -108,9 +149,15 @@ def test_repair_mode_rescores_repaired_text(corpus):
     assert first["repairs"]
     reference = ef.DomainReference(corpus)
     repaired, _ = ef.repair_text(PWWS, "ddos/http_flood.md", reference)
-    assert first["score_bits"] == ef.score_text(repaired, "ddos/http_flood.md", reference)["score_bits"]
+    assert (
+        first["score_bits"]
+        == ef.score_text(repaired, "ddos/http_flood.md", reference)["score_bits"]
+    )
     for document, _ in kept:
-        assert document.metadata["entropy_filter"]["policy_version"] == ef.REPAIR_POLICY_VERSION
+        assert (
+            document.metadata["entropy_filter"]["policy_version"]
+            == ef.REPAIR_POLICY_VERSION
+        )
         assert not document.metadata["entropy_filter"]["flagged"]
     if first["kept"]:
         assert kept[0][0].page_content == repaired
@@ -119,33 +166,65 @@ def test_repair_mode_rescores_repaired_text(corpus):
 def test_defended_mode_unchanged_by_repair_option(corpus):
     kept, decisions = ef.filter_results(_candidates(corpus), corpus)
     assert all("repairs" not in d for d in decisions)
-    assert all(d.metadata["entropy_filter"]["policy_version"] == ef.POLICY_VERSION for d, _ in kept)
+    assert all(
+        d.metadata["entropy_filter"]["policy_version"] == ef.POLICY_VERSION
+        for d, _ in kept
+    )
     assert [d.page_content for d, _ in kept] == [CLEAN, CLEAN, CLEAN]
 
 
 def test_frozen_word_repair_threshold_matches_recorded_development_choice():
-    record = json.loads((ROOT.parent / "docs/research/results/entropy-defence/repair-feasibility.json").read_text())
+    record = json.loads(
+        (
+            ROOT.parent
+            / "docs/research/results/entropy-defence/repair-feasibility.json"
+        ).read_text()
+    )
     assert record["chosen_tau_bits"] == ef.WORD_REPAIR_BITS
 
 
 def test_frozen_threshold_matches_recorded_development_choice():
-    record = json.loads((ROOT.parent / "docs/research/results/entropy-detector-20261016/detector-poisoned.json").read_text())
-    assert record["results"]["development"][ef.SCORE_NAME]["threshold_fpr10"] == ef.THRESHOLD_BITS
+    record = json.loads(
+        (
+            ROOT.parent
+            / "docs/research/results/entropy-detector-20261016/detector-poisoned.json"
+        ).read_text()
+    )
+    assert (
+        record["results"]["development"][ef.SCORE_NAME]["threshold_fpr10"]
+        == ef.THRESHOLD_BITS
+    )
 
 
 def test_reproduces_recorded_detector_scores():
-    from langchain_community.document_loaders import DirectoryLoader, TextLoader
-
     from app.config import get_knowledge_base_path
     from app.ingestion.load_documents import add_document_metadata, split_documents
+    from langchain_community.document_loaders import DirectoryLoader, TextLoader
 
     root = get_knowledge_base_path("poisoned")
-    loader = DirectoryLoader(str(root), glob="**/*.md", loader_cls=TextLoader, loader_kwargs={"encoding": "utf-8"})
-    chunks = {(Path(c.metadata["source"]).relative_to(root).as_posix(), c.metadata["start_index"]): c.page_content
-              for c in split_documents(add_document_metadata(loader.load(), "poisoned"))}
-    rows = json.loads((ROOT.parent / "docs/research/results/entropy-detector-20261016/detector-poisoned.json").read_text())["rows"]
+    loader = DirectoryLoader(
+        str(root),
+        glob="**/*.md",
+        loader_cls=TextLoader,
+        loader_kwargs={"encoding": "utf-8"},
+    )
+    chunks = {
+        (
+            Path(c.metadata["source"]).relative_to(root).as_posix(),
+            c.metadata["start_index"],
+        ): c.page_content
+        for c in split_documents(add_document_metadata(loader.load(), "poisoned"))
+    }
+    rows = json.loads(
+        (
+            ROOT.parent
+            / "docs/research/results/entropy-detector-20261016/detector-poisoned.json"
+        ).read_text()
+    )["rows"]
     ef.reference_for.cache_clear()
     reference = ef.reference_for(str(root))
     for row in rows[::10]:
-        score = ef.score_text(chunks[(row["document"], row["start"])], row["document"], reference)["score_bits"]
+        score = ef.score_text(
+            chunks[(row["document"], row["start"])], row["document"], reference
+        )["score_bits"]
         assert score == pytest.approx(row["syngap_top3_domain"], abs=1e-3)

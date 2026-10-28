@@ -47,7 +47,7 @@ import hashlib
 import json
 import os
 import shutil
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from app.attack import pwws_poison_kb as base
@@ -67,7 +67,9 @@ VARIANTS = {
 LM_BUDGET_BITS = 4.4611
 
 
-def domain_frequency_constraint(reference: DomainReference, lm=None, budget_bits: float = 0.0):
+def domain_frequency_constraint(
+    reference: DomainReference, lm=None, budget_bits: float = 0.0
+):
     """TextAttack constraint: reject swaps that make a word rarer under q.
 
     With `lm` (an object with log2_prob(texts) -> list[float]), also reject any
@@ -84,8 +86,13 @@ def domain_frequency_constraint(reference: DomainReference, lm=None, budget_bits
 
         def _frequency_ok(self, transformed_text, reference_text):
             for i in transformed_text.attack_attrs.get("newly_modified_indices", set()):
-                new, old = transformed_text.words[i].lower(), reference_text.words[i].lower()
-                if reference.probability(new, self.document) < reference.probability(old, self.document):
+                new, old = (
+                    transformed_text.words[i].lower(),
+                    reference_text.words[i].lower(),
+                )
+                if reference.probability(new, self.document) < reference.probability(
+                    old, self.document
+                ):
                     return False
             return True
 
@@ -98,21 +105,38 @@ def domain_frequency_constraint(reference: DomainReference, lm=None, budget_bits
         def _check_constraint(self, transformed_text, reference_text):
             if not self._frequency_ok(transformed_text, reference_text):
                 return False
-            if lm is None or not transformed_text.attack_attrs.get("newly_modified_indices"):
+            if lm is None or not transformed_text.attack_attrs.get(
+                "newly_modified_indices"
+            ):
                 return True
-            return lm.log2_prob([transformed_text.text])[0] >= self._base_log2(reference_text) - budget_bits
+            return (
+                lm.log2_prob([transformed_text.text])[0]
+                >= self._base_log2(reference_text) - budget_bits
+            )
 
         def _check_constraint_many(self, transformed_texts, reference_text):
             # Same rule as _check_constraint; the language model scores all survivors in one batch.
-            survivors = [t for t in transformed_texts if self._frequency_ok(t, reference_text)]
+            survivors = [
+                t for t in transformed_texts if self._frequency_ok(t, reference_text)
+            ]
             if lm is None:
                 return survivors
-            scored = [t for t in survivors if t.attack_attrs.get("newly_modified_indices")]
+            scored = [
+                t for t in survivors if t.attack_attrs.get("newly_modified_indices")
+            ]
             if not scored:
                 return survivors
             base = self._base_log2(reference_text) - budget_bits
-            keep = {id(t) for t, lp in zip(scored, lm.log2_prob([t.text for t in scored])) if lp >= base}
-            return [t for t in survivors if id(t) in keep or not t.attack_attrs.get("newly_modified_indices")]
+            keep = {
+                id(t)
+                for t, lp in zip(scored, lm.log2_prob([t.text for t in scored]))
+                if lp >= base
+            }
+            return [
+                t
+                for t in survivors
+                if id(t) in keep or not t.attack_attrs.get("newly_modified_indices")
+            ]
 
         def extra_repr_keys(self):
             return ["compare_against_original"]
@@ -127,18 +151,28 @@ class SmallBatches:
         self.lm, self.size = lm, size
 
     def log2_prob(self, texts: list[str]) -> list[float]:
-        return [p for i in range(0, len(texts), self.size) for p in self.lm.log2_prob(texts[i:i + self.size])]
+        return [
+            p
+            for i in range(0, len(texts), self.size)
+            for p in self.lm.log2_prob(texts[i : i + self.size])
+        ]
 
 
 def build_attack(wrapper, constraint=None, recipe_name="pwws"):
     from textattack import Attack
     from textattack.attack_recipes import PWWSRen2019, TextFoolerJin2019
 
-    recipe = (TextFoolerJin2019 if recipe_name == "textfooler" else PWWSRen2019).build(wrapper)
+    recipe = (TextFoolerJin2019 if recipe_name == "textfooler" else PWWSRen2019).build(
+        wrapper
+    )
     if constraint is None:
         return recipe
-    return Attack(recipe.goal_function, recipe.pre_transformation_constraints + recipe.constraints + [constraint],
-                  recipe.transformation, recipe.search_method)
+    return Attack(
+        recipe.goal_function,
+        recipe.pre_transformation_constraints + recipe.constraints + [constraint],
+        recipe.transformation,
+        recipe.search_method,
+    )
 
 
 def prepare_output(out_dir: Path, resume: bool = False) -> tuple[Path, Path]:
@@ -146,7 +180,9 @@ def prepare_output(out_dir: Path, resume: bool = False) -> tuple[Path, Path]:
     if manifest.exists():
         raise FileExistsError(f"{manifest} already exists; outputs are create-only")
     if kb.exists() and not resume:
-        raise FileExistsError(f"{out_dir} already exists; outputs are create-only (use --resume to continue)")
+        raise FileExistsError(
+            f"{out_dir} already exists; outputs are create-only (use --resume to continue)"
+        )
     if not kb.exists():
         shutil.copytree(CLEAN_KB, kb)
     (out_dir / "parts").mkdir(exist_ok=True)
@@ -163,7 +199,9 @@ def write_part(part: Path, entries: list[dict]) -> None:
     os.replace(tmp, part)  # atomic: a part exists only once its file is fully attacked
 
 
-CODE_SHA256 = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()  # the code this process runs
+CODE_SHA256 = hashlib.sha256(
+    Path(__file__).read_bytes()
+).hexdigest()  # the code this process runs
 
 
 def boot_id() -> str:
@@ -209,11 +247,22 @@ def collect(out_dir: Path, kb: Path):
 
 def log_event(out_dir: Path, event: str, **fields) -> None:
     with (out_dir / "run_log.jsonl").open("a", encoding="utf-8") as handle:
-        handle.write(json.dumps({"event": event, "at": datetime.now(timezone.utc).isoformat(),
-                                 "code_sha256": CODE_SHA256, **fields}) + "\n")
+        handle.write(
+            json.dumps(
+                {
+                    "event": event,
+                    "at": datetime.now(UTC).isoformat(),
+                    "code_sha256": CODE_SHA256,
+                    **fields,
+                }
+            )
+            + "\n"
+        )
 
 
-def poison_file(path: Path, kb: Path, attack, label_map: dict, constraint=None) -> list[dict]:
+def poison_file(
+    path: Path, kb: Path, attack, label_map: dict, constraint=None
+) -> list[dict]:
     label_name = path.stem
     if label_name not in label_map:
         return []
@@ -230,16 +279,30 @@ def poison_file(path: Path, kb: Path, attack, label_map: dict, constraint=None) 
         text = base.extract_attack_text(section["body"])
         if len(text) < base.MIN_TEXT_LENGTH:
             continue
-        entry = {"file": relative, "attack_type": label_name, "section": heading, "label": label}
+        entry = {
+            "file": relative,
+            "attack_type": label_name,
+            "section": heading,
+            "label": label,
+        }
         try:
             success, adversarial, result_type = base.run_pwws(attack, text, label)
         except Exception as exc:  # recorded, never hidden
-            entries.append({**entry, "success": False, "result": "error", "error": str(exc)})
+            entries.append(
+                {**entry, "success": False, "result": "error", "error": str(exc)}
+            )
             continue
         if success:
             section["body"] = "\n\n" + adversarial + "\n"
-            entries.append({**entry, "success": True, "result": result_type,
-                            "original_text": text, "adversarial_text": adversarial})
+            entries.append(
+                {
+                    **entry,
+                    "success": True,
+                    "result": result_type,
+                    "original_text": text,
+                    "adversarial_text": adversarial,
+                }
+            )
         else:
             entries.append({**entry, "success": False, "result": result_type})
     path.write_text(base.rebuild_document(sections), encoding="utf-8")
@@ -262,18 +325,39 @@ def main(variant: str, resume: bool = False, budget_bits: float | None = None) -
         raise ValueError("--budget-bits applies only to --variant adaptive_lm_budget")
     out_dir = output_dir(variant, budget_bits)
     kb, manifest = prepare_output(out_dir, resume)
-    wrapper = HuggingFaceModelWrapper(AutoModelForSequenceClassification.from_pretrained(base.MODEL_DIR),
-                                      AutoTokenizer.from_pretrained(base.MODEL_DIR))
+    wrapper = HuggingFaceModelWrapper(
+        AutoModelForSequenceClassification.from_pretrained(base.MODEL_DIR),
+        AutoTokenizer.from_pretrained(base.MODEL_DIR),
+    )
     lm = None
     if variant in ("adaptive_lm", "adaptive_lm_budget"):
         from app.defence.contextual_filter import LanguageModel
-        lm = SmallBatches(LanguageModel(max_tokens=1024))  # the whole section, so no swap escapes the rule
-    budget = (LM_BUDGET_BITS if budget_bits is None else budget_bits) if variant == "adaptive_lm_budget" else 0.0
-    constraint = domain_frequency_constraint(DomainReference(CLEAN_KB), lm, budget) if variant.startswith("adaptive") else None
-    attack = build_attack(wrapper, constraint, "textfooler" if variant == "textfooler" else "pwws")
+
+        lm = SmallBatches(
+            LanguageModel(max_tokens=1024)
+        )  # the whole section, so no swap escapes the rule
+    budget = (
+        (LM_BUDGET_BITS if budget_bits is None else budget_bits)
+        if variant == "adaptive_lm_budget"
+        else 0.0
+    )
+    constraint = (
+        domain_frequency_constraint(DomainReference(CLEAN_KB), lm, budget)
+        if variant.startswith("adaptive")
+        else None
+    )
+    attack = build_attack(
+        wrapper, constraint, "textfooler" if variant == "textfooler" else "pwws"
+    )
     label_map = json.loads(base.LABEL_MAP_FILE.read_text(encoding="utf-8"))
     done = sorted(p.name for p in (out_dir / "parts").glob("*.json"))
-    log_event(out_dir, "resume" if resume else "start", variant=variant, budget_bits=budget, files_already_done=done)
+    log_event(
+        out_dir,
+        "resume" if resume else "start",
+        variant=variant,
+        budget_bits=budget,
+        files_already_done=done,
+    )
     for path in sorted(kb.rglob("*.md")):
         if path.parent.name == "devices":
             continue
@@ -281,28 +365,50 @@ def main(variant: str, resume: bool = False, budget_bits: float | None = None) -
         part = part_path(out_dir, relative)
         if part.exists() or not claim(part):
             continue
-        shutil.copyfile(CLEAN_KB / relative, path)  # an interrupted file restarts from the clean text
+        shutil.copyfile(
+            CLEAN_KB / relative, path
+        )  # an interrupted file restarts from the clean text
         file_entries = poison_file(path, kb, attack, label_map, constraint)
         write_part(part, file_entries)
         part.with_suffix(".lock").unlink(missing_ok=True)
-        print(f"{relative}: {sum(e['success'] for e in file_entries)} successful in this file", flush=True)
+        print(
+            f"{relative}: {sum(e['success'] for e in file_entries)} successful in this file",
+            flush=True,
+        )
     entries = collect(out_dir, kb)
     if entries is None:
-        print("other workers still running; the last one writes the manifest", flush=True)
+        print(
+            "other workers still running; the last one writes the manifest", flush=True
+        )
         return
     try:
         with manifest.open("x", encoding="utf-8") as handle:
             handle.writelines(json.dumps(e) + "\n" for e in entries)
     except FileExistsError:
         return  # another worker finished at the same moment and wrote it
-    log_event(out_dir, "finish", successful=sum(e["success"] for e in entries), sections=len(entries))
-    print(f"{variant}: {sum(e['success'] for e in entries)}/{len(entries)} sections attacked successfully -> {kb}")
+    log_event(
+        out_dir,
+        "finish",
+        successful=sum(e["success"] for e in entries),
+        sections=len(entries),
+    )
+    print(
+        f"{variant}: {sum(e['success'] for e in entries)}/{len(entries)} sections attacked successfully -> {kb}"
+    )
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     parser.add_argument("--variant", choices=sorted(VARIANTS), required=True)
-    parser.add_argument("--resume", action="store_true", help="continue an interrupted run from its checkpoints")
-    parser.add_argument("--budget-bits", type=float, help=f"LM budget for adaptive_lm_budget (default {LM_BUDGET_BITS})")
+    parser.add_argument(
+        "--resume",
+        action="store_true",
+        help="continue an interrupted run from its checkpoints",
+    )
+    parser.add_argument(
+        "--budget-bits",
+        type=float,
+        help=f"LM budget for adaptive_lm_budget (default {LM_BUDGET_BITS})",
+    )
     args = parser.parse_args()
     main(args.variant, args.resume, args.budget_bits)

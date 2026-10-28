@@ -1,10 +1,10 @@
 """HTTP contract tests for POST /guarded-chat (orchestration stubbed)."""
 
 import pytest
+from app.defence import evidence_guard
+from app.defence import router as router_module
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
-
-from app.defence import evidence_guard, router as router_module
 
 
 def _payload(**overrides):
@@ -30,11 +30,28 @@ def _payload(**overrides):
             }
         ],
         "sources": [
-            {"source_id": "S1", "source_number": 1, "source": "a.md", "score": 0.5, "content": "x", "metadata": {}}
+            {
+                "source_id": "S1",
+                "source_number": 1,
+                "source": "a.md",
+                "score": 0.5,
+                "content": "x",
+                "metadata": {},
+            }
         ],
         "failures": [],
-        "audit": {"saved": True, "run_id": "run-1", "location": "/tmp/run-1.json", "error": None},
-        "timings_ms": {"retrieval_ms": 1.0, "draft_ms": 2.0, "verification_ms": 3.0, "total_ms": 6.0},
+        "audit": {
+            "saved": True,
+            "run_id": "run-1",
+            "location": "/tmp/run-1.json",
+            "error": None,
+        },
+        "timings_ms": {
+            "retrieval_ms": 1.0,
+            "draft_ms": 2.0,
+            "verification_ms": 3.0,
+            "total_ms": 6.0,
+        },
     }
     base.update(overrides)
     return base
@@ -55,7 +72,9 @@ def test_route_returns_withheld_result(client, monkeypatch):
         return _payload(question=question, system_state=system_state)
 
     monkeypatch.setattr(evidence_guard, "run_guarded_chat", fake)
-    response = client.post("/guarded-chat", json={"question": "  q  ", "system_state": "poisoned"})
+    response = client.post(
+        "/guarded-chat", json={"question": "  q  ", "system_state": "poisoned"}
+    )
 
     assert response.status_code == 200
     body = response.json()
@@ -65,7 +84,9 @@ def test_route_returns_withheld_result(client, monkeypatch):
 
 @pytest.mark.parametrize("state", ["defended", "compare", ""])
 def test_route_rejects_other_states(client, state):
-    response = client.post("/guarded-chat", json={"question": "q", "system_state": state})
+    response = client.post(
+        "/guarded-chat", json={"question": "q", "system_state": state}
+    )
     assert response.status_code == 422
 
 

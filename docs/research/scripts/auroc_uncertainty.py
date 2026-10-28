@@ -24,9 +24,25 @@ from pathlib import Path
 
 RES = Path(__file__).resolve().parents[1] / "results"
 SEED, B = 20261016, 10000
-FROZEN = {"syngap_top3_domain": 7.2262, "ctx_syngap_top3": 4.4611}  # entropy_filter / contextual_filter
-FAMILY_SCORES = ("syngap_top3_domain", "syngap_top3_dirichlet", "js_domain", "lm_mean_surprisal", "ctx_syngap_top3")
-DETECTOR_SCORES = ("char_kl", "kl_english", "kl_domain", "mean_domain", "syngap_top3_english", "syngap_top3_domain")
+FROZEN = {
+    "syngap_top3_domain": 7.2262,
+    "ctx_syngap_top3": 4.4611,
+}  # entropy_filter / contextual_filter
+FAMILY_SCORES = (
+    "syngap_top3_domain",
+    "syngap_top3_dirichlet",
+    "js_domain",
+    "lm_mean_surprisal",
+    "ctx_syngap_top3",
+)
+DETECTOR_SCORES = (
+    "char_kl",
+    "kl_english",
+    "kl_domain",
+    "mean_domain",
+    "syngap_top3_english",
+    "syngap_top3_domain",
+)
 
 
 def auroc(pairs):
@@ -44,7 +60,9 @@ def auroc(pairs):
     neg = len(ordered) - pos
     if not pos or not neg:
         return None
-    return (sum(r for r, (_, lab) in zip(ranks, ordered) if lab) - pos * (pos + 1) / 2) / (pos * neg)
+    return (
+        sum(r for r, (_, lab) in zip(ranks, ordered) if lab) - pos * (pos + 1) / 2
+    ) / (pos * neg)
 
 
 def percentile(values, q):
@@ -70,16 +88,37 @@ def intervals(rows, scores, paired=None):
             draws[s].append(values[s])
         if paired:
             diffs.append(values[paired[0]] - values[paired[1]])
-    out = {s: {"auroc": round(auroc([(r[s], r["label"]) for r in rows]), 4),
-               "ci95": [round(percentile(draws[s], 0.025), 4), round(percentile(draws[s], 0.975), 4)]} for s in scores}
-    meta = {"chunks": len(rows), "attacked_chunks": sum(r["label"] for r in rows), "documents": len(docs),
-            "documents_with_attacked_chunks": len({r["document"] for r in rows if r["label"]}),
-            "bootstrap_resamples_used": B - skipped, "resamples_skipped_one_class": skipped}
+    out = {
+        s: {
+            "auroc": round(auroc([(r[s], r["label"]) for r in rows]), 4),
+            "ci95": [
+                round(percentile(draws[s], 0.025), 4),
+                round(percentile(draws[s], 0.975), 4),
+            ],
+        }
+        for s in scores
+    }
+    meta = {
+        "chunks": len(rows),
+        "attacked_chunks": sum(r["label"] for r in rows),
+        "documents": len(docs),
+        "documents_with_attacked_chunks": len(
+            {r["document"] for r in rows if r["label"]}
+        ),
+        "bootstrap_resamples_used": B - skipped,
+        "resamples_skipped_one_class": skipped,
+    }
     if paired:
         out[f"{paired[0]}_minus_{paired[1]}"] = {
             "difference": round(out[paired[0]]["auroc"] - out[paired[1]]["auroc"], 4),
-            "ci95": [round(percentile(diffs, 0.025), 4), round(percentile(diffs, 0.975), 4)],
-            "share_of_resamples_above_zero": round(sum(d > 0 for d in diffs) / len(diffs), 4)}
+            "ci95": [
+                round(percentile(diffs, 0.025), 4),
+                round(percentile(diffs, 0.975), 4),
+            ],
+            "share_of_resamples_above_zero": round(
+                sum(d > 0 for d in diffs) / len(diffs), 4
+            ),
+        }
     return {**meta, "scores": out}
 
 
@@ -87,32 +126,57 @@ def frozen_rates(rows, score):
     pos = [r for r in rows if r["label"]]
     neg = [r for r in rows if not r["label"]]
     thr = FROZEN[score]
-    return {"threshold_bits": thr, "edited_flagged": sum(r[score] > thr for r in pos), "edited": len(pos),
-            "tpr": round(sum(r[score] > thr for r in pos) / len(pos), 4) if pos else None,
-            "unedited_flagged": sum(r[score] > thr for r in neg), "unedited": len(neg),
-            "fpr": round(sum(r[score] > thr for r in neg) / len(neg), 4)}
+    return {
+        "threshold_bits": thr,
+        "edited_flagged": sum(r[score] > thr for r in pos),
+        "edited": len(pos),
+        "tpr": round(sum(r[score] > thr for r in pos) / len(pos), 4) if pos else None,
+        "unedited_flagged": sum(r[score] > thr for r in neg),
+        "unedited": len(neg),
+        "fpr": round(sum(r[score] > thr for r in neg) / len(neg), 4),
+    }
 
 
 def main(out_path):
-    report = {"method": "document-clustered percentile bootstrap", "B": B, "seed": SEED, "corpora": {}}
+    report = {
+        "method": "document-clustered percentile bootstrap",
+        "B": B,
+        "seed": SEED,
+        "corpora": {},
+    }
     for path in sorted((RES / "entropy-family").glob("family-*.json")):
         corpus = path.stem.removeprefix("family-")
         rows = json.loads(path.read_text())["rows"]
         if not any(r["label"] for r in rows):
-            report["corpora"].setdefault(corpus, {})["family"] = {"chunks": len(rows), "attacked_chunks": 0}
+            report["corpora"].setdefault(corpus, {})["family"] = {
+                "chunks": len(rows),
+                "attacked_chunks": 0,
+            }
             continue
         report["corpora"].setdefault(corpus, {})["family"] = intervals(
-            rows, FAMILY_SCORES, paired=("ctx_syngap_top3", "syngap_top3_domain"))
-        report["corpora"][corpus]["frozen_thresholds"] = {"ctx_syngap_top3": frozen_rates(rows, "ctx_syngap_top3")}
-    detector_files = {"poisoned": RES / "entropy-detector-20261016/detector-poisoned.json",
-                      "control": RES / "entropy-detector-20261016/detector-control.json"}
-    detector_files |= {p.stem.removeprefix("detector-"): p for p in (RES / "entropy-family").glob("detector-*.json")}
+            rows, FAMILY_SCORES, paired=("ctx_syngap_top3", "syngap_top3_domain")
+        )
+        report["corpora"][corpus]["frozen_thresholds"] = {
+            "ctx_syngap_top3": frozen_rates(rows, "ctx_syngap_top3")
+        }
+    detector_files = {
+        "poisoned": RES / "entropy-detector-20261016/detector-poisoned.json",
+        "control": RES / "entropy-detector-20261016/detector-control.json",
+    }
+    detector_files |= {
+        p.stem.removeprefix("detector-"): p
+        for p in (RES / "entropy-family").glob("detector-*.json")
+    }
     for corpus, path in sorted(detector_files.items()):
         rows = json.loads(path.read_text())["rows"]
         if not any(r["label"] for r in rows):
             continue
-        report["corpora"].setdefault(corpus, {})["word_frequency"] = intervals(rows, DETECTOR_SCORES)
-        report["corpora"][corpus].setdefault("frozen_thresholds", {})["syngap_top3_domain"] = frozen_rates(rows, "syngap_top3_domain")
+        report["corpora"].setdefault(corpus, {})["word_frequency"] = intervals(
+            rows, DETECTOR_SCORES
+        )
+        report["corpora"][corpus].setdefault("frozen_thresholds", {})[
+            "syngap_top3_domain"
+        ] = frozen_rates(rows, "syngap_top3_domain")
     Path(out_path).parent.mkdir(parents=True, exist_ok=True)
     with open(out_path, "x", encoding="utf-8") as handle:  # create-only
         json.dump(report, handle, indent=1)
@@ -120,10 +184,18 @@ def main(out_path):
         fam = parts.get("family", {}).get("scores", {})
         ft = parts.get("frozen_thresholds", {})
         if ft:
-            print(f"{corpus:22s} frozen: " + "  ".join(f"{k} {v['edited_flagged']}/{v['edited']} (FPR {v['fpr']})" for k, v in ft.items()))
+            print(
+                f"{corpus:22s} frozen: "
+                + "  ".join(
+                    f"{k} {v['edited_flagged']}/{v['edited']} (FPR {v['fpr']})"
+                    for k, v in ft.items()
+                )
+            )
         if fam:
             c, w = fam["ctx_syngap_top3"], fam["syngap_top3_domain"]
-            print(f"{corpus:22s} word-freq {w['auroc']:.3f} {w['ci95']}  contextual {c['auroc']:.3f} {c['ci95']}")
+            print(
+                f"{corpus:22s} word-freq {w['auroc']:.3f} {w['ci95']}  contextual {c['auroc']:.3f} {c['ci95']}"
+            )
 
 
 if __name__ == "__main__":

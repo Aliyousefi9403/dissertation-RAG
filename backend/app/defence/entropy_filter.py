@@ -43,9 +43,10 @@ from __future__ import annotations
 import math
 import re
 from collections import Counter
+from collections.abc import Callable
 from functools import lru_cache
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 from langchain_core.documents import Document
 
@@ -62,9 +63,35 @@ REPAIR_POLICY_VERSION = "entropy-repair-v1"
 WORD_REPAIR_BITS = 9.5
 
 _TOKEN = re.compile(r"[a-z]+(?:'[a-z]+)?")
-STOPWORDS = frozenset({
-    "the", "and", "for", "that", "this", "with", "are", "was", "from", "have", "has", "can", "may",
-    "its", "not", "but", "they", "their", "which", "into", "such", "these", "than", "will", "use"})
+STOPWORDS = frozenset(
+    {
+        "the",
+        "and",
+        "for",
+        "that",
+        "this",
+        "with",
+        "are",
+        "was",
+        "from",
+        "have",
+        "has",
+        "can",
+        "may",
+        "its",
+        "not",
+        "but",
+        "they",
+        "their",
+        "which",
+        "into",
+        "such",
+        "these",
+        "than",
+        "will",
+        "use",
+    }
+)
 
 
 class DetectorUnavailable(RuntimeError):
@@ -95,7 +122,9 @@ def _english() -> Callable[[str], float]:
     try:
         from wordfreq import word_frequency
     except ImportError as error:
-        raise DetectorUnavailable("wordfreq is required: pip install wordfreq") from error
+        raise DetectorUnavailable(
+            "wordfreq is required: pip install wordfreq"
+        ) from error
     return lambda word: word_frequency(word, "en")
 
 
@@ -115,7 +144,9 @@ class DomainReference:
     def __init__(self, root: Path):
         self.root = Path(root)
         self.counts = {
-            path.relative_to(self.root).as_posix(): Counter(tokens(path.read_text(encoding="utf-8")))
+            path.relative_to(self.root).as_posix(): Counter(
+                tokens(path.read_text(encoding="utf-8"))
+            )
             for path in sorted(self.root.rglob("*.md"))
         }
         self.total = sum(self.counts.values(), Counter())
@@ -153,14 +184,19 @@ def score_text(text: str, document: str, reference: DomainReference) -> dict[str
         "score_bits": round(score, 4),
         "threshold_bits": THRESHOLD_BITS,
         "flagged": score > THRESHOLD_BITS,
-        "top_words": [{"word": w, "likely_original": s, "gap_bits": round(g, 2)} for g, w, s in top],
+        "top_words": [
+            {"word": w, "likely_original": s, "gap_bits": round(g, 2)}
+            for g, w, s in top
+        ],
     }
 
 
 _WORD = re.compile(r"[A-Za-z]+(?:'[A-Za-z]+)?")
 
 
-def repair_text(text: str, document: str, reference: DomainReference) -> tuple[str, list[dict[str, Any]]]:
+def repair_text(
+    text: str, document: str, reference: DomainReference
+) -> tuple[str, list[dict[str, Any]]]:
     """Replace each word with gap > WORD_REPAIR_BITS by its most probable synonym."""
     q = lambda w: reference.probability(w, document)  # noqa: E731
     plan = {}
@@ -170,7 +206,9 @@ def repair_text(text: str, document: str, reference: DomainReference) -> tuple[s
         candidates = synonyms(word)
         if not candidates:
             continue
-        best = max(sorted(candidates), key=q)  # sorted: ties resolve the same way every run
+        best = max(
+            sorted(candidates), key=q
+        )  # sorted: ties resolve the same way every run
         gap = math.log2(q(best)) - math.log2(q(word))
         if gap > WORD_REPAIR_BITS:
             plan[word] = (best, gap)
@@ -182,7 +220,10 @@ def repair_text(text: str, document: str, reference: DomainReference) -> tuple[s
         replacement = plan[word.lower()][0]
         return replacement.capitalize() if word[0].isupper() else replacement
 
-    repairs = [{"word": w, "replacement": r, "gap_bits": round(g, 2)} for w, (r, g) in sorted(plan.items(), key=lambda x: -x[1][1])]
+    repairs = [
+        {"word": w, "replacement": r, "gap_bits": round(g, 2)}
+        for w, (r, g) in sorted(plan.items(), key=lambda x: -x[1][1])
+    ]
     return (_WORD.sub(replace, text) if plan else text), repairs
 
 
@@ -215,19 +256,40 @@ def filter_results(
             text, repairs = repair_text(text, name, reference)
             extra = {"score_before_repair_bits": before, "repairs": repairs}
         verdict = {**score_text(text, name, reference), **extra}
-        decisions.append({"rank": rank, "document": name, "start_index": document.metadata.get("start_index"),
-                          "similarity": round(float(similarity), 4), **verdict,
-                          "kept": not verdict["flagged"] and len(kept) < keep})
+        decisions.append(
+            {
+                "rank": rank,
+                "document": name,
+                "start_index": document.metadata.get("start_index"),
+                "similarity": round(float(similarity), 4),
+                **verdict,
+                "kept": not verdict["flagged"] and len(kept) < keep,
+            }
+        )
         if not verdict["flagged"] and len(kept) < keep:
-            annotated = Document(page_content=text,
-                                 metadata={**document.metadata, "entropy_filter": {
-                                     "policy_version": policy, "candidate_rank": rank, **verdict}})
+            annotated = Document(
+                page_content=text,
+                metadata={
+                    **document.metadata,
+                    "entropy_filter": {
+                        "policy_version": policy,
+                        "candidate_rank": rank,
+                        **verdict,
+                    },
+                },
+            )
             kept.append((annotated, similarity))
     return kept, decisions
 
 
-def make_filtered_retrieval(source_state: str, *, k: int = CANDIDATE_K, keep: int = KEEP, capture: dict | None = None,
-                            repair: bool = False):
+def make_filtered_retrieval(
+    source_state: str,
+    *,
+    k: int = CANDIDATE_K,
+    keep: int = KEEP,
+    capture: dict | None = None,
+    repair: bool = False,
+):
     """Retrieval function compatible with rag_chain.answer_question(retrieval_fn=...).
 
     Searches `source_state`'s collection for `k` candidates, filters, keeps `keep`.
@@ -238,14 +300,20 @@ def make_filtered_retrieval(source_state: str, *, k: int = CANDIDATE_K, keep: in
     root = get_knowledge_base_path(source_state)
 
     def retrieve(question: str, system_state: str = "defended"):
-        candidates = search_knowledge_base(query=question, k=k, system_state=source_state)
+        candidates = search_knowledge_base(
+            query=question, k=k, system_state=source_state
+        )
         kept, decisions = filter_results(candidates, root, keep=keep, repair=repair)
         if capture is not None:
-            capture["entropy_filter"] = {"policy_version": REPAIR_POLICY_VERSION if repair else POLICY_VERSION,
-                                         "source_state": source_state, "candidate_k": k, "keep": keep,
-                                         "threshold_bits": THRESHOLD_BITS,
-                                         **({"word_repair_bits": WORD_REPAIR_BITS} if repair else {}),
-                                         "decisions": decisions}
+            capture["entropy_filter"] = {
+                "policy_version": REPAIR_POLICY_VERSION if repair else POLICY_VERSION,
+                "source_state": source_state,
+                "candidate_k": k,
+                "keep": keep,
+                "threshold_bits": THRESHOLD_BITS,
+                **({"word_repair_bits": WORD_REPAIR_BITS} if repair else {}),
+                "decisions": decisions,
+            }
         return kept
 
     return retrieve
@@ -258,14 +326,20 @@ def defended_retrieve(question: str, system_state: str = "defended"):
 
 def repaired_retrieve(question: str, system_state: str = "repaired"):
     """The `repaired` system state: the PWWS-poisoned collection behind repair-then-rescore."""
-    return make_filtered_retrieval(SOURCE_STATE_FOR_DEFENDED, repair=True)(question, system_state)
+    return make_filtered_retrieval(SOURCE_STATE_FOR_DEFENDED, repair=True)(
+        question, system_state
+    )
 
 
 def retrieval_for_state(system_state: str):
     """Retrieval override for /chat: `defended` filters, `repaired` repairs, `contextual` filters with a
     language-model reference (app/defence/contextual_filter.py); others use the default."""
     if system_state == "contextual":
-        from app.defence.contextual_filter import contextual_retrieve  # imported lazily: loads torch
+        from app.defence.contextual_filter import (
+            contextual_retrieve,
+        )  # imported lazily: loads torch
 
         return contextual_retrieve
-    return {"defended": defended_retrieve, "repaired": repaired_retrieve}.get(system_state)
+    return {"defended": defended_retrieve, "repaired": repaired_retrieve}.get(
+        system_state
+    )

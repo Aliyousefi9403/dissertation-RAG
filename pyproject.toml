@@ -42,3 +42,8 @@ package-dir = {"" = "backend"}
 
 [tool.setuptools.packages.find]
 where = ["backend"]
+
+[tool.ruff]
+# Code added from October 2026 is formatted at the standard width; earlier files keep
+# their original hand-written layout (see DECISIONS.md, ADR-011).
+line-length = 88

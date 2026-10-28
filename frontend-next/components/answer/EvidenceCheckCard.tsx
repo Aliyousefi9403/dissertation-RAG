@@ -1,8 +1,4 @@
-import type {
-  EvidenceCheckResult,
-  EvidenceClaim,
-  EvidenceOutcome,
-} from "@/lib/types/guardedChat";
+import type { EvidenceCheckResult, EvidenceClaim, EvidenceOutcome } from "@/lib/types/guardedChat";
 
 const HEADLINES: Record<EvidenceOutcome, string> = {
   supported: "Claims are stated in the retrieved sources",
@@ -53,9 +49,7 @@ function ClaimRow({ claim }: { claim: EvidenceClaim }) {
         </ul>
       )}
       {claim.problems.length > 0 && (
-        <p className="evidence-claim-note evidence-claim-note--warn">
-          {claim.problems.join("; ")}
-        </p>
+        <p className="evidence-claim-note evidence-claim-note--warn">{claim.problems.join("; ")}</p>
       )}
     </li>
   );
@@ -108,10 +102,7 @@ export function EvidenceCheckCard({ result }: { result: EvidenceCheckResult }) {
 
       <p className="evidence-check-caveat">{result.label}</p>
 
-      <p
-        className="evidence-check-audit"
-        data-saved={result.audit.saved}
-      >
+      <p className="evidence-check-audit" data-saved={result.audit.saved}>
         {result.audit.saved
           ? `Audit record saved · run ${result.audit.run_id}`
           : `Audit record NOT saved — ${result.audit.error ?? "unknown error"}`}

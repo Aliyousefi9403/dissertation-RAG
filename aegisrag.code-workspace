@@ -1,0 +1,24 @@
+{
+  "folders": [{ "path": "." }],
+  "settings": {
+    "files.exclude": {
+      "**/__pycache__": true,
+      "**/.next": true,
+      "**/node_modules": true,
+      "pilot-runs": true,
+      "backend/data/poisoned*": true,
+      "backend/data/control": true,
+      "backend/data/external": true,
+      "backend/runtime": true,
+      "docs/paper/arxiv/*.aux": true,
+      "docs/paper/arxiv/*.log": true
+    },
+    "search.exclude": {
+      "pilot-runs": true,
+      "backend/data": true,
+      "docs/research/results": true
+    },
+    "python.analysis.extraPaths": ["backend"],
+    "editor.rulers": [88]
+  }
+}

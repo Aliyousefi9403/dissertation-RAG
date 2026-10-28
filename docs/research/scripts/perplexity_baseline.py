@@ -23,7 +23,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from auroc_uncertainty import RES, intervals, percentile  # noqa: E402
+from auroc_uncertainty import RES, intervals  # noqa: E402
 
 SCORES = ("ctx_syngap_top3", "lm_top5_surprisal", "lm_mean_surprisal")
 CONTEXTUAL_THRESHOLD = 4.4611
@@ -39,19 +39,31 @@ def threshold_at_fpr(rows, score, fpr=0.10):
 def rates(rows, score, threshold):
     pos = [r for r in rows if r["label"]]
     neg = [r for r in rows if not r["label"]]
-    return {"threshold": round(threshold, 4),
-            "edited_flagged": sum(r[score] > threshold for r in pos), "edited": len(pos),
-            "unedited_flagged": sum(r[score] > threshold for r in neg), "unedited": len(neg),
-            "fpr": round(sum(r[score] > threshold for r in neg) / len(neg), 4) if neg else None}
+    return {
+        "threshold": round(threshold, 4),
+        "edited_flagged": sum(r[score] > threshold for r in pos),
+        "edited": len(pos),
+        "unedited_flagged": sum(r[score] > threshold for r in neg),
+        "unedited": len(neg),
+        "fpr": round(sum(r[score] > threshold for r in neg) / len(neg), 4)
+        if neg
+        else None,
+    }
 
 
 def main(out_path):
-    corpora = {p.stem.removeprefix("family-"): json.loads(p.read_text())["rows"]
-               for p in sorted((RES / "entropy-family").glob("family-*.json"))}
+    corpora = {
+        p.stem.removeprefix("family-"): json.loads(p.read_text())["rows"]
+        for p in sorted((RES / "entropy-family").glob("family-*.json"))
+    }
     dev = [r for r in corpora["poisoned"] if r["split"] == "development"]
     frozen = {s: threshold_at_fpr(dev, s) for s in SCORES[1:]}
     frozen["ctx_syngap_top3"] = CONTEXTUAL_THRESHOLD
-    report = {"method": __doc__.strip().splitlines()[0], "frozen_thresholds_from_pwws_development": frozen, "corpora": {}}
+    report = {
+        "method": __doc__.strip().splitlines()[0],
+        "frozen_thresholds_from_pwws_development": frozen,
+        "corpora": {},
+    }
     for corpus, rows in corpora.items():
         if not any(r["label"] for r in rows):
             continue
@@ -59,18 +71,22 @@ def main(out_path):
         for other in SCORES[1:]:
             res = intervals(rows, SCORES, paired=("ctx_syngap_top3", other))
             entry.setdefault("scores", res["scores"])
-            entry["scores"].update({k: v for k, v in res["scores"].items() if "_minus_" in k})
+            entry["scores"].update(
+                {k: v for k, v in res["scores"].items() if "_minus_" in k}
+            )
             entry.setdefault("chunks", res["chunks"])
             entry.setdefault("attacked_chunks", res["attacked_chunks"])
         entry["frozen"] = {s: rates(rows, s, frozen[s]) for s in SCORES}
         report["corpora"][corpus] = entry
         sc = entry["scores"]
-        print(f"{corpus:32s} ctx {sc['ctx_syngap_top3']['auroc']:.3f}  top5 {sc['lm_top5_surprisal']['auroc']:.3f}  "
-              f"mean {sc['lm_mean_surprisal']['auroc']:.3f}  ctx-top5 {sc['ctx_syngap_top3_minus_lm_top5_surprisal']['difference']:+.3f} "
-              f"{sc['ctx_syngap_top3_minus_lm_top5_surprisal']['ci95']}  | flagged ctx "
-              f"{entry['frozen']['ctx_syngap_top3']['edited_flagged']}/{entry['frozen']['ctx_syngap_top3']['edited']} "
-              f"top5 {entry['frozen']['lm_top5_surprisal']['edited_flagged']} (FPR {entry['frozen']['ctx_syngap_top3']['fpr']} / "
-              f"{entry['frozen']['lm_top5_surprisal']['fpr']})")
+        print(
+            f"{corpus:32s} ctx {sc['ctx_syngap_top3']['auroc']:.3f}  top5 {sc['lm_top5_surprisal']['auroc']:.3f}  "
+            f"mean {sc['lm_mean_surprisal']['auroc']:.3f}  ctx-top5 {sc['ctx_syngap_top3_minus_lm_top5_surprisal']['difference']:+.3f} "
+            f"{sc['ctx_syngap_top3_minus_lm_top5_surprisal']['ci95']}  | flagged ctx "
+            f"{entry['frozen']['ctx_syngap_top3']['edited_flagged']}/{entry['frozen']['ctx_syngap_top3']['edited']} "
+            f"top5 {entry['frozen']['lm_top5_surprisal']['edited_flagged']} (FPR {entry['frozen']['ctx_syngap_top3']['fpr']} / "
+            f"{entry['frozen']['lm_top5_surprisal']['fpr']})"
+        )
     Path(out_path).parent.mkdir(parents=True, exist_ok=True)
     with open(out_path, "x", encoding="utf-8") as handle:  # create-only
         json.dump(report, handle, indent=1)

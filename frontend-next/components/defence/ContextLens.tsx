@@ -16,9 +16,15 @@ export function ContextLens({ sources }: { sources: SourceItem[] }) {
   const skipped = skippedPassageCount(sources);
 
   return (
-    <section className="defence-view defence-view--context" aria-label="Context lens" data-testid="context-lens">
+    <section
+      className="defence-view defence-view--context"
+      aria-label="Context lens"
+      data-testid="context-lens"
+    >
       <header className="defence-view-head">
-        <span className="defence-view-icon" aria-hidden="true">◎</span>
+        <span className="defence-view-icon" aria-hidden="true">
+          ◎
+        </span>
         <div>
           <p className="eyebrow">Context lens · language model as reference</p>
           <h3>
@@ -38,23 +44,32 @@ export function ContextLens({ sources }: { sources: SourceItem[] }) {
           return (
             <li key={source.source_number} className="context-lens-row">
               <div className="context-lens-meta">
-                <span>[{source.source_number}] {fileName(source.source)}</span>
+                <span>
+                  [{source.source_number}] {fileName(source.source)}
+                </span>
                 <span>
                   <strong>{verdict!.score_bits.toFixed(2)}</strong> / {verdict!.threshold_bits} bits
                 </span>
               </div>
-              <div className="context-lens-gauge" role="img"
-                   aria-label={`score ${verdict!.score_bits.toFixed(2)} bits, threshold ${verdict!.threshold_bits} bits`}>
+              <div
+                className="context-lens-gauge"
+                role="img"
+                aria-label={`score ${verdict!.score_bits.toFixed(2)} bits, threshold ${verdict!.threshold_bits} bits`}
+              >
                 <span className="context-lens-fill" style={{ width: `${ratio * 100}%` }} />
                 <span className="context-lens-mark" style={{ left: `${mark * 100}%` }} />
               </div>
               {(verdict!.top_words?.length ?? 0) > 0 && (
                 <p className="context-lens-words">
                   {verdict!.top_words!.map((w) => (
-                    <span key={w.word} className="context-word"
-                          style={{ ["--heat" as string]: Math.min(1, Math.max(0.15, w.gap_bits / 12)) }}
-                          title={`${w.gap_bits.toFixed(1)} bits less likely than "${w.likely_original}"`}>
-                      {w.word}<span className="context-word-alt">→ {w.likely_original}</span>
+                    <span
+                      key={w.word}
+                      className="context-word"
+                      style={{ ["--heat" as string]: Math.min(1, Math.max(0.15, w.gap_bits / 12)) }}
+                      title={`${w.gap_bits.toFixed(1)} bits less likely than "${w.likely_original}"`}
+                    >
+                      {w.word}
+                      <span className="context-word-alt">→ {w.likely_original}</span>
                     </span>
                   ))}
                 </p>

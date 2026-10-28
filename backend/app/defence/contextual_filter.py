@@ -34,8 +34,16 @@ from typing import Any
 from langchain_core.documents import Document
 
 from app.defence.entropy_filter import (
-    CANDIDATE_K, KEEP, STOPWORDS, SOURCE_STATE_FOR_DEFENDED, DetectorUnavailable, DomainReference,
-    _relative_document, reference_for, synonyms, tokens,
+    CANDIDATE_K,
+    KEEP,
+    SOURCE_STATE_FOR_DEFENDED,
+    STOPWORDS,
+    DetectorUnavailable,
+    DomainReference,
+    _relative_document,
+    reference_for,
+    synonyms,
+    tokens,
 )
 
 POLICY_VERSION = "contextual-filter-v1"
@@ -55,7 +63,9 @@ class LanguageModel:
             import torch
             from transformers import AutoModelForCausalLM, AutoTokenizer
         except ImportError as error:
-            raise DetectorUnavailable("transformers and torch are required for the contextual filter") from error
+            raise DetectorUnavailable(
+                "transformers and torch are required for the contextual filter"
+            ) from error
         self.torch = torch
         self.max_tokens = max_tokens
         self.tok = AutoTokenizer.from_pretrained(name)
@@ -68,12 +78,19 @@ class LanguageModel:
         out = []
         with torch.no_grad():
             for i in range(0, len(texts), BATCH):
-                enc = self.tok([self.tok.bos_token + t for t in texts[i:i + BATCH]], return_tensors="pt",
-                               padding=True, truncation=True, max_length=self.max_tokens)
+                enc = self.tok(
+                    [self.tok.bos_token + t for t in texts[i : i + BATCH]],
+                    return_tensors="pt",
+                    padding=True,
+                    truncation=True,
+                    max_length=self.max_tokens,
+                )
                 logits = self.model(**enc).logits[:, :-1]
                 target = enc.input_ids[:, 1:]
                 mask = enc.attention_mask[:, 1:].bool()
-                nll = torch.nn.functional.cross_entropy(logits.transpose(1, 2), target, reduction="none") / math.log(2)
+                nll = torch.nn.functional.cross_entropy(
+                    logits.transpose(1, 2), target, reduction="none"
+                ) / math.log(2)
                 out += [-float(row[m].sum()) for row, m in zip(nll, mask)]
         return out
 
@@ -86,10 +103,13 @@ def language_model() -> LanguageModel:
 def replace_word(text: str, word: str, synonym: str) -> str:
     def keep_case(match: re.Match) -> str:
         return synonym.capitalize() if match.group(0)[0].isupper() else synonym
+
     return re.sub(rf"\b{re.escape(word)}\b", keep_case, text, flags=re.IGNORECASE)
 
 
-def candidates(text: str, document: str, reference: DomainReference) -> list[tuple[str, list[str]]]:
+def candidates(
+    text: str, document: str, reference: DomainReference
+) -> list[tuple[str, list[str]]]:
     """The words with the largest unigram synonym gap, each with its most probable synonyms."""
     q = lambda w: reference.probability(w, document)  # noqa: E731
     gaps = []
@@ -98,14 +118,29 @@ def candidates(text: str, document: str, reference: DomainReference) -> list[tup
             continue
         ranked = sorted(sorted(synonyms(word)), key=q, reverse=True)
         if ranked:
-            gaps.append((math.log2(q(ranked[0])) - math.log2(q(word)), word, ranked[:CANDIDATE_SYNONYMS]))
+            gaps.append(
+                (
+                    math.log2(q(ranked[0])) - math.log2(q(word)),
+                    word,
+                    ranked[:CANDIDATE_SYNONYMS],
+                )
+            )
     gaps.sort(key=lambda g: (-g[0], g[1]))
     return [(word, syns) for _, word, syns in gaps[:CANDIDATE_WORDS]]
 
 
-def score_text(text: str, document: str, reference: DomainReference, lm: LanguageModel | None = None) -> dict[str, Any]:
+def score_text(
+    text: str,
+    document: str,
+    reference: DomainReference,
+    lm: LanguageModel | None = None,
+) -> dict[str, Any]:
     """Contextual synonym-gap score in bits plus the words that drive it."""
-    variants = [(w, s, replace_word(text, w, s)) for w, syns in candidates(text, document, reference) for s in syns]
+    variants = [
+        (w, s, replace_word(text, w, s))
+        for w, syns in candidates(text, document, reference)
+        for s in syns
+    ]
     best: dict[str, tuple[float, str]] = {}
     if variants:
         lm = lm or language_model()
@@ -119,7 +154,10 @@ def score_text(text: str, document: str, reference: DomainReference, lm: Languag
         "score_bits": round(score, 4),
         "threshold_bits": THRESHOLD_BITS,
         "flagged": score > THRESHOLD_BITS,
-        "top_words": [{"word": w, "likely_original": s, "gap_bits": round(g, 2)} for w, (g, s) in top],
+        "top_words": [
+            {"word": w, "likely_original": s, "gap_bits": round(g, 2)}
+            for w, (g, s) in top
+        ],
     }
 
 
@@ -128,8 +166,13 @@ def score_text(text: str, document: str, reference: DomainReference, lm: Languag
 _SCORE_CACHE: dict[tuple[str, str, str], dict[str, Any]] = {}
 
 
-def filter_results(results: list[tuple[Document, float]], root: Path, *, keep: int = KEEP,
-                   lm: LanguageModel | None = None) -> tuple[list[tuple[Document, float]], list[dict[str, Any]]]:
+def filter_results(
+    results: list[tuple[Document, float]],
+    root: Path,
+    *,
+    keep: int = KEEP,
+    lm: LanguageModel | None = None,
+) -> tuple[list[tuple[Document, float]], list[dict[str, Any]]]:
     """Drop flagged chunks from ranked results; return (kept top-`keep`, decisions)."""
     reference = reference_for(str(root))
     kept, decisions = [], []
@@ -142,19 +185,40 @@ def filter_results(results: list[tuple[Document, float]], root: Path, *, keep: i
             if key not in _SCORE_CACHE:
                 _SCORE_CACHE[key] = score_text(document.page_content, name, reference)
             verdict = _SCORE_CACHE[key]
-        decisions.append({"rank": rank, "document": name, "start_index": document.metadata.get("start_index"),
-                          "similarity": round(float(similarity), 4), **verdict,
-                          "kept": not verdict["flagged"] and len(kept) < keep})
+        decisions.append(
+            {
+                "rank": rank,
+                "document": name,
+                "start_index": document.metadata.get("start_index"),
+                "similarity": round(float(similarity), 4),
+                **verdict,
+                "kept": not verdict["flagged"] and len(kept) < keep,
+            }
+        )
         if not verdict["flagged"] and len(kept) < keep:
             # Same metadata key as the drop defence, so the interface reads both the same way.
-            annotated = Document(page_content=document.page_content,
-                                 metadata={**document.metadata, "entropy_filter": {
-                                     "policy_version": POLICY_VERSION, "candidate_rank": rank, **verdict}})
+            annotated = Document(
+                page_content=document.page_content,
+                metadata={
+                    **document.metadata,
+                    "entropy_filter": {
+                        "policy_version": POLICY_VERSION,
+                        "candidate_rank": rank,
+                        **verdict,
+                    },
+                },
+            )
             kept.append((annotated, similarity))
     return kept, decisions
 
 
-def make_filtered_retrieval(source_state: str, *, k: int = CANDIDATE_K, keep: int = KEEP, capture: dict | None = None):
+def make_filtered_retrieval(
+    source_state: str,
+    *,
+    k: int = CANDIDATE_K,
+    keep: int = KEEP,
+    capture: dict | None = None,
+):
     """Retrieval function compatible with rag_chain.answer_question(retrieval_fn=...)."""
     from app.config import get_knowledge_base_path
     from app.retrieval.search import search_knowledge_base
@@ -165,9 +229,15 @@ def make_filtered_retrieval(source_state: str, *, k: int = CANDIDATE_K, keep: in
         found = search_knowledge_base(query=question, k=k, system_state=source_state)
         kept, decisions = filter_results(found, root, keep=keep)
         if capture is not None:
-            capture["entropy_filter"] = {"policy_version": POLICY_VERSION, "source_state": source_state,
-                                         "candidate_k": k, "keep": keep, "threshold_bits": THRESHOLD_BITS,
-                                         "lm": LM_NAME, "decisions": decisions}
+            capture["entropy_filter"] = {
+                "policy_version": POLICY_VERSION,
+                "source_state": source_state,
+                "candidate_k": k,
+                "keep": keep,
+                "threshold_bits": THRESHOLD_BITS,
+                "lm": LM_NAME,
+                "decisions": decisions,
+            }
         return kept
 
     return retrieve

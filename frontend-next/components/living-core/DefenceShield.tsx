@@ -27,7 +27,16 @@ const HONEYCOMB = [HEX(0, 0), HEX(24, 0), HEX(12, 20.78), HEX(0, 41.57), HEX(24,
 // Where "blocked" passages strike the shield (unit points on the rim).
 // Lower rim first: the upper half usually sits behind the answer card.
 const IMPACTS: Array<[number, number]> = [
-  [-70, 76], [70, 76], [0, 120], [-96, 30], [96, 30], [-40, 104], [40, 104], [-100, -40], [100, -40], [0, -116],
+  [-70, 76],
+  [70, 76],
+  [0, 120],
+  [-96, 30],
+  [96, 30],
+  [-40, 104],
+  [40, 104],
+  [-100, -40],
+  [100, -40],
+  [0, -116],
 ];
 const IMPACT_DELAY = 0.6;
 const IMPACT_STEP = 0.32;
@@ -38,7 +47,13 @@ const IMPACT_STEP = 0.32;
  * skipped for the last answer, in the caption, which is announced politely.
  * Every animation is CSS and is disabled under prefers-reduced-motion.
  */
-export function DefenceShield({ state, skipped, variant = "stage", repaired, contextual = false }: DefenceShieldProps) {
+export function DefenceShield({
+  state,
+  skipped,
+  variant = "stage",
+  repaired,
+  contextual = false,
+}: DefenceShieldProps) {
   const impacts = state === "resolved" && skipped ? Math.min(skipped, IMPACTS.length) : 0;
   const repairMode = repaired !== undefined;
   const repairNote =
@@ -51,7 +66,8 @@ export function DefenceShield({ state, skipped, variant = "stage", repaired, con
       : state === "resolved" && skipped !== null
         ? (skipped === 0
             ? "Entropy shield: no passages blocked"
-            : `Entropy shield: ${skipped} suspicious ${skipped === 1 ? "passage" : "passages"} blocked`) + repairNote
+            : `Entropy shield: ${skipped} suspicious ${skipped === 1 ? "passage" : "passages"} blocked`) +
+          repairNote
         : state === "fault"
           ? "Entropy shield: request failed"
           : repairMode
@@ -61,9 +77,19 @@ export function DefenceShield({ state, skipped, variant = "stage", repaired, con
               : "Entropy shield armed — relative-entropy filter on";
 
   return (
-    <div className={`defence-shield defence-shield--${variant}`} data-state={state} data-impacts={impacts > 0}
-         data-mode={repairMode ? "repair" : contextual ? "contextual" : "filter"} data-testid="defence-shield">
-      <svg className="defence-shield-svg" viewBox="-140 -150 280 300" aria-hidden="true" focusable="false">
+    <div
+      className={`defence-shield defence-shield--${variant}`}
+      data-state={state}
+      data-impacts={impacts > 0}
+      data-mode={repairMode ? "repair" : contextual ? "contextual" : "filter"}
+      data-testid="defence-shield"
+    >
+      <svg
+        className="defence-shield-svg"
+        viewBox="-140 -150 280 300"
+        aria-hidden="true"
+        focusable="false"
+      >
         <defs>
           <linearGradient id="defence-face" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#7fd99a" stopOpacity="0.30" />
@@ -75,7 +101,14 @@ export function DefenceShield({ state, skipped, variant = "stage", repaired, con
             <stop offset="50%" stopColor="#c8f7d6" stopOpacity="0.55" />
             <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
           </linearGradient>
-          <pattern id="defence-cells" width="24" height="41.57" patternUnits="userSpaceOnUse" x="-12" y="-14">
+          <pattern
+            id="defence-cells"
+            width="24"
+            height="41.57"
+            patternUnits="userSpaceOnUse"
+            x="-12"
+            y="-14"
+          >
             <path d={HONEYCOMB} fill="none" stroke="#7fd99a" strokeWidth="0.8" />
           </pattern>
           <clipPath id="defence-clip">
@@ -90,15 +123,35 @@ export function DefenceShield({ state, skipped, variant = "stage", repaired, con
           <circle r="132" fill="none" stroke="#38bdf8" strokeWidth="1" strokeDasharray="2 9" />
         </g>
         <g className="defence-shield-ring defence-shield-ring--inner">
-          <circle r="118" fill="none" stroke="#7fd99a" strokeWidth="1.4" strokeDasharray="38 14 4 14" />
+          <circle
+            r="118"
+            fill="none"
+            stroke="#7fd99a"
+            strokeWidth="1.4"
+            strokeDasharray="38 14 4 14"
+          />
         </g>
 
         <path d={SHIELD} className="defence-shield-halo" filter="url(#defence-glow)" />
 
         <g clipPath="url(#defence-clip)">
           <path d={SHIELD} fill="url(#defence-face)" />
-          <rect className="defence-shield-cells" x="-110" y="-130" width="220" height="260" fill="url(#defence-cells)" />
-          <rect className="defence-shield-sweep" x="-110" y="-130" width="220" height="60" fill="url(#defence-sweep)" />
+          <rect
+            className="defence-shield-cells"
+            x="-110"
+            y="-130"
+            width="220"
+            height="260"
+            fill="url(#defence-cells)"
+          />
+          <rect
+            className="defence-shield-sweep"
+            x="-110"
+            y="-130"
+            width="220"
+            height="60"
+            fill="url(#defence-sweep)"
+          />
         </g>
 
         <path d={SHIELD} className="defence-shield-edge" pathLength={1} />
@@ -111,10 +164,21 @@ export function DefenceShield({ state, skipped, variant = "stage", repaired, con
         {Array.from({ length: impacts }, (_, index) => {
           const [x, y] = IMPACTS[index];
           return (
-            <g key={`${index}-${skipped}`} className="defence-shield-impact"
-               style={{ transform: `translate(${x}px, ${y}px)` }}>
-              <circle r="7" className="defence-shield-impact-core" style={{ animationDelay: `${IMPACT_DELAY + IMPACT_STEP * index}s` }} />
-              <circle r="7" className="defence-shield-impact-ring" style={{ animationDelay: `${IMPACT_DELAY + IMPACT_STEP * index}s` }} />
+            <g
+              key={`${index}-${skipped}`}
+              className="defence-shield-impact"
+              style={{ transform: `translate(${x}px, ${y}px)` }}
+            >
+              <circle
+                r="7"
+                className="defence-shield-impact-core"
+                style={{ animationDelay: `${IMPACT_DELAY + IMPACT_STEP * index}s` }}
+              />
+              <circle
+                r="7"
+                className="defence-shield-impact-ring"
+                style={{ animationDelay: `${IMPACT_DELAY + IMPACT_STEP * index}s` }}
+              />
             </g>
           );
         })}
@@ -125,8 +189,11 @@ export function DefenceShield({ state, skipped, variant = "stage", repaired, con
       {impacts > 0 && (
         <div className="defence-shield-tokens" aria-hidden="true">
           {Array.from({ length: impacts }, (_, index) => (
-            <span key={`${index}-${skipped}`} className="defence-shield-token"
-                  style={{ animationDelay: `${IMPACT_DELAY + IMPACT_STEP * index}s` }} />
+            <span
+              key={`${index}-${skipped}`}
+              className="defence-shield-token"
+              style={{ animationDelay: `${IMPACT_DELAY + IMPACT_STEP * index}s` }}
+            />
           ))}
         </div>
       )}

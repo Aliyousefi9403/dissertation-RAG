@@ -31,7 +31,9 @@ def test_env_selects_frozen_v1(monkeypatch):
     assert module.QUESTIONS_FILE == v1
     questions = module.load_questions()
     assert len(questions) == 44
-    assert module.find_ground_truth(questions[0]["question"])["id"] == questions[0]["id"]
+    assert (
+        module.find_ground_truth(questions[0]["question"])["id"] == questions[0]["id"]
+    )
     _reload(monkeypatch, None)
 
 
@@ -42,8 +44,12 @@ def test_v1_matches_its_frozen_record():
     data = (ROOT / "data/evaluation/questions_v1.json").read_bytes()
     assert hashlib.sha256(data).hexdigest() == record["questions_v1_sha256"]
     questions = json.loads(data)
-    assert len({q["id"] for q in questions}) == len(questions) == record["question_count"]
+    assert (
+        len({q["id"] for q in questions}) == len(questions) == record["question_count"]
+    )
     assert {q["split"] for q in questions} == {"development", "held_out"}
     held = set(record["held_out_documents"])
-    assert all((q["source_document"] in held) == (q["split"] == "held_out") for q in questions)
+    assert all(
+        (q["source_document"] in held) == (q["split"] == "held_out") for q in questions
+    )
     assert not held & set(record["pilot_documents"])

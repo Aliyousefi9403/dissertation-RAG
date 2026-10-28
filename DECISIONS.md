@@ -322,3 +322,9 @@ Approved by the author on 28 Oct 2026 ("I approve version A … the UI plan and 
 9. **Rollback.** Revert the commits; delete `backend/runtime/`; recorded evidence is unaffected.
 
 **ADR-009 addendum (28 Oct 2026): runtime-monitor-v2.** Testing Verified mode in the interface showed φ1 withholding an answer for a word the model chose itself ("emphasizing"), the same false-withhold weakness reported in §23. v2 flags a rare word outside the trusted vocabulary only if it also occurs in the retrieved context, i.e. the model copied it from possibly tampered evidence. `check(..., context=None)` reproduces v1 exactly; the v1 evaluation (§23) used commit `39498ac` and stays as recorded. v2 is to be evaluated live before any claim is made about it.
+
+## ADR-011: Readability clean-up without behaviour change (approved 28 Oct 2026)
+
+Approved by the author on 28 Oct 2026. Files written before the 16 Oct sync (`b670331`) keep their original hand-written layout untouched. The 45 Python and 13 TypeScript files added since were formatted (ruff format, 88 columns; Prettier, 100 columns), imports sorted, unused imports removed and section markers converted to the project's `# ====` banner style. Recorded evidence is marked `linguist-generated` (`.gitattributes`) and hidden in the editor by `aegisrag.code-workspace`; nothing was moved or deleted.
+
+**Behaviour check.** Backend tests 302 passed, 1 skipped; frontend type check and lint clean; `verify_evidence.py` 107/107 claims and all run records unchanged; offline analyses re-run from the formatted code reproduce their committed results exactly (perplexity baseline, monitor analysis; the monitor dry check differs only in its renamed version label). Runs record the hashes of the code that produced them; the last commit before formatting is `7c8e077`.

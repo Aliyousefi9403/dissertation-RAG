@@ -34,10 +34,11 @@ import re
 import time
 import unicodedata
 import uuid
+from collections.abc import Callable
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Callable, Optional
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -161,6 +162,7 @@ def build_verifier_prompt(
 # Strict verifier-output validation
 # ============================================================
 
+
 class VerifierOutputError(ValueError):
     """The verifier response does not match the required schema."""
 
@@ -170,10 +172,7 @@ _FENCE_RE = re.compile(r"^```(?:json)?\s*(.*?)\s*```$", re.DOTALL)
 
 def _normalise(text: str) -> str:
     text = unicodedata.normalize("NFKC", text)
-    text = (
-        text.replace("‘", "'").replace("’", "'")
-        .replace("“", '"').replace("”", '"')
-    )
+    text = text.replace("‘", "'").replace("’", "'").replace("“", '"').replace("”", '"')
     return " ".join(text.split()).casefold()
 
 
@@ -246,10 +245,14 @@ def parse_verification(
         quotes = item.get("quotes", [])
         explanation = item.get("explanation", "")
 
-        _require(isinstance(claim, str) and claim.strip() != "", f"{where}.claim must be a non-empty string")
+        _require(
+            isinstance(claim, str) and claim.strip() != "",
+            f"{where}.claim must be a non-empty string",
+        )
         _require(verdict in VERDICTS, f"{where}.verdict must be one of {VERDICTS}")
         _require(
-            isinstance(source_ids, list) and all(isinstance(s, str) for s in source_ids),
+            isinstance(source_ids, list)
+            and all(isinstance(s, str) for s in source_ids),
             f"{where}.source_ids must be a list of strings",
         )
         _require(isinstance(quotes, list), f"{where}.quotes must be a list")
@@ -312,6 +315,7 @@ def parse_verification(
 # Release decision
 # ============================================================
 
+
 @dataclass(frozen=True)
 class Decision:
     outcome: str
@@ -322,22 +326,38 @@ class Decision:
 def decide(
     *,
     sources: list[dict[str, Any]],
-    findings: Optional[list[dict[str, Any]]],
-    failure_stage: Optional[str] = None,
+    findings: list[dict[str, Any]] | None,
+    failure_stage: str | None = None,
     abstention: bool = False,
 ) -> Decision:
     if failure_stage == "retrieval":
-        return Decision("unavailable", False, "Retrieval failed, so there is no evidence to check against.")
+        return Decision(
+            "unavailable",
+            False,
+            "Retrieval failed, so there is no evidence to check against.",
+        )
     if not sources:
-        return Decision("unavailable", False, "No evidence was retrieved, so the answer cannot be checked.")
+        return Decision(
+            "unavailable",
+            False,
+            "No evidence was retrieved, so the answer cannot be checked.",
+        )
     if failure_stage == "generation":
-        return Decision("unavailable", False, "The draft answer could not be generated.")
+        return Decision(
+            "unavailable", False, "The draft answer could not be generated."
+        )
     if failure_stage == "verification" or findings is None:
-        return Decision("unavailable", False, "The evidence check could not be completed, so the draft is withheld.")
+        return Decision(
+            "unavailable",
+            False,
+            "The evidence check could not be completed, so the draft is withheld.",
+        )
     statuses = [finding["status"] for finding in findings]
     count = lambda status: statuses.count(status)  # noqa: E731
 
-    if abstention and not (count("contradicted") or count("unsupported") or count("unavailable")):
+    if abstention and not (
+        count("contradicted") or count("unsupported") or count("unavailable")
+    ):
         return Decision(
             "abstained",
             True,
@@ -345,14 +365,28 @@ def decide(
             "insufficient; it is released as a refusal, not as an answer.",
         )
     if not findings:
-        return Decision("unavailable", False, "The verifier found no checkable claims in the draft.")
+        return Decision(
+            "unavailable", False, "The verifier found no checkable claims in the draft."
+        )
 
     if count("contradicted"):
-        return Decision("contradicted", False, f"{count('contradicted')} claim(s) are contradicted by the retrieved sources.")
+        return Decision(
+            "contradicted",
+            False,
+            f"{count('contradicted')} claim(s) are contradicted by the retrieved sources.",
+        )
     if count("unsupported"):
-        return Decision("unsupported", False, f"{count('unsupported')} claim(s) are not stated in the retrieved sources.")
+        return Decision(
+            "unsupported",
+            False,
+            f"{count('unsupported')} claim(s) are not stated in the retrieved sources.",
+        )
     if count("unavailable"):
-        return Decision("unavailable", False, f"{count('unavailable')} claim(s) could not be tied to verified quotations.")
+        return Decision(
+            "unavailable",
+            False,
+            f"{count('unavailable')} claim(s) could not be tied to verified quotations.",
+        )
     return Decision(
         "supported",
         True,
@@ -364,6 +398,7 @@ def decide(
 # ============================================================
 # Model clients for this route only
 # ============================================================
+
 
 def guarded_model_settings() -> dict[str, Any]:
     from app import config
@@ -476,6 +511,7 @@ def write_audit_record(record: dict[str, Any], audit_dir: Path) -> Path:
 # Orchestration
 # ============================================================
 
+
 def _failure(stage: str, error: BaseException) -> dict[str, Any]:
     name = type(error).__name__
     is_timeout = isinstance(error, TimeoutError) or "timeout" in name.lower()
@@ -488,7 +524,7 @@ def _failure(stage: str, error: BaseException) -> dict[str, Any]:
 
 
 def _new_run_id() -> str:
-    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    stamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
     return f"{stamp}-{uuid.uuid4().hex}"
 
 
@@ -496,30 +532,35 @@ def run_guarded_chat(
     question: str,
     system_state: str,
     *,
-    answer_fn: Optional[Callable[..., dict[str, Any]]] = None,
-    retrieval_fn: Optional[Callable[..., Any]] = None,
-    draft_llm_factory: Optional[Callable[[], Any]] = None,
-    verifier_llm_factory: Optional[Callable[[], Any]] = None,
-    audit_dir: Optional[Path] = None,
+    answer_fn: Callable[..., dict[str, Any]] | None = None,
+    retrieval_fn: Callable[..., Any] | None = None,
+    draft_llm_factory: Callable[[], Any] | None = None,
+    verifier_llm_factory: Callable[[], Any] | None = None,
+    audit_dir: Path | None = None,
     audit_writer: Callable[[dict[str, Any], Path], Path] = write_audit_record,
-    settings: Optional[dict[str, Any]] = None,
+    settings: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     question = (question or "").strip()
     if not question:
         raise ValueError("Question cannot be empty.")
     if system_state not in ("clean", "poisoned"):
-        raise ValueError("Evidence check supports the 'clean' and 'poisoned' states only.")
+        raise ValueError(
+            "Evidence check supports the 'clean' and 'poisoned' states only."
+        )
 
     run_id = _new_run_id()
     started = time.perf_counter()
-    timings: dict[str, Optional[float]] = {
-        "retrieval_ms": None, "draft_ms": None, "verification_ms": None, "total_ms": None,
+    timings: dict[str, float | None] = {
+        "retrieval_ms": None,
+        "draft_ms": None,
+        "verification_ms": None,
+        "total_ms": None,
     }
     failures: list[dict[str, Any]] = []
     capture: dict[str, Any] = {}
     sources: list[dict[str, Any]] = []
-    draft: Optional[str] = None
-    failure_stage: Optional[str] = None
+    draft: str | None = None
+    failure_stage: str | None = None
 
     base_retrieval = retrieval_fn or _default_retrieval_fn
 
@@ -543,7 +584,9 @@ def run_guarded_chat(
         sources = result.get("sources", [])
         draft = result.get("answer")
     except Exception as error:
-        failure_stage = "retrieval" if capture.get("retrieval_status") != "ok" else "generation"
+        failure_stage = (
+            "retrieval" if capture.get("retrieval_status") != "ok" else "generation"
+        )
         failures.append(_failure(failure_stage, error))
         sources = capture.get("sources", []) or []
     timings["draft_ms"] = round(
@@ -551,10 +594,10 @@ def run_guarded_chat(
     )
 
     # ---- 2. Independent verifier call --------------------------------
-    verifier_prompt: Optional[str] = None
-    raw_verifier: Optional[str] = None
+    verifier_prompt: str | None = None
+    raw_verifier: str | None = None
     verifier_metadata: dict[str, Any] = {}
-    findings: Optional[list[dict[str, Any]]] = None
+    findings: list[dict[str, Any]] | None = None
     abstention = False
     verifier_status = "not_run"
 
@@ -582,11 +625,16 @@ def run_guarded_chat(
             failure_stage = "verification"
             verifier_status = "failed"
             failures.append(_failure("verification", error))
-        timings["verification_ms"] = round((time.perf_counter() - verify_started) * 1000, 1)
+        timings["verification_ms"] = round(
+            (time.perf_counter() - verify_started) * 1000, 1
+        )
 
     # ---- 3. Policy ----------------------------------------------------
     decision = decide(
-        sources=sources, findings=findings, failure_stage=failure_stage, abstention=abstention
+        sources=sources,
+        findings=findings,
+        failure_stage=failure_stage,
+        abstention=abstention,
     )
     timings["total_ms"] = round((time.perf_counter() - started) * 1000, 1)
 
@@ -599,7 +647,7 @@ def run_guarded_chat(
     record = {
         "schema_version": AUDIT_SCHEMA_VERSION,
         "run_id": run_id,
-        "created_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": datetime.now(UTC).isoformat(),
         "policy_version": POLICY_VERSION,
         "policy": POLICY_DESCRIPTION,
         "label": EXPERIMENT_LABEL,
@@ -632,13 +680,20 @@ def run_guarded_chat(
     }
 
     target_dir = audit_dir or get_audit_dir()
-    audit: dict[str, Any] = {"saved": False, "run_id": run_id, "location": None, "error": None}
+    audit: dict[str, Any] = {
+        "saved": False,
+        "run_id": run_id,
+        "location": None,
+        "error": None,
+    }
     try:
         path = audit_writer(record, target_dir)
         audit.update(saved=True, location=str(path))
     except Exception as error:
         audit["error"] = f"{type(error).__name__}: audit record was NOT saved"
-        logger.error("Evidence-guard audit write failed for run %s", run_id, exc_info=True)
+        logger.error(
+            "Evidence-guard audit write failed for run %s", run_id, exc_info=True
+        )
 
     return {
         "run_id": run_id,
@@ -651,7 +706,18 @@ def run_guarded_chat(
         "answer": draft if decision.released else None,
         "explanation": decision.reason,
         "claims": [
-            {key: f[key] for key in ("claim", "status", "verifier_verdict", "source_ids", "quotes", "explanation", "problems")}
+            {
+                key: f[key]
+                for key in (
+                    "claim",
+                    "status",
+                    "verifier_verdict",
+                    "source_ids",
+                    "quotes",
+                    "explanation",
+                    "problems",
+                )
+            }
             for f in (findings or [])
         ],
         "sources": [

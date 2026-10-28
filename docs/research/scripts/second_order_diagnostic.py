@@ -32,7 +32,11 @@ def word_swaps(original, adversarial):
     a, b = AttackedText(original), AttackedText(adversarial)
     if len(a.words) != len(b.words):
         return None, a
-    return [(i, a.words[i], b.words[i]) for i in range(len(a.words)) if a.words[i] != b.words[i]], a
+    return [
+        (i, a.words[i], b.words[i])
+        for i in range(len(a.words))
+        if a.words[i] != b.words[i]
+    ], a
 
 
 def main(out_path):
@@ -46,37 +50,71 @@ def main(out_path):
             continue
         swaps, attacked = word_swaps(e["original_text"], e["adversarial_text"])
         if swaps is None:
-            sections.append({"file": e["file"], "section": e["section"], "aligned": False})
+            sections.append(
+                {"file": e["file"], "section": e["section"], "aligned": False}
+            )
             continue
         base_lp = lm.log2_prob([e["original_text"]])[0]
         single = [attacked.replace_word_at_index(i, new).text for i, _, new in swaps]
-        lps = [p for k in range(0, len(single), 4) for p in lm.log2_prob(single[k:k + 4])]
+        lps = [
+            p for k in range(0, len(single), 4) for p in lm.log2_prob(single[k : k + 4])
+        ]
         both = lm.log2_prob([e["adversarial_text"]])[0]
         for (i, old, new), lp in zip(swaps, lps):
-            freq_ok = reference.probability(new.lower(), e["file"]) >= reference.probability(old.lower(), e["file"])
-            rows.append({"file": e["file"], "section": e["section"], "original": old, "substitute": new,
-                         "frequency_rule": freq_ok, "lm_delta_bits": round(lp - base_lp, 3), "lm_rule": lp >= base_lp})
-        sections.append({"file": e["file"], "section": e["section"], "aligned": True, "swaps": len(swaps),
-                         "whole_attack_lm_delta_bits": round(both - base_lp, 3)})
+            freq_ok = reference.probability(
+                new.lower(), e["file"]
+            ) >= reference.probability(old.lower(), e["file"])
+            rows.append(
+                {
+                    "file": e["file"],
+                    "section": e["section"],
+                    "original": old,
+                    "substitute": new,
+                    "frequency_rule": freq_ok,
+                    "lm_delta_bits": round(lp - base_lp, 3),
+                    "lm_rule": lp >= base_lp,
+                }
+            )
+        sections.append(
+            {
+                "file": e["file"],
+                "section": e["section"],
+                "aligned": True,
+                "swaps": len(swaps),
+                "whole_attack_lm_delta_bits": round(both - base_lp, 3),
+            }
+        )
     # sanity: identity passes; restoring the original word after a rejected swap passes
     probe = next(r for r in rows if not r["lm_rule"])
-    e = next(json.loads(l) for l in manifest.read_text().splitlines()
-             if json.loads(l).get("success") and json.loads(l)["section"] == probe["section"] and json.loads(l)["file"] == probe["file"])
-    identity_ok = lm.log2_prob([e["original_text"]])[0] >= lm.log2_prob([e["original_text"]])[0]
+    e = next(
+        json.loads(l)
+        for l in manifest.read_text().splitlines()
+        if json.loads(l).get("success")
+        and json.loads(l)["section"] == probe["section"]
+        and json.loads(l)["file"] == probe["file"]
+    )
+    identity_ok = (
+        lm.log2_prob([e["original_text"]])[0] >= lm.log2_prob([e["original_text"]])[0]
+    )
     n = len(rows)
     summary = {
-        "successful_unrestricted_sections": len(sections), "aligned_sections": sum(s["aligned"] for s in sections),
+        "successful_unrestricted_sections": len(sections),
+        "aligned_sections": sum(s["aligned"] for s in sections),
         "swaps": n,
         "pass_frequency_rule": sum(r["frequency_rule"] for r in rows),
         "pass_lm_rule": sum(r["lm_rule"] for r in rows),
         "pass_both_rules": sum(r["frequency_rule"] and r["lm_rule"] for r in rows),
         "median_lm_delta_bits": sorted(r["lm_delta_bits"] for r in rows)[n // 2],
-        "sections_whose_full_attack_passes_lm_rule": sum(s.get("whole_attack_lm_delta_bits", -1) >= 0 for s in sections),
+        "sections_whose_full_attack_passes_lm_rule": sum(
+            s.get("whole_attack_lm_delta_bits", -1) >= 0 for s in sections
+        ),
         "sanity_identity_passes_lm_rule": identity_ok,
     }
     Path(out_path).parent.mkdir(parents=True, exist_ok=True)
     with open(out_path, "x", encoding="utf-8") as handle:
-        json.dump({"summary": summary, "sections": sections, "swaps": rows}, handle, indent=1)
+        json.dump(
+            {"summary": summary, "sections": sections, "swaps": rows}, handle, indent=1
+        )
     print(json.dumps(summary, indent=1))
 
 

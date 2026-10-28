@@ -9,26 +9,33 @@ Usage (from backend/, Qdrant running): PYTHONPATH=. python ../docs/research/scri
 
 import sys
 
-from langchain_community.document_loaders import DirectoryLoader, TextLoader
-from langchain_qdrant import QdrantVectorStore
-from qdrant_client import QdrantClient
-
 from app.config import QDRANT_URL, get_knowledge_base_path, get_qdrant_collection
 from app.ingestion.load_documents import add_document_metadata, split_documents
 from app.vectorstore.qdrant_store import get_embeddings
+from langchain_community.document_loaders import DirectoryLoader, TextLoader
+from langchain_qdrant import QdrantVectorStore
+from qdrant_client import QdrantClient
 
 PROTECTED = {"clean", "poisoned", "defended"}
 
 
 def main(state):
-    assert state not in PROTECTED, f"{state} is an existing pipeline collection; refusing"
+    assert state not in PROTECTED, (
+        f"{state} is an existing pipeline collection; refusing"
+    )
     collection = get_qdrant_collection(state)
     if QdrantClient(url=QDRANT_URL).collection_exists(collection):
         raise SystemExit(f"{collection} already exists; outputs are create-only")
-    loader = DirectoryLoader(str(get_knowledge_base_path(state)), glob="**/*.md", loader_cls=TextLoader,
-                             loader_kwargs={"encoding": "utf-8"})
+    loader = DirectoryLoader(
+        str(get_knowledge_base_path(state)),
+        glob="**/*.md",
+        loader_cls=TextLoader,
+        loader_kwargs={"encoding": "utf-8"},
+    )
     chunks = split_documents(add_document_metadata(loader.load(), state))
-    QdrantVectorStore.from_documents(chunks, embedding=get_embeddings(), url=QDRANT_URL, collection_name=collection)
+    QdrantVectorStore.from_documents(
+        chunks, embedding=get_embeddings(), url=QDRANT_URL, collection_name=collection
+    )
     print(f"{collection}: {len(chunks)} chunks")
 
 

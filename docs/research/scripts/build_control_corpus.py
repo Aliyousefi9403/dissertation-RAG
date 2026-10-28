@@ -39,7 +39,9 @@ def parse_sections(text):
     if parts and parts[0]:
         sections.append({"heading": "", "body": parts[0]})
     for i in range(1, len(parts), 2):
-        sections.append({"heading": parts[i], "body": parts[i + 1] if i + 1 < len(parts) else ""})
+        sections.append(
+            {"heading": parts[i], "body": parts[i + 1] if i + 1 < len(parts) else ""}
+        )
     return sections
 
 
@@ -50,11 +52,17 @@ def rebuild_document(sections):
             output.append(section["heading"])
         output.append(section["body"])
     return "\n".join(output)
-# ---------------------------------------------------------------------------
+
+
+# ============================================================
+# -
+# ============================================================
 
 
 def main():
-    entries = [json.loads(line) for line in MANIFEST.read_text().splitlines() if line.strip()]
+    entries = [
+        json.loads(line) for line in MANIFEST.read_text().splitlines() if line.strip()
+    ]
     attacked_files = {e["file"] for e in entries}
     successes = {(e["file"], e["section"]): e for e in entries if e.get("success")}
     CONTROL.parent.mkdir(parents=True, exist_ok=True)
@@ -77,19 +85,38 @@ def main():
         poisoned_text = (POISONED / relative).read_text(encoding="utf-8")
         for (file, _), entry in successes.items():
             if file == relative:
-                assert poisoned_text.count(entry["adversarial_text"]) == 1, (relative, "adversarial text not unique")
-                poisoned_text = poisoned_text.replace(entry["adversarial_text"], entry["original_text"])
-        assert poisoned_text == control_text, f"{relative}: control differs from poisoned beyond word substitutions"
-        report["files"][relative] = {"flattened_sections": swapped,
-                                     "sha256": hashlib.sha256(control_text.encode()).hexdigest()}
+                assert poisoned_text.count(entry["adversarial_text"]) == 1, (
+                    relative,
+                    "adversarial text not unique",
+                )
+                poisoned_text = poisoned_text.replace(
+                    entry["adversarial_text"], entry["original_text"]
+                )
+        assert poisoned_text == control_text, (
+            f"{relative}: control differs from poisoned beyond word substitutions"
+        )
+        report["files"][relative] = {
+            "flattened_sections": swapped,
+            "sha256": hashlib.sha256(control_text.encode()).hexdigest(),
+        }
 
     for path in sorted(CONTROL.rglob("*.md")):
         relative = path.relative_to(CONTROL).as_posix()
         if relative not in attacked_files:
             assert path.read_bytes() == (CLEAN / relative).read_bytes()
-    (CONTROL.parent / "control_build_record.json").open("x").write(json.dumps(report, indent=2) + "\n")
-    print(json.dumps({"files_rebuilt": len(report["files"]),
-                      "sections_flattened": sum(f["flattened_sections"] for f in report["files"].values())}))
+    (CONTROL.parent / "control_build_record.json").open("x").write(
+        json.dumps(report, indent=2) + "\n"
+    )
+    print(
+        json.dumps(
+            {
+                "files_rebuilt": len(report["files"]),
+                "sections_flattened": sum(
+                    f["flattened_sections"] for f in report["files"].values()
+                ),
+            }
+        )
+    )
 
 
 if __name__ == "__main__":

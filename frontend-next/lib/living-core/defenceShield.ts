@@ -7,7 +7,11 @@ interface EntropyVerdict {
 
 function verdictOf(source: SourceItem): EntropyVerdict | null {
   const value = source.metadata.entropy_filter;
-  if (typeof value === "object" && value !== null && typeof (value as EntropyVerdict).candidate_rank === "number") {
+  if (
+    typeof value === "object" &&
+    value !== null &&
+    typeof (value as EntropyVerdict).candidate_rank === "number"
+  ) {
     return value as EntropyVerdict;
   }
   return null;
@@ -25,7 +29,10 @@ function verdictOf(source: SourceItem): EntropyVerdict | null {
  * Returns null when the response has no filter metadata (not Defended mode).
  */
 export function skippedPassageCount(sources: SourceItem[]): number | null {
-  const ranks = sources.map(verdictOf).filter((v): v is EntropyVerdict => v !== null).map((v) => v.candidate_rank);
+  const ranks = sources
+    .map(verdictOf)
+    .filter((v): v is EntropyVerdict => v !== null)
+    .map((v) => v.candidate_rank);
   if (ranks.length === 0) {
     return null;
   }
@@ -39,7 +46,10 @@ export function repairedWordCount(sources: SourceItem[]): number | null {
   if (verdicts.length === 0) {
     return null;
   }
-  return verdicts.reduce((total, v) => total + (Array.isArray(v.repairs) ? v.repairs.length : 0), 0);
+  return verdicts.reduce(
+    (total, v) => total + (Array.isArray(v.repairs) ? v.repairs.length : 0),
+    0,
+  );
 }
 
 export type ShieldState = "armed" | "scanning" | "resolved" | "fault";

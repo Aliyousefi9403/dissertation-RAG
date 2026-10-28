@@ -15,13 +15,21 @@ export function RepairLedger({ sources }: { sources: SourceItem[] }) {
   const total = rows.reduce((n, r) => n + (r.verdict!.repairs?.length ?? 0), 0);
 
   return (
-    <section className="defence-view defence-view--repair" aria-label="Repair ledger" data-testid="repair-ledger">
+    <section
+      className="defence-view defence-view--repair"
+      aria-label="Repair ledger"
+      data-testid="repair-ledger"
+    >
       <header className="defence-view-head">
-        <span className="defence-view-icon" aria-hidden="true">✎</span>
+        <span className="defence-view-icon" aria-hidden="true">
+          ✎
+        </span>
         <div>
           <p className="eyebrow">Repair ledger</p>
           <h3>
-            {total === 0 ? "No words needed repair" : `${total} ${total === 1 ? "word" : "words"} restored before the model read them`}
+            {total === 0
+              ? "No words needed repair"
+              : `${total} ${total === 1 ? "word" : "words"} restored before the model read them`}
           </h3>
         </div>
       </header>
@@ -29,11 +37,17 @@ export function RepairLedger({ sources }: { sources: SourceItem[] }) {
         {rows.map(({ source, verdict }) => (
           <li key={source.source_number} className="repair-ledger-row">
             <div className="repair-ledger-meta">
-              <span className="repair-ledger-file">[{source.source_number}] {fileName(source.source)}</span>
+              <span className="repair-ledger-file">
+                [{source.source_number}] {fileName(source.source)}
+              </span>
               {verdict!.score_before_repair_bits !== undefined && (
                 <span className="repair-ledger-score">
-                  {verdict!.score_before_repair_bits.toFixed(2)} → <strong>{verdict!.score_bits.toFixed(2)} bits</strong>
-                  <span className="repair-ledger-threshold"> (threshold {verdict!.threshold_bits})</span>
+                  {verdict!.score_before_repair_bits.toFixed(2)} →{" "}
+                  <strong>{verdict!.score_bits.toFixed(2)} bits</strong>
+                  <span className="repair-ledger-threshold">
+                    {" "}
+                    (threshold {verdict!.threshold_bits})
+                  </span>
                 </span>
               )}
             </div>
@@ -42,7 +56,11 @@ export function RepairLedger({ sources }: { sources: SourceItem[] }) {
             ) : (
               <p className="repair-ledger-changes">
                 {verdict!.repairs!.map((r) => (
-                  <span key={r.word} className="repair-change" title={`gap ${r.gap_bits.toFixed(1)} bits`}>
+                  <span
+                    key={r.word}
+                    className="repair-change"
+                    title={`gap ${r.gap_bits.toFixed(1)} bits`}
+                  >
                     <del>{r.word}</del>
                     <ins>{r.replacement}</ins>
                   </span>

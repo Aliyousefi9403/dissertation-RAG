@@ -21,12 +21,16 @@ WINDOW_SECONDS = 3600
 
 
 def extra_origins() -> list[str]:
-    return [o.strip() for o in os.getenv("AEGIS_CORS_ORIGINS", "").split(",") if o.strip()]
+    return [
+        o.strip() for o in os.getenv("AEGIS_CORS_ORIGINS", "").split(",") if o.strip()
+    ]
 
 
 def client_id(request) -> str:
     forwarded = request.headers.get("x-forwarded-for", "")
-    return forwarded.split(",")[0].strip() or (request.client.host if request.client else "unknown")
+    return forwarded.split(",")[0].strip() or (
+        request.client.host if request.client else "unknown"
+    )
 
 
 class RateLimitMiddleware(BaseHTTPMiddleware):
@@ -41,7 +45,10 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
             while hits and now - hits[0] > WINDOW_SECONDS:
                 hits.popleft()
             if len(hits) >= self.limit:
-                return JSONResponse({"detail": f"Rate limit reached: {self.limit} questions per hour."}, status_code=429)
+                return JSONResponse(
+                    {"detail": f"Rate limit reached: {self.limit} questions per hour."},
+                    status_code=429,
+                )
             hits.append(now)
         return await call_next(request)
 

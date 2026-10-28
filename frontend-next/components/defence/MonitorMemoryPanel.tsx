@@ -38,20 +38,38 @@ export function MonitorMemoryPanel({ refreshKey }: { refreshKey: string }) {
         <p className="eyebrow">Memory</p>
         <strong className="monitor-memory-count">{memory ? memory.count : "–"}</strong>
         <span>quarantined {memory?.count === 1 ? "passage" : "passages"}</span>
-        <button type="button" className="monitor-memory-reset" onClick={() => void reset()} disabled={!memory || memory.count === 0}>
+        <button
+          type="button"
+          className="monitor-memory-reset"
+          onClick={() => void reset()}
+          disabled={!memory || memory.count === 0}
+        >
           Start fresh
         </button>
       </div>
       {failed && <p className="monitor-memory-empty">Memory unavailable</p>}
-      {memory && memory.count === 0 && <p className="monitor-memory-empty">Nothing quarantined yet. Ask a question about a poisoned topic.</p>}
+      {memory && memory.count === 0 && (
+        <p className="monitor-memory-empty">
+          Nothing quarantined yet. Ask a question about a poisoned topic.
+        </p>
+      )}
       {memory && memory.count > 0 && (
         <ul className="monitor-memory-list">
-          {memory.entries.slice().reverse().map((e) => (
-            <li key={e.key}>
-              <span className="monitor-memory-source">{e.source}</span>
-              {e.words.length > 0 && <span className="monitor-memory-words">{e.words.map((w) => <code key={w}>{w}</code>)}</span>}
-            </li>
-          ))}
+          {memory.entries
+            .slice()
+            .reverse()
+            .map((e) => (
+              <li key={e.key}>
+                <span className="monitor-memory-source">{e.source}</span>
+                {e.words.length > 0 && (
+                  <span className="monitor-memory-words">
+                    {e.words.map((w) => (
+                      <code key={w}>{w}</code>
+                    ))}
+                  </span>
+                )}
+              </li>
+            ))}
         </ul>
       )}
     </aside>
