@@ -6,8 +6,11 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
+from app.access import RateLimitMiddleware, extra_origins, rate_limit
 from app.config import KNOWLEDGE_BASE_PATHS
 from app.defence.entropy_filter import retrieval_for_state
+from app.defence.monitor_router import router as monitor_router
+from app.defence.monitor_router import verified_answer
 from app.defence.router import router as evidence_guard_router
 from app.evaluation.compare_metrics import build_research_metrics
 from app.evaluation.source_identity import (
@@ -48,14 +51,21 @@ app.add_middleware(
         "http://127.0.0.1:3001",
         "http://192.168.1.104:3000",
         "http://192.168.1.104:3001",
+        *extra_origins(),
     ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+# Public deployments only: per-client limit on model-calling requests (unset = no limit).
+if rate_limit():
+    app.add_middleware(RateLimitMiddleware, limit=rate_limit())
+
 # Experimental evidence-check route (POST /guarded-chat); see app/defence/.
 app.include_router(evidence_guard_router)
+# Runtime-monitor memory (GET /monitor/memory, POST /monitor/memory/reset); see app/defence/monitor_router.py.
+app.include_router(monitor_router)
 
 
 # ============================================================
@@ -70,7 +80,10 @@ class ChatRequest(BaseModel):
         "defended",
         "repaired",
         "contextual",
+        "verified",
     ] = "clean"
+    # Verified mode only: when a refusal cannot be fixed, add the trusted MITRE entry as a source.
+    trusted_fallback: bool = False
 
 
 class SourceResponse(BaseModel):
@@ -86,6 +99,8 @@ class ChatResponse(BaseModel):
     answer: str
     sources: list[SourceResponse]
     system_state: str
+    # Verified mode only: the runtime monitor's trace (rounds, violations, quarantines); null otherwise.
+    monitor: Optional[dict[str, Any]] = None
 
 
 class CompareRequest(BaseModel):
@@ -239,6 +254,9 @@ def chat(
 
     try:
         started_at = time.perf_counter()
+        if request.system_state == "verified":
+            # PWWS-poisoned collection under the runtime verification monitor (ADR-009/010).
+            return verified_answer(request.question, request.trusted_fallback)
         result = answer_question(
             request.question,
             system_state=request.system_state,
