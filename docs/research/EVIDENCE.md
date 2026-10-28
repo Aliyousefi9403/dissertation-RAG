@@ -145,8 +145,8 @@ SHA-256 over file names and contents (directories in sorted order). Full list in
 | adaptive-attack manifest | 1 | `160deddebf5f3051` |
 | matched-control corpus | 18 | `b008a3df80024cda` |
 | matched-control manifest | 1 | `d0436e636a802b87` |
-| entropy-filter defence code | 1 | `23cca58f1d8696ed` |
-| contextual-filter defence code | 1 | `60ee5c8cbec0c16c` |
+| entropy-filter defence code | 1 | `7db3caf3ff703457` |
+| contextual-filter defence code | 1 | `744e817cd2cbd2b8` |
 | poisoned_textfooler corpus and manifest | 34 | `4cdeb5192bc80180` |
 | poisoned_adaptive_lm corpus and manifest | 34 | `e3eccca126c25caa` |
 | poisoned_adaptive_lm_budget corpus and manifest | 34 | `0be557acfec77779` |
