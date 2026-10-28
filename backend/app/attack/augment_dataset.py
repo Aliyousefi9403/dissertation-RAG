@@ -1,12 +1,4 @@
-"""
-Expand the KB-attack training dataset by paraphrasing each chunk with gpt-4o-mini.
-
-Each original chunk gets N paraphrased variants that preserve technical
-meaning but vary wording, sentence structure, and phrasing.
-
-Output overwrites data/processed/bert_dataset/train.jsonl and val.jsonl
-with the expanded dataset.
-"""
+"""Expand the KB-attack training dataset by paraphrasing each chunk with gpt-4o-mini."""
 
 from __future__ import annotations
 

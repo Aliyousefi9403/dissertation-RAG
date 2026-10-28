@@ -1,9 +1,5 @@
 import { request, type ApiResult } from "@/lib/api/client";
-import type {
-  ExperimentRecord,
-  ExperimentStats,
-  HistoryFilters,
-} from "@/lib/types/history";
+import type { ExperimentRecord, ExperimentStats, HistoryFilters } from "@/lib/types/history";
 
 function buildQuery(filters: HistoryFilters = {}): string {
   const params = new URLSearchParams();
@@ -29,9 +25,7 @@ export async function listHistory(
   });
 }
 
-export async function getHistoryEntry(
-  id: number,
-): Promise<ApiResult<ExperimentRecord>> {
+export async function getHistoryEntry(id: number): Promise<ApiResult<ExperimentRecord>> {
   return request<ExperimentRecord>({
     method: "GET",
     path: `/history/${id}`,

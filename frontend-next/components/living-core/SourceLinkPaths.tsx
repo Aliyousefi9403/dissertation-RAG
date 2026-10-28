@@ -15,19 +15,7 @@ interface SourceLinkPathsProps {
   beatStartedAt: number;
 }
 
-/**
- * One evidence path per real retrieved source (count is always exactly
- * `sources.length` — this component never invents a node or a path). Each
- * path connects that source's settled formation position (the same
- * `getSourceFormationPosition` helper `SourceNodes` uses, so the two
- * always agree on where a node sits) to the core.
- *
- * Energy only visibly travels inward along a path during the "linking"
- * choreography beat (see `useLivingCoreChoreography`); every other beat
- * renders the same static lines at a settled opacity. This is a rendering
- * sequence only — it never gates when the real answer/sources become
- * available. Renamed 1:1 from the retired `shield-core/SourceLinkPaths.tsx`.
- */
+/** One evidence path per real retrieved source. */
 export function SourceLinkPaths({ sources, beat, beatStartedAt }: SourceLinkPathsProps) {
   const lineRef = useRef<THREE.LineSegments>(null);
   const materialRef = useRef<THREE.LineDashedMaterial>(null);

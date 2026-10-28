@@ -16,31 +16,18 @@ interface BloomComposerProps {
   threshold?: number;
 }
 
-// Response rate for easing toward a new strength/radius/threshold target --
-// lets `LivingCoreScene` pass phase-driven bloom targets (brighter while
-// retrieving/just-resolved) and have them ramp smoothly instead of popping,
-// the same damped-transition language as the particle field's own state
-// color modulation.
+// Response rate for easing toward a new strength/radius/threshold target.
 const BLOOM_LAMBDA = 5;
 
 /**
- * Manual `EffectComposer` wiring using three's own bundled
- * `examples/jsm/postprocessing` passes (aliased via `three/addons/*`) --
- * no `@react-three/postprocessing`/`postprocessing` package, since neither
- * is an installed dependency and `three` already ships everything needed.
- *
- * Registering a `useFrame` callback at a positive render priority tells r3f
- * to skip its own default `gl.render(scene, camera)` for this canvas (see
- * https://r3f.docs.pmnd.rs/api/canvas#render-props), so this becomes the
- * only place the scene is actually drawn each invalidated frame, in both
- * "demand" and "always" frameloop modes.
- *
- * Threshold/strength/radius are tuned so only the particle field's
- * near-white cores (and any other saturated blue/white highlight) cross the
- * bloom threshold -- the dimmer retrieval/status UI elsewhere in the scene
- * stays essentially unaffected.
+ * Manual `EffectComposer` wiring using three's own bundled `examples/jsm/postprocessing`
+ * passes.
  */
-export function BloomComposer({ strength = 1.2, radius = 0.8, threshold = 0.2 }: BloomComposerProps) {
+export function BloomComposer({
+  strength = 1.2,
+  radius = 0.8,
+  threshold = 0.2,
+}: BloomComposerProps) {
   const { gl, scene, camera, size } = useThree();
   const currentRef = useRef({ strength, radius, threshold });
 

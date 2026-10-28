@@ -1,28 +1,4 @@
-"""Offline PWWS edited-text exposure, schema 1 (evaluation labels only).
-
-The existing poison_hit_at_3 remains attacked-section exposure, unchanged.
-This separate metric measures whether the first three *saved* poisoned chunks
-intersect non-whitespace inserted/replacement characters. Spans are derived
-with difflib.SequenceMatcher(autojunk=False) on successful manifest entries.
-Equal text, section headings, whitespace-only changes and pure deletions do
-not supply edited characters. This deterministic alignment is a measurement
-convention, not a reconstruction of PWWS's unrecorded internal edit trace.
-
-Offsets are half-open Python Unicode character indices, not byte offsets.
-The manifest original must equal the attack builder's extraction of the saved
-clean section; its adversarial text must equal the saved poisoned section
-body (apart from surrounding whitespace). Headings must map uniquely. A
-retrieved chunk must match the poisoned snapshot exactly at its saved offset;
-there is no substring-search, basename, fuzzy, or current-corpus fallback.
-Any unresolved mapping in a document makes its chunks unknown. Any unknown
-top-three chunk makes the observation's hit unavailable (None), with known
-hits and unknowns still reported. A successful empty retrieval has exposure
-0; a missing/failed retrieval is unavailable, never an empty retrieval.
-
-This module imports no configuration, models, runtime defence, main or DB.
-Clean originals and poison labels are used solely for retrospective scoring.
-CLI output is separate and create-only; existing reports/metrics are untouched.
-"""
+"""Offline PWWS edited-text exposure, schema 1."""
 
 from __future__ import annotations
 
@@ -107,11 +83,7 @@ def _entry_mapping(entry, clean, poisoned):
 
 
 def build_edit_index(*, namespace, clean_corpus, poisoned_corpus, attack_manifest):
-    """Validate only supplied snapshots; report every successful entry's mapping.
-
-    A missing manifest is different from a verified manifest with no successes.
-    Duplicate successful entries for a file/section are conservatively unknown.
-    """
+    """Validate only supplied snapshots."""
     index = {"schema_version": 1, "metric_version": METRIC_VERSION, "namespace": namespace,
              "root": poisoned_corpus.get("root"), "documents": {}, "entries": [], "issues": [],
              "manifest_available": False,
@@ -157,11 +129,7 @@ def build_edit_index(*, namespace, clean_corpus, poisoned_corpus, attack_manifes
 
 
 def edited_text_exposure_at_3(sources, *, index, poisoned_corpus):
-    """Measure ordered saved chunks; None means retrieval did not return.
-
-    Counts partition evaluated sources: edited + unedited + unknown = total.
-    Ranks count chunks (including duplicates), not unique documents/edits.
-    """
+    """Measure ordered saved chunks."""
     rows = []
     available = isinstance(sources, list)
     for rank, source in enumerate(sources[:3] if available else [], 1):
@@ -214,12 +182,7 @@ def edited_text_exposure_at_3(sources, *, index, poisoned_corpus):
 
 
 def analyze_run(path: Path):
-    """Replay saved poisoned retrievals, retaining pairing and legacy values.
-
-    Checksums/completion come from pilot_records.read_run. Even incomplete runs
-    retain scheduled observations, explicit availability, and integrity issues.
-    Current corpora, attack manifests, judges, and the live evaluator are unused.
-    """
+    """Replay saved poisoned retrievals, retaining pairing and legacy values."""
     manifest, records, issues = read_run(path)
     report = {"run_path": str(path), "record_integrity_complete": not issues, "issues": list(issues)}
     if manifest is None:

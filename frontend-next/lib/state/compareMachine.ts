@@ -18,10 +18,7 @@ function assertNever(value: never): never {
   throw new Error(`Unhandled compare event: ${JSON.stringify(value)}`);
 }
 
-export function compareReducer(
-  state: CompareState,
-  event: CompareEvent,
-): CompareState {
+export function compareReducer(state: CompareState, event: CompareEvent): CompareState {
   switch (event.type) {
     case "SUBMIT_COMPARISON":
       return { status: "submitting", question: event.question };

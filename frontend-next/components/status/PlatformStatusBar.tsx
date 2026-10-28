@@ -4,10 +4,7 @@ import type { HealthStatus } from "@/lib/types/health";
 import type { ExperimentMode } from "@/components/experiment/ExperimentModeSelector";
 
 interface PlatformStatusBarProps {
-  /** The living core's real status line (`getLivingCoreStatusText`),
-   * rendered as a small top-right pill. Keeps the exact className/role/aria
-   * attributes so `e2e/desktop.spec.ts`'s `.living-core-status-caption`
-   * locator still resolves. */
+  /** The living core's real status line, rendered as a small top-right pill. */
   livingCoreStatusText: string;
   /** Real backend reachability from `useHealthStatus` (`GET /health`). */
   healthStatus: HealthStatus;
@@ -42,13 +39,7 @@ const EVIDENCE_CHECK_UNAVAILABLE: Partial<Record<ExperimentMode, string>> = {
   verified: "Verified",
 };
 
-/**
- * Top-of-workspace status strip. Shows only values the interface actually
- * knows: backend reachability (real `GET /health`), the selected knowledge
- * base and whether the evidence check is on. Platform-wide trust, security
- * and knowledge-base health are not measured anywhere, so they read
- * "Not assessed" rather than showing invented figures.
- */
+/** Top-of-workspace status strip. */
 export function PlatformStatusBar({
   livingCoreStatusText,
   healthStatus,
@@ -59,8 +50,8 @@ export function PlatformStatusBar({
   const evidenceCheckLabel = unavailableIn
     ? `Not available in ${unavailableIn}`
     : evidenceCheckEnabled
-        ? "On (experimental)"
-        : "Off";
+      ? "On (experimental)"
+      : "Off";
 
   return (
     <div className="platform-status-bar" role="status" aria-label="Platform status">
@@ -102,12 +93,7 @@ export function PlatformStatusBar({
         <span className="platform-status-value platform-status-value--muted">Not assessed</span>
       </div>
 
-      <p
-        className="living-core-status-caption"
-        role="status"
-        aria-live="polite"
-        aria-atomic="true"
-      >
+      <p className="living-core-status-caption" role="status" aria-live="polite" aria-atomic="true">
         {livingCoreStatusText}
       </p>
     </div>

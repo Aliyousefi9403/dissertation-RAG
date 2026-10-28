@@ -87,10 +87,7 @@ def load_attack_data() -> MitreAttackData:
 
 
 def get_attack_id(attack_mapping: dict[str, Any]) -> str | None:
-    """
-    Find the Enterprise ATT&CK ID in either the primary source
-    or supporting sources.
-    """
+    """Find the Enterprise ATT&CK ID in either the primary source or supporting sources."""
 
     primary = attack_mapping.get("primary_source", {})
 

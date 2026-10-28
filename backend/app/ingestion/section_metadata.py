@@ -1,20 +1,5 @@
-"""
-Derives a stable, snake_case "section" identity for a knowledge-base
-Markdown chunk from the `##` heading structure of its source file --
-instead of relying on literal substring matching of chunk content against
-an expected phrase (the old approach in app/evaluation/retrieval_metrics.py,
-which broke on HTML-table content, chunk-boundary splits, and phrasing
-differences).
-
-Shared by:
-- app/ingestion/load_documents.py -- tags `chunk.metadata["section"]` for
-  any FUTURE re-ingestion. Not applied to the live Qdrant collections; no
-  re-ingestion is run as part of adding this module.
-- app/evaluation/retrieval_metrics.py -- resolves section for an
-  already-retrieved chunk at query time, purely by re-reading its source
-  `.md` file (read-only) and mapping `start_index` (already stored in the
-  Qdrant payload, from RecursiveCharacterTextSplitter(add_start_index=True))
-  onto the file's heading ranges. Requires no Qdrant writes.
+"""Derives a stable, snake_case 'section' identity for a knowledge-base Markdown chunk
+from the `##` heading structure of its source file.
 """
 
 from __future__ import annotations
@@ -31,11 +16,7 @@ _STOPWORDS = {"and"}
 
 
 def normalize_heading(heading: str) -> str:
-    """"Prevention and mitigation" -> "prevention_mitigation";
-    "Detection indicators" -> "detection_indicators". Idempotent, so it is
-    also used to normalize the PWWS manifest's own `section` strings
-    (already lowercase, e.g. "att&ck adversary context") onto the same
-    slug space as headings parsed from the Markdown files."""
+    """'Prevention and mitigation' -> 'prevention_mitigation'."""
     cleaned = _PUNCTUATION_RE.sub("", heading.strip().lower())
     tokens = [token for token in _SEPARATOR_RE.split(cleaned) if token and token not in _STOPWORDS]
     return "_".join(tokens)
@@ -77,12 +58,7 @@ def section_for_offset(source_path: str, start_index: Optional[int]) -> Optional
 
 
 def sections_overlapping(source_path: str, start_index: Optional[int], length: int) -> set[str]:
-    """All sections whose heading range overlaps [start_index, start_index +
-    length) -- used for query-time relevance checks, since a retrieved
-    chunk's byte span commonly crosses more than one heading (short KB
-    documents relative to chunk_size, chunk_overlap). Anchoring relevance
-    on a single start-offset section would produce false negatives for
-    exactly this case."""
+    """All sections whose heading range overlaps [start_index, start_index + length)."""
     if start_index is None or not source_path or length <= 0:
         return set()
     text = _read_file(source_path)

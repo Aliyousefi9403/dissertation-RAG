@@ -7,13 +7,8 @@ import { MonitorMemoryPanel } from "@/components/defence/MonitorMemoryPanel";
 import { MonitorTraceView } from "@/components/defence/MonitorTraceView";
 import { RepairLedger } from "@/components/defence/RepairLedger";
 
-/**
- * One distinct view per defence, so each shows how it actually works:
- *   Repaired   -> tracked-changes ledger of repaired words
- *   Contextual -> language-model lens: per-passage gauge and word heat
- *   Verified   -> runtime-monitor trace (rules, attempts, quarantine) and its memory
- * Defended keeps the entropy shield over the living core (`LivingCoreStage`).
- */
+// Repaired: ledger of restored words. Contextual: per-passage lens.
+// Verified: monitor trace and memory. Defended uses the shield over the core.
 export function DefenceView({ mode, chatState }: { mode: ExperimentMode; chatState: ChatState }) {
   const done = chatState.status === "success" || chatState.status === "noSources";
   const sources = chatState.status === "success" ? chatState.sources : [];

@@ -1,8 +1,4 @@
-/**
- * Types mirroring the backend `POST /compare` contract exactly.
- * See backend/app/main.py (CompareRequest, CompareResponse).
- * Do not add fields that are not present in the backend response.
- */
+/** Types mirroring the backend `POST /compare` contract exactly. */
 import type { SourceItem, SystemState } from "@/lib/types/chat";
 
 export interface CompareRequest {

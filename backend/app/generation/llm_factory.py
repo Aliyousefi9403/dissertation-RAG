@@ -11,13 +11,7 @@ from app.config import (
 
 
 def create_llm(temperature: Optional[float] = None) -> ChatOpenAI:
-    """
-    `temperature` overrides the configured default -- used by the
-    research evaluators (app/evaluation/llm_judge.py), which must run at
-    0 for reproducibility regardless of what LLM_TEMPERATURE is set to
-    for normal answer generation. Existing callers (`create_llm()` with
-    no args) are unaffected.
-    """
+    """`temperature` overrides the configured default."""
     if LLM_PROVIDER.lower() != "openai":
         raise ValueError(
             f"Unsupported LLM provider: {LLM_PROVIDER}. "

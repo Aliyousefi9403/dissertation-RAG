@@ -2,14 +2,7 @@
 
 import { useSyncExternalStore } from "react";
 
-/**
- * Coarse rendering-cost heuristic for the living-core point cloud's particle
- * budget (see `lib/living-core/particleBudget.ts`). This is purely a
- * "how much GPU/CPU headroom does this device probably have" signal derived
- * from `navigator.hardwareConcurrency` / `navigator.deviceMemory` and
- * viewport width — it is NEVER a security, trust, or defence signal, and it
- * must not be read as one anywhere else in the app.
- */
+/** Coarse rendering-cost heuristic for the living-core point cloud's particle budget. */
 export type DeviceTier = "desktop" | "mobile" | "low-power";
 
 const NARROW_VIEWPORT_QUERY = "(max-width: 640px)";
@@ -52,18 +45,13 @@ function getSnapshot(): DeviceTier {
 }
 
 function getServerSnapshot(): DeviceTier {
-  // Safe default before hydration: the cheapest non-low-power tier, never
-  // "desktop" — this only tunes particle count/rendering cost, never
-  // whether the scene renders at all (that stays gated by
-  // `useWebGLSupport`/`useReducedMotion` in `LivingCoreStage`).
+  // Safe default before hydration: the cheapest non-low-power tier, never "desktop".
   return "mobile";
 }
 
 /**
- * Resize-aware device-tier estimate, read via `useSyncExternalStore` (never
- * `setState` inside a `useEffect`) so it never triggers a cascading extra
- * render. Consumed only by `LivingCoreStage` to pick a particle-budget tier
- * from `particleBudget.ts`.
+ * Resize-aware device-tier estimate, read via `useSyncExternalStore` so it never triggers a
+ * cascading extra render.
  */
 export function useDeviceTier(): DeviceTier {
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);

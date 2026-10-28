@@ -1,17 +1,4 @@
-"""Lexical cross-state document identity and document overlap, schema version 1.
-
-Identity is (dataset namespace, full corpus-relative path), independent of
-content/version hashes, offsets, chunk indices, and retrieval rank. Corpus
-roots and namespaces are supplied by the application, never inferred from
-basenames, path suffixes, or source labels. Paths use absolute POSIX syntax,
-matching the current corpus configuration. No filesystem access, existence
-checks, symlink resolution, environment loading, or service imports occur.
-
-This measures document overlap, not retrieval correctness, chunk
-correspondence, or authenticated provenance. Unknown sources remain counted;
-any unknown identity makes Jaccard unavailable. Known-document counts then
-describe only the identified portion. Two empty retrievals also yield None.
-"""
+"""Lexical cross-state document identity and document overlap, schema version 1."""
 
 from __future__ import annotations
 
@@ -55,13 +42,7 @@ def _identity_for_path(value: Any, corpus_roots: CorpusRoots) -> DocumentIdentit
 def resolve_document_identity(
     source: Mapping[str, Any], *, corpus_roots: CorpusRoots
 ) -> DocumentIdentity | None:
-    """Resolve both supplied source paths, requiring agreement when both exist.
-
-    Absent/None/empty source fields allow the other field to be used. A
-    supplied malformed or unrecognised path is never overridden by a known
-    path in the other field. Relative paths without a root association,
-    parent traversal, conflicting paths, and ambiguous roots are unknown.
-    """
+    """Resolve both supplied source paths, requiring agreement when both exist."""
     if not isinstance(source, Mapping):
         return None
     metadata = source.get("metadata")
@@ -102,11 +83,7 @@ def build_document_overlap(
     *,
     corpus_roots: CorpusRoots,
 ) -> dict[str, Any]:
-    """Deduplicate all returned sources by document; round only final Jaccard.
-
-    One empty side and a fully identified nonempty side have overlap 0.
-    Unknown sources are counted individually, not deduplicated speculatively.
-    """
+    """Deduplicate all returned sources by document."""
     clean, clean_unknown = _documents_and_unknown_count(clean_sources, corpus_roots)
     poisoned, poisoned_unknown = _documents_and_unknown_count(poisoned_sources, corpus_roots)
     shared = clean & poisoned

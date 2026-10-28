@@ -4,11 +4,7 @@ import { useCallback, useReducer } from "react";
 
 import { postCompare } from "@/lib/api/compare";
 import { describeFailure } from "@/hooks/useChatSession";
-import {
-  compareReducer,
-  initialCompareState,
-  type CompareState,
-} from "@/lib/state/compareMachine";
+import { compareReducer, initialCompareState, type CompareState } from "@/lib/state/compareMachine";
 
 export interface UseCompareSessionResult {
   state: CompareState;

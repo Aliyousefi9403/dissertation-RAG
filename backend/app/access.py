@@ -1,11 +1,4 @@
-"""Optional protections for a public deployment (ADR-010). Off unless configured.
-
-AEGIS_RATE_LIMIT_PER_HOUR   maximum model-calling requests (/chat, /compare, /guarded-chat) per
-                            client per rolling hour; unset or 0 = no limit (local use is unchanged).
-AEGIS_CORS_ORIGINS          extra allowed browser origins, comma-separated.
-Password protection for a public site is applied in front of both frontend and backend by the
-deployment's reverse proxy (deploy/Caddyfile), so browsers show their standard sign-in prompt.
-"""
+"""Optional protections for a public deployment."""
 
 from __future__ import annotations
 

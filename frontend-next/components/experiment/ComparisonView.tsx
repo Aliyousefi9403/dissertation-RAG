@@ -13,13 +13,7 @@ interface ComparisonViewProps {
   onRetry: (question: string) => void;
 }
 
-function ComparisonSide({
-  label,
-  result,
-}: {
-  label: string;
-  result: CompareSideResult;
-}) {
+function ComparisonSide({ label, result }: { label: string; result: CompareSideResult }) {
   return (
     <section className="comparison-side assistant-card">
       <p className="eyebrow">{label}</p>
@@ -31,10 +25,7 @@ function ComparisonSide({
       {result.sources.length > 0 ? (
         <div className="source-list">
           {result.sources.map((source) => (
-            <SourceCard
-              key={`${source.source_number}-${source.source}`}
-              source={source}
-            />
+            <SourceCard key={`${source.source_number}-${source.source}`} source={source} />
           ))}
         </div>
       ) : (
@@ -45,20 +36,15 @@ function ComparisonSide({
 }
 
 /**
- * Renders `POST /compare` results as two side-by-side panels (clean vs.
- * PWWS-poisoned) plus the Attack Impact metrics strip below them. Reuses
- * `SourceCard`/`Markdown`/`.assistant-card` from the normal answer/evidence
- * UI so retrieved evidence looks identical to the single-question flow.
- * Rendered by `app/page.tsx` in place of `AnswerPanel`/`EvidencePanel`
- * only while Compare mode is selected.
+ * Renders `POST /compare` results as two side-by-side panels plus the Attack Impact metrics
+ * strip below them.
  */
 export function ComparisonView({ compareState, onRetry }: ComparisonViewProps) {
   switch (compareState.status) {
     case "idle":
       return (
         <p className="idle-hint">
-          Ask a question below to compare the clean and PWWS-poisoned
-          knowledge base side by side.
+          Ask a question below to compare the clean and PWWS-poisoned knowledge base side by side.
         </p>
       );
 
@@ -67,11 +53,7 @@ export function ComparisonView({ compareState, onRetry }: ComparisonViewProps) {
         <div className="response-stack" key="submitting">
           <UserQuestionCard question={compareState.question} />
 
-          <section
-            className="assistant-card loading-card"
-            aria-live="polite"
-            aria-atomic="true"
-          >
+          <section className="assistant-card loading-card" aria-live="polite" aria-atomic="true">
             <div className="loading-orb" aria-hidden="true" />
             <div>
               <p className="eyebrow">AegisRAG pipeline</p>

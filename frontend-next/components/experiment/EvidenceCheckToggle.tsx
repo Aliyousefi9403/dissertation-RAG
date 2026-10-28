@@ -7,11 +7,7 @@ interface EvidenceCheckToggleProps {
   disabled?: boolean;
 }
 
-/**
- * Opt-in switch for the experimental evidence check. When on, Clean and
- * PWWS Poisoned questions go to `POST /guarded-chat` instead of
- * `POST /chat`; the existing mode selector is unchanged.
- */
+/** Opt-in switch for the experimental evidence check. */
 export function EvidenceCheckToggle({ enabled, onChange, disabled }: EvidenceCheckToggleProps) {
   const active = enabled && !disabled;
 

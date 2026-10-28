@@ -1,13 +1,6 @@
-/**
- * Low-level fetch wrapper shared by every backend API call.
- *
- * The backend defines no request timeout, so the client owns one via
- * AbortController. Non-2xx responses are mapped onto a discriminated
- * union so callers never need to inspect `Response` objects directly.
- */
+/** Low-level fetch wrapper shared by every backend API call. */
 
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8000";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8000";
 
 export type ApiResult<T> =
   | { kind: "ok"; data: T }
@@ -54,8 +47,7 @@ export async function request<T>({
   try {
     const response = await fetch(`${API_BASE_URL}${path}`, {
       method,
-      headers:
-        body !== undefined ? { "Content-Type": "application/json" } : undefined,
+      headers: body !== undefined ? { "Content-Type": "application/json" } : undefined,
       body: body !== undefined ? JSON.stringify(body) : undefined,
       signal: controller.signal,
     });
@@ -76,9 +68,7 @@ export async function request<T>({
       return {
         kind: "serverError",
         detail:
-          typeof detail === "string"
-            ? detail
-            : "The RAG pipeline failed to answer the question.",
+          typeof detail === "string" ? detail : "The RAG pipeline failed to answer the question.",
       };
     }
 
@@ -91,10 +81,7 @@ export async function request<T>({
       return { kind: "timeout" };
     }
 
-    const message =
-      error instanceof Error
-        ? error.message
-        : "Unable to reach the backend.";
+    const message = error instanceof Error ? error.message : "Unable to reach the backend.";
 
     return { kind: "networkError", message };
   } finally {

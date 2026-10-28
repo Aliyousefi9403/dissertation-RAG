@@ -30,12 +30,7 @@ function formatSignedScore(value: number): string {
   return `${sign}${value.toFixed(4)}`;
 }
 
-/**
- * One row in the Experiment History list. Reuses `.assistant-card`'s
- * surface (same titanium/cyan card language as the Assistant workspace)
- * with a small set of additive `.history-card*` layout classes on top —
- * see `app/globals.css`.
- */
+/** One row in the Experiment History list. */
 export function ExperimentCard({ experiment }: ExperimentCardProps) {
   const isCompare = experiment.mode === "compare";
 
@@ -54,9 +49,7 @@ export function ExperimentCard({ experiment }: ExperimentCardProps) {
 
       <div className="history-card-badges">
         <Badge variant="outline">{experiment.mode.toUpperCase()}</Badge>
-        {experiment.attack_method && (
-          <Badge variant="outline">{experiment.attack_method}</Badge>
-        )}
+        {experiment.attack_method && <Badge variant="outline">{experiment.attack_method}</Badge>}
       </div>
 
       {isCompare && hasMetrics && (

@@ -10,10 +10,7 @@ const MAX_LENGTH = 2000;
 interface QueryComposerProps {
   onSubmit: (question: string) => void;
   disabled?: boolean;
-  /** True only while the current question is in flight (`ChatState.status
-   * === "submitting"`) — distinct from `disabled`, which also covers the
-   * offline case. Drives a restrained, presentation-only "in flight"
-   * treatment on the composer surface; never changes submit behavior. */
+  /** True only while the current question is in flight. */
   isSubmitting?: boolean;
   placeholder?: string;
 }
@@ -59,11 +56,7 @@ export function QueryComposer({
 
   return (
     <div className="composer-wrapper">
-      <form
-        className="composer"
-        data-state={composerState}
-        onSubmit={handleSubmit}
-      >
+      <form className="composer" data-state={composerState} onSubmit={handleSubmit}>
         <textarea
           value={value}
           onChange={(event) => setValue(event.target.value)}

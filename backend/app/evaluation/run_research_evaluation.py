@@ -1,28 +1,4 @@
-"""
-Aggregate research-evaluation script (dissertation Phases 1-4).
-
-Runs every question in backend/data/evaluation/questions.json against both
-the clean and PWWS-poisoned pipelines (the same `app.generation.rag_chain.
-answer_question` the live `/compare` endpoint uses) and reports the
-headline aggregate metrics for the dissertation, plus a per-question
-breakdown. Read-only against Qdrant/the manifest/the KB markdown files --
-writes nothing except its own JSON report file.
-
-Never fabricates a value: any metric with no evaluable inputs (empty
-question set, an evaluator failure, no ground-truth match) is reported as
-`null`, not skipped or zero-filled.
-
-The existing aggregate fields remain legacy descriptive metrics: each
-condition's mean uses its independently available scores. The additive
-paired_metrics block (schema version 1) instead uses matched valid scores
-for each question and reports deltas as poisoned minus clean. Missing and
-malformed scores are counted separately there; both become None in legacy
-outputs. No historical failure reason is inferred from an unavailable score.
-
-Usage:
-    python -m app.evaluation.run_research_evaluation
-    python -m app.evaluation.run_research_evaluation --output path.json
-"""
+"""Aggregate research-evaluation script."""
 
 from __future__ import annotations
 

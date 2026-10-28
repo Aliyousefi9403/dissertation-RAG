@@ -1,10 +1,4 @@
-"""
-Fine-tune a DistilBERT classifier on the KB attack descriptions dataset.
-
-The trained model becomes the "surrogate target" for adversarial attacks:
-PWWS attacks fool this local classifier, generating perturbations that
-then transfer to degrade the RAG's target LLM (gpt-4o-mini).
-"""
+"""Fine-tune a DistilBERT classifier on the KB attack descriptions dataset."""
 
 from __future__ import annotations
 

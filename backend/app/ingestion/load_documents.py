@@ -57,10 +57,7 @@ def load_documents(system_state: str = "clean"):
 
 
 def annotate_chunk_metadata(chunks):
-    """Attaches `chunk_index` and `section` (derived from the enclosing
-    Markdown heading via app.ingestion.section_metadata) to each chunk.
-    Only takes effect on a future re-ingestion run -- this function does
-    not touch the currently indexed Qdrant collections."""
+    """Attaches `chunk_index` and `section` to each chunk."""
     for index, chunk in enumerate(chunks):
         chunk.metadata["chunk_index"] = index
         chunk.metadata["section"] = section_for_offset(

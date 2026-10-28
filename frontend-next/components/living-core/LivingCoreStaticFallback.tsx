@@ -18,29 +18,10 @@ const PHASE_HEADING: Record<LivingCorePhase, string> = {
   fault: "Living core fault",
 };
 
-// Same silhouette description the 3D `ShieldOutline` traces (see
-// `shieldGeometry.ts`), rendered flat as an SVG path — this is the only
-// place that needs to draw it, so it's computed once at module scope
-// rather than per render.
+// Same silhouette description the 3D `ShieldOutline` traces, rendered flat as an SVG path.
 const SHIELD_SVG_PATH = buildShieldSvgPath(64, 4);
 
-/**
- * Pure DOM/CSS living-core presentation — no `three` / `@react-three/*`
- * import anywhere in this file or its dependency chain (only the plain,
- * framework-agnostic `shieldGeometry.ts` helper is shared with the 3D
- * layer). Rendered whenever WebGL is unsupported, `prefers-reduced-motion`
- * is set, or the 3D scene throws at runtime (see `LivingCoreStage`).
- *
- * All six phases get a visually distinct glyph treatment (`data-phase`
- * drives color in `app/globals.css`) plus the same real status text the 3D
- * scene shows in its own caption (`getLivingCoreStatusText`). It also lists
- * every real source by its `source_number` — the same per-source
- * correspondence the 3D layer's numbered nodes and `RetrievalScan` markers
- * show — so no information is ever exclusive to the animated version. Zero
- * sources are ever listed for any phase but "converged", matching the 3D
- * layer's zero-fabricated-node rule exactly. Renamed 1:1 from the retired
- * `shield-core/ShieldCoreStaticFallback.tsx`.
- */
+/** Pure DOM/CSS living-core presentation. */
 export function LivingCoreStaticFallback({
   phase,
   sources,

@@ -1,7 +1,4 @@
-/**
- * Types mirroring the backend `/health` contract exactly.
- * See backend/app/main.py.
- */
+/** Types mirroring the backend `/health` contract exactly. */
 
 export interface HealthResponse {
   status: string;

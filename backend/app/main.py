@@ -126,15 +126,7 @@ class CompareResponse(BaseModel):
 # ============================================================
 
 def _source_identity(source: dict[str, Any]) -> str:
-    """
-    Produce a stable identity for a retrieved chunk.
-
-    We use:
-        source file + start index
-
-    This is more accurate than comparing attack_type alone,
-    because multiple retrieved chunks may come from the same document.
-    """
+    """Produce a stable identity for a retrieved chunk."""
 
     metadata = source.get("metadata", {}) or {}
 
@@ -188,10 +180,8 @@ def _record_chat_history(
     system_state: str,
     latency_ms: float,
 ) -> None:
-    """
-    Auto-record a successful CLEAN or POISONED /chat answer as one
-    Experiment History row. Never raises -- a persistence failure must
-    not break the chat response the user is waiting on.
+    """Auto-record a successful CLEAN or POISONED /chat answer as one Experiment History
+    row.
     """
 
     try:
@@ -260,10 +250,7 @@ def chat(
         result = answer_question(
             request.question,
             system_state=request.system_state,
-            # "defended" = PWWS-poisoned collection behind the entropy filter,
-            # "repaired" = the same collection behind repair-then-rescore,
-            # "contextual" = the same collection behind the language-model filter
-            # (app/defence/entropy_filter.py); clean/poisoned are unchanged.
+            # "defended" = PWWS-poisoned collection behind the entropy filter.
             retrieval_fn=retrieval_for_state(request.system_state),
         )
         latency_ms = (time.perf_counter() - started_at) * 1000
@@ -513,12 +500,7 @@ def compare_states(
             },
         )
 
-        # ----------------------------------------------------
-        # Research-quality metrics (attack/retrieval/generation
-        # quality + RAG attack success). Never allowed to break the
-        # Compare response -- a failure here just means these groups
-        # come back null, exactly like a failed evaluator call.
-        # ----------------------------------------------------
+        # ---------------------------------------------------- Research-quality metrics.
 
         research_metrics: dict[str, Any] = {
             "attack_quality": None,

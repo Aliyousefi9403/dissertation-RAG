@@ -1,26 +1,4 @@
-"""Pure paired accounting for correctness and faithfulness (schema version 1).
-
-Each observation holds both conditions for the same question. Metrics use
-their own valid pairs; scores are never filtered and zipped independently.
-Delta is poisoned minus clean, computed per pair before any rounding.
-
-None or an absent score is missing. Non-finite floats and types other than
-built-in int/float (including bool) are malformed. Both are unavailable for
-pairing, but condition-specific missing/malformed counts remain separate.
-These statuses describe values, not unrecorded evaluator failure reasons.
-
-For each metric, the counts satisfy:
-  total_observations = paired_valid_count + clean_only_unavailable_count
-                       + poisoned_only_unavailable_count + both_unavailable_count
-  total_observations = clean_valid_count + clean_missing_count + clean_malformed_count
-  total_observations = poisoned_valid_count + poisoned_missing_count
-                       + poisoned_malformed_count
-
-clean_only_unavailable_count means clean is unavailable and poisoned is
-valid; poisoned_only_unavailable_count means the reverse. Total counts
-supplied observations, not requests that failed before a row was created.
-No score coercion, clipping, range restriction, I/O, or model calls occur.
-"""
+"""Pure paired accounting for correctness and faithfulness."""
 
 from __future__ import annotations
 
@@ -87,11 +65,7 @@ def _summarize_metric(
 
 
 def build_paired_metrics(observations: list[dict[str, Any]]) -> dict[str, Any]:
-    """Summarize raw same-question score rows without mutating them.
-
-    All three paired summaries are None when a metric has no valid pairs.
-    Correctness availability never filters faithfulness, or vice versa.
-    """
+    """Summarize raw same-question score rows without mutating them."""
     return {
         "schema_version": 1,
         "delta_direction": "poisoned_minus_clean",

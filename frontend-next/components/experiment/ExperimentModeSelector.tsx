@@ -1,6 +1,13 @@
 "use client";
 
-export type ExperimentMode = "clean" | "poisoned" | "compare" | "defended" | "repaired" | "contextual" | "verified";
+export type ExperimentMode =
+  | "clean"
+  | "poisoned"
+  | "compare"
+  | "defended"
+  | "repaired"
+  | "contextual"
+  | "verified";
 
 interface ExperimentModeSelectorProps {
   mode: ExperimentMode;
@@ -17,25 +24,11 @@ const MODES: Array<{ value: ExperimentMode; label: string; disabled?: boolean }>
   { value: "verified", label: "Verified" },
 ];
 
-/**
- * Small experiment-state control for the Assistant workspace: switches
- * between the clean baseline, the PWWS-poisoned knowledge base, a
- * side-by-side comparison of both, and the defended pipeline (the PWWS-
- * poisoned collection behind the entropy filter, `system_state=defended`). Purely a mode switch — it never calls the backend itself;
- * `app/page.tsx` reads `mode` to decide which endpoint the next submitted
- * question hits (`POST /chat` with `system_state`, or `POST /compare`).
- */
-export function ExperimentModeSelector({
-  mode,
-  onChange,
-}: ExperimentModeSelectorProps) {
+/** Experiment-mode switch for the Assistant workspace. */
+export function ExperimentModeSelector({ mode, onChange }: ExperimentModeSelectorProps) {
   return (
     <div className="experiment-mode">
-      <div
-        className="experiment-mode-row"
-        role="radiogroup"
-        aria-label="Experiment state"
-      >
+      <div className="experiment-mode-row" role="radiogroup" aria-label="Experiment state">
         {MODES.map((option) => (
           <button
             key={option.value}
@@ -49,63 +42,43 @@ export function ExperimentModeSelector({
             onClick={() => onChange(option.value)}
           >
             {option.label}
-            {option.disabled && (
-              <span className="experiment-mode-badge">Coming soon</span>
-            )}
+            {option.disabled && <span className="experiment-mode-badge">Coming soon</span>}
           </button>
         ))}
       </div>
 
       {mode === "clean" && (
-        <p
-          className="experiment-mode-caption experiment-mode-caption--clean"
-          role="status"
-        >
+        <p className="experiment-mode-caption experiment-mode-caption--clean" role="status">
           Clean baseline
         </p>
       )}
 
       {mode === "defended" && (
-        <p
-          className="experiment-mode-caption experiment-mode-caption--defended"
-          role="status"
-        >
+        <p className="experiment-mode-caption experiment-mode-caption--defended" role="status">
           PWWS poisoned + entropy filter
         </p>
       )}
 
       {mode === "repaired" && (
-        <p
-          className="experiment-mode-caption experiment-mode-caption--repaired"
-          role="status"
-        >
+        <p className="experiment-mode-caption experiment-mode-caption--repaired" role="status">
           PWWS poisoned + entropy repair
         </p>
       )}
 
       {mode === "contextual" && (
-        <p
-          className="experiment-mode-caption experiment-mode-caption--contextual"
-          role="status"
-        >
+        <p className="experiment-mode-caption experiment-mode-caption--contextual" role="status">
           PWWS poisoned + language-model filter
         </p>
       )}
 
       {mode === "verified" && (
-        <p
-          className="experiment-mode-caption experiment-mode-caption--verified"
-          role="status"
-        >
+        <p className="experiment-mode-caption experiment-mode-caption--verified" role="status">
           PWWS poisoned + runtime verification monitor
         </p>
       )}
 
       {mode === "poisoned" && (
-        <p
-          className="experiment-mode-caption experiment-mode-caption--poisoned"
-          role="status"
-        >
+        <p className="experiment-mode-caption experiment-mode-caption--poisoned" role="status">
           PWWS poisoned
         </p>
       )}

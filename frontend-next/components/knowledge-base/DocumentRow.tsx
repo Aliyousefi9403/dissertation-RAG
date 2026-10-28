@@ -41,13 +41,7 @@ function formatDate(iso: string): string {
   }
 }
 
-/**
- * A single Knowledge Base document row — collapsed by default (status,
- * chunk/vector counts, quick actions) and expandable via the native
- * `<details>`/`<summary>` disclosure for the full metadata viewer, matching
- * the keyboard/screen-reader-accessible pattern already established by
- * `components/answer/SourceCard.tsx`.
- */
+/** A single Knowledge Base document row. */
 export function DocumentRow({ document, pending, onDelete, onReindex }: DocumentRowProps) {
   const [confirmingDelete, setConfirmingDelete] = useState(false);
 
@@ -101,9 +95,7 @@ export function DocumentRow({ document, pending, onDelete, onReindex }: Document
             size={confirmingDelete ? "sm" : "icon-sm"}
             disabled={pending}
             aria-label={
-              confirmingDelete
-                ? `Confirm delete ${document.name}`
-                : `Delete ${document.name}`
+              confirmingDelete ? `Confirm delete ${document.name}` : `Delete ${document.name}`
             }
             title={confirmingDelete ? "Confirm delete" : "Delete"}
             onClick={handleDeleteClick}

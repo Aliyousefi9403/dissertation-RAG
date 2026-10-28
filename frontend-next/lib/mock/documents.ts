@@ -1,23 +1,4 @@
-/**
- * Mock Knowledge Base document store.
- *
- * No backend endpoint exists yet for document management — the real
- * backend only exposes `GET /health` and `POST /chat` (see
- * `backend/app/main.py`). This module fakes a small, realistic
- * cybersecurity-themed document set behind the same typed-async-function
- * shape a real API client would have (`listDocuments`, `searchDocuments`,
- * `deleteDocument`, `reindexDocument`, `uploadDocument`), so swapping to a
- * real `lib/api/documents.ts` later (once e.g. `GET/POST/DELETE
- * /api/documents` exist) only touches this file.
- *
- * State is kept in a module-level array so the Knowledge Base page behaves
- * like a real, stateful client against a (fake) backend across
- * upload/delete/reindex/search actions within a session — it intentionally
- * does not persist across a full page reload.
- *
- * Placeholder pending a real backend endpoint — swap this implementation
- * for real fetch() calls once document-management endpoints exist.
- */
+/** Mock Knowledge Base document store. */
 
 export type DocumentStatus = "Indexed" | "Indexing" | "Failed";
 
@@ -148,8 +129,7 @@ export async function searchDocuments(query: string): Promise<KnowledgeDocument[
   }
   const filtered = documents.filter(
     (doc) =>
-      doc.name.toLowerCase().includes(trimmed) ||
-      doc.category.toLowerCase().includes(trimmed),
+      doc.name.toLowerCase().includes(trimmed) || doc.category.toLowerCase().includes(trimmed),
   );
   return delay(filtered.map((doc) => ({ ...doc })));
 }
@@ -160,9 +140,7 @@ export async function deleteDocument(id: string): Promise<void> {
 }
 
 export async function reindexDocument(id: string): Promise<KnowledgeDocument> {
-  documents = documents.map((doc) =>
-    doc.id === id ? { ...doc, status: "Indexing" } : doc,
-  );
+  documents = documents.map((doc) => (doc.id === id ? { ...doc, status: "Indexing" } : doc));
   await delay(undefined, 900);
 
   documents = documents.map((doc) =>
@@ -200,9 +178,7 @@ export async function uploadDocument(file: File): Promise<KnowledgeDocument> {
   await delay(undefined, 900);
 
   documents = documents.map((doc) =>
-    doc.id === newDoc.id
-      ? { ...doc, status: "Indexed", vectorCount: doc.chunkCount }
-      : doc,
+    doc.id === newDoc.id ? { ...doc, status: "Indexed", vectorCount: doc.chunkCount } : doc,
   );
 
   const updated = documents.find((doc) => doc.id === newDoc.id);

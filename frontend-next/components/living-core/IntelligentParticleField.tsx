@@ -8,7 +8,10 @@ import {
   buildParticleConnections,
   buildParticleFieldLayout,
 } from "@/lib/living-core/particleFieldLayout";
-import { CURL_3D_GLSL, PERLIN_NOISE_3D_GLSL } from "@/components/living-core/gpu-particles/noiseGLSL";
+import {
+  CURL_3D_GLSL,
+  PERLIN_NOISE_3D_GLSL,
+} from "@/components/living-core/gpu-particles/noiseGLSL";
 import { LIVE_POSITION_GLSL } from "@/components/living-core/gpu-particles/intelligentCloudGLSL";
 import type { LivingCorePhase } from "@/lib/living-core/livingCoreState";
 import { damp } from "@/lib/living-core/damp";
@@ -16,16 +19,9 @@ import { damp } from "@/lib/living-core/damp";
 interface IntelligentParticleFieldProps {
   particleCount: number;
   phase: LivingCorePhase;
-  /** True while PWWS Poisoned mode is the selected experiment state (see
-   * `app/page.tsx`'s `experimentMode`). Overrides the phase-driven edge/
-   * line color to `accent.danger`, fulfilling the `TODO(attack-detected)`
-   * below — color only, no change to motion/shape/particle count. */
+  /** True while PWWS Poisoned mode is the selected experiment state. */
   attackDetected?: boolean;
-  /** True while Compare mode is selected. Splits the point cloud ~50/50
-   * into a red group (which also gets a small local orbit, see
-   * `LIVE_POSITION_GLSL`) and a blue group holding the normal idle look —
-   * mutually exclusive with `attackDetected` in practice (experiment mode
-   * is a single selection), but independent uniforms either way. */
+  /** True while Compare mode is selected. */
   compareMode?: boolean;
   /** Edge colour of the selected defence mode; null keeps the normal blue. */
   tint?: string | null;
@@ -40,37 +36,21 @@ const ATTRACT = 0.42;
 const BREATHE_AMP = 0.045;
 const BREATHE_FREQ = 0.32;
 
-// The one phase-driven behavior this field has: while a question is in
-// flight, the whole cloud contracts and expands together -- a much larger,
-// synchronized pulse layered on top of the constant idle breathe above (see
-// `LIVE_POSITION_GLSL`). `DIGEST_LAMBDA` eases `uDigestAmp` in/out instead
-// of snapping it, matching this codebase's established damped-transition
-// language (`lib/living-core/damp.ts`, used the same way by the retired
-// `NeuralPointCloud`/still-live `RetrievalScan`).
+// "Digest" wobble while a question is in flight.
 const DIGEST_AMP_TARGET = 0.26;
 const DIGEST_FREQ = 1.4;
 const DIGEST_LAMBDA = 2.5;
 
-// Color-ramp response rate (~400ms to settle, matching the product brief's
-// "ramps up over 400ms" for the retrieving transition) and the resolved-
-// state gold pulse's linear decay window before it settles back to the
-// base blue target.
+// Colour easing rate, and how long the gold pulse lasts after an answer lands.
 const COLOR_RAMP_LAMBDA = 7.5;
 const RESOLVED_PULSE_DURATION = 0.8;
 
-// Kept deliberately modest: with 15k-30k particles rendered additively,
-// opacity/size stack fast under overlap. These values were tuned against a
-// real screenshot (not guessed) so the cloud reads as a structured field of
-// discrete points with visible curl-noise motion and connection lines
-// rather than blowing bloom out into one undifferentiated white orb.
+// Kept low: 15k-30k additive particles saturate quickly.
 const POINT_OPACITY = 0.42;
 const POINT_SIZE_BASE = 2.3;
 const POINT_SIZE_MAX = 6.0;
 
-// Core stays a fixed near-white highlight in every phase; only the edge/
-// line color shifts with state (see the phase-driven target colors below --
-// state color modulation is an explicitly approved exception to this
-// field's otherwise-untouched physics/math).
+// Core stays a fixed near-white highlight in every phase.
 const CORE_COLOR = new THREE.Color("#eaf6ff");
 const EDGE_COLOR = new THREE.Color("#4a9fff");
 const LINE_COLOR = new THREE.Color("#4a9fff");
@@ -81,16 +61,10 @@ const LINE_COLOR = new THREE.Color("#4a9fff");
 const IDLE_EDGE_TARGET = new THREE.Color("#4a9fff");
 const RETRIEVING_EDGE_TARGET = new THREE.Color("#00e5ff");
 const RESOLVED_PULSE_TARGET = new THREE.Color("#ffb84a");
-// PWWS Poisoned mode's attack-detected target -- accent.danger
-// (lib/design-tokens.ts), the same muted-red family `LivingCorePhase.fault`
-// uses elsewhere in the Living Core system. Takes priority over every
-// phase-driven target below while `attackDetected` is true.
+// PWWS Poisoned mode's attack-detected target.
 const ATTACK_EDGE_TARGET = new THREE.Color("#FF4A6B");
 
-// Compare mode's per-point red/blue split (POINTS_FRAGMENT only — the
-// connection lines stay their normal uniform color). Reuses the same two
-// established tokens as everywhere else in this file: accent.danger for
-// red, the standing idle blue for blue — no new colors introduced.
+// Compare mode's per-point red/blue split.
 const COMPARE_RED_COLOR = new THREE.Color("#FF4A6B");
 const COMPARE_BLUE_COLOR = new THREE.Color("#4a9fff");
 
@@ -106,10 +80,7 @@ const POINTS_VERTEX = /* glsl */ `
 
   varying float vSeed;
 
-  // Calibrated against this scene's actual camera distance (see
-  // CAMERA_BASE_POSITION in LivingCoreScene.tsx) -- a point at that
-  // distance renders at uSizeBase device pixels, nearer/farther points
-  // scale proportionally.
+  // Calibrated against this scene's actual camera distance.
   const float REF_DISTANCE = 4.8;
 
   ${PERLIN_NOISE_3D_GLSL}
@@ -190,30 +161,7 @@ const LINES_FRAGMENT = /* glsl */ `
   }
 `;
 
-/**
- * The living core's centerpiece: a real GPU-simulated particle field, an
- * "intelligent cloud waiting for input" -- not a static shield, not a
- * particle sphere with no internal structure. Every particle's on-screen
- * position is recomputed from scratch each frame, entirely on the GPU
- * (`livePosition` in `intelligentCloudGLSL.ts`, shared verbatim between
- * this field's points and its connection-line geometry): divergence-free
- * curl-noise turbulence layered on a constant slow breathing pulse, gently
- * pulled back toward each particle's own rest radius so the cloud reads as
- * one coherent bounded body rather than dispersing. No CPU-side per-frame
- * work at all -- `useFrame` below only advances a single `uTime` uniform
- * on each material.
- *
- * The curl-noise/breathing/attraction motion baseline above is phase-
- * agnostic -- the same "waiting for input" look in every phase; the one
- * motion exception is `phase === "submitting"`, which ramps in a
- * synchronized open/close "digest" pulse (`uDigestAmp`, see
- * `LIVE_POSITION_GLSL`) in place of the old spinning radar sweep. Color IS
- * phase-driven: the edge/line color eases toward cyan while submitting and
- * briefly pulses gold on a fresh "converged" before settling back to the
- * base blue (see the target-color constants and the color-lerp block in
- * `useFrame` above). Further phase-driven behavior (convergence into a
- * shield form, ...) is still future work -- see the living-core-states doc.
- */
+/** The living core's centerpiece: a real GPU-simulated particle field. */
 export function IntelligentParticleField({
   particleCount,
   phase,
@@ -247,15 +195,15 @@ export function IntelligentParticleField({
       "aOtherPosition",
       new THREE.Float32BufferAttribute(connections.otherPositions, 3),
     );
-    geometry.setAttribute("aOtherSeed", new THREE.Float32BufferAttribute(connections.otherSeeds, 1));
+    geometry.setAttribute(
+      "aOtherSeed",
+      new THREE.Float32BufferAttribute(connections.otherSeeds, 1),
+    );
     return geometry;
   }, [connections]);
 
-  // `useMemo` so the same object identity is passed to `<shaderMaterial
-  // uniforms={...}>` across renders (three only reads this once at
-  // construction); every per-frame *write* goes through the material ref
-  // instead, per r3f's standard escape hatch for mutating a `useMemo`
-  // result under the `react-hooks/immutability` lint rule.
+  // `useMemo` so the same object identity is passed to `<shaderMaterial uniforms={...}>` across
+  // renders.
   const pointsUniforms = useMemo(
     () => ({
       uTime: { value: 0 },
@@ -307,10 +255,9 @@ export function IntelligentParticleField({
     const dt = Math.min(0.1, Math.max(0, delta));
     digestAmpRef.current = damp(digestAmpRef.current, targetDigestAmp, DIGEST_LAMBDA, dt);
 
-    // State color modulation: track the moment `phase` first becomes
-    // "converged" so the resolved gold pulse always restarts at full
-    // strength on a fresh convergence, then decays back to the base blue
-    // target over `RESOLVED_PULSE_DURATION` regardless of how long the
+    // State color modulation: track the moment `phase` first becomes "converged" so the
+    // resolved gold pulse always restarts at full strength on a fresh convergence, then decays
+    // back to the base blue target over `RESOLVED_PULSE_DURATION` regardless of how long the
     // field stays converged afterward.
     if (phase === "converged" && previousPhaseRef.current !== "converged") {
       convergedEnteredAtRef.current = elapsed;

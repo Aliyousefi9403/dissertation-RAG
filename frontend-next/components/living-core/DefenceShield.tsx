@@ -37,12 +37,7 @@ const IMPACTS: Array<[number, number]> = [
 const IMPACT_DELAY = 0.6;
 const IMPACT_STEP = 0.32;
 
-/**
- * The Defended-mode shield. Purely presentational (aria-hidden SVG); the only
- * data it shows is the real number of candidate passages the entropy filter
- * skipped for the last answer, in the caption, which is announced politely.
- * Every animation is CSS and is disabled under prefers-reduced-motion.
- */
+/** The Defended-mode shield. */
 export function DefenceShield({ state, skipped, variant = "stage" }: DefenceShieldProps) {
   const impacts = state === "resolved" && skipped ? Math.min(skipped, IMPACTS.length) : 0;
   const caption =

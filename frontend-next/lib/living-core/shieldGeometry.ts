@@ -1,24 +1,8 @@
 import * as THREE from "three";
 
 /**
- * Single source of truth for the Aegis shield silhouette: a normalized
- * (x: -1..1, y: -1..1, y-up) "heater shield" outline — a flat, straight
- * top edge, shoulders that bulge outward just below it, and a clear taper
- * down to one point at the bottom. Overall proportions land at roughly a
- * 1.28:1 height:width ratio ("tall shield," not a narrow leaf/teardrop).
- *
- * Both the 3D outline (`ShieldOutline`, via `createShieldShape`) and the
- * no-WebGL/reduced-motion DOM fallback glyph (`LivingCoreStaticFallback`,
- * via `buildShieldSvgPath`) are drawn from these same control points, so
- * the two presentations never drift into visually different shapes even
- * though one is WebGL geometry and the other is a flat SVG path.
- *
- * Moved unchanged from the retired `lib/shield-core/shieldGeometry.ts` —
- * this module is framework-agnostic (no r3f/chat-state imports) and its
- * control-point math is deliberately untouched by the living-core redesign.
- * `createShieldGeometry` (an extruded solid) is kept for reference/reuse
- * even though `ShieldOutline` now builds its own flat ring geometry from
- * `createShieldShape` directly.
+ * Single source of truth for the Aegis shield silhouette: a normalized "heater shield"
+ * outline.
  */
 export interface ShieldOutlinePoint {
   x: number;
@@ -41,13 +25,7 @@ const TOP_RIGHT: ShieldOutlinePoint = { x: 0.56, y: 0.94 };
  * `ShieldShell`. */
 export const SHIELD_BASE_POINT: ShieldOutlinePoint = { x: 0, y: -1 };
 
-// Right-half descent: top-right corner -> shoulder -> waist -> bottom
-// point. The left half is this same curve mirrored across x=0 (see
-// `SHIELD_OUTLINE_SEGMENTS` below), so the silhouette is always exactly
-// symmetric. The shoulder sits clearly below and outside the top corner
-// (a real bulge, not a continuation of the top curve) and the waist pulls
-// back in sharply before the final taper, so the shoulder-to-point taper
-// reads clearly rather than as one continuous curve.
+// Right-half descent: top-right corner -> shoulder -> waist -> bottom point.
 const RIGHT_SHOULDER: ShieldOutlinePoint = { x: 0.74, y: 0.5 };
 const RIGHT_WAIST: ShieldOutlinePoint = { x: 0.46, y: -0.28 };
 
@@ -116,11 +94,7 @@ const SHIELD_OUTLINE_SEGMENTS: ShieldBezierSegment[] = [
   SEGMENT_LEFT_SHOULDER_TO_TOP_LEFT,
 ];
 
-/**
- * Builds the flat 2D shield outline as a `THREE.Shape`, ready to extrude.
- * Rebuilding this is cheap but callers (`ShieldShell`) still memoize it —
- * it never changes at runtime.
- */
+/** Builds the flat 2D shield outline as a `THREE.Shape`, ready to extrude. */
 export function createShieldShape(): THREE.Shape {
   const shape = new THREE.Shape();
   shape.moveTo(SHIELD_START_POINT.x, SHIELD_START_POINT.y);
@@ -146,12 +120,7 @@ export interface ShieldGeometryOptions {
   bevelSize?: number;
 }
 
-/**
- * A thin extruded shield mesh built directly from `createShieldShape` — no
- * external model import, no new dependency. Bevelled lightly so the
- * silhouette reads as a solid emblem rather than a flat cutout, while
- * staying thin ("a thin 3D form", per spec).
- */
+/** A thin extruded shield mesh built directly from `createShieldShape`. */
 export function createShieldGeometry({
   scale = 1,
   depth = 0.3,
@@ -172,13 +141,7 @@ export function createShieldGeometry({
   return geometry;
 }
 
-/**
- * Renders the same silhouette as an SVG `path` `d` attribute, for the pure
- * DOM/CSS fallback (`ShieldCoreStaticFallback`). SVG's y-axis grows
- * downward, so points are flipped vertically when projected into the
- * viewBox; everything else is the same control-point data the 3D mesh
- * uses.
- */
+/** Renders the same silhouette as an SVG `path` `d` attribute, for the pure DOM/CSS fallback. */
 export function buildShieldSvgPath(viewBoxSize = 64, padding = 4): string {
   const usable = (viewBoxSize - padding * 2) / 2;
   const center = viewBoxSize / 2;

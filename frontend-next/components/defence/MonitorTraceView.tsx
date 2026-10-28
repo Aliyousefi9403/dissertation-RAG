@@ -73,10 +73,7 @@ function RoundCard({ round }: { round: MonitorRound }) {
   );
 }
 
-/**
- * Verified mode: the runtime monitor's real trace for this answer — each attempt, which formal
- * property held or failed (with the offending words), what was quarantined, and the outcome.
- */
+/** Verified mode: the runtime monitor's real trace for this answer. */
 export function MonitorTraceView({ trace }: { trace: MonitorTrace }) {
   const outcome = OUTCOME[trace.outcome];
   return (

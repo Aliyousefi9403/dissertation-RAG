@@ -1,8 +1,4 @@
-/**
- * Types mirroring the backend Experiment History contract exactly.
- * See backend/app/history/models.py (ExperimentCreate, ExperimentRecord,
- * ExperimentStats). Do not add fields that are not present there.
- */
+/** Types mirroring the backend Experiment History contract exactly. */
 import type { SourceItem } from "@/lib/types/chat";
 import type {
   AttackQualityMetrics,
@@ -13,10 +9,7 @@ import type {
 
 export type ExperimentMode = "clean" | "poisoned" | "compare" | "defended";
 
-/** Mirrors the backend's single `research_metrics` JSON column
- * (backend/app/history/models.py) -- the same four groups the /compare
- * response returns, persisted verbatim. Older history rows predate this
- * column and have `research_metrics: null`. */
+/** Mirrors the backend's single `research_metrics` JSON column. */
 export interface ResearchMetrics {
   attack_quality?: AttackQualityMetrics | null;
   retrieval_quality?: RetrievalQualityMetrics | null;

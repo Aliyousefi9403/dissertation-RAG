@@ -12,12 +12,7 @@ interface DocumentUploadProps {
   uploading: boolean;
 }
 
-/**
- * Upload dropzone for the Knowledge Base page. No real upload endpoint
- * exists yet (see `lib/mock/documents.ts`), so this is visual + local
- * drag/drop and `<input type="file">` state that hands the selected
- * `File` up to the caller, which drives the mock `uploadDocument()` call.
- */
+/** Upload dropzone for the Knowledge Base page. */
 export function DocumentUpload({ onUpload, uploading }: DocumentUploadProps) {
   const inputId = useId();
   const [isDragOver, setIsDragOver] = useState(false);
@@ -50,7 +45,9 @@ export function DocumentUpload({ onUpload, uploading }: DocumentUploadProps) {
 
       <div className="kb-dropzone-copy">
         <p className="kb-dropzone-title">
-          {uploading ? "Uploading and indexing…" : "Drop a document to add it to the knowledge base"}
+          {uploading
+            ? "Uploading and indexing…"
+            : "Drop a document to add it to the knowledge base"}
         </p>
         <p className="kb-dropzone-hint">
           or{" "}

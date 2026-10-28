@@ -1,25 +1,4 @@
-"""
-PWWS attack manifest analysis (dissertation Phase 1: attack quality).
-
-Reads the EXISTING attack manifest produced by
-`app/attack/pwws_poison_kb.py` (never re-runs the attack itself) and
-computes, for every successfully-attacked section:
-
-- word_modification_rate: how much of the original text PWWS changed
-- semantic_similarity: how close the adversarial text stays to the
-  original, using the project's existing MiniLM embedding model
-
-Results are written to sidecar files next to the manifest rather than
-mutating it in place, so the original completed-attack evidence file is
-never overwritten:
-
-- pwws_attack_manifest_metrics.jsonl  (per-section, success:true only)
-- pwws_attack_manifest_summary.json   (aggregate: mean/median)
-
-Also exposes `get_successful_entries_by_file()`, a cached lookup used by
-`retrieval_metrics.py` (Poison Hit@3) to identify which retrieved chunks
-are genuinely PWWS-modified content.
-"""
+"""PWWS attack manifest analysis."""
 
 from __future__ import annotations
 
@@ -53,16 +32,7 @@ def load_manifest() -> list[dict[str, Any]]:
 
 
 def word_modification_rate(original: str, adversarial: str) -> tuple[int, int, float]:
-    """
-    word_modification_rate = number_of_changed_words / number_of_words_in_original
-
-    Word-level (whitespace-split) comparison via difflib.SequenceMatcher.
-    A word counts as "changed" if it was replaced or deleted going from
-    original -> adversarial (i.e. it does not survive in an "equal"
-    block). Pure re-formatting (whitespace) never affects this since both
-    manifest texts are already single-line, whitespace-normalized by
-    `extract_attack_text()` in pwws_poison_kb.py.
-    """
+    """Changed words / original words, compared with difflib.SequenceMatcher."""
     import difflib
 
     original_words = original.split()
@@ -93,11 +63,8 @@ def _cosine_similarity(vec_a: list[float], vec_b: list[float]) -> float:
 
 
 def enrich_manifest_and_summarize() -> dict[str, Any]:
-    """
-    Compute word_modification_rate + semantic_similarity for every
-    successful manifest entry and write the two sidecar files. Safe to
-    re-run (idempotent, overwrites only the sidecar files, never the
-    original manifest).
+    """Compute word_modification_rate + semantic_similarity for every successful
+    manifest entry and write the two sidecar files.
     """
     entries = load_manifest()
     successful = [e for e in entries if e.get("success") and e.get("original_text") and e.get("adversarial_text")]
@@ -176,11 +143,8 @@ def get_summary() -> dict[str, Any] | None:
 
 @lru_cache(maxsize=1)
 def get_successful_entries_by_file() -> dict[str, list[dict[str, Any]]]:
-    """
-    Cached lookup: relative poisoned-KB file path (manifest's own "file"
-    field, e.g. "ddos/http_flood.md") -> list of successful manifest
-    entries for that file. Used by retrieval_metrics.poison_hit_at_3 to
-    identify genuinely PWWS-modified content.
+    """Cached lookup: relative poisoned-KB file path -> list of successful manifest
+    entries for that file.
     """
     by_file: dict[str, list[dict[str, Any]]] = {}
     for entry in load_manifest():

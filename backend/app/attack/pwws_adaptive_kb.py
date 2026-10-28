@@ -1,44 +1,4 @@
-"""
-Adaptive PWWS: the same attack, constrained to evade the entropy-filter defence.
-
-The entropy filter (app/defence/entropy_filter.py) flags words that are much
-rarer, under a domain reference q, than a WordNet synonym. An attacker who knows
-that can simply refuse such swaps. This script runs the unchanged PWWS recipe
-(PWWSRen2019, same surrogate, same sections, same skip rules) with one extra
-TextAttack constraint:
-
-    a swap original -> substitute is allowed only if q(substitute) >= q(original)
-
-where q is the defender's own reference (DomainReference, leave-one-document-out,
-lambda 0.5 domain / 0.5 English), built from the clean knowledge base the attacker
-is poisoning. This is the strongest adaptive attacker for this detector: it knows
-the detector's reference exactly.
-
-  --variant adaptive     constrained attack  -> data/poisoned_adaptive/
-  --variant adaptive_lm  second-order attack -> data/poisoned_adaptive_lm/
-                         adds a second rule aimed at the contextual detector
-                         (app/defence/contextual_filter.py): the swapped passage must be at
-                         least as probable as the original under the same language model
-  --variant adaptive_lm_budget  budgeted second-order attack -> data/poisoned_adaptive_lm_budget/
-                         as adaptive_lm, but the passage may become up to LM_BUDGET_BITS less
-                         probable (the strict rule of adaptive_lm allowed almost no swaps);
-                         --budget-bits B writes to data/poisoned_adaptive_lm_budget_B/ instead
-  --variant control    unconstrained PWWS  -> data/poisoned_pwws_rerun/
-                       (matched control when the surrogate had to be retrained)
-  --variant textfooler   TextFooler (Jin et al. 2020) instead of PWWS -> data/poisoned_textfooler/
-                         a second word-substitution attack, to test whether the detectors
-                         generalise beyond PWWS (substitutes come from counter-fitted word
-                         embeddings, not WordNet)
-
-Create-only: refuses to run if the output folder or manifest exists. The clean
-knowledge base and the original poisoned corpus are never touched. Each finished
-file is checkpointed in <out>/parts/; `--resume` continues an interrupted run,
-restoring every unfinished file from the clean copy before attacking it, and
-appends start/resume events to <out>/run_log.jsonl. Several `--resume` workers may run
-at once: each claims a file with <out>/parts/<file>.lock (holding its pid and the boot id;
-a lock from another boot, or whose process has gone, is stale), and whichever worker finds every file done writes the
-manifest, in file order, from the parts.
-"""
+"""Adaptive PWWS: the same attack, constrained to evade the entropy-filter defence."""
 
 from __future__ import annotations
 
@@ -70,12 +30,7 @@ LM_BUDGET_BITS = 4.4611
 def domain_frequency_constraint(
     reference: DomainReference, lm=None, budget_bits: float = 0.0
 ):
-    """TextAttack constraint: reject swaps that make a word rarer under q.
-
-    With `lm` (an object with log2_prob(texts) -> list[float]), also reject any
-    transformed text that is more than `budget_bits` less probable than the original
-    under that model (budget 0: at least as probable).
-    """
+    """TextAttack constraint: reject swaps that make a word rarer under q."""
     from textattack.constraints import Constraint
 
     class DomainFrequencyConstraint(Constraint):

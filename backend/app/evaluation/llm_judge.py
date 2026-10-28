@@ -1,13 +1,4 @@
-"""
-LLM-as-judge evaluators (dissertation Phase 3: answer quality).
-
-Both evaluators reuse the project's configured LLM via llm_factory. Each
-judgment is a separate inference call and may incur cost. Temperature 0
-reduces variability but does not guarantee reproducibility. They
-return `None` (never raise) on any failure so a Compare request can never
-be broken by evaluator flakiness. Scores are automated-evaluator estimates,
-not ground truth -- callers must label them as such.
-"""
+"""LLM-as-judge evaluators."""
 
 from __future__ import annotations
 

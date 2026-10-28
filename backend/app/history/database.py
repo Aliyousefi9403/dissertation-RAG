@@ -1,10 +1,4 @@
-"""
-Lightweight SQLite persistence for the Experiment History feature.
-
-Stdlib `sqlite3` only, no ORM. Every operation opens a short-lived
-connection (safe under FastAPI's threaded execution of sync path
-operations) rather than sharing one long-lived connection across threads.
-"""
+"""Lightweight SQLite persistence for the Experiment History feature."""
 
 import sqlite3
 from contextlib import contextmanager
@@ -54,13 +48,7 @@ _INDEXES = (
     "CREATE INDEX IF NOT EXISTS idx_experiments_timestamp ON experiments(timestamp);",
 )
 
-# Columns added after the initial schema above. Each is a single nullable
-# JSON-serialized blob (matching how clean_sources/poisoned_sources/
-# metadata already store structured data) rather than ~20 individual flat
-# columns -- keeps the migration to one guarded ALTER TABLE and mirrors
-# the nested attack_quality/retrieval_quality/generation_quality/
-# attack_success shape the /compare API already returns. Existing rows
-# get NULL, which the API/frontend already treat as "not available".
+# Columns added after the initial schema above.
 _MIGRATIONS: tuple[tuple[str, str], ...] = (
     ("research_metrics", "ALTER TABLE experiments ADD COLUMN research_metrics TEXT"),
 )

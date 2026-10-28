@@ -45,24 +45,11 @@ export default function Home() {
         ? "Checking backend connection…"
         : "Message AegisRAG...";
 
-  // Idle (no question asked yet) keeps the living core, quiet prompt and
-  // composer/status as the sole visual focus, occupying most of the main
-  // visual area. Once a question resolves — submitting, success,
-  // noSources, or error — the core settles into a smaller, secondary role
-  // and the answer/evidence stack becomes the dominant element (see
-  // .conversation--idle/--active and .living-core-stage in globals.css).
-  // In Compare mode the same idle/active split is driven by the separate
-  // `compareState` instead, since Compare never touches `useChatSession`.
+  // Idle keeps the living core, quiet prompt and composer/status as the sole visual focus.
   const isIdle = isComparing ? compareState.status === "idle" : state.status === "idle";
   const isSubmitting = composerBusy;
 
-  // Same derivation `LivingCoreStage` uses internally for its own r3f
-  // scene -- duplicated here (cheaply, from the same real `state`/
-  // `healthStatus`) only to feed `PlatformStatusBar`'s status pill, which
-  // replaced the old caption that used to render below the particle
-  // canvas. Uses the same idle override as `LivingCoreStage` below while
-  // comparing, so the status caption never contradicts what the particle
-  // field is actually showing.
+  // Same derivation `LivingCoreStage` uses internally for its own r3f scene.
   const livingCoreChatState = isComparing ? initialChatState : state;
   const livingCorePhase = getLivingCorePhase(livingCoreChatState, healthStatus);
   const livingCoreSourceCount =
@@ -135,15 +122,7 @@ export default function Home() {
           >
             <div className="living-core-slot">
               <LivingCoreStage
-                // Compare mode never feeds `useChatSession`'s `state`
-                // (Compare uses the separate `useCompareSession`), so
-                // without this override the Living Core would keep
-                // showing whatever phase/sources were left over from the
-                // last normal Clean/Poisoned question (e.g. stale
-                // numbered SourcePins, a "converged" gold pulse) instead
-                // of its plain idle/"alive" look. Forcing the real idle
-                // state here reuses that already-correct rendering path
-                // verbatim rather than duplicating it.
+                // Compare mode never feeds `useChatSession`'s `state`.
                 chatState={isComparing ? initialChatState : state}
                 healthStatus={healthStatus}
                 attackDetected={experimentMode === "poisoned"}

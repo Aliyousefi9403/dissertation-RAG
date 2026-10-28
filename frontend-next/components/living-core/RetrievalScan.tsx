@@ -26,10 +26,7 @@ interface ScanTargets {
   sweepSpeed: number;
 }
 
-/** Named "Retrieval Scan" — evidence retrieval, never "attack detection" or
- * threat scanning. Pure function of phase -> target opacity/sweep speed;
- * see `docs/frontend/living-core-states.md` for the phase table this
- * mirrors. */
+/** Scan strength and speed for each phase. */
 function computeScanTargets(phase: LivingCorePhase): ScanTargets {
   switch (phase) {
     case "dormant":
@@ -63,16 +60,8 @@ const VERTEX_SHADER = /* glsl */ `
 `;
 
 /**
- * Ring-pulse + radial-spoke + sweep-beam math ported from react-bits'
- * `Radar/Radar.tsx` donor (MIT; `~/Desktop/ui-references/react-bits/public/
- * r/Radar-TS-TW.json`) into this project's existing `THREE.ShaderMaterial`
- * (that donor renders via a standalone `ogl` canvas, which this project
- * doesn't depend on — only the fragment-shader math is ported, not the
- * component). Ring count / spoke count / thickness / falloff / brightness
- * are fixed evidence-retrieval-appropriate constants here rather than the
- * donor's exposed tunable props, since `computeScanTargets` above (the only
- * phase -> visual mapping this component owns) intentionally still exposes
- * just `opacity`/`sweepSpeed` — never a new fabricated phase signal.
+ * Ring-pulse + radial-spoke + sweep-beam math ported from react-bits' `Radar/Radar.tsx` donor
+ * into this project's existing `THREE.ShaderMaterial`.
  */
 const FRAGMENT_SHADER = /* glsl */ `
   uniform float uTime;
@@ -123,21 +112,7 @@ const FRAGMENT_SHADER = /* glsl */ `
   }
 `;
 
-/**
- * A radar-style evidence sweep behind the core, sharing the same `Canvas`
- * (and therefore camera/depth space) as `IntelligentParticleField` — never
- * a separate canvas. Renders as a single flat circular plane with a
- * rotating-wedge shader (`uTime`-driven, no per-frame JS geometry writes)
- * plus one small ring marker per real retrieved source, reusing
- * `sourceLayout.ts`'s `getSourceOrbitAngle` so a given source sits at the
- * same angular position here as its `SourceNodes` node does in 3D.
- *
- * State mapping (see `docs/frontend/living-core-states.md`): offline
- * (dormant) is hidden/inert; idle is barely visible; submitting is an
- * active sweep; converged subdues the sweep and shows exactly
- * `sources.length` markers; unresolved shows no markers; fault stops the
- * sweep without any alarm implication.
- */
+/** A radar-style evidence sweep behind the core. */
 export function RetrievalScan({ phase, sources }: RetrievalScanProps) {
   const materialRef = useRef<THREE.ShaderMaterial>(null);
   const groupRef = useRef<THREE.Group>(null);
@@ -191,7 +166,8 @@ export function RetrievalScan({ phase, sources }: RetrievalScanProps) {
     materialUniforms.uOpacity.value = current.opacity;
     materialUniforms.uColor.value.set(LIVING_CORE_PHASE_COLOR[phase]);
 
-    const markerOpacity = phase === "converged" ? 0.55 + Math.sin(clock.getElapsedTime() * 1.4) * 0.15 : 0;
+    const markerOpacity =
+      phase === "converged" ? 0.55 + Math.sin(clock.getElapsedTime() * 1.4) * 0.15 : 0;
     group.children.forEach((child) => {
       if (child instanceof THREE.Mesh && child.userData.isMarker) {
         const mat = child.material as THREE.MeshBasicMaterial;
@@ -217,7 +193,13 @@ export function RetrievalScan({ phase, sources }: RetrievalScanProps) {
       {markers.map((marker) => (
         <mesh key={marker.key} position={[marker.x, marker.y, 0.01]} userData={{ isMarker: true }}>
           <ringGeometry args={[0.045, 0.06, 24]} />
-          <meshBasicMaterial color="#7dd3fc" transparent opacity={0} toneMapped={false} depthWrite={false} />
+          <meshBasicMaterial
+            color="#7dd3fc"
+            transparent
+            opacity={0}
+            toneMapped={false}
+            depthWrite={false}
+          />
         </mesh>
       ))}
     </group>

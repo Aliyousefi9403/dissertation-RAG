@@ -1,12 +1,4 @@
-"""Verified mode for the interface: the runtime verification monitor (runtime-monitor-v1, ADR-009/010).
-
-`/chat` with system_state "verified" answers from the PWWS-poisoned collection under the monitor.
-The interface's quarantine memory lives in backend/runtime/ (AEGIS_MONITOR_MEMORY to override),
-separate from the evaluation runs' memories, so demonstrations never touch recorded evidence.
-
-  GET  /monitor/memory        the quarantined passages, newest last
-  POST /monitor/memory/reset  start a fresh memory; the old file is archived, never deleted
-"""
+"""Verified mode for the interface: the runtime verification monitor."""
 
 from __future__ import annotations
 

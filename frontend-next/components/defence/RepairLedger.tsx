@@ -3,11 +3,7 @@
 import type { SourceItem } from "@/lib/types/chat";
 import { fileName, verdictOf } from "@/components/defence/filterVerdict";
 
-/**
- * Repaired mode: a tracked-changes ledger. For each passage the model read, the words the repair
- * policy replaced (struck through) and their likely originals, with the gap in bits and the
- * passage score before and after repair. Real response data only.
- */
+/** Repaired mode: a tracked-changes ledger. */
 export function RepairLedger({ sources }: { sources: SourceItem[] }) {
   const rows = sources
     .map((s) => ({ source: s, verdict: verdictOf(s) }))

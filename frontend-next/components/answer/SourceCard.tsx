@@ -10,17 +10,7 @@ function fileNameFromPath(path: string): string {
   return segments.at(-1) || path;
 }
 
-/**
- * `source.metadata` mirrors whatever the retriever/vector store attaches
- * to a chunk verbatim (see `backend/app/ingestion/load_documents.py`) —
- * it is not curated for display. Alongside genuinely user-facing fields
- * (e.g. `attack_type`, `origin`), it carries local filesystem paths
- * (`source`, duplicating the top-level `source.source` already shown as
- * a filename above) and internal pipeline/vector-store bookkeeping
- * (`source_authority`, `_id`, `_collection_name`, `start_index`) that
- * leak implementation/OS details and mean nothing to an end user. Only
- * an explicit allowlist of real, stable, user-meaningful keys is shown.
- */
+/** `source.metadata` mirrors whatever the retriever/vector store attaches to a chunk verbatim. */
 const VISIBLE_METADATA_KEYS = new Set(["attack_type", "origin"]);
 
 function formatMetadataValue(value: unknown): string {
@@ -28,11 +18,7 @@ function formatMetadataValue(value: unknown): string {
     return "—";
   }
 
-  if (
-    typeof value === "string" ||
-    typeof value === "number" ||
-    typeof value === "boolean"
-  ) {
+  if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
     return String(value);
   }
 
@@ -43,13 +29,7 @@ function formatMetadataValue(value: unknown): string {
   }
 }
 
-/**
- * A single retrieved-evidence row. Collapsed by default — showing only the
- * source number (matching the 3D shield-core's numbered nodes and the
- * static fallback's <ul>), filename and similarity score — and expandable
- * via the native <details>/<summary> disclosure, so it is fully keyboard-
- * and screen-reader-operable without any extra scripting.
- */
+/** A single retrieved-evidence row. */
 interface EntropyVerdict {
   score_bits: number;
   threshold_bits: number;
@@ -95,8 +75,8 @@ export function SourceCard({ source }: SourceCardProps) {
         {isEntropyVerdict(source.metadata.entropy_filter) && (
           <p className="source-row-filter">
             Entropy filter: kept —{" "}
-            <strong>{source.metadata.entropy_filter.score_bits.toFixed(2)} bits</strong>{" "}
-            (threshold {source.metadata.entropy_filter.threshold_bits} bits; candidate rank{" "}
+            <strong>{source.metadata.entropy_filter.score_bits.toFixed(2)} bits</strong> (threshold{" "}
+            {source.metadata.entropy_filter.threshold_bits} bits; candidate rank{" "}
             {source.metadata.entropy_filter.candidate_rank})
           </p>
         )}
@@ -106,8 +86,8 @@ export function SourceCard({ source }: SourceCardProps) {
             <p className="source-row-filter source-row-repairs">
               Repaired before use (was{" "}
               {source.metadata.entropy_filter.score_before_repair_bits?.toFixed(2)} bits):{" "}
-              {source.metadata.entropy_filter.repairs!
-                .map((r) => `${r.word} → ${r.replacement}`)
+              {source.metadata.entropy_filter
+                .repairs!.map((r) => `${r.word} → ${r.replacement}`)
                 .join(", ")}
             </p>
           )}

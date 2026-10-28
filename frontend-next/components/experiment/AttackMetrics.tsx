@@ -48,18 +48,7 @@ function formatMaybeBool(value: boolean | null | undefined): string {
   return value ? "YES" : "NO";
 }
 
-/**
- * Renders `CompareResponse.metrics` verbatim — every value comes straight
- * from the backend `/compare` response. No severity, confidence, trust
- * score or attack-success figures are computed or invented here.
- *
- * The four optional groups (attack/retrieval/generation quality, attack
- * success) are additive research metrics layered on top of the original
- * grid below, grouped under their own `.eyebrow` label but reusing the
- * same `.attack-metrics-grid`/`.attack-metric` styling. Each group renders
- * only when the backend actually returned it (older History records and
- * pre-migration responses have these as `null`).
- */
+/** Renders `CompareResponse.metrics` verbatim. */
 export function AttackMetrics({
   metrics,
   attackQuality,

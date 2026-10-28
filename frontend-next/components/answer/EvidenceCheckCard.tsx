@@ -55,13 +55,7 @@ function ClaimRow({ claim }: { claim: EvidenceClaim }) {
   );
 }
 
-/**
- * Shows the actual outcome of the experimental evidence check for one
- * answer (`POST /guarded-chat`). Every value here comes from the backend
- * response — nothing is derived or invented client-side, and there is no
- * confidence percentage. "Supported" means the retrieved sources state the
- * claim; it is not proof the claim is true or that the sources are clean.
- */
+/** Shows the actual outcome of the experimental evidence check for one answer. */
 export function EvidenceCheckCard({ result }: { result: EvidenceCheckResult }) {
   const withheld = result.decision === "withheld";
 

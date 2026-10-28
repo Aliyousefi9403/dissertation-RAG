@@ -1,11 +1,4 @@
-"""
-Pydantic request/response shapes for the Experiment History API.
-
-Mirrors the `experiments` table in `database.py` field-for-field. Every
-clean/poisoned/defended field is optional so one schema covers today's
-Clean/Poisoned/Compare recording and tomorrow's Defended addition without
-a schema redesign.
-"""
+"""Pydantic request/response shapes for the Experiment History API."""
 
 from typing import Any, Literal, Optional
 

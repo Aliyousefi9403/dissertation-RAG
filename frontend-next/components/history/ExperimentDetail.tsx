@@ -80,10 +80,7 @@ function SingleResultPanel({
 
           <div className="source-list">
             {sources.map((source) => (
-              <SourceCard
-                key={`${source.source_number}-${source.source}`}
-                source={source}
-              />
+              <SourceCard key={`${source.source_number}-${source.source}`} source={source} />
             ))}
           </div>
         </section>
@@ -92,14 +89,7 @@ function SingleResultPanel({
   );
 }
 
-/**
- * Experiment History detail view. For `mode === "compare"`, reuses the
- * exact same `.comparison-stack`/`.comparison-grid`/`.comparison-side`
- * layout and `AttackMetrics` component as the live Compare mode
- * (`components/experiment/ComparisonView.tsx`) — same visual language, no
- * duplicated CSS. For `clean`/`poisoned`/`defended`, a single result panel
- * reusing the normal answer/evidence surfaces.
- */
+/** Experiment History detail view. */
 export function ExperimentDetail({ experiment }: ExperimentDetailProps) {
   if (experiment.mode === "compare") {
     const metrics: CompareMetrics = {
@@ -137,10 +127,7 @@ export function ExperimentDetail({ experiment }: ExperimentDetailProps) {
             {experiment.clean_sources && experiment.clean_sources.length > 0 ? (
               <div className="source-list">
                 {experiment.clean_sources.map((source) => (
-                  <SourceCard
-                    key={`${source.source_number}-${source.source}`}
-                    source={source}
-                  />
+                  <SourceCard key={`${source.source_number}-${source.source}`} source={source} />
                 ))}
               </div>
             ) : (
@@ -156,10 +143,7 @@ export function ExperimentDetail({ experiment }: ExperimentDetailProps) {
             {experiment.poisoned_sources && experiment.poisoned_sources.length > 0 ? (
               <div className="source-list">
                 {experiment.poisoned_sources.map((source) => (
-                  <SourceCard
-                    key={`${source.source_number}-${source.source}`}
-                    source={source}
-                  />
+                  <SourceCard key={`${source.source_number}-${source.source}`} source={source} />
                 ))}
               </div>
             ) : (

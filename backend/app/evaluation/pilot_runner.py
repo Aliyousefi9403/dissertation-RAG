@@ -1,15 +1,4 @@
-"""Minimal supervised pilot: --dry-run, --execute, or --aggregate RUN_DIR.
-
-Dry run/aggregation import no live services. Execution alone loads the existing
-RAG/judges and uses explicit transport timeouts, zero SDK model retries, and
-bounded runner retries. Existing caller defaults remain untouched. There is no
-resume, training, ingestion, collection creation, or defence implementation.
-
-Offline aggregation uses saved metric outputs, strict raw judge scores, and
-saved evidence. The manifest retains the full benchmark, source Markdown and
-attack manifest needed to independently reproduce the retrieval/attack metrics
-without current corpus files. Metric source hashes identify the implementation.
-"""
+"""Minimal supervised pilot: --dry-run, --execute, or --aggregate RUN_DIR."""
 
 from __future__ import annotations
 

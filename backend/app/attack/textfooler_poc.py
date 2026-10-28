@@ -1,17 +1,4 @@
-"""
-Adversarial attack proof-of-concept.
-
-Purpose: verify a word-level adversarial attack runs end-to-end
-against a pre-trained sentiment classifier.
-
-Uses PWWS (Ren et al. 2019, ACL) instead of TextFooler because PWWS
-does not require TensorFlow / Universal Sentence Encoder. Both are
-peer-reviewed word-level attacks with meaning-preservation constraints.
-
-This is NOT the final research attack. It only confirms the tooling.
-The real research will attack a BERT surrogate fine-tuned on our
-cybersecurity attack descriptions.
-"""
+"""Adversarial attack proof-of-concept."""
 
 from textattack import Attacker, AttackArgs
 from textattack.attack_recipes import TextFoolerJin2019

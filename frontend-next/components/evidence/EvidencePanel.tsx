@@ -7,15 +7,7 @@ interface EvidencePanelProps {
   chatState: ChatState;
 }
 
-function EvidenceMetric({
-  label,
-  value,
-  hint,
-}: {
-  label: string;
-  value: string;
-  hint?: string;
-}) {
+function EvidenceMetric({ label, value, hint }: { label: string; value: string; hint?: string }) {
   return (
     <div className="evidence-metric">
       <dt>{label}</dt>
@@ -25,18 +17,7 @@ function EvidenceMetric({
   );
 }
 
-/**
- * Right-hand evidence column for the Assistant workspace. Always mounted
- * (idle included) so it reads as a real, wired-up part of the interface
- * rather than a decorative panel that only appears after the first
- * question.
- *
- * Retrieved documents/chunks, similarity scores and metadata are all real
- * data reused from `SourceCard` (`chatState.sources`). Latency is real,
- * threaded through `ChatState` by `hooks/useChatSession.ts`. The evidence
- * check shows the real outcome when one ran and "Not assessed" otherwise;
- * no confidence or trust figure is shown because none is measured.
- */
+/** Right-hand evidence column for the Assistant workspace. */
 export function EvidencePanel({ chatState }: EvidencePanelProps) {
   if (chatState.status === "idle") {
     return (
@@ -106,10 +87,7 @@ export function EvidencePanel({ chatState }: EvidencePanelProps) {
 
           <div className="source-list">
             {sources.map((source) => (
-              <SourceCard
-                key={`${source.source_number}-${source.source}`}
-                source={source}
-              />
+              <SourceCard key={`${source.source_number}-${source.source}`} source={source} />
             ))}
           </div>
         </section>

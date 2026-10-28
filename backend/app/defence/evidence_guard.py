@@ -1,29 +1,4 @@
-"""
-Experimental evidence-support check for RAG answers (detection batch 1).
-
-Flow for one guarded request:
-
-1. Draft an answer with the *unchanged* baseline pipeline
-   (`app.generation.rag_chain.answer_question`: same prompt, retrieval depth,
-   embeddings, model and temperature). Only a request timeout and a bounded
-   retry count are added to the model client for this route.
-2. Ask a separate verifier call to split the draft into claims and judge each
-   one against the retrieved sources only.
-3. Validate the verifier output strictly, including that every quotation
-   really appears in the source it is attributed to.
-4. Apply the versioned release policy below and write a create-only audit
-   record.
-
-What this is NOT:
-
-* Not proof of truth. "Supported" only means the retrieved text says so; a
-  poisoned source can support a false answer.
-* Not proof that the corpus is unpoisoned.
-* Not a calibrated confidence. No percentages are produced.
-
-The verifier never receives reference answers, clean counterparts or attack
-labels -- only the question, the draft and the retrieved chunk text.
-"""
+"""Experimental evidence-support check for RAG answers."""
 
 from __future__ import annotations
 
@@ -203,12 +178,7 @@ def parse_verification(
     raw_text: str,
     sources: list[dict[str, Any]],
 ) -> tuple[bool, list[dict[str, Any]]]:
-    """
-    Parse and validate the verifier's JSON. Raises VerifierOutputError for any
-    structural problem (whole response unusable). Per-claim evidence problems
-    (unknown source, quotation not found) do not raise; they downgrade that
-    claim to "unavailable" with a reason, so they can never count as a pass.
-    """
+    """Parse and validate the verifier's JSON."""
 
     text = raw_text.strip()
     fenced = _FENCE_RE.match(text)
@@ -483,10 +453,9 @@ def _redact(text: str) -> str:
 
 
 def write_audit_record(record: dict[str, Any], audit_dir: Path) -> Path:
-    """Write `record` to `<audit_dir>/<run_id>.json` without ever replacing an
-    existing file. Content is written to a temporary exclusive file first and
-    then hard-linked into place, so a crash never leaves a partial record
-    under the final name."""
+    """Write `record` to `<audit_dir>/<run_id>.json` without ever replacing an existing
+    file.
+    """
     audit_dir.mkdir(parents=True, exist_ok=True)
     final_path = audit_dir / f"{record['run_id']}.json"
     temp_path = audit_dir / f".{record['run_id']}.{uuid.uuid4().hex}.tmp"

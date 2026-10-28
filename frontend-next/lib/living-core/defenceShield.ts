@@ -17,17 +17,7 @@ function verdictOf(source: SourceItem): EntropyVerdict | null {
   return null;
 }
 
-/**
- * Number of retrieved candidates the entropy filter rejected *ahead of* the
- * passages it kept, derived only from real response data. Each kept source
- * carries its 1-based `candidate_rank` among the 10 candidates. Kept passages
- * are the first unflagged ones in rank order, so every rank below the last kept
- * rank that is not itself kept was flagged:
- *
- *   skipped = (highest kept rank) − (number of kept passages)
- *
- * Returns null when the response has no filter metadata (not Defended mode).
- */
+/** Number of retrieved candidates the entropy filter rejected *ahead of* the passages it kept. */
 export function skippedPassageCount(sources: SourceItem[]): number | null {
   const ranks = sources
     .map(verdictOf)

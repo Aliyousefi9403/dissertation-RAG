@@ -1,14 +1,5 @@
-"""
-Convert the knowledge base markdown files into a labeled classification dataset
-for fine-tuning a BERT surrogate model.
-
-Each attack document is chunked by its markdown sections. Each chunk becomes
-one training sample, labeled with the parent document's attack type.
-
-Output:
-- data/processed/bert_dataset/train.jsonl
-- data/processed/bert_dataset/val.jsonl
-- data/processed/bert_dataset/label_map.json
+"""Convert the knowledge base markdown files into a labeled classification dataset for
+fine-tuning a BERT surrogate model.
 """
 
 from __future__ import annotations
@@ -48,10 +39,7 @@ def load_attack_files() -> list[tuple[Path, str]]:
 
 
 def chunk_markdown(text: str) -> list[str]:
-    """
-    Split a markdown document by ## section headers.
-    Returns non-empty section bodies (excluding the header line itself).
-    """
+    """Split a markdown document by ## section headers."""
     sections = re.split(r"\n##\s+", text)
     chunks: list[str] = []
     for section in sections:

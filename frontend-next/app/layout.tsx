@@ -22,8 +22,7 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   title: "AegisRAG",
-  description:
-    "A knowledge integrity research platform for secure retrieval-augmented generation.",
+  description: "A knowledge integrity research platform for secure retrieval-augmented generation.",
 };
 
 export default function RootLayout({

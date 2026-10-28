@@ -43,10 +43,7 @@ import {
 interface LivingCoreStageProps {
   chatState: ChatState;
   healthStatus: HealthStatus;
-  /** True while PWWS Poisoned mode is selected in `app/page.tsx`'s
-   * experiment-mode selector — forwarded to `LivingCoreScene` to tint the
-   * particle field's edge/line color red (accent.danger), independent of
-   * `chatState`'s own phase. */
+  /** True while PWWS Poisoned mode is selected in `app/page.tsx`'s experiment-mode selector. */
   attackDetected?: boolean;
   /** Forwarded to `LivingCoreScene` — see its own doc comment. */
   compareMode?: boolean;
@@ -109,11 +106,7 @@ function extractSources(chatState: ChatState): SourceItem[] {
   return chatState.status === "success" ? chatState.sources : [];
 }
 
-// Same phase -> baseline-energy mapping `LivingCoreScene` uses internally,
-// duplicated here (cheaply) only to drive the page-root `DotFieldBackdrop`
-// reaction via `livingCoreActivityStore` — never re-derived from raw
-// `ChatState` a second time, always from the same `phase` this component
-// already computed via `getLivingCorePhase`.
+// Same phase -> baseline-energy mapping `LivingCoreScene` uses internally.
 function activityEnergyFor(phase: LivingCorePhase, sources: SourceItem[]): number {
   if (phase === "dormant") {
     return 0;
@@ -137,21 +130,7 @@ function activityEnergyFor(phase: LivingCorePhase, sources: SourceItem[]): numbe
   return 0.3; // idle
 }
 
-/**
- * Gates the real living-core 3D scene behind WebGL support and the user's
- * motion preference, wraps it in a runtime error boundary, and always
- * falls back to the pure DOM/CSS `LivingCoreStaticFallback` — critical
- * status information never depends on WebGL succeeding. Same props
- * signature as the retired `shield-core/ShieldCoreStage`, so the
- * page-integration engineer can swap the import in `app/page.tsx` with a
- * single line change.
- *
- * Mobile-viewport decision: narrow viewports still get the real
- * `LivingCoreScene`, just at a lower device-pixel-ratio cap
- * (`useIsNarrowViewport`) and a smaller particle budget
- * (`useDeviceTier`/`particleBudget.ts`), rather than being routed to the
- * static fallback outright.
- */
+/** Gates the real living-core 3D scene behind WebGL support and the user's motion preference. */
 export function LivingCoreStage({
   chatState,
   healthStatus,
@@ -174,18 +153,14 @@ export function LivingCoreStage({
     setRuntimeFailure(true);
   }, []);
 
-  // Broadcasts the same real-state-derived energy to `DotFieldBackdrop`
-  // (mounted separately at the page layout root) regardless of whether the
-  // 3D scene itself is rendering — the dot field's "reaction near the
-  // core" should stay honest even in reduced-motion/no-WebGL sessions.
+  // Broadcasts the same real-state-derived energy to `DotFieldBackdrop` regardless of whether
+  // the 3D scene itself is rendering.
   useEffect(() => {
     setLivingCoreActivityEnergy(activityEnergyFor(phase, sources));
   }, [phase, sources]);
 
-  // Conservative gate: `reducedMotion === null` (SSR / not yet measured)
-  // and `webglSupport === "checking"` both fall through to the static
-  // fallback — the safe default is always the DOM/CSS version, never the
-  // 3D scene.
+  // Conservative gate: `reducedMotion === null` and `webglSupport === "checking"` both fall
+  // through to the static fallback.
   const canRender3D = webglSupport === "supported" && reducedMotion === false && !runtimeFailure;
 
   const emblemState = shieldStateFor(phase);
@@ -214,15 +189,6 @@ export function LivingCoreStage({
     );
   }
 
-  // `.living-core-canvas-frame` is now a fixed, fullscreen ambient
-  // background layer (see globals.css) rather than a bordered hero box --
-  // `.living-core-canvas-wrap` still wraps the r3f canvas 1:1 (keeps
-  // "exactly one canvas inside `.living-core-canvas-wrap`" true for
-  // `e2e/desktop.spec.ts`'s existing locator), with `EnergyBeams` and
-  // `SourcePins` as DOM siblings inside the same fixed frame so they float
-  // over the particle field without living inside the canvas itself. The
-  // status caption that used to render below this frame now lives in
-  // `PlatformStatusBar` (see `app/page.tsx`) instead.
   return (
     <div className="living-core-canvas-frame" data-defended={defence !== null}>
       <div className="living-core-canvas-wrap">

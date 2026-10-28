@@ -5,11 +5,7 @@ import { useEffect, useState } from "react";
 import { getMonitorMemory, resetMonitorMemory } from "@/lib/api/monitor";
 import type { MonitorMemory } from "@/lib/types/monitor";
 
-/**
- * The runtime monitor's quarantine memory (`GET /monitor/memory`): every passage it has learned
- * not to trust, with the words that gave it away. Refreshes after each answer (`refreshKey`).
- * "Start fresh" archives the memory on the server; nothing is deleted.
- */
+/** The runtime monitor's quarantine memory: every passage it has learned not to trust. */
 export function MonitorMemoryPanel({ refreshKey }: { refreshKey: string }) {
   const [memory, setMemory] = useState<MonitorMemory | null>(null);
   const [failed, setFailed] = useState(false);

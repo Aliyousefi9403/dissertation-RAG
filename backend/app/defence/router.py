@@ -1,7 +1,4 @@
-"""`POST /guarded-chat`: experimental evidence-checked answers.
-
-Separate from `/chat` and `/compare`, whose contracts are unchanged.
-"""
+"""`POST /guarded-chat`: experimental evidence-checked answers."""
 
 from __future__ import annotations
 

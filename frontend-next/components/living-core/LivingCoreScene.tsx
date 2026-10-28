@@ -34,15 +34,8 @@ interface LivingCoreSceneProps {
 }
 
 /**
- * Keeps the demand-mode render loop alive only while (a) the tab is visible
- * and (b) the current phase/choreography beat is meant to animate
- * continuously. "dormant" and a settled "converged" render one static frame
- * per prop change and then sit still until something actually changes —
- * that stillness is itself the visual cue that nothing further is
- * happening. The `visibilitychange` check is new versus the retired
- * `shield-core/ShieldCoreScene.tsx`, which had no hidden-tab pause at all:
- * a backgrounded tab now stops invalidating frames entirely, regardless of
- * `active`.
+ * Keeps the demand-mode render loop alive only while the tab is visible and the current
+ * phase/choreography beat is meant to animate continuously.
  */
 function FrameLoopDriver({ active }: { active: boolean }) {
   const isVisibleRef = useRef(true);
@@ -63,29 +56,11 @@ function FrameLoopDriver({ active }: { active: boolean }) {
   return null;
 }
 
-// Zoomed in from the previous z=5.4 (fov unchanged at 40) so the rendered
-// particle-field silhouette fills roughly the product brief's 35-50% target
-// share of the `.living-core-canvas-wrap` frame — a pure camera-distance
-// change, so it scales the whole scene uniformly and never desyncs
-// `particleBudget.ts`'s `LAYER_RADII` from `sourceLayout.ts`'s orbit radii
-// the way an isolated geometry-scale bump could.
-//
-// The small negative y here shifts the whole field up within the frame:
-// r3f's default camera calls `camera.lookAt(0, 0, 0)` exactly ONCE, at
-// creation, computed from the Canvas `camera` prop's initial position below
-// (which is deliberately left at the untilted [0, 0, 4.8], not this offset
-// -- see that prop's comment) -- so rotation is fixed "straight down -Z"
-// from that point on, and every later `camera.position.set(...)` below
-// (IdleCameraDrift) is a genuine parallax translate, not re-centered by a
-// fresh lookAt. (Verified empirically: setting the initial Canvas position
-// to this same offset made r3f's one-time lookAt tilt to compensate,
-// silently cancelling the shift entirely.)
+// Zoomed in from the previous z=5.4 so the rendered particle-field silhouette fills roughly the
+// product brief's 35-50% target share of the `.living-core-canvas-wrap` frame.
 const CAMERA_BASE_POSITION = new THREE.Vector3(0, -0.14, 4.8);
 
-// Phase-driven bloom targets -- `BloomComposer` damps toward whichever of
-// these is passed each frame, so switching phases here reads as a smooth
-// cinematic ramp rather than a pop. Base idle/dormant/unresolved/fault
-// values match `BloomComposer`'s own defaults.
+// Phase-driven bloom targets.
 const BLOOM_BY_PHASE: Record<
   LivingCorePhase,
   { strength: number; radius: number; threshold: number }
@@ -98,14 +73,7 @@ const BLOOM_BY_PHASE: Record<
   fault: { strength: 1.2, radius: 0.8, threshold: 0.2 },
 };
 
-/**
- * The only camera motion anywhere in the scene: a very slow, subtle
- * position drift, active only while "idle" — never a rotation, never
- * looped fast enough to read as spinning, and never tied to page scroll.
- * Because the camera is otherwise on-axis and pointed at the origin with
- * no explicit look-at target, a small position offset alone produces a
- * gentle parallax cue without any rotation math.
- */
+/** The only camera motion anywhere in the scene: a very slow, subtle position drift. */
 function IdleCameraDrift({ active }: { active: boolean }) {
   const { camera } = useThree();
 
@@ -125,25 +93,7 @@ function IdleCameraDrift({ active }: { active: boolean }) {
   return null;
 }
 
-/**
- * r3f root for the living-core hero visualization. This is a fixed hero
- * object, not an interactive toy: no `OrbitControls`, no click/hover
- * handlers, fixed camera. Combined with `aria-hidden="true"` on the
- * canvas, the 3D subtree is fully removed from the accessibility tree and
- * cannot trap keyboard focus — the real status text lives in
- * `LivingCoreStage`'s DOM caption, never inside the canvas.
- *
- * The centerpiece is `IntelligentParticleField`, a real GPU particle
- * simulation replacing both the retired static `ShieldOutline` mesh and the
- * retired FBO-ping-pong `NeuralPointCloud` — no shield-forming behavior
- * yet (deliberately future work), just the "waiting for input" intelligent
- * cloud. `BloomComposer` renders the whole scene through a manual
- * `EffectComposer` (three's own bundled postprocessing passes, no new
- * dependency) instead of the default r3f render, and `RetrievalScan` shares
- * this same camera/depth space (never a second canvas — that's
- * `DotFieldBackdrop`'s bounded exception, mounted separately at the page
- * layout root).
- */
+/** R3f root for the living-core hero visualization. */
 export function LivingCoreScene({
   phase,
   sources,
@@ -156,10 +106,8 @@ export function LivingCoreScene({
 }: LivingCoreSceneProps) {
   const visibleSources = phase === "converged" ? sources : [];
 
-  // Presentation-only sequencing for the entire "submitting" duration and
-  // for the moment a request resolves (see `useLivingCoreChoreography`) —
-  // never gates the real answer/status text, which live entirely outside
-  // this canvas in `LivingCoreStage`.
+  // Presentation-only sequencing for the entire "submitting" duration and for the moment a
+  // request resolves.
   const { beat, beatStartedAt } = useLivingCoreChoreography({ phase });
   const isChoreographyPlaying =
     beat === "retrieving" || beat === "generating" || beat === "arriving" || beat === "linking";
@@ -167,27 +115,14 @@ export function LivingCoreScene({
   return (
     <Canvas
       aria-hidden="true"
-      // r3f's <Canvas> defaults its wrapper div to inline `pointer-events:
-      // auto` (see CanvasImpl in @react-three/fiber) whenever no
-      // `eventSource` is supplied, specifically so raycasting/pointer
-      // events reach the 3D scene. That inline style wins over any CSS
-      // class rule (including `.living-core-canvas-frame`'s `pointer-
-      // events: none`), which was silently capturing clicks meant for the
-      // topbar/experiment-mode selector above this fullscreen ambient
-      // backdrop. This scene has no interactive 3D pointer handling, so
-      // it's overridden back to `none` here (r3f spreads a `style` prop
-      // after its own defaults, so this wins cleanly, no `!important`
-      // needed) — purely non-visual, no effect on the rendered scene.
+      // R3f's <Canvas> defaults its wrapper div to inline `pointer-events: auto` whenever no
+      // `eventSource` is supplied, specifically so raycasting/pointer events reach the 3D
+      // scene.
       style={{ pointerEvents: "none" }}
       dpr={[1, maxDpr]}
       frameloop="demand"
       gl={{ antialias: false, powerPreference: "high-performance" }}
-      // Deliberately NOT CAMERA_BASE_POSITION -- this initial position is
-      // what r3f's default camera uses for its one-time `lookAt(0, 0, 0)`
-      // at creation (see CAMERA_BASE_POSITION's comment above); staying at
-      // the untilted origin position here keeps that computed rotation
-      // "straight down -Z", which IdleCameraDrift's later position updates
-      // then rely on to actually shift the frame rather than re-center it.
+      // Deliberately NOT CAMERA_BASE_POSITION.
       camera={{ position: [0, 0, 4.8], fov: 40, near: 0.1, far: 20 }}
       onCreated={({ gl }) => {
         gl.domElement.addEventListener(

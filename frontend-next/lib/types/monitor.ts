@@ -1,7 +1,4 @@
-/**
- * Types mirroring the runtime monitor's trace (backend `app/defence/runtime_monitor.py`,
- * returned as `monitor` by `POST /chat` in Verified mode) and `GET /monitor/memory`.
- */
+/** Types mirroring the runtime monitor's trace and `GET /monitor/memory`. */
 
 export interface MonitorViolation {
   spec: "phi1_lexical" | "phi2_availability";

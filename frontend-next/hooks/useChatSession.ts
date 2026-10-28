@@ -6,11 +6,7 @@ import { postChat } from "@/lib/api/chat";
 import { postGuardedChat } from "@/lib/api/guardedChat";
 import type { ApiFailureResult } from "@/lib/api/client";
 import type { SystemState } from "@/lib/types/chat";
-import {
-  chatReducer,
-  initialChatState,
-  type ChatState,
-} from "@/lib/state/chatMachine";
+import { chatReducer, initialChatState, type ChatState } from "@/lib/state/chatMachine";
 
 /** Shared with `hooks/useCompareSession.ts` so both hooks describe backend
  * failures identically. */
@@ -25,10 +21,7 @@ export function describeFailure(failure: ApiFailureResult): string {
       return failure.detail;
 
     case "networkError":
-      return (
-        failure.message ||
-        "AegisRAG could not reach the backend. Make sure it is running."
-      );
+      return failure.message || "AegisRAG could not reach the backend. Make sure it is running.";
 
     case "timeout":
       return "The request took too long to complete. Please try again.";
@@ -62,11 +55,7 @@ export function useChatSession(): UseChatSessionResult {
   const [state, dispatch] = useReducer(chatReducer, initialChatState);
 
   const submitQuestion = useCallback(
-    async (
-      question: string,
-      systemState: SystemState = "clean",
-      options: SubmitOptions = {},
-    ) => {
+    async (question: string, systemState: SystemState = "clean", options: SubmitOptions = {}) => {
       const trimmed = question.trim();
 
       if (!trimmed) {
@@ -99,7 +88,9 @@ export function useChatSession(): UseChatSessionResult {
         return;
       }
 
-      const result = await postChat(trimmed, systemState, { trustedFallback: options.trustedFallback });
+      const result = await postChat(trimmed, systemState, {
+        trustedFallback: options.trustedFallback,
+      });
       const latencyMs = performance.now() - startedAt;
 
       if (result.kind === "ok") {

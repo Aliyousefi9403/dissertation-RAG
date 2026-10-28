@@ -35,12 +35,7 @@ function AnswerHeading() {
 
 function AnswerMarkdown({ answer }: { answer: string }) {
   return (
-    // `key={answer}` forces a fresh DOM node (and therefore a fresh
-    // .answer-reveal animation) each time a new, already-complete answer
-    // arrives. The reveal is a single opacity/translate fade capped at
-    // 480ms — it never paints the text incrementally over time, so it
-    // never implies live token-by-token generation (the backend is
-    // non-streaming and returns the full answer atomically).
+    // `key={answer}` forces a fresh DOM node each time a new, already-complete answer arrives.
     <div className="answer-text answer-reveal" key={answer}>
       <Markdown content={answer} />
     </div>
@@ -52,8 +47,8 @@ export function AnswerPanel({ chatState, onRetry }: AnswerPanelProps) {
     case "idle":
       return (
         <p className="idle-hint">
-          Ask a cybersecurity question below — AegisRAG will retrieve
-          grounded evidence before it answers.
+          Ask a cybersecurity question below — AegisRAG will retrieve grounded evidence before it
+          answers.
         </p>
       );
 
@@ -62,11 +57,7 @@ export function AnswerPanel({ chatState, onRetry }: AnswerPanelProps) {
         <div className="response-stack" key="submitting">
           <UserQuestionCard question={chatState.question} />
 
-          <section
-            className="assistant-card loading-card"
-            aria-live="polite"
-            aria-atomic="true"
-          >
+          <section className="assistant-card loading-card" aria-live="polite" aria-atomic="true">
             <div className="loading-orb" aria-hidden="true" />
             <div>
               <p className="eyebrow">AegisRAG pipeline</p>
@@ -89,8 +80,8 @@ export function AnswerPanel({ chatState, onRetry }: AnswerPanelProps) {
             <AnswerHeading />
             {withheld ? (
               <p className="answer-withheld">
-                The draft answer was withheld by the experimental evidence
-                check. See the result below.
+                The draft answer was withheld by the experimental evidence check. See the result
+                below.
               </p>
             ) : (
               <AnswerMarkdown answer={chatState.answer} />
@@ -132,8 +123,8 @@ export function AnswerPanel({ chatState, onRetry }: AnswerPanelProps) {
           <section className="no-sources-card" role="status">
             <strong>No relevant sources were found in the knowledge base.</strong>
             <p>
-              The answer below was generated without grounded evidence. Treat
-              it with caution and verify independently.
+              The answer below was generated without grounded evidence. Treat it with caution and
+              verify independently.
             </p>
           </section>
 

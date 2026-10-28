@@ -1,12 +1,4 @@
-/**
- * Types mirroring the experimental backend `POST /guarded-chat` contract
- * exactly. See backend/app/defence/router.py (GuardedChatResponse).
- *
- * This is an experimental evidence-support baseline, NOT a validated poison
- * detector: "supported" only means the retrieved sources state the claim,
- * and a poisoned source can support a false answer. There is deliberately
- * no confidence/trust percentage anywhere in this contract.
- */
+/** Types mirroring the experimental backend `POST /guarded-chat` contract exactly. */
 
 import type { SourceItem, SystemState } from "@/lib/types/chat";
 

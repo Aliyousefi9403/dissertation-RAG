@@ -6,31 +6,7 @@ import { useReducedMotion } from "framer-motion";
 import { useIsNarrowViewport } from "@/hooks/useIsNarrowViewport";
 import { useLivingCoreActivityEnergy } from "@/lib/living-core/livingCoreActivityStore";
 
-/**
- * A deliberate SECOND canvas (the bounded exception noted in the
- * living-core plan — no third canvas is added for anything else): a
- * page-root ambient dot field, mounted once in `app/layout.tsx` behind the
- * whole app shell, entirely separate from `LivingCoreStage`'s r3f canvas.
- * Plain 2D `CanvasRenderingContext2D`, not `three`/`@react-three/*` — a
- * static grid-with-jitter of widely-spaced dots is cheap enough that
- * spinning up a WebGL context for it would be pure overhead.
- *
- * Purpose: quiet ambient texture behind the interface, with a restrained
- * "reaction near the core" — dots inside a fixed radius of an approximate
- * hero-stage anchor point brighten slightly in proportion to
- * `useLivingCoreActivityEnergy()` (the same real phase-derived energy
- * `LivingCoreStage` computes from `ChatState`/`HealthStatus`, broadcast via
- * `lib/living-core/livingCoreActivityStore.ts`). This never fabricates new
- * state — it mirrors a value already derived exclusively from
- * `getLivingCorePhase` — and it is purely decorative: no text or number is
- * ever rendered from it.
- *
- * The anchor point is a fixed viewport-relative position approximating
- * where the hero stage sits (not read from the DOM — this component has no
- * reference to `LivingCoreStage`'s actual layout box), which is an
- * intentional, documented approximation given this is mounted at the
- * layout root rather than inside the hero stage.
- */
+/** A deliberate SECOND canvas: a page-root ambient dot field. */
 const DOT_SPACING_DESKTOP_PX = 64;
 const DOT_SPACING_MOBILE_PX = 96;
 const CORE_ANCHOR_RATIO = { x: 0.5, y: 0.4 };
@@ -156,10 +132,8 @@ export function DotFieldBackdrop() {
     window.addEventListener("resize", resize);
     document.addEventListener("visibilitychange", handleVisibilityChange);
 
-    // `prefers-reduced-motion`: draw exactly one static frame and never
-    // start the animation loop at all, rather than starting it and
-    // skipping motion terms per-frame — this is a real fallback, not a
-    // "reduced" animation.
+    // `prefers-reduced-motion`: draw exactly one static frame and never start the animation
+    // loop at all.
     if (reducedMotion !== false) {
       return () => {
         window.removeEventListener("resize", resize);

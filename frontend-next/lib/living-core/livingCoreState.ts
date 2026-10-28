@@ -1,14 +1,7 @@
 import type { ChatState } from "@/lib/state/chatMachine";
 import type { HealthStatus } from "@/lib/types/health";
 
-/**
- * The living-core's internal visual vocabulary. This is a *rendering*
- * concept, not a security concept — there is no "poisoned" or "defended"
- * state here, only "did the last request converge on grounded sources,
- * come back with none, or fail". Renamed 1:1 from the retired
- * `shield-core/shieldCoreState.ts` (`ShieldCorePhase` -> `LivingCorePhase`)
- * with identical behavior — do not change this derivation.
- */
+/** The living-core's internal visual vocabulary. */
 export type LivingCorePhase =
   | "dormant"
   | "idle"
@@ -22,18 +15,8 @@ function assertNever(value: never): never {
 }
 
 /**
- * The ONLY function allowed to read raw `ChatState`/`HealthStatus` fields
- * for living-core visual purposes. Every downstream component
- * (`ShieldOutline`, `NeuralPointCloud`, `NeuralConnections`,
- * `RetrievalScan`, `LivingCoreStaticFallback`, ...) receives only the
- * derived `LivingCorePhase` — plus, where relevant, a plain `SourceItem[]`
- * /count for `SourceNodes`/`RetrievalScan` and an optional error message
- * string for the fault caption — never the raw `ChatState` union itself.
- *
- * `healthStatus === "offline"` always wins: an offline backend means no
- * request can currently be in flight or have just succeeded, so the core
- * goes dormant regardless of whatever `chatState` still happens to hold
- * from before the backend dropped.
+ * The ONLY function allowed to read raw `ChatState`/`HealthStatus` fields for living-core
+ * visual purposes.
  */
 export function getLivingCorePhase(
   chatState: ChatState,
@@ -59,17 +42,7 @@ export function getLivingCorePhase(
   }
 }
 
-/**
- * Phases that keep the `frameloop="demand"` canvas continuously
- * invalidating (i.e. animate every frame). `dormant` (inert by design) and
- * `converged` (a settled, resolved state) render once per prop change and
- * then sit still until the phase itself changes again.
- */
+/** Phases that keep the `frameloop="demand"` canvas continuously invalidating. */
 export function isAnimatedPhase(phase: LivingCorePhase): boolean {
-  return (
-    phase === "idle" ||
-    phase === "submitting" ||
-    phase === "unresolved" ||
-    phase === "fault"
-  );
+  return phase === "idle" || phase === "submitting" || phase === "unresolved" || phase === "fault";
 }

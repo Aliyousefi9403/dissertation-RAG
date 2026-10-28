@@ -3,28 +3,7 @@
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useReducedMotion } from "framer-motion";
 
-/**
- * A thin metallic-shaded AegisRAG emblem, rendered as a small plain-WebGL2
- * `<canvas>` overlay (NOT r3f/three.js — this never touches the living-core
- * `Canvas`'s scene graph or its `frameloop="demand"` invalidation, it runs
- * its own tiny independent `requestAnimationFrame` loop, paused whenever
- * `prefers-reduced-motion` is set). Adapted near-verbatim from react-bits'
- * `MetallicPaint/MetallicPaint.tsx` donor (MIT; zero runtime dependencies —
- * see `~/Desktop/ui-references/react-bits/public/r/MetallicPaint-TS-TW.json`
- * for the untouched original), trimmed to the fixed inputs this project
- * needs (a single fixed `imageSrc`, this project's own `livingCorePalette.ts`
- * color tokens, no mouse-follow interaction) and with the mouse-animation
- * code path removed entirely rather than merely defaulted off.
- *
- * Deliberately a SECONDARY framing element, never the primary object: small
- * (`size` prop, default 40px), positioned as a corner badge inside
- * `.living-core-canvas-wrap` by the caller (`LivingCoreStage.tsx`) via CSS,
- * `pointer-events: none`, `aria-hidden` (the real "AegisRAG" wordmark/alt
- * text already lives in the sidebar's static `<Image>` in `app/page.tsx` —
- * this is a decorative echo of that mark, never the only place the brand
- * name appears). The GPU particle field (`IntelligentParticleField.tsx`)
- * remains the dominant visual object in the frame.
- */
+/** A thin metallic-shaded AegisRAG emblem, rendered as a small plain-WebGL2 `<canvas>` overlay. */
 
 const VERTEX_SHADER = `#version 300 es
 precision highp float;
@@ -290,11 +269,7 @@ function processImage(img: HTMLImageElement): ImageData | null {
   return outData;
 }
 
-// Pre-mount WebGL2 feature detection via `useSyncExternalStore` (never a
-// `setState` call inside a `useEffect`) -- same pattern as
-// `hooks/useWebGLSupport.ts`, specialized to WebGL2 (this shader requires
-// `#version 300 es`) and kept local to this file since nothing else needs
-// it.
+// Pre-mount WebGL2 feature detection via `useSyncExternalStore`.
 let cachedWebGL2Support: boolean | null = null;
 
 function detectWebGL2Support(): boolean {
@@ -337,12 +312,7 @@ function hexToRgb(hex: string): [number, number, number] {
     : [1, 1, 1];
 }
 
-// This project's own `livingCorePalette.ts` graphite/silver tokens, tinted
-// with a restrained cyan highlight (`LIVING_CORE_SHIELD_COLOR.idle`/
-// `.submitting`) rather than the donor's default purple-pink demo colors —
-// per the brief, the shader should read as metallic shading over the logo
-// silhouette, with cyan only as a low-influence highlight tint, never an
-// opaque solid-blue fill.
+// This project's own `livingCorePalette.ts` graphite/silver tokens.
 const LIGHT_COLOR = "#cfeaf5";
 const DARK_COLOR = "#3d4650";
 const TINT_COLOR = "#38bdf8";
@@ -448,7 +418,17 @@ export function AegisMetallicLogo({ size = 40, className }: AegisMetallicLogoPro
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, imgData.width, imgData.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, imgData.data);
+    gl.texImage2D(
+      gl.TEXTURE_2D,
+      0,
+      gl.RGBA,
+      imgData.width,
+      imgData.height,
+      0,
+      gl.RGBA,
+      gl.UNSIGNED_BYTE,
+      imgData.data,
+    );
     gl.uniform1i(uniforms.u_tex, 0);
 
     const ratio = imgData.width / imgData.height;
@@ -531,14 +511,12 @@ export function AegisMetallicLogo({ size = 40, className }: AegisMetallicLogoPro
 
     const light = hexToRgb(LIGHT_COLOR);
     const dark = hexToRgb(DARK_COLOR);
-    // Low-influence tint: `length(u_tint - 1)` in the shader scales the
-    // tint mix, so a tint close to white (1,1,1) stays almost inert and
-    // only the restrained cyan channel differs from 1 -- this keeps the
-    // result reading as metallic shading with a cyan highlight, never an
-    // opaque cyan fill.
-    const tint = hexToRgb(TINT_COLOR).map((channel, index) =>
-      index === 2 ? channel : 1,
-    ) as [number, number, number];
+    // Low-influence tint: `length` in the shader scales the tint mix.
+    const tint = hexToRgb(TINT_COLOR).map((channel, index) => (index === 2 ? channel : 1)) as [
+      number,
+      number,
+      number,
+    ];
     gl.uniform3f(u.u_lightColor, light[0], light[1], light[2]);
     gl.uniform3f(u.u_darkColor, dark[0], dark[1], dark[2]);
     gl.uniform1f(u.u_sharp, 1);

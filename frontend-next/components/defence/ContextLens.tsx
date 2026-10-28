@@ -4,11 +4,7 @@ import type { SourceItem } from "@/lib/types/chat";
 import { skippedPassageCount } from "@/lib/living-core/defenceShield";
 import { fileName, verdictOf } from "@/components/defence/filterVerdict";
 
-/**
- * Contextual mode: a language-model lens over each passage the model read. A gauge shows the
- * passage's contextual synonym-gap score against the frozen threshold, and the words that fit
- * the sentence worst glow by their gap in bits, each with the word the language model prefers.
- */
+/** Contextual mode: a language-model lens over each passage the model read. */
 export function ContextLens({ sources }: { sources: SourceItem[] }) {
   const rows = sources
     .map((s) => ({ source: s, verdict: verdictOf(s) }))

@@ -19,13 +19,7 @@ export const EVIDENCE_OUTCOME_LABELS: Record<EvidenceOutcome, string> = {
   abstained: "Abstained",
 };
 
-/**
- * Compact report strip for the assistant's answer card. Every value is
- * measured or derived from the real response: latency, source/citation
- * counts and — only when one actually ran — the evidence-check outcome.
- * Nothing unmeasured (confidence, trust) is shown; the evidence check reads
- * "Not assessed" when the plain `/chat` route was used.
- */
+/** Compact report strip for the assistant's answer card. */
 export function ReportMetrics({ sources, latencyMs, evidenceCheck }: ReportMetricsProps) {
   const chunkCount = sources.length;
   const citationCount = countCitations(sources);
@@ -33,9 +27,7 @@ export function ReportMetrics({ sources, latencyMs, evidenceCheck }: ReportMetri
   const evidenceSummary =
     chunkCount === 0
       ? "No grounded evidence was retrieved for this question."
-      : `Retrieved ${chunkCount} ${
-          chunkCount === 1 ? "chunk" : "chunks"
-        } across ${citationCount} ${
+      : `Retrieved ${chunkCount} ${chunkCount === 1 ? "chunk" : "chunks"} across ${citationCount} ${
           citationCount === 1 ? "source" : "sources"
         }. Full excerpts, similarity scores and metadata are in the Evidence panel.`;
 

@@ -1,27 +1,4 @@
-"""Contextual synonym-gap retrieval filter (defence, policy contextual-filter-v1).
-
-Same idea as entropy_filter.py, the log-ratio between a word and its likely
-original, but the reference distribution q is a small causal language model
-(distilgpt2) that reads the whole passage instead of a unigram table:
-
-    gap(w -> s) = log2 p_LM(passage with w replaced by s) - log2 p_LM(passage)   (bits)
-
-Candidates: the CANDIDATE_WORDS words with the largest unigram synonym gap
-(entropy_filter's leave-one-document-out reference), each tried with its
-CANDIDATE_SYNONYMS most probable WordNet synonyms under that reference. A
-word's gap is its best synonym's gap; a passage's score is the mean of its
-three largest word gaps. Passages above THRESHOLD_BITS are dropped and the
-next-ranked passages are used, exactly as in the drop defence.
-
-Frozen parameters. THRESHOLD_BITS was fixed on development-document chunks of
-the poisoned collection at a 10% false-positive rate
-(docs/research/results/entropy-family/family-poisoned.json) before any
-answer-level evaluation. Evaluated offline: AUROC 0.95 on the PWWS corpus,
-0.53 on the formatting-only control, 0.92 against the frequency-constrained
-adaptive attacker (results section 16).
-
-Fails closed: without transformers/torch or WordNet it raises DetectorUnavailable.
-"""
+"""Contextual synonym-gap retrieval filter."""
 
 from __future__ import annotations
 

@@ -47,27 +47,7 @@ const LABEL_STYLE: CSSProperties = {
   transition: "opacity 160ms linear",
 };
 
-/**
- * One small instanced node per real retrieved `SourceItem`, keyed by
- * `source_number` — the caller (`LivingCoreScene`) only ever passes a
- * non-empty `sources` array during "converged"; every other phase
- * (including the pre-response "retrieving"/"generating" sub-beats of
- * "submitting") passes `[]`, and this component never renders a
- * placeholder: zero sources means zero nodes, always. Node
- * scale/color-mix is driven only by the real `score` field via
- * `scoreToVisual` — a rendering intensity, never a "confidence" figure.
- *
- * During the "arriving" choreography beat, nodes ease inward from a wider
- * starting radius into their resting formation
- * (`getSourceFormationPosition`) — the same position `SourceLinkPaths`
- * anchors its lines to, and `RetrievalScan` derives its marker angle from
- * (via `getSourceOrbitAngle`), so all three always agree. Each node also
- * gets a small numeral badge (via drei's `Html`) matching its real
- * `source_number`, so every node is traceable back to a specific source —
- * marked `aria-hidden` since it is a decorative restatement of information
- * the DOM fallback and answer panel already expose as real accessible
- * text. Renamed 1:1 from the retired `shield-core/SourceNodes.tsx`.
- */
+/** One small instanced node per real retrieved `SourceItem`, keyed by `source_number`. */
 export function SourceNodes({ sources, beat, beatStartedAt }: SourceNodesProps) {
   const meshRef = useRef<THREE.InstancedMesh>(null);
   const labelRefs = useRef<(HTMLSpanElement | null)[]>([]);
@@ -91,7 +71,9 @@ export function SourceNodes({ sources, beat, beatStartedAt }: SourceNodesProps) 
     }
 
     const progress =
-      beat === "arriving" ? Math.min(1, (performance.now() - beatStartedAt) / DEFAULT_ARRIVING_MS) : 1;
+      beat === "arriving"
+        ? Math.min(1, (performance.now() - beatStartedAt) / DEFAULT_ARRIVING_MS)
+        : 1;
     const eased = easeOutCubic(progress);
     const labelOpacity = Math.max(0, (eased - 0.35) / 0.65);
 

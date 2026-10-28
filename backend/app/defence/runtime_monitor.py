@@ -1,35 +1,4 @@
-"""Runtime verification monitor with feedback and memory (policy runtime-monitor-v1).
-
-Proposed by the project supervisor (ADR-009): check each answer at runtime against a formal
-specification built from a trusted source, feed a violation back to the model, and remember
-which passages caused it so the same poisoned passage cannot mislead the system again.
-
-Trusted reference. The official MITRE STIX bundles in data/external/ (CAPEC and ATT&CK
-Enterprise), pinned by SHA-256. The attacker edits the RAG knowledge base, not these files.
-
-Specifications, checked on every draft answer a to question q with context C:
-  phi1 lexical conformance:  every rare word of a (Zipf < RARE_ZIPF) that also occurs in C is in
-        the trusted vocabulary V_T or in q. A substituted word the model repeats ("engraft")
-        violates it; a word the model chose itself does not (v2; v1 ignored C).
-  phi2 evidence availability: if q asks about an attack the trusted reference covers, a is
-        not a refusal. Displaced evidence, the attack's main effect, violates it.
-  phi3 memory safety (temporal): G(quarantined(p) -> G not in_context(p)); enforced by the
-        retrieval step and verified afterwards on the run trace.
-
-Loop (at most MAX_ROUNDS regenerations):
-  1. Retrieve CANDIDATE_K passages, drop quarantined ones, keep KEEP.
-  2. Generate. Round 0 uses the unchanged pipeline prompt.
-  3. Check phi1 and phi2. If both hold, release.
-  4. Diagnose: passages containing rare words outside V_T (for phi1, those containing the
-     witness words) are quarantined in the append-only memory.
-  5. Regenerate with the monitor's feedback (the violated property, the rejected answer and
-     the fact that the suspect passages were removed).
-If phi1 still fails, the answer is withheld. If phi2 still fails, mode "verify" releases the
-refusal; mode "restore" adds the trusted reference entry for the attack as an extra source and
-regenerates once (an upper bound: the trusted data is then used as evidence, not only as a check).
-
-Fails closed: a missing trusted file, a hash mismatch, or missing WordNet/wordfreq raises.
-"""
+"""Runtime verification monitor with feedback and memory."""
 
 from __future__ import annotations
 
@@ -52,10 +21,7 @@ from app.defence.entropy_filter import DetectorUnavailable
 from app.generation.prompt import RAG_PROMPT, SYSTEM_PROMPT
 
 POLICY_VERSION = "runtime-monitor-v2"
-# v1 (evaluated 27 Oct 2026, evaluation write-up §23): phi1 flagged any rare word outside the trusted
-# vocabulary. v2: phi1 flags such a word only if it also occurs in the retrieved context, i.e. the
-# model copied it from possibly tampered evidence; words the model chose itself are not evidence
-# tampering. `check(..., context=None)` reproduces v1 exactly.
+# V1: phi1 flagged any rare word outside the trusted vocabulary.
 RARE_ZIPF = 3.5
 MIN_WORD_LENGTH = 3
 MAX_ROUNDS = 2

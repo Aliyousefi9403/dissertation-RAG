@@ -5,9 +5,7 @@ import type { CompareRequest, CompareResponse } from "@/lib/types/compare";
  * it gets a longer budget than the single `/chat` call. */
 const COMPARE_TIMEOUT_MS = 40_000;
 
-export async function postCompare(
-  question: string,
-): Promise<ApiResult<CompareResponse>> {
+export async function postCompare(question: string): Promise<ApiResult<CompareResponse>> {
   const payload: CompareRequest = { question };
 
   return request<CompareResponse>({

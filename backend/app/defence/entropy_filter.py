@@ -1,42 +1,4 @@
-"""Relative-entropy / synonym-gap retrieval filter (defence, policy entropy-filter-v1).
-
-Idea (information theory). PWWS rewrites a passage by swapping words for
-WordNet synonyms that make a surrogate classifier fail. Those synonyms are
-often unusual for the domain ("server" -> "waiter", "implants" -> "engraft").
-Against a reference word distribution q, such a passage carries words that are
-much less probable than a synonym the author would normally have used. For
-each word w with WordNet synonyms S(w):
-
-    gap(w) = max_{s in S(w)} log2 q(s) - log2 q(w)          (bits)
-
-A chunk's score is the mean of its three largest gaps. Chunks scoring above a
-threshold are dropped at retrieval time and the next-ranked chunks are used.
-The score is a frequency-guided substitution detector (after FGWS, Mozes et al.
-2021), measured in bits against a domain reference: the same quantity that
-appears inside relative entropy KL(p||q) = sum_w p(w) log2 p(w)/q(w).
-
-Reference distribution q (what a defender has, nothing more):
-    q(w) = 0.5 * (count of w in the OTHER documents of the collection / total)
-         + 0.5 * general-English frequency (wordfreq), floored at 1e-9
-No clean copy, attack manifest or label is used at runtime.
-
-Frozen parameters. The threshold 7.2262 bits was fixed on development-document
-chunks of the poisoned collection at a 10% false-positive rate
-(docs/research/results/entropy-detector-20261016/detector-poisoned.json) before
-any answer-level evaluation. Changing it is a research-methodology change and
-needs a new POLICY_VERSION.
-
-Repair mode (policy entropy-repair-v1, system state "repaired"). Instead of
-dropping a passage, every word with gap(w) > 9.5 bits is replaced by its most
-probable WordNet synonym (the detector's "likely original"), the repaired passage
-is rescored, and it is kept if it is now at or under the same 7.2262-bit threshold.
-9.5 bits was fixed on development documents only (highest recall at precision
->= 0.8; docs/research/results/entropy-defence/repair-feasibility.json).
-
-Limitations: one attack (PWWS) and one corpus; an adaptive attacker who picks
-domain-frequent synonyms can evade it; it reduces exposure to poisoned text
-but cannot restore information that only exists in a poisoned passage.
-"""
+"""Relative-entropy / synonym-gap retrieval filter."""
 
 from __future__ import annotations
 
@@ -241,10 +203,7 @@ def filter_results(
     keep: int = KEEP,
     repair: bool = False,
 ) -> tuple[list[tuple[Document, float]], list[dict[str, Any]]]:
-    """Drop flagged chunks from ranked results; return (kept top-`keep`, decisions).
-
-    With repair=True each chunk is repaired first and judged on its repaired text.
-    """
+    """Drop flagged chunks from ranked results."""
     reference = reference_for(str(root))
     policy = REPAIR_POLICY_VERSION if repair else POLICY_VERSION
     kept, decisions = [], []
@@ -290,10 +249,7 @@ def make_filtered_retrieval(
     capture: dict | None = None,
     repair: bool = False,
 ):
-    """Retrieval function compatible with rag_chain.answer_question(retrieval_fn=...).
-
-    Searches `source_state`'s collection for `k` candidates, filters, keeps `keep`.
-    """
+    """Retrieval function compatible with rag_chain.answer_question."""
     from app.config import get_knowledge_base_path
     from app.retrieval.search import search_knowledge_base
 

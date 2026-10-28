@@ -13,9 +13,7 @@ function detectWebGLSupport(): boolean {
       canvas.getContext("experimental-webgl");
 
     if (gl && typeof (gl as WebGLRenderingContext).getExtension === "function") {
-      const loseContext = (gl as WebGLRenderingContext).getExtension(
-        "WEBGL_lose_context",
-      );
+      const loseContext = (gl as WebGLRenderingContext).getExtension("WEBGL_lose_context");
       loseContext?.loseContext();
     }
 
@@ -48,10 +46,8 @@ function subscribe() {
 }
 
 /**
- * Pre-mount WebGL feature detection, read synchronously via
- * `useSyncExternalStore` (never a `setState` call inside a `useEffect`) so
- * callers can gate `<Canvas>` mounting before any three.js /
- * `@react-three/*` module is evaluated.
+ * Pre-mount WebGL feature detection, read synchronously via `useSyncExternalStore` so callers
+ * can gate `<Canvas>` mounting before any three.js / `@react-three/*` module is evaluated.
  */
 export function useWebGLSupport(): WebGLSupportState {
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);

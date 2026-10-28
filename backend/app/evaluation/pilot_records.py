@@ -1,9 +1,4 @@
-"""Small, local-only pilot records. No model, config, API, or history imports.
-
-All outputs are create-only. A missing completion marker, missing record,
-invalid JSON, or checksum mismatch is an incomplete run, never silently
-discarded. Corpus snapshots prove local bytes, not indexed Qdrant content.
-"""
+"""Small, local-only pilot records."""
 
 from __future__ import annotations
 
@@ -125,12 +120,7 @@ def code_provenance(project_root: Path):
 
 
 def documented_groups(questions, corpus, namespace):
-    """Components of shared CAPEC/ATT&CK IDs in generated document metadata.
-
-    This is an explicit conservative dependence grouping, not a claim that
-    different components are independent. Shared sources outside the recorded
-    metadata are unknown. Never infer relationships from filenames alone.
-    """
+    """Components of shared CAPEC/ATT&CK IDs in generated document metadata."""
     catalog = {}
     for path, document in corpus["documents"].items():
         metadata = document["text"].split("## Metadata", 1)

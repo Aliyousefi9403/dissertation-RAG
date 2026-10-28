@@ -1,16 +1,4 @@
-"""
-Generate a PWWS-poisoned knowledge base.
-
-Pipeline:
-1. Read the clean KB.
-2. Copy it to the poisoned KB.
-3. Load the fine-tuned DistilBERT surrogate.
-4. Run PWWS against attack-description text.
-5. Replace successfully attacked text with adversarial text.
-6. Save a JSONL manifest for dissertation evaluation.
-
-Clean KB is never modified.
-"""
+"""Generate a PWWS-poisoned knowledge base."""
 
 from __future__ import annotations
 
@@ -152,14 +140,7 @@ def extract_attack_text(body: str):
 
 
 def run_pwws(attack, text: str, label: int):
-    """
-    Run one PWWS attack.
-
-    Returns:
-        success
-        adversarial_text
-        result type
-    """
+    """Run one PWWS attack."""
 
     result = attack.attack(text, label)
 

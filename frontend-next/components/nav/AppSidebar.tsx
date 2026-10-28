@@ -21,11 +21,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useHealthStatus } from "@/hooks/useHealthStatus";
 import { StatusBar } from "@/components/StatusBar";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface NavItem {
   label: string;
@@ -34,13 +30,7 @@ interface NavItem {
   icon: typeof MessageSquare;
 }
 
-/**
- * Final navigation order for the sprint. Only Assistant and Knowledge Base
- * are routable today; the rest are visible-but-disabled placeholders for
- * future work. Icons are shown alongside the label at full width, and
- * alone (label hidden via CSS) in the <=1024px icons-only rail -- see
- * `.nav-label` in globals.css.
- */
+/** Final navigation order for the sprint. */
 const NAV_ITEMS: NavItem[] = [
   { label: "Assistant", href: "/", enabled: true, icon: MessageSquare },
   { label: "History", href: "/history", enabled: true, icon: HistoryIcon },
@@ -51,12 +41,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Settings", href: "/settings", enabled: false, icon: SettingsIcon },
 ];
 
-/**
- * Shared app sidebar (brand, primary navigation, backend status). Lifted
- * out of `app/page.tsx` so it can be mounted once in `app/layout.tsx` and
- * shared across every real route (`/`, `/knowledge-base`, …) instead of
- * being duplicated per page.
- */
+/** Shared app sidebar. */
 export function AppSidebar() {
   const pathname = usePathname();
   const healthStatus = useHealthStatus();
@@ -97,11 +82,7 @@ export function AppSidebar() {
         aria-controls="app-sidebar"
         onClick={() => setIsDrawerOpen((open) => !open)}
       >
-        {isDrawerOpen ? (
-          <X aria-hidden="true" size={20} />
-        ) : (
-          <Menu aria-hidden="true" size={20} />
-        )}
+        {isDrawerOpen ? <X aria-hidden="true" size={20} /> : <Menu aria-hidden="true" size={20} />}
       </button>
 
       {isDrawerOpen && (
@@ -114,13 +95,7 @@ export function AppSidebar() {
 
       <aside id="app-sidebar" className={cn("sidebar", isDrawerOpen && "sidebar--open")}>
         <div className="brand">
-          <Image
-            src="/aegisrag-logo.png"
-            alt="AegisRAG logo"
-            width={58}
-            height={58}
-            priority
-          />
+          <Image src="/aegisrag-logo.png" alt="AegisRAG logo" width={58} height={58} priority />
 
           <div>
             <h1>AegisRAG</h1>
@@ -137,11 +112,7 @@ export function AppSidebar() {
                 <Tooltip key={item.label}>
                   <TooltipTrigger
                     render={
-                      <span
-                        className="nav-item"
-                        aria-disabled="true"
-                        tabIndex={-1}
-                      >
+                      <span className="nav-item" aria-disabled="true" tabIndex={-1}>
                         <Icon aria-hidden="true" size={16} className="nav-icon" />
                         <span className="nav-label">{item.label}</span>
                         <Lock aria-hidden="true" size={13} className="nav-lock-icon" />

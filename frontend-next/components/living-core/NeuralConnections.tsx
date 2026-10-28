@@ -15,38 +15,26 @@ const PATH_COUNT = 3;
 const CORE_ANCHOR_RADIUS = 0.5;
 const OUTER_ANCHOR_RADIUS = 1.4;
 
-/**
- * Evenly spreads `count` unit directions using a golden-angle spiral —
- * cheap, deterministic, and avoids the pole-clustering a naive
- * latitude/longitude grid would produce for such a small count.
- *
- * Unlike the retired `NeuralPaths.tsx` (whose anchors had to stay within a
- * solid extruded shield's thin z-depth), `ShieldOutline` is now a flat
- * silhouette with nothing to poke through, so these anchors are free to use
- * real 3D spread — contributing to the point cloud's volumetric read
- * instead of being pinned near a single plane.
- */
+/** Evenly spreads `count` unit directions using a golden-angle spiral. */
 function evenlySpreadDirections(count: number): THREE.Vector3[] {
   const directions: THREE.Vector3[] = [];
   for (let i = 0; i < count; i += 1) {
     const phi = Math.acos(1 - (2 * (i + 0.5)) / count);
     const theta = Math.PI * (1 + Math.sqrt(5)) * i;
     directions.push(
-      new THREE.Vector3(Math.sin(phi) * Math.cos(theta), Math.cos(phi), Math.sin(phi) * Math.sin(theta)),
+      new THREE.Vector3(
+        Math.sin(phi) * Math.cos(theta),
+        Math.cos(phi),
+        Math.sin(phi) * Math.sin(theta),
+      ),
     );
   }
   return directions;
 }
 
 /**
- * A single merged `LineSegments` (one `BufferGeometry`, one draw call)
- * bridging the point cloud's outer layer and the shield outline with a
- * small, fixed number of paths (2-4). The dash pattern only flows during
- * the "submitting" phase, standing in for retrieval-in-progress; every
- * other phase renders the same static dashed lines at a phase-appropriate
- * opacity. Renamed from the retired `NeuralPaths.tsx`; same dash-offset
- * technique (manual `lineDistance` write instead of `dashOffset`, which
- * `LineDashedMaterial` in the installed `three` version does not expose).
+ * A single merged `LineSegments` bridging the point cloud's outer layer and the shield outline
+ * with a small, fixed number of paths.
  */
 export function NeuralConnections({ phase }: NeuralConnectionsProps) {
   const lineRef = useRef<THREE.LineSegments>(null);

@@ -17,19 +17,7 @@ const PIN_POSITIONS: PinSpec[] = [
   { leftPercent: 20, topPercent: 40 },
 ];
 
-/**
- * Floating numbered badges over the particle field, one per grounded
- * source (max 3, matching `PIN_POSITIONS`), each with a thin bezier line
- * hinting toward the evidence column on the right. Deliberately NOT wired
- * to each `SourceCard`'s live measured position -- that would need a
- * cross-component bounding-rect registry between this fixed-position
- * overlay and `EvidencePanel`'s normal-flow DOM; this draws toward the
- * evidence column's general direction instead.
- *
- * Mounts/unmounts as `sources` goes empty <-> populated (rather than
- * hiding via CSS), so the SVG draw-in animation and pin pulse always
- * restart fresh on a new answer instead of only running once.
- */
+/** Floating numbered badges over the particle field, one per grounded source. */
 export function SourcePins({ sources }: SourcePinsProps) {
   const pins = sources.slice(0, PIN_POSITIONS.length);
 
