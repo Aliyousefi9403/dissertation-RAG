@@ -1,5 +1,5 @@
 \documentclass[journal]{IEEEtran}
-% arXiv / IEEE journal version of the AegisRAG paper. Build: latexmk -pdf main.tex (figures in figures/).
+% arXiv / IEEE journal version of the AegisRAG paper. Build: ./build.sh (figures in figures/).
 \usepackage[T1]{fontenc}
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
@@ -14,6 +14,9 @@
 \title{Reading the Poison: Relative-Entropy Detection of Word-Substitution Poisoning in a Cybersecurity RAG Knowledge Base}
 
 % Co-authorship to be agreed with Dr Nikos Komninos and Dr Hafizul Asad before submission.
+% Three-author version (uncomment when both have agreed):
+% \author{Ali~Yousefi, Nikos~Komninos, and Hafizul~Asad%
+% \thanks{The authors are with the Department of Computer Science, City St George's, University of London, London, UK.}}
 \author{Ali~Yousefi%
 \thanks{A.~Yousefi is with the Department of Computer Science, City St George's, University of London, London, UK.}}
 
@@ -22,143 +25,151 @@
 \maketitle
 
 \begin{abstract}
-Retrieval-augmented generation (RAG) makes the knowledge base part of a system's trust boundary. We study word-substitution poisoning, in which an attacker rewrites existing passages with plausible synonyms (PWWS, TextFooler), on a cybersecurity RAG system built from MITRE ATT\&CK and CAPEC, with a reviewed benchmark, paired repeated runs and a formatting-only control. Poisoning lowers answer correctness from 0.714 to 0.555, entirely on questions whose source was perturbed, mainly by displacing evidence rather than injecting misinformation. Whole-distribution divergences do not detect it (letter-frequency KL AUROC 0.33), but a per-word relative-entropy log-ratio between a word and its most probable synonym does, and a language-model reference raises AUROC from 0.82 to 0.95 while staying at chance on the control; it outperforms whole-passage perplexity, matches a windowed perplexity filter and names the word it suspects was replaced. As a retrieval filter it halves the poisoned text reaching the generator but does not restore correctness, and an attacker that must keep passages as probable under the language model succeeds on none of 57 sections. We then add a runtime verification monitor that checks answers against a specification derived from trusted MITRE STIX data, feeds violations back to the model and quarantines the passages responsible. Its memory removes repeated misinformation and never re-admits a quarantined passage, and when it may fall back to the trusted entry, correctness rises to 0.773 and refusals fall from 45 to 7 of 132. Answer-level grounding checks, by contrast, miss the incomplete answers this attack causes. All records and code are released.
+In a retrieval-augmented generation (RAG) system the knowledge base is part of what has to be trusted. We study an attacker who edits existing passages by swapping words for synonyms (PWWS, TextFooler) in a small cybersecurity RAG system built from MITRE ATT\&CK and CAPEC, using a reviewed 44-question benchmark, repeated paired runs and a control corpus in which only the layout changes. Poisoning lowered judged answer correctness from 0.714 to 0.555. The drop came from questions whose source section had been edited, and mostly from lost evidence and refusals rather than from false statements. Divergences over the whole passage were weak detectors, and some of them also responded to the layout-only control. A single term of the relative entropy, the log-ratio between a word and its most probable synonym, worked better: with a word-frequency reference it reached an AUROC of 0.82, and with a small language model as the reference 0.95, while staying near chance (0.53) on the control. It was clearly better than whole-passage perplexity and similar to a windowed perplexity filter, and it also names the word it suspects was replaced. Used as a retrieval filter it halved how often edited text reached the generator, but correctness did not recover. An attacker that also had to keep each passage at least as probable under the language model did not succeed on any of 57 sections. Finally, we tested a runtime monitor that checks answers against trusted MITRE STIX data and remembers the passages it rejects. On its own it reduced exposure to edited text without restoring correctness; when it was allowed to add the trusted MITRE entry as a source, correctness rose above the unattacked baseline, which shows what a trusted source can add rather than what detection can. Checking answers for grounding after generation did not catch the incomplete answers this attack causes.
 \end{abstract}
 
 \begin{IEEEkeywords}
-Retrieval-augmented generation, data poisoning, adversarial text, relative entropy, large language models, adaptive attacks.
+Retrieval-augmented generation, data poisoning, adversarial text, relative entropy, runtime verification, large language models.
 \end{IEEEkeywords}
 
 \section{Introduction}
-\IEEEPARstart{A}{} RAG system answers a question by retrieving passages from a knowledge base and asking a language model to answer from them~\cite{lewis2020rag}. Its answers are therefore only as trustworthy as the passages it reads. Knowledge-corruption attacks show that a handful of injected passages can steer answers to attacker-chosen targets~\cite{zou2025poisonedrag,zhong2023poisoning}. A less visible threat is \emph{editing} existing passages: word-level adversarial attacks such as PWWS~\cite{ren2019pwws} and TextFooler~\cite{jin2020textfooler} replace words with synonyms until a classifier changes its decision, leaving text that still reads almost normally. Such perturbations have been shown to degrade an LLM-based threat-detection framework through its knowledge base~\cite{ikbarieh2025rag}.
+\IEEEPARstart{A}{} RAG system answers a question by retrieving passages from a knowledge base and asking a language model to answer from them~\cite{lewis2020rag}. The answers can only be as reliable as those passages. Most work on poisoning RAG adds new passages written to steer answers towards a target~\cite{zou2025poisonedrag,zhong2023poisoning}. A quieter option for an attacker is to \emph{edit} passages that are already there. Word-level adversarial attacks such as PWWS~\cite{ren2019pwws} and TextFooler~\cite{jin2020textfooler} swap words for synonyms until a classifier changes its decision, and the edited text still reads almost normally. Ikbarieh et al.\ used TextFooler edits of this kind against the knowledge base of an LLM-based IoT security framework and found that its attack analysis and mitigation advice got worse~\cite{ikbarieh2025rag}.
 
-We ask three questions about this threat in a cybersecurity question-answering setting: (i) how much word-substitution poisoning hurts a RAG system, and through what mechanism; (ii) whether an information-theoretic detector can find the poisoned passages, and which reference distribution makes it work; and (iii) whether the detector survives an attacker who knows it, and what evasion costs the attacker.
+This paper looks at that threat in a cybersecurity question-answering system and asks three questions. How much does word-substitution poisoning hurt the system, and how? Can a detector based on relative entropy find the edited passages, and what reference distribution does it need? And what happens when the attacker knows about the detector?
 
-We approach detection through relative entropy. If a passage's word distribution $p$ is compared with a reference $q$ of normal text, $\KL(p\,\|\,q)=\sum_x p(x)\log_2 \frac{p(x)}{q(x)}$~\cite{kullback1951} should rise when words are swapped for unusual synonyms. We show that the full sum is the wrong tool and that one of its terms, the log-ratio between a word and its likely original under $q$, is the right one, provided $q$ is good enough. This adapts frequency-guided substitution detection~\cite{mozes2021fgws} to a domain reference and then to a language-model reference.
+The starting point is relative entropy. If the word distribution $p$ of a passage is compared with a reference $q$ for normal text, $\KL(p\,\|\,q)=\sum_x p(x)\log_2 \frac{p(x)}{q(x)}$~\cite{kullback1951} might be expected to rise when words are swapped for unusual synonyms. In our data the full sum was a weak signal. One of its terms, the log-ratio between a word and its likely original under $q$, was much stronger once $q$ was good enough. The idea is close to frequency-guided substitution detection~\cite{mozes2021fgws}; we score text against a domain reference and then a language-model reference, without needing the attacked classifier.
 
-\textbf{Contributions.}
+The contributions are:
 \begin{itemize}
-\item A controlled, fully recorded testbed: clean, PWWS-poisoned and formatting-only control knowledge bases; a reviewed benchmark with source anchors; paired runs with create-only, checksummed records (Section~\ref{sec:testbed}).
-\item A measured mechanism: substitution poisoning works mainly by \emph{displacing} evidence and causing abstention, and only rarely by misinformation the model repeats (Section~\ref{sec:mechanism}).
-\item A family of relative-entropy detectors evaluated against a formatting-only control and against perplexity filters, showing that whole-distribution measures fail and that \emph{local} language-model improbability works, with the synonym gap as an explainable member of that family (Section~\ref{sec:detection}).
-\item Live evaluations of three retrieval-time defences and an answer-level evidence check, showing a consistent safety/utility trade-off (Sections~\ref{sec:defences} and~\ref{sec:evidence}).
-\item A runtime verification monitor with feedback and quarantine memory, specified against trusted MITRE STIX data, which removes repeated misinformation and, with a trusted fallback, restores correctness that passage filters cannot (Section~\ref{sec:monitor}).
-\item Adaptive attackers at increasing knowledge and budget, with a swap-level explanation of why fooling the classifier while staying probable under a language model is hard, and a second attack to test generality (Sections~\ref{sec:adaptive} and~\ref{sec:textfooler}).
+\item A recorded testbed: clean, PWWS-poisoned and layout-only control knowledge bases, a reviewed benchmark with source anchors, and paired runs whose records are written once and checksummed (Section~\ref{sec:testbed}).
+\item A measurement of how the attack does damage: mostly by pushing the answering evidence out of the top results and causing refusals, and only occasionally by text the model repeats as fact (Section~\ref{sec:mechanism}).
+\item A comparison of relative-entropy detectors, including perplexity baselines and the layout-only control, in which local language-model improbability works best and the synonym gap is the variant that can explain itself (Section~\ref{sec:detection}).
+\item Live runs of three retrieval-time filters and an answer-level evidence check (Sections~\ref{sec:defences} and~\ref{sec:evidence}).
+\item Adaptive attackers with increasing knowledge and budget, a swap-level analysis of why they fail, and a second attack (Sections~\ref{sec:adaptive} and~\ref{sec:textfooler}).
+\item A runtime monitor with a quarantine memory, specified against trusted MITRE STIX data, with its costs and failure cases reported alongside its gains (Section~\ref{sec:monitor}).
 \end{itemize}
 
 \section{Related Work}
-\textbf{Poisoning RAG.} PoisonedRAG~\cite{zou2025poisonedrag} injects passages that are both retrieved and induce a target answer; Zhong et~al.~\cite{zhong2023poisoning} craft passages retrieved for many queries. Both \emph{add} text. Ikbarieh et~al.~\cite{ikbarieh2025rag} perturb an existing knowledge base with TextFooler and show degraded threat detection. We study in-place substitution and measure where along retrieval and generation the damage occurs.
+\textbf{Poisoning RAG.} PoisonedRAG~\cite{zou2025poisonedrag} injects passages that are retrieved for a target question and lead to a chosen answer; Zhong et al.~\cite{zhong2023poisoning} craft passages that are retrieved for many queries. Both add text. Ikbarieh et al.~\cite{ikbarieh2025rag} edit an existing knowledge base with TextFooler. We also study in-place edits, and we measure where between retrieval and generation the damage happens.
 
-\textbf{Word-substitution attacks and their detection.} PWWS~\cite{ren2019pwws} ranks words by saliency and replaces each with the WordNet~\cite{miller1995wordnet} synonym that most reduces the classifier's confidence; TextFooler~\cite{jin2020textfooler} draws substitutes from counter-fitted embeddings; both are implemented in TextAttack~\cite{morris2020textattack}. FGWS~\cite{mozes2021fgws} detects such examples by replacing infrequent words with frequent synonyms and measuring the change in the classifier's output. Our synonym gap keeps FGWS's observation that adversarial substitutes are often rarer than the words they replace, but scores the text against a reference distribution without access to the attacked classifier, so it can run at retrieval time.
+\textbf{Word-substitution attacks and their detection.} PWWS~\cite{ren2019pwws} ranks words by saliency and replaces each with the WordNet~\cite{miller1995wordnet} synonym that most lowers the classifier's confidence. TextFooler~\cite{jin2020textfooler} takes substitutes from counter-fitted word embeddings. Both are available in TextAttack~\cite{morris2020textattack}. FGWS~\cite{mozes2021fgws} detects such examples by replacing infrequent words with frequent synonyms and checking whether the classifier's output changes. We keep FGWS's observation that adversarial substitutes tend to be rarer than the words they replace, but we score the text against a reference distribution instead of querying the attacked classifier, so the check can run at retrieval time.
 
-\textbf{Perplexity filters.} Language-model perplexity is a standard model-agnostic filter for adversarial text: adversarial suffixes have very high perplexity~\cite{alon2023perplexity}, and windowed perplexity filters are an effective baseline against them~\cite{jain2023baseline}. RAGuard~\cite{cheng2025raguard} applies chunk-wise perplexity and similarity filtering to RAG poisoning. We compare against whole-passage and windowed perplexity computed with the same language model as our detector.
+\textbf{Perplexity filters.} Language-model perplexity is a common model-agnostic filter for adversarial text. Adversarial suffixes have very high perplexity~\cite{alon2023perplexity}, and windowed perplexity is a strong baseline against them~\cite{jain2023baseline}. RAGuard~\cite{cheng2025raguard} widens retrieval and filters passages by chunk-wise perplexity. We compare against whole-passage and windowed perplexity computed with the same language model as our detector.
 
-\textbf{Defending RAG.} RobustRAG~\cite{xiang2024robustrag} isolates and aggregates per-passage answers with certifiable guarantees; TrustRAG~\cite{zhou2025trustrag} clusters retrieved passages to identify suspicious groups; Corrective RAG~\cite{yan2024crag} grades retrieval quality and falls back to other sources. Evidence-support checks such as RAGAS faithfulness~\cite{es2024ragas} assess whether an answer follows from its sources, and sampling-based checks~\cite{manakul2023selfcheckgpt} target hallucination. These defences mostly target injected passages or answer quality; we evaluate passage-level filtering of \emph{edited} text, which needs no change to generation.
+\textbf{Defending RAG.} RobustRAG~\cite{xiang2024robustrag} answers from each passage separately and aggregates the answers, with certifiable guarantees. TrustRAG~\cite{zhou2025trustrag} clusters retrieved passages to find suspicious groups. Corrective RAG~\cite{yan2024crag} grades retrieval and falls back to other sources when it is poor. RAGAS faithfulness~\cite{es2024ragas} checks whether an answer follows from its sources, and SelfCheckGPT~\cite{manakul2023selfcheckgpt} uses sampling to find hallucinations. These defences are mainly aimed at injected passages or at answer quality. We filter \emph{edited} passages before generation, which needs no change to the generator.
 
 \section{Threat Model and Testbed}\label{sec:testbed}
-\textbf{System.} A FastAPI backend retrieves the top~3 passages from Qdrant (all-MiniLM-L6-v2 embeddings; 500-character chunks with 100 overlap) and answers with gpt-4o-mini at temperature~0 under a fixed prompt that requires answering only from the context. A web interface shows clean and poisoned answers side by side, with each defence as a selectable mode.
+\textbf{System.} A FastAPI backend retrieves the top 3 passages from Qdrant (all-MiniLM-L6-v2 embeddings; 500-character chunks with 100 characters of overlap) and answers with gpt-4o-mini at temperature 0, using a fixed prompt that tells the model to answer only from the context. A web interface shows clean and poisoned answers side by side and lets the user choose each defence.
 
-\textbf{Knowledge base.} 18 documents of MITRE ATT\&CK and CAPEC material covering 14 attack types in 5 categories (DDoS, injection, malware, reconnaissance, spoofing), split into 200 passages.
+\textbf{Knowledge base.} 18 documents of MITRE ATT\&CK and CAPEC material on 14 attack types in 5 categories (DDoS, injection, malware, reconnaissance, spoofing), split into 200 passages.
 
-\textbf{Attacker.} The attacker can edit eligible text in the knowledge base but not the questions, retrieval or generation settings, or the evaluation. PWWS (TextAttack) attacks a DistilBERT attack-type classifier trained on the same material, used as a \emph{surrogate}: a section is rewritten when PWWS flips the surrogate's label. Of 88 eligible sections, 31 are already misclassified and skipped; PWWS succeeds on 38 of the remaining 57 (a retrained surrogate, used for all adaptive experiments and their matched control, gives 39). Original and adversarial text are recorded in an attack manifest.
+\textbf{Attacker.} The attacker can edit text in the knowledge base. It cannot change the questions, the retrieval or generation settings, or the evaluation. We run PWWS (TextAttack) against a DistilBERT classifier that predicts the attack type of a section and was trained on the same material. The classifier is a \emph{surrogate}: a section is rewritten when PWWS flips its label. Of 88 eligible sections, 31 are already misclassified and are skipped, and PWWS succeeds on 38 of the remaining 57. All adaptive experiments and their matched control use a retrained surrogate, on which plain PWWS succeeds on 39. The original and adversarial text of every section is kept in an attack manifest.
 
-\textbf{Formatting-only control.} The poisoning script also flattens the layout of the sections it rewrites. A control corpus applies the same flattening to the same sections with the original words. Retrieval on the control equals clean, so layout alone does not cause the damage.
+\textbf{Layout-only control.} The poisoning script also flattens the layout of the sections it rewrites. A control corpus applies the same flattening to the same sections but keeps the original words. Retrieval on the control is the same as on the clean corpus, so the layout change alone does not explain the damage.
 
-\textbf{Benchmark and protocol.} 44 reviewed questions, each with atomic reference facts and an exact source anchor; development and held-out questions are separated by source document (35/9). Every question runs 3~times per condition, paired by schedule index with alternated condition order. Correctness (against reference facts) and faithfulness (against retrieved passages) are scored by an LLM judge~\cite{zheng2023judge} with a fixed rubric, validated against blind manual grades of 75 stratified answers (quadratic weighted $\kappa=0.82$); retrieval relevance by Hit@3 under a section-level rule; \emph{edited-text exposure} records whether any attacker-edited word reached the generator. Retrieval is deterministic across repetitions, so the question is the unit of analysis: we report question-level cluster-bootstrap 95\% intervals (10{,}000 resamples) and two-sided Wilcoxon signed-rank tests. Every run writes create-only JSON records with a SHA-256 completion manifest, and a script checks every headline number in this paper against its source file.
+\textbf{Benchmark and protocol.} There are 44 reviewed questions. Each has atomic reference facts and an exact source anchor, and development and held-out questions come from different source documents (35 and 9). Each question is run 3 times per condition, paired by schedule index, with the order of conditions alternated. An LLM judge~\cite{zheng2023judge} scores correctness against the reference facts and faithfulness against the retrieved passages, using a fixed rubric. On 75 stratified answers that the first author graded blind, the judge's correctness scores agreed well with the manual grades (quadratic weighted $\kappa=0.82$). Retrieval relevance is Hit@3 under a section-level rule. \emph{Edited-text exposure} records whether any attacker-edited word reached the generator. Retrieval returned the same passages in all three repetitions for every question, so the question is the unit of analysis: we report question-level cluster-bootstrap 95\% intervals (10{,}000 resamples) and two-sided Wilcoxon signed-rank tests. Every run writes JSON records that are never overwritten, plus a SHA-256 completion manifest.
 
 \section{Relative-Entropy Detectors}\label{sec:detectors}
 Let a passage contain words $w_1,\dots,w_n$ with empirical distribution $p$, and let $q$ be a reference distribution.
 
-\textbf{Whole-passage divergences.} $\KL(p\,\|\,q)$~\cite{kullback1951}, Jensen--Shannon divergence~\cite{lin1991js} and mean surprisal $-\frac{1}{n}\sum_i \log_2 q(w_i)$; we also report KL over letter frequencies, the textbook illustration of relative entropy.
+\textbf{Whole-passage divergences.} $\KL(p\,\|\,q)$~\cite{kullback1951}, the Jensen--Shannon divergence~\cite{lin1991js}, and mean surprisal $-\frac{1}{n}\sum_i \log_2 q(w_i)$. We also report KL over letter frequencies, the usual textbook example of relative entropy.
 
 \textbf{Synonym gap.} For each content word $w$ with WordNet synonyms $S(w)$,
 \begin{equation}
 g(w)=\max_{s\in S(w)}\big[\log_2 q(s)-\log_2 q(w)\big],
 \end{equation}
-the number of bits by which the most probable synonym beats the word actually used. This is the log-ratio term of KL evaluated at the substitution itself: the PWWS substitute ``abnegate'' scores high because its likely original ``deny'' is far more probable. A passage's score is the mean of its three largest gaps.
+which is the number of bits by which the most probable synonym beats the word that was actually used. It is the log-ratio term of KL, evaluated where a substitution would have happened. For example, the PWWS substitute ``abnegate'' gets a high score because its likely original, ``deny'', is far more probable. A passage's score is the mean of its three largest gaps.
 
-\textbf{References.} (i)~General English word frequencies; (ii)~a \emph{domain} reference: leave-one-document-out counts from the rest of the knowledge base interpolated 50/50 with English, which needs no clean copy of the poisoned document; (iii)~the same with a Dirichlet prior, $q(w)=\frac{c(w)+\mu q_{\mathrm{en}}(w)}{N+\mu}$, $\mu=2000$~\cite{zhai2004smoothing}; (iv)~a \emph{contextual} reference from a small causal language model, distilgpt2~\cite{radford2019gpt2}. For (iv), the candidates are the 10 words with the largest domain gap and, for each, its 5 most probable synonyms $s$:
+\textbf{References.} (i) General English word frequencies. (ii) A \emph{domain} reference: word counts from the rest of the knowledge base with the passage's own document left out, interpolated 50/50 with English. It does not need a clean copy of the poisoned document. (iii) The same counts with a Dirichlet prior, $q(w)=\frac{c(w)+\mu q_{\mathrm{en}}(w)}{N+\mu}$ with $\mu=2000$~\cite{zhai2004smoothing}. (iv) A \emph{contextual} reference from a small causal language model, distilgpt2~\cite{radford2019gpt2}. For (iv) we take the 10 words with the largest domain gap and, for each, its 5 most probable synonyms $s$, and compute
 \begin{equation}
-g_{\mathrm{ctx}}(w,s)=\log_2 p_{\mathrm{LM}}(\text{passage}, w\!\to\! s)-\log_2 p_{\mathrm{LM}}(\text{passage}),
+g_{\mathrm{ctx}}(w,s)=\log_2 p_{\mathrm{LM}}(\text{passage}, w\!\to\! s)-\log_2 p_{\mathrm{LM}}(\text{passage}).
 \end{equation}
-and the passage score is again the mean of the three largest gaps.
+The passage score is again the mean of the three largest gaps.
 
-\textbf{Perplexity baselines.} With the same language model: \emph{mean surprisal} (log$_2$ perplexity of the whole passage) and \emph{top-5 surprisal}, the mean of the five most surprising tokens, a windowed filter in the spirit of~\cite{jain2023baseline}.
+\textbf{Perplexity baselines.} With the same language model: \emph{mean surprisal} (log$_2$ perplexity of the whole passage) and \emph{top-5 surprisal}, the mean of the five most surprising tokens, which is a windowed filter in the spirit of~\cite{jain2023baseline}.
 
-All scores use only information a defender has; attack labels are used for evaluation only. Thresholds are fixed on development documents at a 10\% false-positive rate and never tuned on held-out documents or live answers.
+All scores use only information a defender would have; the attack labels are used only for evaluation. Thresholds were set once on development documents at a 10\% false-positive rate and were not re-tuned on held-out documents or on live answers.
 
 \section{Results}
-\subsection{The attack and its mechanism}\label{sec:mechanism}
+\subsection{The attack and how it does damage}\label{sec:mechanism}
 \begin{table}[t]
-\caption{Effect of PWWS poisoning (44 questions, 132 paired answers per condition).}\label{tab:attack}
+\caption{Effect of PWWS poisoning (44 questions, 132 paired answers per condition). $\Delta$: change in correctness.}\label{tab:attack}
 \centering\footnotesize\setlength{\tabcolsep}{3pt}
 \begin{tabular}{@{}lccc@{}}
 \toprule
 Stratum & Hit@3 & Correctness & $\Delta$ [95\% CI]\\
 \midrule
 All & .705$\to$.568 & .714$\to$.555 & $-$.159 [$-$.254, $-$.068]\\
-Target perturbed (27) & .630$\to$.444 & .682$\to$.432 & $-$.250 [$-$.383, $-$.124]\\
-Not perturbed (17) & .824$\to$.765 & .765$\to$.750 & $-$.015 [$-$.083, .069]\\
+Source section edited (27) & .630$\to$.444 & .682$\to$.432 & $-$.250 [$-$.383, $-$.124]\\
+Not edited (17) & .824$\to$.765 & .765$\to$.750 & $-$.015 [$-$.083, .069]\\
 \bottomrule
 \end{tabular}
 \end{table}
-The degradation is confined to questions whose source section was perturbed (Table~\ref{tab:attack}); questions answered from untouched sections of the same poisoned corpus are unaffected. Together with the formatting-only control, this attributes the effect to the substitutions. The mechanism is mostly \emph{displacement}: abstentions rise from 26 to 45 of 132 answers, and of the 48 answers whose correctness fell by at least 0.25, 27 abstained and 31 had lost the relevant passage from the top~3. Confidently wrong answers rose only from 0 to 2; in both, the model repeated a substituted phrase (``Engraft Malicious Package'', originally ``implants malicious software'') as if it were a named attack stage.
+The drop in correctness comes from questions whose source section was edited (Table~\ref{tab:attack}). On questions answered from untouched sections of the same poisoned corpus the change was small and not significant. Together with the layout-only control, this points to the word substitutions as the cause. Most of the damage came from lost evidence. Refusals rose from 26 to 45 of 132 answers. Of the 48 answers whose correctness fell by at least 0.25, 27 were refusals and 31 had no relevant passage in the top 3. Wrong answers (not refusals, correctness below 0.25) rose only from 0 to 2. Both were to the same question, and in both the model repeated a substituted phrase, ``Engraft Malicious Package'' (originally ``implants malicious software''), as if it were the name of an attack stage.
 
 \subsection{Detection}\label{sec:detection}
 \begin{table*}[t]
-\caption{Detection of passages containing substituted words (AUROC). Brackets: 95\% bootstrap intervals resampling documents. 191 passages (193 for TextFooler); edited passages: 47 PWWS, 59 matched rerun, 82 TextFooler, 13 adaptive. The last row counts edits flagged at the contextual threshold (4.46 bits) frozen on PWWS development documents, which flags 9--14\% of unedited passages.}\label{tab:detect}
+\caption{Detection of passages that contain substituted words (AUROC). Brackets: 95\% bootstrap intervals that resample documents. 191 passages (193 for TextFooler); edited passages: 47 PWWS, 59 PWWS on the retrained surrogate, 82 TextFooler, 13 frequency-matched adaptive. The control has no word edits: its ``positives'' are the 48 passages whose layout was flattened, so any score above 0.5 there reflects layout or section choice rather than substitutions. Last row: edits flagged at the contextual threshold (4.46 bits) fixed on PWWS development documents, which flags 9--14\% of unedited passages.}\label{tab:detect}
 \centering\footnotesize\setlength{\tabcolsep}{4pt}
 \begin{tabular}{@{}lccccc@{}}
 \toprule
-Detector & PWWS & PWWS rerun & TextFooler & Control (layout only) & Frequency-matched adaptive\\
+Detector & PWWS & PWWS (retrained) & TextFooler & Control (layout only) & Frequency-matched adaptive\\
 \midrule
-Letter-frequency KL & 0.33 & -- & 0.28 & 0.35 & 0.36\\
-Word KL vs domain & 0.72 & -- & 0.83 & 0.62 & 0.50\\
-Jensen--Shannon vs domain & 0.47 & -- & 0.48 & 0.43 & 0.44\\
+Letter-frequency KL & 0.33 & 0.31 & 0.28 & 0.35 & 0.36\\
+Word KL vs domain & 0.72 & 0.74 & 0.83 & 0.62 & 0.50\\
+Jensen--Shannon vs domain & 0.47 & 0.47 & 0.48 & 0.43 & 0.44\\
 Mean surprisal (perplexity) & 0.77 & 0.77 & 0.82 & 0.45 & 0.73\\
 Top-5 surprisal (windowed perplexity) & 0.91 & 0.93 & 0.92 & 0.56 & 0.85\\
 Synonym gap, domain $q$ & 0.82 [.72, .90] & 0.88 [.82, .94] & 0.90 [.85, .94] & 0.67 [.57, .77] & 0.47 [.33, .72]\\
-Synonym gap, Dirichlet $q$ & 0.83 & -- & 0.90 & 0.68 & 0.48\\
-\textbf{Contextual synonym gap} & \textbf{0.95} [.87, .99] & \textbf{0.97} [.93, 1.0] & \textbf{0.91} [.84, .97] & \textbf{0.53} [.45, .60] & \textbf{0.92} [.54, .96]\\
+Synonym gap, Dirichlet $q$ & 0.83 & 0.89 & 0.90 & 0.68 & 0.48\\
+Contextual synonym gap & 0.95 [.87, .99] & 0.97 [.93, 1.0] & 0.91 [.84, .97] & 0.53 [.45, .60] & 0.92 [.54, .96]\\
 \midrule
-\emph{Edits flagged, frozen contextual threshold} & 42/47 & 54/59 & 70/82 & -- & 10/13\\
+\emph{Edits flagged, fixed contextual threshold} & 42/47 & 54/59 & 70/82 & -- & 10/13\\
 \bottomrule
 \end{tabular}
 \end{table*}
 
-Four findings follow (Table~\ref{tab:detect}, Fig.~\ref{fig:robust}). First, \textbf{whole-distribution measures fail}: letters keep English statistics under word swaps, and KL, JS or perplexity over the whole passage dilute the handful of changed words among about eighty. Second, \textbf{the per-word log-ratio works}, and the choice of $q$ matters more than the divergence or smoothing (Dirichlet vs interpolation: 0.83 vs 0.82). Third, \textbf{the contextual reference is stronger and cleaner}: it improves on the word-frequency gap on both PWWS corpora (paired differences $+0.13$ [$+0.03$, $+0.21$] and $+0.09$ [$+0.03$, $+0.16$]) and is at chance on the control, where the word-frequency gap still scores 0.67 because part of its signal comes from which sections were attacked. Fourth, \textbf{locality is what matters}: the contextual gap beats whole-passage perplexity on PWWS and TextFooler (paired differences $+0.18$ [$+0.11$, $+0.26$] and $+0.10$ [$+0.03$, $+0.16$]) but is statistically indistinguishable from windowed perplexity ($+0.04$ [$-0.003$, $+0.08$] on PWWS, $-0.01$ [$-0.07$, $+0.03$] on TextFooler). What the synonym gap adds over a windowed perplexity filter is an explanation: of 27 edited passages the word-frequency gap flags, 22 name the exact replaced word with its likely original (abnegate$\to$deny, meshing$\to$network), and at frozen thresholds it has a slightly lower false-positive rate on every attacked corpus.
+Table~\ref{tab:detect} and Fig.~\ref{fig:robust} show four things.
+
+\emph{Whole-passage measures are weak.} Letter frequencies keep their English statistics when words are swapped, so letter KL is below chance. Word KL against the domain reference does better (0.72--0.83), but it also scores 0.62 on the control, where no word changed, so part of what it picks up is which sections were attacked rather than the edits. Over a whole passage, the few changed words are diluted among about eighty others.
+
+\emph{The per-word log-ratio works, and the reference matters more than the divergence or the smoothing.} Dirichlet smoothing and interpolation give almost the same result (0.83 vs 0.82).
+
+\emph{The contextual reference is better and cleaner on PWWS.} It improves on the word-frequency gap on both PWWS corpora (paired differences $+0.13$ [$+0.03$, $+0.21$] and $+0.09$ [$+0.03$, $+0.16$]) and is close to chance on the control, where the word-frequency gap still scores 0.67. On TextFooler the two are not distinguishable ($+0.02$ [$-0.05$, $+0.07$]). On the 9 held-out documents (45 passages, 10 of them edited), the word-frequency gap scored higher than the contextual one (0.94 vs 0.88), so we do not claim the contextual reference is better everywhere.
+
+\emph{What helps is looking locally.} The contextual gap beats whole-passage perplexity on PWWS and TextFooler (paired differences $+0.18$ [$+0.11$, $+0.26$] and $+0.10$ [$+0.03$, $+0.16$]), but it is statistically indistinguishable from windowed perplexity ($+0.04$ [$-0.003$, $+0.08$] on PWWS, $-0.01$ [$-0.07$, $+0.03$] on TextFooler). What the synonym gap adds over a windowed perplexity filter is an explanation. Of the 27 edited passages the word-frequency gap flags, 22 name the exact replaced word and its likely original (for example abnegate$\to$deny, meshing$\to$network). At the fixed thresholds the contextual gap also had a slightly lower false-positive rate than windowed perplexity on every attacked corpus (for example 10.4\% vs 11.8\% on PWWS).
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{fig6_detector_robustness.png}
-\caption{Word-frequency versus contextual synonym gap on every corpus, with document-clustered 95\% intervals.}\label{fig:robust}
+\caption{Word-frequency and contextual synonym gap on every corpus, with document-clustered 95\% intervals.}\label{fig:robust}
 \end{figure}
 
 \subsection{Live defences}\label{sec:defences}
-Each defence retrieves 10 candidates, scores them and passes 3 to the generator: \emph{drop} removes candidates above the word-frequency threshold (7.23 bits); \emph{repair} first replaces words with a gap above 9.5 bits by their likely original and keeps the passage if it then scores under the threshold; \emph{contextual} drops with the contextual gap (4.46 bits). Each was run live on the full benchmark against both corpora (792 records per run).
+Each defence retrieves 10 candidates, scores them, and passes 3 to the generator. \emph{Drop} removes candidates above the word-frequency threshold (7.23 bits). \emph{Repair} first replaces each word whose gap is above 9.5 bits by its likely original and keeps the passage if it then scores under the threshold. \emph{Contextual} drops candidates using the contextual gap (4.46 bits). Each defence was run live on the full benchmark on both the clean and the poisoned corpus (792 records per run).
 
 \begin{table}[t]
-\caption{Live defences on the poisoned corpus (44 questions $\times$ 3; $p$: Wilcoxon vs no defence). Clean cost: correctness change on the clean corpus.}\label{tab:defence}
+\caption{Live defences on the poisoned corpus (44 questions $\times$ 3; $p$: Wilcoxon against no defence). Clean cost: change in correctness on the clean corpus.}\label{tab:defence}
 \centering\small
 \setlength{\tabcolsep}{3pt}
 \begin{tabular}{@{}lccccc@{}}
 \toprule
-Defence & Exposure & Correct. & Wrong & Abst. & Clean cost\\
+Defence & Exposure & Correct. & Wrong & Refusals & Clean cost\\
 \midrule
 None & .409 & .555 & 2 & 45 & --\\
 Drop (freq.) & .273$^{a}$ & .526 & 0 & 53 & $-$.064\\
 Repair & .364 & .506 & 0 & 54 & $-$.042\\
-\textbf{Drop (ctx.)} & \textbf{.204}$^{b}$ & .485$^{c}$ & \textbf{0} & 63 & $\mathbf{-.013}$\\
+Drop (ctx.) & .204$^{b}$ & .485$^{c}$ & 0 & 63 & $-$.013\\
 \bottomrule
 \multicolumn{6}{@{}l}{\footnotesize $^{a}p=0.031$; $^{b}p=0.012$; $^{c}p=0.020$.}
 \end{tabular}
 \end{table}
 
-All three defences remove the confidently wrong answers (Table~\ref{tab:defence}). The contextual filter halves the poisoned text that reaches the model and is the cheapest on clean data (it flags 8.4\% of clean candidates against 10.9\% for the word-frequency filter). None restores correctness: when the passage that answers a question is the poisoned one, removing it leaves the model without evidence, and it declines rather than guesses. Repair does not help either, because word-level WordNet repair restores too few substitutions (recall 0.12 at precision 0.89). \textbf{Filtering makes a poisoned knowledge base safe to read; it does not make it useful again.}
+All three defences removed the two wrong answers (Table~\ref{tab:defence}). The contextual filter halved how often edited text reached the model and had the smallest cost on clean data; it flagged 8.4\% of clean candidates, against 10.9\% for the word-frequency filter. None of the filters restored correctness, and the contextual filter lowered it further. When the passage that answers a question is the edited one, removing it leaves the model without evidence, and the model then refuses rather than guesses. Repair did not help either, because word-level WordNet repair restores too few substitutions (recall 0.12 at precision 0.89). In short, filtering made the poisoned knowledge base safer to read but did not make it useful again.
 
 \subsection{Adaptive attackers}\label{sec:adaptive}
 \begin{table}[t]
-\caption{Adaptive attackers (same retrained surrogate and 57 attackable sections; the evasion rule is the only difference). AUROC of the word-frequency and contextual synonym gaps.}\label{tab:adaptive}
+\caption{Adaptive attackers (same retrained surrogate and 57 attackable sections; only the evasion rule differs). AUROC of the word-frequency and contextual synonym gaps.}\label{tab:adaptive}
 \centering\small
 \setlength{\tabcolsep}{3pt}
 \begin{tabular}{@{}lcccc@{}}
@@ -166,81 +177,58 @@ All three defences remove the confidently wrong answers (Table~\ref{tab:defence}
 Attacker & Sections & Edits & Freq. & Ctx.\\
 \midrule
 Unrestricted PWWS & 39 & 59 & .88 & .97\\
-1st order: frequency-matched & 8 & 13 & \textbf{.47} & \textbf{.92}\\
-2nd order, strict & \textbf{0} & 0 & -- & --\\
-2nd order, $\le$4.46 bits & \textbf{0} & 0 & -- & --\\
-2nd order, $\le$20 bits & \textbf{0} & 0 & -- & --\\
+1st order: frequency-matched & 8 & 13 & .47 & .92\\
+2nd order, strict & 0 & 0 & -- & --\\
+2nd order, $\le$4.46 bits & 0 & 0 & -- & --\\
+2nd order, $\le$20 bits & 0 & 0 & -- & --\\
 2nd order, $\le$100 bits & 5 & 6 & .51 & .78\\
 2nd order, $\le$300 bits & 8 & 13 & .47 & .92\\
 \bottomrule
 \end{tabular}
 \end{table}
 
-A first-order attacker that only swaps to words at least as frequent under the defender's $q$ evades the word-frequency detector completely, as designed, but the contextual detector still finds its edits (Table~\ref{tab:adaptive}): it matched how common its words are, not whether they fit the sentence. Evasion is expensive: success falls from 39 to 8 sections.
+A first-order attacker that only swaps to words at least as frequent under the defender's $q$ evades the word-frequency detector, as intended (Table~\ref{tab:adaptive}). The contextual detector still finds most of its edits, because the attacker matched how common its words are and not whether they fit the sentence. Evasion also costs the attacker: it succeeds on 8 sections instead of 39.
 
-A second-order attacker that must also keep each passage at least as probable under the detector's language model succeeds on none. Of the 550 swaps unrestricted PWWS used in its 39 successful attacks, 109 (20\%) satisfy the frequency rule but only 9 (1.6\%) leave the passage at least as probable, and 5 satisfy both; the median swap makes its passage 17.9 bits less probable. Natural source text sits close to a local maximum of language-model likelihood, and the substitutions that move a classifier are, almost by definition, ones that move the text away from it.
+A second-order attacker that must also keep each passage at least as probable under the detector's language model succeeded on no section. To see why, we looked at the 550 swaps that unrestricted PWWS used in its 39 successful attacks. 109 of them (20\%) satisfy the frequency rule, only 9 (1.6\%) leave the passage at least as probable under the language model, and 5 satisfy both. The median swap makes its passage 17.9 bits less probable. Our reading is that natural source text sits close to a local maximum of language-model likelihood, and the swaps that move a classifier tend to move the text away from it.
 
-Relaxing the rule (Fig.~\ref{fig:budget}), the attacker still succeeds on no section when it may lose up to 4.46 bits, the contextual threshold, or 20 bits. At 100 bits it succeeds on 5 sections, whose 6 edited passages the contextual detector scores at 0.78 (the frozen filter flags 3; the interval is wide). At 300 bits the language-model rule stops binding and the attack reproduces the frequency-matched knowledge base exactly, whose edits the contextual filter flags 10 of 13. In this attacker family, no attacker evades the contextual detector: those that satisfy its rule fail to attack, and those that succeed are flagged.
+We then relaxed the rule (Fig.~\ref{fig:budget}). With an allowed loss of up to 4.46 bits (the contextual threshold) or 20 bits, the attacker still succeeded on no section. At 100 bits it succeeded on 5 sections; the contextual detector scored their 6 edited passages at an AUROC of 0.78, and the fixed filter flagged 3 of the 6, so 3 edited passages got through. At 300 bits the language-model rule no longer constrains the attacker, and the attack produced exactly the same corpus as the frequency-matched attacker, whose edits the contextual filter flags 10 of 13. So in this family of attackers, those that respected the detector's rule did not succeed, and those that succeeded left most, but not all, of their edits detectable. These conclusions rest on 6 and 13 edited passages.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{fig7_attacker_budget.png}
-\caption{Second-order attacker: successful sections as the allowed loss of language-model likelihood grows, with the share of resulting edits flagged by the frozen contextual filter.}\label{fig:budget}
+\caption{Second-order attacker: successful sections as the allowed loss of language-model likelihood grows, with the share of resulting edits flagged by the fixed contextual filter.}\label{fig:budget}
 \end{figure}
 
 \subsection{A second attack}\label{sec:textfooler}
-TextFooler draws substitutes from word embeddings rather than WordNet. With the same surrogate and sections it is the stronger attack: 49 of 57 sections and 82 edited passages. Both synonym-gap detectors transfer without change (Table~\ref{tab:detect}); at thresholds frozen on PWWS development documents the contextual filter flags 70 of 82 edits (85\%) at a 9\% false-positive rate, against 43 of 82 for the word-frequency filter.
+TextFooler takes substitutes from word embeddings rather than WordNet. With the same surrogate and sections it was the stronger attack: 49 of 57 sections and 82 edited passages. Both synonym-gap detectors worked on it without changes (Table~\ref{tab:detect}). At the thresholds fixed on PWWS development documents, the contextual filter flagged 70 of 82 edits (85\%) at a 9\% false-positive rate, and the word-frequency filter 43 of 82 (52\%) at 6\%.
 
-Run live with the same frozen thresholds, TextFooler is also the more pervasive attack: edited text reaches the generator on 82\% of questions (PWWS: 41\%), and correctness falls from 0.714 to 0.564 ($p=0.002$), again through refusals rather than confident errors. The word-frequency filter barely changes exposure (82\%$\to$80\%): when most candidates are edited, dropping some mostly promotes others. The contextual filter cuts exposure to 52\% ($p<0.001$; versus the word-frequency filter, $p=0.003$), with the same cost as on PWWS: correctness falls further (0.447) and refusals rise from 54 to 74 of 132.
+Run live with the same thresholds, TextFooler also reached the generator more often: edited text was in the context for 82\% of questions (PWWS: 41\%), and correctness fell from 0.714 to 0.564 ($p=0.002$), again through refusals rather than wrong answers. The word-frequency filter barely changed exposure (82\% to 80\%); when most candidates are edited, dropping some of them mainly promotes others. The contextual filter cut exposure to 52\% ($p<0.001$; against the word-frequency filter, $p=0.003$), with the same cost as on PWWS: correctness fell further, to 0.447, and refusals rose from 54 to 74 of 132.
 
 \subsection{Checking answers instead of passages}\label{sec:evidence}
-We also evaluated an answer-level indicator: a separate verifier call splits each drafted answer into claims, judges each against the retrieved passages, and must quote its evidence verbatim (checked in code); the answer is withheld unless every claim is supported. Replayed on 352 recorded answers (one repetition of all questions in eight conditions), it is not a useful error detector here. Of the 238 answers that are not refusals, 38\% are not fully correct, but only 28\% of flagged answers are (precision 0.28 [0.13, 0.48]); it flags 20\% of errors and 31\% of correct answers. Substitution poisoning mostly removes evidence, so the typical error is an incomplete answer whose every statement is grounded (68 of 89 partial answers pass). It did withhold the one confidently wrong answer. Against in-place substitution, the defence has to act on passages before generation; checking grounding afterwards cannot see what is missing.
+We also tried an answer-level check. A separate verifier call splits each draft answer into claims, judges each claim against the retrieved passages, and must quote its evidence word for word (the quotes are checked in code). The answer is withheld unless every claim is supported. We replayed it on 352 recorded answers (one repetition of every question in eight conditions). It was not a useful error detector here. Of the 238 answers that were not refusals, 38\% were not fully correct, but only 28\% of the answers it flagged were wrong (precision 0.28 [0.13, 0.48]). It flagged 20\% of the incorrect answers and 31\% of the correct ones. Substitution poisoning mostly removes evidence, so the typical error is an incomplete answer in which every statement is grounded: 68 of 89 partial answers passed. It did withhold the one wrong answer in that sample. Against in-place substitution, the check has to act on passages before generation; a grounding check afterwards cannot see what is missing.
 
-
-\subsection{Runtime verification with feedback and memory}\label{sec:monitor}
-Passage filters remove poison but learn nothing: the same poisoned passage misleads the system each time it is retrieved. We therefore add a runtime monitor in the spirit of runtime verification. Its trusted reference is the official MITRE STIX data (CAPEC and ATT\&CK, hash-pinned), which the attacker, who edits the knowledge base, cannot alter. Every draft answer is checked against three properties: $\varphi_1$, every rare word (Zipf $<3.5$) occurs in the trusted vocabulary or the question; $\varphi_2$, the answer is not a refusal when the trusted reference covers the attack asked about; and the temporal memory-safety property $\varphi_3 = \mathbf{G}(\mathit{quarantined}(p) \rightarrow \mathbf{G}\,\neg\mathit{inContext}(p))$. On a violation the monitor diagnoses the passages that contain rare words outside the trusted vocabulary, quarantines them in an append-only memory, re-retrieves, and regenerates with feedback (the rejected answer and the violated property), at most twice. An unresolved $\varphi_1$ withholds the answer; an unresolved $\varphi_2$ either releases the refusal (\emph{verify}) or adds the trusted entry for the attack as a source (\emph{restore}, an upper bound in which trusted data becomes evidence). Each condition starts with an empty memory; repetitions 2 and 3 meet the same attack again. An offline dry check on recorded answers, with the cut-off fixed beforehand, flagged no clean answer under $\varphi_1$ and both confidently wrong poisoned ones.
-
-\begin{table}[t]
-\caption{Runtime monitor, live (44 questions $\times$ 3; question-level paired comparisons; $p$: Wilcoxon).}\label{tab:monitor}
-\centering\footnotesize\setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}lccc@{}}
-\toprule
-Comparison & Monitor & Baseline & $\Delta$ [95\% CI]\\
-\midrule
-Verify, PWWS: exposure & .280 & .409 & $-$.129 [$-$.227, $-$.046]$^{a}$\\
-Verify, PWWS: correctness & .525 & .555 & $-$.030 [$-$.076, .008]\\
-Verify vs ctx.\ filter: correct. & .525 & .485 & +.040 [.008, .078]$^{b}$\\
-\textbf{Restore, PWWS: correctness} & \textbf{.773} & .555 & \textbf{+.218} [.121, .324]$^{c}$\\
-Restore vs clean: correct. & .773 & .714 & +.059 [$-$.023, .140]\\
-Verify, clean data: correctness & .701 & .714 & $-$.013 [$-$.030, .004]\\
-Verify, TextFooler: exposure & .583 & .818 & $-$.235 [$-$.356, $-$.114]$^{d}$\\
-\bottomrule
-\multicolumn{4}{@{}l}{\footnotesize $^{a}p=0.016$; $^{b}p=0.04$; $^{c}p=0.0002$; $^{d}p=0.001$.}
-\end{tabular}
-\end{table}
-
-The memory behaves as specified (Table~\ref{tab:monitor}). $\varphi_3$ holds on every replayed trace; quarantined passages are skipped on later questions, so the passages skipped at the first retrieval rise from 0.68 to 1.32 per answer between repetition~1 and repetitions 2--3 on PWWS (1.39 to 2.81 on TextFooler), exposure falls, and regeneration cost falls (1.36 to 1.01 generations per answer on TextFooler). The repeated misinformation of Section~\ref{sec:mechanism}, ``Engraft Malicious Package'', reached the user in 3 of 3 repetitions without the monitor and in 0 of 3 with it. On TextFooler 26 of 27 quarantined passages contain edited text, on PWWS 10 of 18, and on clean data none is quarantined. Verification alone, however, again does not restore correctness: quarantining poisoned passages removes evidence, and refusals rise. With the trusted fallback the picture changes: correctness rises from 0.555 to 0.773 and refusals fall from 45 to 7, statistically indistinguishable from the unattacked system. This depends on the trusted source covering the question, which for MITRE-derived content it largely does; the monitor's contribution is deciding when to fall back (54 of 132 answers) and which passages to stop trusting. Specification coverage also limits $\varphi_1$: 7 answers across conditions, one on clean data, were withheld for words that come from the knowledge base's OWASP and NIST material, which the MITRE files do not contain.
+%MONITOR%
 
 \section{Discussion}
-\textbf{Why the log-ratio and not the sum.} $\KL(p\,\|\,q)$ is a sum of log-ratio terms weighted by $p$. Substitution changes a handful of terms whose weight is small and swamped by the passage's topic, which also differs from $q$. The synonym gap evaluates the log-ratio only where the attack acts, comparing each word with the alternative the attacker would have replaced.
+\textbf{Why the log-ratio and not the sum.} $\KL(p\,\|\,q)$ is a sum of log-ratio terms weighted by $p$. A substitution changes only a few terms, each with a small weight, and the passage's topic already makes $p$ differ from $q$ by much more. The synonym gap looks at the log-ratio only where an attack would act, comparing each word with the word it may have replaced.
 
-\textbf{Why a better $q$ beats a better divergence.} Smoothing and symmetry leave the result unchanged, while moving from a unigram to a contextual $q$ changes it substantially: a unigram reference can only say a word is rare, a contextual one says it is unlikely \emph{here}. The perplexity baselines point the same way: what matters is evaluating improbability locally, where the edit is; the synonym gap does so while naming the suspected original.
+\textbf{Why a better $q$ mattered more than a better divergence.} Changing the smoothing or using a symmetric divergence made little difference, while moving from a unigram to a contextual $q$ made a large one on PWWS. A unigram reference can only say that a word is rare; a contextual one can say that it is unlikely in this sentence. The perplexity baselines point the same way: what matters is measuring improbability locally, where the edit is.
 
-\textbf{Detection is not restoration, but verification against a trusted source can be.} In this corpus the passage that answers a perturbed question is usually the perturbed one, so any filter that removes poison also removes evidence. The runtime monitor shows the two ways out: remembering what misled the system stops the same poison recurring, and a trusted structured source restores what was lost. Where no trusted source exists, restoration would need the original text back, for example from a masked language model conditioned on the domain.
+\textbf{Detection is not restoration.} In this corpus the passage that answers an edited question is usually the edited one, so a filter that removes poison also removes evidence. Getting correctness back needs another source of the same information, such as the trusted MITRE entry used by the monitor's restore mode, or the original text, which a masked language model conditioned on the domain might help recover.
 
-\textbf{Detection constrains the attacker.} Each additional constraint needed to evade a better reference removes most of the swaps that make the attack work; against the contextual detector the strict attacker has no successful attack in our setting.
+\textbf{Detection constrains the attacker.} Each extra constraint needed to evade a better reference removed most of the swaps that make the attack work. Against the contextual detector, the strict second-order attacker found no successful attack in our setting. This is evidence about one attacker family, not a guarantee.
 
 \section{Limitations}
-One knowledge base (18 documents), one generation model, one embedding model and 44 questions, of which 9 are held out; the adaptive results rest on 13 and 6 edited passages. The second-order attacker constrains whole-passage likelihood but does not optimise against the detector's score directly; such an attacker, a masked-language-model attack, or a larger reference model may behave differently. The attack targets a surrogate classifier, not the RAG pipeline itself; transfer to retrieval and answers is measured, not optimised. Correctness is scored by an LLM judge; on a blind manual check of 75 stratified answers it agrees well with the author's grades (quadratic weighted $\kappa=0.82$, Spearman $\rho=0.85$) but is slightly more lenient ($+0.08$), more so on poisoned than on clean answers, which if anything understates the attack; a second independent grader would strengthen this. Thresholds were fixed once on development data, and the safety/utility balance depends on them. The runtime monitor's restore mode assumes a trusted reference that covers the questions; its lexical property is evadable by an attacker who chooses substitutes inside the trusted vocabulary, and its memory could be abused to suppress clean passages, which our clean condition did not trigger but an adversary could attempt.
+The study uses one small knowledge base (18 documents), one generation model, one embedding model and 44 questions, of which only 9 are held out; the adaptive results rest on 13 and 6 edited passages, and the confidence intervals are wide. The second-order attacker constrains whole-passage likelihood but does not optimise against the detector's score directly; an attacker that does, a masked-language-model attack, or a larger reference model could behave differently. The attack targets a surrogate classifier, not the RAG pipeline itself; its effect on retrieval and answers is measured, not optimised. Correctness is scored by an LLM judge. On a blind manual check of 75 stratified answers by the first author it agreed well with the manual grades ($\kappa=0.82$, Spearman $\rho=0.85$) but was more lenient by 0.08 on average, by 0.02 on clean answers, 0.08 on poisoned answers and 0.14 on answers produced with the word-frequency filter. A second, independent grader would make this check stronger. Thresholds were fixed once on development data, and the balance between safety and utility depends on them. The monitor's limitations are discussed in Section~\ref{sec:monitor}.
 
 \section{Ethics}
-The attacks edit a local copy of public MITRE material; no system is attacked and no malware is executed. No personal data is used; question and passage text is sent to a commercial LLM API. Detection scores are evidence for review, not proof that a passage is clean or an answer true.
+The attacks edit a local copy of public MITRE material. No real system is attacked and no malware is run. No personal data is used; question and passage text is sent to a commercial LLM API. Detection scores are evidence for a human to review, not proof that a passage is clean or that an answer is true.
 
 \section{Reproducibility}
-Code, corpora, attack manifests, run records (create-only JSON with SHA-256 completion manifests) and analysis scripts are released with the paper. A verification script recomputes every headline number from saved files and re-hashes all run records.
+Code, corpora, attack manifests, run records and analysis scripts are at \url{https://github.com/Aliyousefi9403/dissertation-RAG}. Run records are JSON files that are written once and never overwritten, with a SHA-256 completion manifest per run. A verification script re-hashes all run records and checks the main numbers reported here against the result files that produced them.
 
 \section*{Acknowledgment}
-The relative-entropy framing was suggested by Dr Nikos Komninos, and the runtime-verification monitor by Dr Hafizul Asad. AI tools assisted with coding, analysis and drafting; the author checked all code, numbers and references and takes full responsibility for the content.
+The relative-entropy approach was suggested by Dr Nikos Komninos, and the runtime-verification monitor by Dr Hafizul Asad. AI tools were used to help with coding, analysis and drafting; the author checked all code, numbers and references and is responsible for the content.
 
 \bibliographystyle{IEEEtran}
 \bibliography{refs}
