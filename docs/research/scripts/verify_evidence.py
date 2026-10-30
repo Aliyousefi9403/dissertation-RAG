@@ -31,6 +31,7 @@ RUNS = (
     "pilot-runs/20261019T200355Z-evidence-check-f8780367874442dc8b90160c2d51a463",
     "pilot-runs/20261019T200851Z-textfooler-33c7d2a707874d2ca57cb5b7851984e9",
     "pilot-runs/20261027T225951Z-monitor-7435694678804a8fb151bed0f2cb853d",
+    "pilot-runs/20261028T123228Z-monitor-43fcd4fbcf96415caaed3c805d5d62f7",
 )
 CTX = f"{RES}/contextual-defence/live-paired/summary.json"
 DIAG = f"{RES}/adaptive-attack/second-order-diagnostic.json"
@@ -63,6 +64,20 @@ def deployed(rows):
 
 # (claim, file, path into the JSON (keys, or a function), expected value as quoted in the write-ups)
 CLAIMS = [
+    ("Monitor v2 verify: exposure", f"{RES}/runtime-monitor/live-v2/summary.json", ["comparisons", "monitor_vs_poisoned", "exposure", "a"], 0.2576),
+    ("Monitor v2 verify: exposure p", f"{RES}/runtime-monitor/live-v2/summary.json", ["comparisons", "monitor_vs_poisoned", "exposure", "wilcoxon_p"], 0.0156),
+    ("Monitor v2 verify: correctness", f"{RES}/runtime-monitor/live-v2/summary.json", ["comparisons", "monitor_vs_poisoned", "correctness", "a"], 0.5152),
+    ("Monitor v2 verify: refusals", f"{RES}/runtime-monitor/live-v2/summary.json", ["outcomes", "monitor", "abstained"], 57),
+    ("Monitor v2 restore: correctness", f"{RES}/runtime-monitor/live-v2/summary.json", ["comparisons", "monitor_restore_vs_poisoned", "correctness", "a"], 0.786),
+    ("Monitor v2 restore: correctness p", f"{RES}/runtime-monitor/live-v2/summary.json", ["comparisons", "monitor_restore_vs_poisoned", "correctness", "wilcoxon_p"], 0.0001),
+    ("Monitor v2 restore: refusals", f"{RES}/runtime-monitor/live-v2/summary.json", ["outcomes", "monitor_restore", "abstained"], 7),
+    ("Monitor v2 restore: fallbacks", f"{RES}/runtime-monitor/live-v2/summary.json", ["monitor", "monitor_restore", "outcomes", "restored"], 58),
+    ("Monitor v2 clean: correctness delta", f"{RES}/runtime-monitor/live-v2/summary.json", ["comparisons", "clean_monitor_vs_clean", "correctness", "delta"], -0.0057),
+    ("Monitor v2 clean: quarantined passages", f"{RES}/runtime-monitor/live-v2/summary.json", ["monitor", "clean_monitor", "quarantined_passages"], 0),
+    ("Monitor v2 TextFooler: exposure delta", f"{RES}/runtime-monitor/live-v2/summary.json", ["comparisons", "textfooler_monitor_vs_textfooler", "exposure", "delta"], -0.2348),
+    ("Monitor v2 TextFooler: quarantined with edited text", f"{RES}/runtime-monitor/live-v2/summary.json", ["monitor", "textfooler_monitor", "quarantined_with_edited_text"], 26),
+    ("Monitor v2 PWWS: quarantined with edited text", f"{RES}/runtime-monitor/live-v2/summary.json", ["monitor", "monitor", "quarantined_with_edited_text"], 10),
+    ("Monitor v2: phi3 trace violations (PWWS verify)", f"{RES}/runtime-monitor/live-v2/summary.json", ["monitor", "monitor", "phi3_trace_violations"], 0),
     (
         "Main run: clean correctness",
         MAIN,
