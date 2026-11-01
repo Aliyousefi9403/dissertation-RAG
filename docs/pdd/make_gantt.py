@@ -17,11 +17,12 @@ ACTIVITIES = [
     ("A6 Live defences, judge check", date(2026, 12, 1), date(2027, 1, 31)),
     ("A7 Adaptive attackers, second attack", date(2027, 1, 4), date(2027, 2, 14)),
     ("A8 Evidence check, held-out and uncertainty analysis", date(2027, 2, 1), date(2027, 3, 7)),
-    ("A9 Report, demo video, paper, reproducibility", date(2027, 2, 1), date(2027, 4, 4)),
+    ("A9 Runtime verification monitor: design, build, evaluate", date(2027, 1, 18), date(2027, 3, 7)),
+    ("A10 Report, demo video, paper, reproducibility", date(2027, 2, 1), date(2027, 4, 4)),
 ]
 MILESTONES = [("PDD + ethics form", date(2026, 11, 11)), ("Final submission", date(2027, 4, 4))]
 
-fig, ax = plt.subplots(figsize=(7.2, 3.6), dpi=200)
+fig, ax = plt.subplots(figsize=(7.2, 3.9), dpi=200)
 for k, (label, start, end) in enumerate(ACTIVITIES):
     ax.barh(k, mdates.date2num(end) - mdates.date2num(start), left=mdates.date2num(start), height=0.55, color=BLUE)
 ax.set_yticks(range(len(ACTIVITIES)), [a[0] for a in ACTIVITIES], fontsize=7)
