@@ -1,0 +1,5650 @@
+{
+ "corpus": "control",
+ "parameters": {
+  "mu": 2000,
+  "lambda": 0.5,
+  "floor": 1e-09,
+  "lm": "gpt2",
+  "candidate_words": 10,
+  "candidate_synonyms": 5
+ },
+ "results": {
+  "development": {
+   "chunks": 146,
+   "positives": 38,
+   "syngap_top3_domain": {
+    "auroc": 0.6328,
+    "threshold_fpr10": 6.998
+   },
+   "syngap_top3_dirichlet": {
+    "auroc": 0.6464,
+    "threshold_fpr10": 8.7134
+   },
+   "js_domain": {
+    "auroc": 0.425,
+    "threshold_fpr10": 0.8562
+   },
+   "lm_mean_surprisal": {
+    "auroc": 0.4708,
+    "threshold_fpr10": 6.7715
+   },
+   "lm_top5_surprisal": {
+    "auroc": 0.5685,
+    "threshold_fpr10": 16.9823
+   },
+   "ctx_syngap_top3": {
+    "auroc": 0.4917,
+    "threshold_fpr10": 5.1136
+   }
+  },
+  "held_out": {
+   "chunks": 45,
+   "positives": 10,
+   "syngap_top3_domain": {
+    "auroc": 0.8029,
+    "tpr_fpr_at_dev_threshold": [
+     0.2,
+     0.0286
+    ]
+   },
+   "syngap_top3_dirichlet": {
+    "auroc": 0.7886,
+    "tpr_fpr_at_dev_threshold": [
+     0.2,
+     0.0286
+    ]
+   },
+   "js_domain": {
+    "auroc": 0.4571,
+    "tpr_fpr_at_dev_threshold": [
+     0.0,
+     0.1714
+    ]
+   },
+   "lm_mean_surprisal": {
+    "auroc": 0.2057,
+    "tpr_fpr_at_dev_threshold": [
+     0.0,
+     0.0857
+    ]
+   },
+   "lm_top5_surprisal": {
+    "auroc": 0.36,
+    "tpr_fpr_at_dev_threshold": [
+     0.2,
+     0.2571
+    ]
+   },
+   "ctx_syngap_top3": {
+    "auroc": 0.5114,
+    "tpr_fpr_at_dev_threshold": [
+     0.1,
+     0.2
+    ]
+   }
+  },
+  "all": {
+   "chunks": 191,
+   "positives": 48,
+   "syngap_top3_domain": {
+    "auroc": 0.6691
+   },
+   "syngap_top3_dirichlet": {
+    "auroc": 0.6791
+   },
+   "js_domain": {
+    "auroc": 0.4346
+   },
+   "lm_mean_surprisal": {
+    "auroc": 0.4124
+   },
+   "lm_top5_surprisal": {
+    "auroc": 0.5174
+   },
+   "ctx_syngap_top3": {
+    "auroc": 0.4936
+   }
+  }
+ },
+ "rows": [
+  {
+   "document": "ddos/tcp_syn_flood.md",
+   "start": 0,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 0.9040453879003371,
+   "syngap_top3_dirichlet": 0.9218774887166715,
+   "js_domain": 0.857408996979718,
+   "lm_mean_surprisal": 6.034658932818936,
+   "lm_top5_surprisal": 15.83692626953125,
+   "ctx_syngap_top3": 7.10966114065377,
+   "ctx_top_words": [
+    {
+     "word": "key",
+     "likely_original": "name",
+     "gap_bits": 14.18
+    },
+    {
+     "word": "category",
+     "likely_original": "family",
+     "gap_bits": 7.15
+    },
+    {
+     "word": "sources",
+     "likely_original": "source",
+     "gap_bits": -0.0
+    }
+   ]
+  },
+  {
+   "document": "ddos/tcp_syn_flood.md",
+   "start": 208,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 3.865642937635752,
+   "syngap_top3_dirichlet": 4.006172654843308,
+   "js_domain": 0.6224826736655479,
+   "lm_mean_surprisal": 5.476514210627476,
+   "lm_top5_surprisal": 14.635339736938477,
+   "ctx_syngap_top3": -0.4590200314220662,
+   "ctx_top_words": [
+    {
+     "word": "flooding",
+     "likely_original": "flood",
+     "gap_bits": 3.39
+    },
+    {
+     "word": "users",
+     "likely_original": "user",
+     "gap_bits": -2.27
+    },
+    {
+     "word": "maintain",
+     "likely_original": "hold",
+     "gap_bits": -2.49
+    }
+   ]
+  },
+  {
+   "document": "ddos/tcp_syn_flood.md",
+   "start": 557,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 3.7637870521341092,
+   "syngap_top3_dirichlet": 4.112065276333092,
+   "js_domain": 0.6608179258306792,
+   "lm_mean_surprisal": 6.52227533823758,
+   "lm_top5_surprisal": 15.639628982543945,
+   "ctx_syngap_top3": -0.3703334548821052,
+   "ctx_top_words": [
+    {
+     "word": "direct",
+     "likely_original": "target",
+     "gap_bits": 0.35
+    },
+    {
+     "word": "port",
+     "likely_original": "interface",
+     "gap_bits": -0.55
+    },
+    {
+     "word": "amount",
+     "likely_original": "number",
+     "gap_bits": -0.91
+    }
+   ]
+  },
+  {
+   "document": "ddos/tcp_syn_flood.md",
+   "start": 783,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 2.7062070119953705,
+   "syngap_top3_dirichlet": 2.4960640229410855,
+   "js_domain": 0.5822562507789015,
+   "lm_mean_surprisal": 5.015420404327865,
+   "lm_top5_surprisal": 14.579211044311524,
+   "ctx_syngap_top3": 1.1430504930904135,
+   "ctx_top_words": [
+    {
+     "word": "direct",
+     "likely_original": "target",
+     "gap_bits": 4.83
+    },
+    {
+     "word": "targeted",
+     "likely_original": "target",
+     "gap_bits": 0.71
+    },
+    {
+     "word": "attempt",
+     "likely_original": "try",
+     "gap_bits": -2.11
+    }
+   ]
+  },
+  {
+   "document": "ddos/tcp_syn_flood.md",
+   "start": 1185,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 1.1424165362434302,
+   "syngap_top3_dirichlet": 0.9984358928222404,
+   "js_domain": 0.808165433632169,
+   "lm_mean_surprisal": 5.13452640202386,
+   "lm_top5_surprisal": 14.100304412841798,
+   "ctx_syngap_top3": 0.1467286564099292,
+   "ctx_top_words": [
+    {
+     "word": "almost",
+     "likely_original": "virtually",
+     "gap_bits": 1.09
+    },
+    {
+     "word": "commonly",
+     "likely_original": "usually",
+     "gap_bits": 0.11
+    },
+    {
+     "word": "flooding",
+     "likely_original": "oversupply",
+     "gap_bits": -0.76
+    }
+   ]
+  },
+  {
+   "document": "ddos/tcp_syn_flood.md",
+   "start": 1373,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 4.40464066568184,
+   "syngap_top3_dirichlet": 4.281777849843244,
+   "js_domain": 0.562056490355444,
+   "lm_mean_surprisal": 4.946143238570003,
+   "lm_top5_surprisal": 13.795862770080566,
+   "ctx_syngap_top3": -2.031311879555384,
+   "ctx_top_words": [
+    {
+     "word": "build",
+     "likely_original": "figure",
+     "gap_bits": 0.1
+    },
+    {
+     "word": "only",
+     "likely_original": "just",
+     "gap_bits": -2.23
+    },
+    {
+     "word": "spread",
+     "likely_original": "broadcast",
+     "gap_bits": -3.97
+    }
+   ]
+  },
+  {
+   "document": "ddos/tcp_syn_flood.md",
+   "start": 1773,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 3.404562512384706,
+   "syngap_top3_dirichlet": 3.551920416389058,
+   "js_domain": 0.6368188373520145,
+   "lm_mean_surprisal": 5.439907469104755,
+   "lm_top5_surprisal": 16.2929349899292,
+   "ctx_syngap_top3": -3.1456572180225826,
+   "ctx_top_words": [
+    {
+     "word": "produce",
+     "likely_original": "create",
+     "gap_bits": 1.48
+    },
+    {
+     "word": "becomes",
+     "likely_original": "become",
+     "gap_bits": -5.42
+    },
+    {
+     "word": "only",
+     "likely_original": "just",
+     "gap_bits": -5.5
+    }
+   ]
+  },
+  {
+   "document": "ddos/tcp_syn_flood.md",
+   "start": 2245,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": -1.1150739805648247,
+   "syngap_top3_dirichlet": -1.151729708738145,
+   "js_domain": 0.7381005755763863,
+   "lm_mean_surprisal": 6.623900525900433,
+   "lm_top5_surprisal": 16.606368827819825,
+   "ctx_syngap_top3": -2.9884294673296004,
+   "ctx_top_words": [
+    {
+     "word": "authoritative",
+     "likely_original": "important",
+     "gap_bits": 3.29
+    },
+    {
+     "word": "content",
+     "likely_original": "message",
+     "gap_bits": -5.94
+    },
+    {
+     "word": "source",
+     "likely_original": "reference",
+     "gap_bits": -6.32
+    }
+   ]
+  },
+  {
+   "document": "ddos/tcp_syn_flood.md",
+   "start": 2493,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 2.4964475061893445,
+   "syngap_top3_dirichlet": 1.9329706343258148,
+   "js_domain": 0.6334496586206078,
+   "lm_mean_surprisal": 6.771455947933795,
+   "lm_top5_surprisal": 16.542506980895997,
+   "ctx_syngap_top3": -2.395128315043015,
+   "ctx_top_words": [
+    {
+     "word": "represented",
+     "likely_original": "present",
+     "gap_bits": 1.71
+    },
+    {
+     "word": "sources",
+     "likely_original": "source",
+     "gap_bits": -3.63
+    },
+    {
+     "word": "being",
+     "likely_original": "be",
+     "gap_bits": -5.27
+    }
+   ]
+  },
+  {
+   "document": "ddos/tcp_syn_flood.md",
+   "start": 2760,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 0.6366193943503345,
+   "syngap_top3_dirichlet": 0.9653251449471177,
+   "js_domain": 0.7931168016423569,
+   "lm_mean_surprisal": 5.981089539298352,
+   "lm_top5_surprisal": 16.96241912841797,
+   "ctx_syngap_top3": 1.0966461428906769,
+   "ctx_top_words": [
+    {
+     "word": "preserved",
+     "likely_original": "save",
+     "gap_bits": 1.65
+    },
+    {
+     "word": "role",
+     "likely_original": "part",
+     "gap_bits": 1.64
+    },
+    {
+     "word": "network",
+     "likely_original": "web",
+     "gap_bits": 0.0
+    }
+   ]
+  },
+  {
+   "document": "ddos/http_flood.md",
+   "start": 0,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 0.9035902097730885,
+   "syngap_top3_dirichlet": 0.9218774887166722,
+   "js_domain": 0.8570722417081814,
+   "lm_mean_surprisal": 6.312480468953067,
+   "lm_top5_surprisal": 15.993865203857421,
+   "ctx_syngap_top3": 7.365975144396846,
+   "ctx_top_words": [
+    {
+     "word": "key",
+     "likely_original": "name",
+     "gap_bits": 11.9
+    },
+    {
+     "word": "category",
+     "likely_original": "family",
+     "gap_bits": 7.99
+    },
+    {
+     "word": "status",
+     "likely_original": "position",
+     "gap_bits": 2.21
+    }
+   ]
+  },
+  {
+   "document": "ddos/http_flood.md",
+   "start": 202,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 6.790000396307721,
+   "syngap_top3_dirichlet": 8.252749910038128,
+   "js_domain": 0.6001759432928796,
+   "lm_mean_surprisal": 5.297444321337497,
+   "lm_top5_surprisal": 14.635339736938477,
+   "ctx_syngap_top3": -4.868770383443916,
+   "ctx_top_words": [
+    {
+     "word": "consume",
+     "likely_original": "take",
+     "gap_bits": -4.69
+    },
+    {
+     "word": "amounts",
+     "likely_original": "amount",
+     "gap_bits": -4.88
+    },
+    {
+     "word": "web",
+     "likely_original": "network",
+     "gap_bits": -5.04
+    }
+   ]
+  },
+  {
+   "document": "ddos/http_flood.md",
+   "start": 647,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 0.7393997160121758,
+   "syngap_top3_dirichlet": 0.04733243806410078,
+   "js_domain": 0.6783351254139576,
+   "lm_mean_surprisal": 6.002701453550725,
+   "lm_top5_surprisal": 14.822810173034668,
+   "ctx_syngap_top3": -3.1388894620952974,
+   "ctx_top_words": [
+    {
+     "word": "amount",
+     "likely_original": "number",
+     "gap_bits": -1.7
+    },
+    {
+     "word": "server",
+     "likely_original": "host",
+     "gap_bits": -3.12
+    },
+    {
+     "word": "send",
+     "likely_original": "broadcast",
+     "gap_bits": -4.59
+    }
+   ]
+  },
+  {
+   "document": "ddos/http_flood.md",
+   "start": 783,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 4.990134037734512,
+   "syngap_top3_dirichlet": 5.661120920529918,
+   "js_domain": 0.6432868547159728,
+   "lm_mean_surprisal": 6.599920210659785,
+   "lm_top5_surprisal": 19.027790832519532,
+   "ctx_syngap_top3": -1.7396931978873909,
+   "ctx_top_words": [
+    {
+     "word": "server",
+     "likely_original": "host",
+     "gap_bits": -1.3
+    },
+    {
+     "word": "exhaust",
+     "likely_original": "release",
+     "gap_bits": -1.94
+    },
+    {
+     "word": "denying",
+     "likely_original": "deny",
+     "gap_bits": -1.97
+    }
+   ]
+  },
+  {
+   "document": "ddos/http_flood.md",
+   "start": 1265,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": -1.114135855095461,
+   "syngap_top3_dirichlet": -1.151729708738145,
+   "js_domain": 0.740689021738153,
+   "lm_mean_surprisal": 6.647972122611878,
+   "lm_top5_surprisal": 16.606368827819825,
+   "ctx_syngap_top3": -2.9219860727122673,
+   "ctx_top_words": [
+    {
+     "word": "authoritative",
+     "likely_original": "important",
+     "gap_bits": 3.25
+    },
+    {
+     "word": "content",
+     "likely_original": "message",
+     "gap_bits": -5.68
+    },
+    {
+     "word": "source",
+     "likely_original": "reference",
+     "gap_bits": -6.33
+    }
+   ]
+  },
+  {
+   "document": "ddos/http_flood.md",
+   "start": 1512,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 2.524761300786484,
+   "syngap_top3_dirichlet": 1.9329706343258144,
+   "js_domain": 0.6364916022223834,
+   "lm_mean_surprisal": 6.771455947933795,
+   "lm_top5_surprisal": 16.542506980895997,
+   "ctx_syngap_top3": -2.395128315043015,
+   "ctx_top_words": [
+    {
+     "word": "represented",
+     "likely_original": "present",
+     "gap_bits": 1.71
+    },
+    {
+     "word": "sources",
+     "likely_original": "source",
+     "gap_bits": -3.63
+    },
+    {
+     "word": "being",
+     "likely_original": "be",
+     "gap_bits": -5.27
+    }
+   ]
+  },
+  {
+   "document": "ddos/http_flood.md",
+   "start": 1779,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 0.012442045719771736,
+   "syngap_top3_dirichlet": -0.10825458468638456,
+   "js_domain": 0.7445398583682299,
+   "lm_mean_surprisal": 6.12711457919481,
+   "lm_top5_surprisal": 16.858732604980467,
+   "ctx_syngap_top3": 1.9524067124487676,
+   "ctx_top_words": [
+    {
+     "word": "role",
+     "likely_original": "part",
+     "gap_bits": 4.21
+    },
+    {
+     "word": "preserved",
+     "likely_original": "save",
+     "gap_bits": 1.65
+    },
+    {
+     "word": "dos",
+     "likely_original": "execute",
+     "gap_bits": 0.0
+    }
+   ]
+  },
+  {
+   "document": "ddos/icmp_flood.md",
+   "start": 0,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": 0.8539809198018636,
+   "syngap_top3_dirichlet": 0.8710504387478805,
+   "js_domain": 0.8569146932235161,
+   "lm_mean_surprisal": 6.240937738871435,
+   "lm_top5_surprisal": 16.168035888671874,
+   "ctx_syngap_top3": 7.287443735753186,
+   "ctx_top_words": [
+    {
+     "word": "key",
+     "likely_original": "name",
+     "gap_bits": 13.8
+    },
+    {
+     "word": "category",
+     "likely_original": "family",
+     "gap_bits": 7.74
+    },
+    {
+     "word": "clean",
+     "likely_original": "light",
+     "gap_bits": 0.32
+    }
+   ]
+  },
+  {
+   "document": "ddos/icmp_flood.md",
+   "start": 202,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": 4.599136354900094,
+   "syngap_top3_dirichlet": 4.272944067383488,
+   "js_domain": 0.6073109760995712,
+   "lm_mean_surprisal": 4.721859746486096,
+   "lm_top5_surprisal": 15.175472450256347,
+   "ctx_syngap_top3": -3.3555422363084895,
+   "ctx_top_words": [
+    {
+     "word": "find",
+     "likely_original": "determine",
+     "gap_bits": 3.07
+    },
+    {
+     "word": "rate",
+     "likely_original": "value",
+     "gap_bits": -6.21
+    },
+    {
+     "word": "making",
+     "likely_original": "make",
+     "gap_bits": -6.93
+    }
+   ]
+  },
+  {
+   "document": "ddos/icmp_flood.md",
+   "start": 683,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": 0.8696796044207726,
+   "syngap_top3_dirichlet": 0.2255544234895067,
+   "js_domain": 0.6720649651691217,
+   "lm_mean_surprisal": 6.246999339886028,
+   "lm_top5_surprisal": 15.158356857299804,
+   "ctx_syngap_top3": -1.3944040017571144,
+   "ctx_top_words": [
+    {
+     "word": "amount",
+     "likely_original": "number",
+     "gap_bits": 0.44
+    },
+    {
+     "word": "send",
+     "likely_original": "broadcast",
+     "gap_bits": -2.29
+    },
+    {
+     "word": "type",
+     "likely_original": "case",
+     "gap_bits": -2.33
+    }
+   ]
+  },
+  {
+   "document": "ddos/icmp_flood.md",
+   "start": 851,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": 2.700559649449232,
+   "syngap_top3_dirichlet": 2.4905202091315113,
+   "js_domain": 0.6008020560430412,
+   "lm_mean_surprisal": 4.93787122912389,
+   "lm_top5_surprisal": 15.312385368347169,
+   "ctx_syngap_top3": 0.5493505423655733,
+   "ctx_top_words": [
+    {
+     "word": "direct",
+     "likely_original": "target",
+     "gap_bits": 3.49
+    },
+    {
+     "word": "targeted",
+     "likely_original": "target",
+     "gap_bits": -0.13
+    },
+    {
+     "word": "almost",
+     "likely_original": "nearly",
+     "gap_bits": -1.71
+    }
+   ]
+  },
+  {
+   "document": "ddos/icmp_flood.md",
+   "start": 1249,
+   "label": 1,
+   "split": "held_out",
+   "syngap_top3_domain": 3.567973456147993,
+   "syngap_top3_dirichlet": 3.5825031412936315,
+   "js_domain": 0.6178419410933214,
+   "lm_mean_surprisal": 4.913419492959055,
+   "lm_top5_surprisal": 14.956891059875488,
+   "ctx_syngap_top3": -0.23247986717615277,
+   "ctx_top_words": [
+    {
+     "word": "build",
+     "likely_original": "figure",
+     "gap_bits": 0.92
+    },
+    {
+     "word": "generate",
+     "likely_original": "get",
+     "gap_bits": 0.04
+    },
+    {
+     "word": "almost",
+     "likely_original": "virtually",
+     "gap_bits": -1.66
+    }
+   ]
+  },
+  {
+   "document": "ddos/icmp_flood.md",
+   "start": 1648,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": 4.157073402941858,
+   "syngap_top3_dirichlet": 4.048872082126669,
+   "js_domain": 0.5668977913111796,
+   "lm_mean_surprisal": 5.3164070596727635,
+   "lm_top5_surprisal": 13.886262321472168,
+   "ctx_syngap_top3": -2.300068260713791,
+   "ctx_top_words": [
+    {
+     "word": "produce",
+     "likely_original": "create",
+     "gap_bits": 1.98
+    },
+    {
+     "word": "distinguishing",
+     "likely_original": "key",
+     "gap_bits": -4.17
+    },
+    {
+     "word": "rent",
+     "likely_original": "take",
+     "gap_bits": -4.7
+    }
+   ]
+  },
+  {
+   "document": "ddos/icmp_flood.md",
+   "start": 2051,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": 3.340344298515451,
+   "syngap_top3_dirichlet": 3.5599572288416517,
+   "js_domain": 0.750270461690927,
+   "lm_mean_surprisal": 5.825055645967448,
+   "lm_top5_surprisal": 15.349998283386231,
+   "ctx_syngap_top3": -5.337233920348808,
+   "ctx_top_words": [
+    {
+     "word": "flooding",
+     "likely_original": "flood",
+     "gap_bits": -3.13
+    },
+    {
+     "word": "becomes",
+     "likely_original": "become",
+     "gap_bits": -5.3
+    },
+    {
+     "word": "used",
+     "likely_original": "exploited",
+     "gap_bits": -7.59
+    }
+   ]
+  },
+  {
+   "document": "ddos/icmp_flood.md",
+   "start": 2347,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": -1.1140295945563097,
+   "syngap_top3_dirichlet": -1.1429132175417083,
+   "js_domain": 0.7386274754350022,
+   "lm_mean_surprisal": 6.623900525900433,
+   "lm_top5_surprisal": 16.606368827819825,
+   "ctx_syngap_top3": -2.9884294673296004,
+   "ctx_top_words": [
+    {
+     "word": "authoritative",
+     "likely_original": "important",
+     "gap_bits": 3.29
+    },
+    {
+     "word": "content",
+     "likely_original": "message",
+     "gap_bits": -5.94
+    },
+    {
+     "word": "source",
+     "likely_original": "reference",
+     "gap_bits": -6.32
+    }
+   ]
+  },
+  {
+   "document": "ddos/icmp_flood.md",
+   "start": 2595,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": 2.4958410784438816,
+   "syngap_top3_dirichlet": 2.0067064289161443,
+   "js_domain": 0.6000674591852024,
+   "lm_mean_surprisal": 6.510618833319092,
+   "lm_top5_surprisal": 17.112429809570312,
+   "ctx_syngap_top3": 1.53537363371773,
+   "ctx_top_words": [
+    {
+     "word": "role",
+     "likely_original": "part",
+     "gap_bits": 2.53
+    },
+    {
+     "word": "represented",
+     "likely_original": "present",
+     "gap_bits": 2.08
+    },
+    {
+     "word": "dos",
+     "likely_original": "execute",
+     "gap_bits": 0.0
+    }
+   ]
+  },
+  {
+   "document": "ddos/icmp_flood.md",
+   "start": 3013,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": -1.1746122875107883,
+   "syngap_top3_dirichlet": -1.8814389178738484,
+   "js_domain": 0.8711599599666855,
+   "lm_mean_surprisal": 7.910934653967227,
+   "lm_top5_surprisal": 15.309600830078125,
+   "ctx_syngap_top3": 1.5655110081036885,
+   "ctx_top_words": [
+    {
+     "word": "technical",
+     "likely_original": "expert",
+     "gap_bits": 1.91
+    },
+    {
+     "word": "source",
+     "likely_original": "reference",
+     "gap_bits": 1.52
+    },
+    {
+     "word": "review",
+     "likely_original": "inspection",
+     "gap_bits": 1.27
+    }
+   ]
+  },
+  {
+   "document": "ddos/udp_flood.md",
+   "start": 0,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 0.8711112807442175,
+   "syngap_top3_dirichlet": 0.8882929623804229,
+   "js_domain": 0.8558615161015778,
+   "lm_mean_surprisal": 6.299127221095703,
+   "lm_top5_surprisal": 16.630081748962404,
+   "ctx_syngap_top3": 6.828324420610443,
+   "ctx_top_words": [
+    {
+     "word": "key",
+     "likely_original": "name",
+     "gap_bits": 12.64
+    },
+    {
+     "word": "category",
+     "likely_original": "family",
+     "gap_bits": 7.84
+    },
+    {
+     "word": "sources",
+     "likely_original": "source",
+     "gap_bits": 0.0
+    }
+   ]
+  },
+  {
+   "document": "ddos/udp_flood.md",
+   "start": 224,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 4.424653380305897,
+   "syngap_top3_dirichlet": 3.892688305351038,
+   "js_domain": 0.6205440047790328,
+   "lm_mean_surprisal": 5.849549032231469,
+   "lm_top5_surprisal": 14.805897331237793,
+   "ctx_syngap_top3": 6.939386657128732,
+   "ctx_top_words": [
+    {
+     "word": "thus",
+     "likely_original": "so",
+     "gap_bits": 7.65
+    },
+    {
+     "word": "essence",
+     "likely_original": "effect",
+     "gap_bits": 7.16
+    },
+    {
+     "word": "save",
+     "likely_original": "preserve",
+     "gap_bits": 6.01
+    }
+   ]
+  },
+  {
+   "document": "ddos/udp_flood.md",
+   "start": 630,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 5.573874311770294,
+   "syngap_top3_dirichlet": 5.9991428171734995,
+   "js_domain": 0.6561446077748905,
+   "lm_mean_surprisal": 5.26141229755636,
+   "lm_top5_surprisal": 16.22595081329346,
+   "ctx_syngap_top3": 1.1430291711973648,
+   "ctx_top_words": [
+    {
+     "word": "utilize",
+     "likely_original": "use",
+     "gap_bits": 3.33
+    },
+    {
+     "word": "find",
+     "likely_original": "determine",
+     "gap_bits": 2.55
+    },
+    {
+     "word": "difficult",
+     "likely_original": "hard",
+     "gap_bits": -2.45
+    }
+   ]
+  },
+  {
+   "document": "ddos/udp_flood.md",
+   "start": 915,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 2.0719330685308157,
+   "syngap_top3_dirichlet": 1.5696593282165958,
+   "js_domain": 0.6631815105873528,
+   "lm_mean_surprisal": 6.426645798392853,
+   "lm_top5_surprisal": 15.65235767364502,
+   "ctx_syngap_top3": -1.2249354106994967,
+   "ctx_top_words": [
+    {
+     "word": "direct",
+     "likely_original": "target",
+     "gap_bits": 0.27
+    },
+    {
+     "word": "amount",
+     "likely_original": "number",
+     "gap_bits": -1.13
+    },
+    {
+     "word": "send",
+     "likely_original": "broadcast",
+     "gap_bits": -2.81
+    }
+   ]
+  },
+  {
+   "document": "ddos/udp_flood.md",
+   "start": 1148,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 2.6858749326662466,
+   "syngap_top3_dirichlet": 2.4765381822852253,
+   "js_domain": 0.5834683004997178,
+   "lm_mean_surprisal": 5.015420404327865,
+   "lm_top5_surprisal": 14.579211044311524,
+   "ctx_syngap_top3": 1.1430504930904135,
+   "ctx_top_words": [
+    {
+     "word": "direct",
+     "likely_original": "target",
+     "gap_bits": 4.83
+    },
+    {
+     "word": "targeted",
+     "likely_original": "target",
+     "gap_bits": 0.71
+    },
+    {
+     "word": "attempt",
+     "likely_original": "try",
+     "gap_bits": -2.11
+    }
+   ]
+  },
+  {
+   "document": "ddos/udp_flood.md",
+   "start": 1550,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 1.1500532509477963,
+   "syngap_top3_dirichlet": 1.0090200516613945,
+   "js_domain": 0.8094546238080315,
+   "lm_mean_surprisal": 5.13452640202386,
+   "lm_top5_surprisal": 14.100304412841798,
+   "ctx_syngap_top3": 0.1467286564099292,
+   "ctx_top_words": [
+    {
+     "word": "almost",
+     "likely_original": "virtually",
+     "gap_bits": 1.09
+    },
+    {
+     "word": "commonly",
+     "likely_original": "usually",
+     "gap_bits": 0.11
+    },
+    {
+     "word": "flooding",
+     "likely_original": "oversupply",
+     "gap_bits": -0.76
+    }
+   ]
+  },
+  {
+   "document": "ddos/udp_flood.md",
+   "start": 1738,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 4.396871181546474,
+   "syngap_top3_dirichlet": 4.274778769130743,
+   "js_domain": 0.5624676951027255,
+   "lm_mean_surprisal": 4.946143238570003,
+   "lm_top5_surprisal": 13.795862770080566,
+   "ctx_syngap_top3": -2.031311879555384,
+   "ctx_top_words": [
+    {
+     "word": "build",
+     "likely_original": "figure",
+     "gap_bits": 0.1
+    },
+    {
+     "word": "only",
+     "likely_original": "just",
+     "gap_bits": -2.23
+    },
+    {
+     "word": "spread",
+     "likely_original": "broadcast",
+     "gap_bits": -3.97
+    }
+   ]
+  },
+  {
+   "document": "ddos/udp_flood.md",
+   "start": 2138,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 3.4010748266198454,
+   "syngap_top3_dirichlet": 3.5519204163890574,
+   "js_domain": 0.6373922014140954,
+   "lm_mean_surprisal": 5.439907469104755,
+   "lm_top5_surprisal": 16.2929349899292,
+   "ctx_syngap_top3": -3.1456572180225826,
+   "ctx_top_words": [
+    {
+     "word": "produce",
+     "likely_original": "create",
+     "gap_bits": 1.48
+    },
+    {
+     "word": "becomes",
+     "likely_original": "become",
+     "gap_bits": -5.42
+    },
+    {
+     "word": "only",
+     "likely_original": "just",
+     "gap_bits": -5.5
+    }
+   ]
+  },
+  {
+   "document": "ddos/udp_flood.md",
+   "start": 2610,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": -1.115424739025494,
+   "syngap_top3_dirichlet": -1.1515344793579783,
+   "js_domain": 0.7376448959773291,
+   "lm_mean_surprisal": 6.623900525900433,
+   "lm_top5_surprisal": 16.606368827819825,
+   "ctx_syngap_top3": -2.9884294673296004,
+   "ctx_top_words": [
+    {
+     "word": "authoritative",
+     "likely_original": "important",
+     "gap_bits": 3.29
+    },
+    {
+     "word": "content",
+     "likely_original": "message",
+     "gap_bits": -5.94
+    },
+    {
+     "word": "source",
+     "likely_original": "reference",
+     "gap_bits": -6.32
+    }
+   ]
+  },
+  {
+   "document": "ddos/udp_flood.md",
+   "start": 2858,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 2.4919660628454072,
+   "syngap_top3_dirichlet": 2.006706428916145,
+   "js_domain": 0.6071612179518875,
+   "lm_mean_surprisal": 5.947605573009474,
+   "lm_top5_surprisal": 17.226456451416016,
+   "ctx_syngap_top3": 2.3318808344289814,
+   "ctx_top_words": [
+    {
+     "word": "role",
+     "likely_original": "part",
+     "gap_bits": 4.69
+    },
+    {
+     "word": "represented",
+     "likely_original": "present",
+     "gap_bits": 2.31
+    },
+    {
+     "word": "dos",
+     "likely_original": "execute",
+     "gap_bits": -0.0
+    }
+   ]
+  },
+  {
+   "document": "ddos/udp_flood.md",
+   "start": 3339,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": -1.1794110660580792,
+   "syngap_top3_dirichlet": -1.8900601796901189,
+   "js_domain": 0.870462328011598,
+   "lm_mean_surprisal": 7.910934653967227,
+   "lm_top5_surprisal": 15.309600830078125,
+   "ctx_syngap_top3": 1.5655110081036885,
+   "ctx_top_words": [
+    {
+     "word": "technical",
+     "likely_original": "expert",
+     "gap_bits": 1.91
+    },
+    {
+     "word": "source",
+     "likely_original": "reference",
+     "gap_bits": 1.52
+    },
+    {
+     "word": "review",
+     "likely_original": "inspection",
+     "gap_bits": 1.27
+    }
+   ]
+  },
+  {
+   "document": "reconnaissance/vulnerability_scanning.md",
+   "start": 0,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": 1.4205958273940216,
+   "syngap_top3_dirichlet": 1.2730735999905907,
+   "js_domain": 0.8613449530586543,
+   "lm_mean_surprisal": 6.067973091380518,
+   "lm_top5_surprisal": 17.06181354522705,
+   "ctx_syngap_top3": 6.334623231436126,
+   "ctx_top_words": [
+    {
+     "word": "key",
+     "likely_original": "name",
+     "gap_bits": 13.67
+    },
+    {
+     "word": "category",
+     "likely_original": "class",
+     "gap_bits": 4.25
+    },
+    {
+     "word": "status",
+     "likely_original": "position",
+     "gap_bits": 1.09
+    }
+   ]
+  },
+  {
+   "document": "reconnaissance/vulnerability_scanning.md",
+   "start": 242,
+   "label": 1,
+   "split": "held_out",
+   "syngap_top3_domain": 6.036602903801274,
+   "syngap_top3_dirichlet": 7.6588569622188105,
+   "js_domain": 0.6332738058281535,
+   "lm_mean_surprisal": 5.636502057565011,
+   "lm_top5_surprisal": 14.310838890075683,
+   "ctx_syngap_top3": 4.63565971958451,
+   "ctx_top_words": [
+    {
+     "word": "broad",
+     "likely_original": "extensive",
+     "gap_bits": 7.01
+    },
+    {
+     "word": "gather",
+     "likely_original": "collect",
+     "gap_bits": 3.46
+    },
+    {
+     "word": "check",
+     "likely_original": "determine",
+     "gap_bits": 3.43
+    }
+   ]
+  },
+  {
+   "document": "reconnaissance/vulnerability_scanning.md",
+   "start": 637,
+   "label": 1,
+   "split": "held_out",
+   "syngap_top3_domain": 5.86364965495994,
+   "syngap_top3_dirichlet": 6.469823566047047,
+   "js_domain": 0.7533783704733695,
+   "lm_mean_surprisal": 5.813050846282964,
+   "lm_top5_surprisal": 17.72175064086914,
+   "ctx_syngap_top3": -2.490944126213435,
+   "ctx_top_words": [
+    {
+     "word": "banners",
+     "likely_original": "standard",
+     "gap_bits": 0.06
+    },
+    {
+     "word": "listening",
+     "likely_original": "listen",
+     "gap_bits": -3.7
+    },
+    {
+     "word": "numbers",
+     "likely_original": "number",
+     "gap_bits": -3.83
+    }
+   ]
+  },
+  {
+   "document": "reconnaissance/vulnerability_scanning.md",
+   "start": 1036,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": 6.712051091107978,
+   "syngap_top3_dirichlet": 7.62834370562387,
+   "js_domain": 0.8882460416872636,
+   "lm_mean_surprisal": 3.4376837695526774,
+   "lm_top5_surprisal": 15.103196716308593,
+   "ctx_syngap_top3": 3.2809938876356077,
+   "ctx_top_words": [
+    {
+     "word": "develop",
+     "likely_original": "acquire",
+     "gap_bits": 7.31
+    },
+    {
+     "word": "facing",
+     "likely_original": "face",
+     "gap_bits": 1.49
+    },
+    {
+     "word": "establishing",
+     "likely_original": "found",
+     "gap_bits": 1.05
+    }
+   ]
+  },
+  {
+   "document": "reconnaissance/vulnerability_scanning.md",
+   "start": 1477,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": 2.527180728015676,
+   "syngap_top3_dirichlet": 1.9329706343258144,
+   "js_domain": 0.5907773010061032,
+   "lm_mean_surprisal": 6.648784860791267,
+   "lm_top5_surprisal": 17.82527732849121,
+   "ctx_syngap_top3": -0.8787805179793698,
+   "ctx_top_words": [
+    {
+     "word": "represented",
+     "likely_original": "present",
+     "gap_bits": 2.02
+    },
+    {
+     "word": "sources",
+     "likely_original": "source",
+     "gap_bits": 0.14
+    },
+    {
+     "word": "affected",
+     "likely_original": "impact",
+     "gap_bits": -4.79
+    }
+   ]
+  },
+  {
+   "document": "reconnaissance/vulnerability_scanning.md",
+   "start": 1963,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": 0.7559486244715442,
+   "syngap_top3_dirichlet": 0.493713132552936,
+   "js_domain": 0.7736183133559121,
+   "lm_mean_surprisal": 6.140872551940902,
+   "lm_top5_surprisal": 16.523791694641112,
+   "ctx_syngap_top3": 0.5652617804395655,
+   "ctx_top_words": [
+    {
+     "word": "preserved",
+     "likely_original": "save",
+     "gap_bits": 1.7
+    },
+    {
+     "word": "testing",
+     "likely_original": "try",
+     "gap_bits": 0.0
+    },
+    {
+     "word": "scanning",
+     "likely_original": "read",
+     "gap_bits": 0.0
+    }
+   ]
+  },
+  {
+   "document": "reconnaissance/port_scanning.md",
+   "start": 0,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 4.083278821700239,
+   "syngap_top3_dirichlet": 4.18440226083497,
+   "js_domain": 0.6047142868268328,
+   "lm_mean_surprisal": 5.564127550934231,
+   "lm_top5_surprisal": 15.004303169250488,
+   "ctx_syngap_top3": 1.922792790447905,
+   "ctx_top_words": [
+    {
+     "word": "communications",
+     "likely_original": "communication",
+     "gap_bits": 3.08
+    },
+    {
+     "word": "ports",
+     "likely_original": "port",
+     "gap_bits": 2.15
+    },
+    {
+     "word": "origin",
+     "likely_original": "source",
+     "gap_bits": 0.54
+    }
+   ]
+  },
+  {
+   "document": "reconnaissance/port_scanning.md",
+   "start": 463,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 4.595098936958534,
+   "syngap_top3_dirichlet": 6.002180105581381,
+   "js_domain": 0.5972702348058514,
+   "lm_mean_surprisal": 4.740882883146696,
+   "lm_top5_surprisal": 16.810480308532714,
+   "ctx_syngap_top3": 0.785073809902921,
+   "ctx_top_words": [
+    {
+     "word": "logical",
+     "likely_original": "legitimate",
+     "gap_bits": 4.77
+    },
+    {
+     "word": "conduct",
+     "likely_original": "take",
+     "gap_bits": 3.36
+    },
+    {
+     "word": "programming",
+     "likely_original": "program",
+     "gap_bits": -5.77
+    }
+   ]
+  },
+  {
+   "document": "reconnaissance/port_scanning.md",
+   "start": 884,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 1.4004241940882618,
+   "syngap_top3_dirichlet": 1.7331844697112977,
+   "js_domain": 0.9081338476473687,
+   "lm_mean_surprisal": 5.203679136727372,
+   "lm_top5_surprisal": 16.434500694274902,
+   "ctx_syngap_top3": 2.9763152891828213,
+   "ctx_top_words": [
+    {
+     "word": "activities",
+     "likely_original": "action",
+     "gap_bits": 6.38
+    },
+    {
+     "word": "protection",
+     "likely_original": "security",
+     "gap_bits": 2.55
+    },
+    {
+     "word": "control",
+     "likely_original": "see",
+     "gap_bits": 0.0
+    }
+   ]
+  },
+  {
+   "document": "reconnaissance/port_scanning.md",
+   "start": 1115,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 3.162334488674082,
+   "syngap_top3_dirichlet": 2.8574872699322795,
+   "js_domain": 0.6458888577216416,
+   "lm_mean_surprisal": 6.895018890372318,
+   "lm_top5_surprisal": 16.59029541015625,
+   "ctx_syngap_top3": 2.4446683356848857,
+   "ctx_top_words": [
+    {
+     "word": "listing",
+     "likely_original": "list",
+     "gap_bits": 6.01
+    },
+    {
+     "word": "acquire",
+     "likely_original": "get",
+     "gap_bits": 1.89
+    },
+    {
+     "word": "attempt",
+     "likely_original": "seek",
+     "gap_bits": -0.57
+    }
+   ]
+  },
+  {
+   "document": "reconnaissance/port_scanning.md",
+   "start": 1565,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 2.918983442151101,
+   "syngap_top3_dirichlet": 2.8583228643924876,
+   "js_domain": 0.7319479362552209,
+   "lm_mean_surprisal": 4.359920361079276,
+   "lm_top5_surprisal": 13.839192771911621,
+   "ctx_syngap_top3": 3.1720843374108276,
+   "ctx_top_words": [
+    {
+     "word": "identify",
+     "likely_original": "discover",
+     "gap_bits": 4.74
+    },
+    {
+     "word": "discover",
+     "likely_original": "identify",
+     "gap_bits": 4.37
+    },
+    {
+     "word": "attempt",
+     "likely_original": "seek",
+     "gap_bits": 0.41
+    }
+   ]
+  },
+  {
+   "document": "reconnaissance/port_scanning.md",
+   "start": 1833,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 3.6391627679202596,
+   "syngap_top3_dirichlet": 3.709213331181171,
+   "js_domain": 0.6675447582045257,
+   "lm_mean_surprisal": 6.700583254544264,
+   "lm_top5_surprisal": 19.080498123168944,
+   "ctx_syngap_top3": 0.37426607062419254,
+   "ctx_top_words": [
+    {
+     "word": "discover",
+     "likely_original": "identify",
+     "gap_bits": 2.66
+    },
+    {
+     "word": "environments",
+     "likely_original": "environment",
+     "gap_bits": 0.09
+    },
+    {
+     "word": "find",
+     "likely_original": "detect",
+     "gap_bits": -1.63
+    }
+   ]
+  },
+  {
+   "document": "reconnaissance/port_scanning.md",
+   "start": 2321,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 0.13190849112798375,
+   "syngap_top3_dirichlet": 0.10464638047510988,
+   "js_domain": 0.72919815676661,
+   "lm_mean_surprisal": 6.578947688521853,
+   "lm_top5_surprisal": 16.432890510559083,
+   "ctx_syngap_top3": -2.022922184638446,
+   "ctx_top_words": [
+    {
+     "word": "authoritative",
+     "likely_original": "important",
+     "gap_bits": 2.91
+    },
+    {
+     "word": "network",
+     "likely_original": "web",
+     "gap_bits": -2.43
+    },
+    {
+     "word": "source",
+     "likely_original": "reference",
+     "gap_bits": -6.55
+    }
+   ]
+  },
+  {
+   "document": "reconnaissance/port_scanning.md",
+   "start": 2600,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 2.498550383186829,
+   "syngap_top3_dirichlet": 1.920923925059024,
+   "js_domain": 0.6349275570381363,
+   "lm_mean_surprisal": 6.771455947933795,
+   "lm_top5_surprisal": 16.542506980895997,
+   "ctx_syngap_top3": -2.395128315043015,
+   "ctx_top_words": [
+    {
+     "word": "represented",
+     "likely_original": "present",
+     "gap_bits": 1.71
+    },
+    {
+     "word": "sources",
+     "likely_original": "source",
+     "gap_bits": -3.63
+    },
+    {
+     "word": "being",
+     "likely_original": "be",
+     "gap_bits": -5.27
+    }
+   ]
+  },
+  {
+   "document": "reconnaissance/port_scanning.md",
+   "start": 2867,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 0.934628425836023,
+   "syngap_top3_dirichlet": 0.6236288776969975,
+   "js_domain": 0.7919556511816234,
+   "lm_mean_surprisal": 5.668667619628061,
+   "lm_top5_surprisal": 16.479541778564453,
+   "ctx_syngap_top3": 1.6825188423972577,
+   "ctx_top_words": [
+    {
+     "word": "role",
+     "likely_original": "part",
+     "gap_bits": 3.05
+    },
+    {
+     "word": "preserved",
+     "likely_original": "save",
+     "gap_bits": 2.0
+    },
+    {
+     "word": "scan",
+     "likely_original": "read",
+     "gap_bits": 0.0
+    }
+   ]
+  },
+  {
+   "document": "reconnaissance/os_fingerprinting.md",
+   "start": 0,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 2.73171289749613,
+   "syngap_top3_dirichlet": 2.7877322333046295,
+   "js_domain": 0.8530846054922216,
+   "lm_mean_surprisal": 6.145805885635931,
+   "lm_top5_surprisal": 16.05491828918457,
+   "ctx_syngap_top3": 5.375295921481059,
+   "ctx_top_words": [
+    {
+     "word": "key",
+     "likely_original": "name",
+     "gap_bits": 14.32
+    },
+    {
+     "word": "category",
+     "likely_original": "family",
+     "gap_bits": 0.97
+    },
+    {
+     "word": "status",
+     "likely_original": "position",
+     "gap_bits": 0.83
+    }
+   ]
+  },
+  {
+   "document": "reconnaissance/os_fingerprinting.md",
+   "start": 260,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 9.334412369908758,
+   "syngap_top3_dirichlet": 10.568096320462834,
+   "js_domain": 0.6078606642145079,
+   "lm_mean_surprisal": 5.453939805382452,
+   "lm_top5_surprisal": 14.311924743652344,
+   "ctx_syngap_top3": 0.511089451611042,
+   "ctx_top_words": [
+    {
+     "word": "platform",
+     "likely_original": "program",
+     "gap_bits": 1.96
+    },
+    {
+     "word": "break",
+     "likely_original": "check",
+     "gap_bits": 1.13
+    },
+    {
+     "word": "solicit",
+     "likely_original": "tap",
+     "gap_bits": -1.55
+    }
+   ]
+  },
+  {
+   "document": "reconnaissance/os_fingerprinting.md",
+   "start": 663,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 7.948225730128175,
+   "syngap_top3_dirichlet": 9.891752069736606,
+   "js_domain": 0.6492783037736277,
+   "lm_mean_surprisal": 6.580437447001905,
+   "lm_top5_surprisal": 14.840792083740235,
+   "ctx_syngap_top3": -1.7952007316052914,
+   "ctx_top_words": [
+    {
+     "word": "ways",
+     "likely_original": "way",
+     "gap_bits": -1.51
+    },
+    {
+     "word": "rules",
+     "likely_original": "pattern",
+     "gap_bits": -1.75
+    },
+    {
+     "word": "probing",
+     "likely_original": "probe",
+     "gap_bits": -2.13
+    }
+   ]
+  },
+  {
+   "document": "reconnaissance/os_fingerprinting.md",
+   "start": 1071,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 5.539108133022341,
+   "syngap_top3_dirichlet": 7.383813636436559,
+   "js_domain": 0.8042896768716572,
+   "lm_mean_surprisal": 6.657713758318048,
+   "lm_top5_surprisal": 12.480663108825684,
+   "ctx_syngap_top3": -1.1716466347376506,
+   "ctx_top_words": [
+    {
+     "word": "fingerprinting",
+     "likely_original": "fingerprint",
+     "gap_bits": 0.7
+    },
+    {
+     "word": "types",
+     "likely_original": "type",
+     "gap_bits": -1.98
+    },
+    {
+     "word": "versions",
+     "likely_original": "version",
+     "gap_bits": -2.23
+    }
+   ]
+  },
+  {
+   "document": "reconnaissance/os_fingerprinting.md",
+   "start": 1181,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 1.3161790692087676,
+   "syngap_top3_dirichlet": 1.450801019417888,
+   "js_domain": 0.7182396459840706,
+   "lm_mean_surprisal": 5.80484255948441,
+   "lm_top5_surprisal": 14.534943199157714,
+   "ctx_syngap_top3": 2.6647975762122464,
+   "ctx_top_words": [
+    {
+     "word": "host",
+     "likely_original": "server",
+     "gap_bits": 3.54
+    },
+    {
+     "word": "privileges",
+     "likely_original": "privilege",
+     "gap_bits": 3.29
+    },
+    {
+     "word": "card",
+     "likely_original": "board",
+     "gap_bits": 1.17
+    }
+   ]
+  },
+  {
+   "document": "reconnaissance/os_fingerprinting.md",
+   "start": 1359,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 8.414670913831378,
+   "syngap_top3_dirichlet": 9.722515115868097,
+   "js_domain": 0.7153629390378574,
+   "lm_mean_surprisal": 4.646239487925831,
+   "lm_top5_surprisal": 15.379067420959473,
+   "ctx_syngap_top3": -0.21868046204326674,
+   "ctx_top_words": [
+    {
+     "word": "manipulation",
+     "likely_original": "handling",
+     "gap_bits": 5.9
+    },
+    {
+     "word": "probing",
+     "likely_original": "searching",
+     "gap_bits": -1.24
+    },
+    {
+     "word": "headers",
+     "likely_original": "header",
+     "gap_bits": -5.32
+    }
+   ]
+  },
+  {
+   "document": "reconnaissance/os_fingerprinting.md",
+   "start": 1771,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 0.13135234772779114,
+   "syngap_top3_dirichlet": -0.17717288479899848,
+   "js_domain": 0.9287372630145946,
+   "lm_mean_surprisal": 6.524928371028753,
+   "lm_top5_surprisal": 17.100933647155763,
+   "ctx_syngap_top3": 5.113341210254778,
+   "ctx_top_words": [
+    {
+     "word": "activities",
+     "likely_original": "action",
+     "gap_bits": 8.75
+    },
+    {
+     "word": "read",
+     "likely_original": "show",
+     "gap_bits": 6.35
+    },
+    {
+     "word": "adversary",
+     "likely_original": "opponent",
+     "gap_bits": 0.23
+    }
+   ]
+  },
+  {
+   "document": "reconnaissance/os_fingerprinting.md",
+   "start": 1943,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 3.1661363831285914,
+   "syngap_top3_dirichlet": 2.8679141109093327,
+   "js_domain": 0.6654110268508638,
+   "lm_mean_surprisal": 6.548675155912254,
+   "lm_top5_surprisal": 15.030251502990723,
+   "ctx_syngap_top3": 3.1756978440486514,
+   "ctx_top_words": [
+    {
+     "word": "listing",
+     "likely_original": "list",
+     "gap_bits": 7.05
+    },
+    {
+     "word": "acquire",
+     "likely_original": "get",
+     "gap_bits": 1.84
+    },
+    {
+     "word": "discover",
+     "likely_original": "identify",
+     "gap_bits": 0.64
+    }
+   ]
+  },
+  {
+   "document": "reconnaissance/os_fingerprinting.md",
+   "start": 2348,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 3.5580866548779153,
+   "syngap_top3_dirichlet": 3.4648156823178535,
+   "js_domain": 0.6799127157486184,
+   "lm_mean_surprisal": 4.917017718534106,
+   "lm_top5_surprisal": 16.612467575073243,
+   "ctx_syngap_top3": 4.30837849729384,
+   "ctx_top_words": [
+    {
+     "word": "discover",
+     "likely_original": "identify",
+     "gap_bits": 7.04
+    },
+    {
+     "word": "identify",
+     "likely_original": "discover",
+     "gap_bits": 6.28
+    },
+    {
+     "word": "attempt",
+     "likely_original": "seek",
+     "gap_bits": -0.39
+    }
+   ]
+  },
+  {
+   "document": "reconnaissance/os_fingerprinting.md",
+   "start": 2747,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 3.6402161267350905,
+   "syngap_top3_dirichlet": 3.7092133311811697,
+   "js_domain": 0.6806975106516786,
+   "lm_mean_surprisal": 7.223775845646898,
+   "lm_top5_surprisal": 19.85740547180176,
+   "ctx_syngap_top3": 0.11211416125297546,
+   "ctx_top_words": [
+    {
+     "word": "services",
+     "likely_original": "service",
+     "gap_bits": 1.2
+    },
+    {
+     "word": "hosts",
+     "likely_original": "server",
+     "gap_bits": 0.86
+    },
+    {
+     "word": "find",
+     "likely_original": "see",
+     "gap_bits": -1.73
+    }
+   ]
+  },
+  {
+   "document": "reconnaissance/os_fingerprinting.md",
+   "start": 3112,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 0.09408200078205849,
+   "syngap_top3_dirichlet": 0.06644036575204322,
+   "js_domain": 0.7283850010732483,
+   "lm_mean_surprisal": 6.578947688521853,
+   "lm_top5_surprisal": 16.432890510559083,
+   "ctx_syngap_top3": -2.022922184638446,
+   "ctx_top_words": [
+    {
+     "word": "authoritative",
+     "likely_original": "important",
+     "gap_bits": 2.91
+    },
+    {
+     "word": "network",
+     "likely_original": "web",
+     "gap_bits": -2.43
+    },
+    {
+     "word": "source",
+     "likely_original": "reference",
+     "gap_bits": -6.55
+    }
+   ]
+  },
+  {
+   "document": "reconnaissance/os_fingerprinting.md",
+   "start": 3391,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 2.499349347114005,
+   "syngap_top3_dirichlet": 1.9329706343258144,
+   "js_domain": 0.6329616994803826,
+   "lm_mean_surprisal": 6.771455947933795,
+   "lm_top5_surprisal": 16.542506980895997,
+   "ctx_syngap_top3": -2.395128315043015,
+   "ctx_top_words": [
+    {
+     "word": "represented",
+     "likely_original": "present",
+     "gap_bits": 1.71
+    },
+    {
+     "word": "sources",
+     "likely_original": "source",
+     "gap_bits": -3.63
+    },
+    {
+     "word": "being",
+     "likely_original": "be",
+     "gap_bits": -5.27
+    }
+   ]
+  },
+  {
+   "document": "reconnaissance/os_fingerprinting.md",
+   "start": 3658,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 1.2084292971269572,
+   "syngap_top3_dirichlet": 1.2084292971269572,
+   "js_domain": 0.7996811710346422,
+   "lm_mean_surprisal": 6.249447182986246,
+   "lm_top5_surprisal": 16.698958587646484,
+   "ctx_syngap_top3": 0.5492880774351457,
+   "ctx_top_words": [
+    {
+     "word": "preserved",
+     "likely_original": "save",
+     "gap_bits": 1.65
+    },
+    {
+     "word": "fingerprinting",
+     "likely_original": "fingerprint",
+     "gap_bits": -0.0
+    },
+    {
+     "word": "passive",
+     "likely_original": "peaceful",
+     "gap_bits": -0.0
+    }
+   ]
+  },
+  {
+   "document": "malware/backdoor.md",
+   "start": 0,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 6.129962212361266,
+   "syngap_top3_dirichlet": 7.0566499902401425,
+   "js_domain": 0.6819446210081305,
+   "lm_mean_surprisal": 6.021536773726146,
+   "lm_top5_surprisal": 16.65746078491211,
+   "ctx_syngap_top3": 0.8990669805110277,
+   "ctx_top_words": [
+    {
+     "word": "allowing",
+     "likely_original": "allow",
+     "gap_bits": 1.51
+    },
+    {
+     "word": "purpose",
+     "likely_original": "intent",
+     "gap_bits": 0.74
+    },
+    {
+     "word": "origin",
+     "likely_original": "root",
+     "gap_bits": 0.44
+    }
+   ]
+  },
+  {
+   "document": "malware/backdoor.md",
+   "start": 452,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 4.740449760831945,
+   "syngap_top3_dirichlet": 5.940044889230198,
+   "js_domain": 0.6159525496428413,
+   "lm_mean_surprisal": 4.684723020658566,
+   "lm_top5_surprisal": 17.92855911254883,
+   "ctx_syngap_top3": 4.103019415168092,
+   "ctx_top_words": [
+    {
+     "word": "smaller",
+     "likely_original": "small",
+     "gap_bits": 5.17
+    },
+    {
+     "word": "exposed",
+     "likely_original": "open",
+     "gap_bits": 4.14
+    },
+    {
+     "word": "flow",
+     "likely_original": "period",
+     "gap_bits": 3.0
+    }
+   ]
+  },
+  {
+   "document": "malware/backdoor.md",
+   "start": 863,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 6.0311099722456065,
+   "syngap_top3_dirichlet": 7.8859200948659565,
+   "js_domain": 0.6396518631793398,
+   "lm_mean_surprisal": 5.520537908669486,
+   "lm_top5_surprisal": 17.673883819580077,
+   "ctx_syngap_top3": 3.3064147093876577,
+   "ctx_top_words": [
+    {
+     "word": "discover",
+     "likely_original": "identify",
+     "gap_bits": 7.12
+    },
+    {
+     "word": "smaller",
+     "likely_original": "small",
+     "gap_bits": 3.82
+    },
+    {
+     "word": "connectors",
+     "likely_original": "connection",
+     "gap_bits": -1.02
+    }
+   ]
+  },
+  {
+   "document": "malware/backdoor.md",
+   "start": 1218,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 6.984324703508247,
+   "syngap_top3_dirichlet": 8.679854010083732,
+   "js_domain": 0.6401603714882038,
+   "lm_mean_surprisal": 4.35746711868195,
+   "lm_top5_surprisal": 15.819758796691895,
+   "ctx_syngap_top3": -0.23349340974042812,
+   "ctx_top_words": [
+    {
+     "word": "procure",
+     "likely_original": "secure",
+     "gap_bits": 4.17
+    },
+    {
+     "word": "shipment",
+     "likely_original": "loading",
+     "gap_bits": -2.36
+    },
+    {
+     "word": "observe",
+     "likely_original": "follow",
+     "gap_bits": -2.52
+    }
+   ]
+  },
+  {
+   "document": "malware/backdoor.md",
+   "start": 1620,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 6.714141177731686,
+   "syngap_top3_dirichlet": 8.610604247492292,
+   "js_domain": 0.6444773622769997,
+   "lm_mean_surprisal": 4.443067773676759,
+   "lm_top5_surprisal": 15.674795532226563,
+   "ctx_syngap_top3": 0.9721489348448813,
+   "ctx_top_words": [
+    {
+     "word": "procured",
+     "likely_original": "secure",
+     "gap_bits": 1.8
+    },
+    {
+     "word": "obtain",
+     "likely_original": "get",
+     "gap_bits": 1.19
+    },
+    {
+     "word": "outcome",
+     "likely_original": "effect",
+     "gap_bits": -0.08
+    }
+   ]
+  },
+  {
+   "document": "malware/backdoor.md",
+   "start": 2010,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 5.851584879525227,
+   "syngap_top3_dirichlet": 7.682418215805954,
+   "js_domain": 0.6339348149212941,
+   "lm_mean_surprisal": 4.935893571991156,
+   "lm_top5_surprisal": 16.657199096679687,
+   "ctx_syngap_top3": -1.2134293014144835,
+   "ctx_top_words": [
+    {
+     "word": "implant",
+     "likely_original": "embed",
+     "gap_bits": 3.57
+    },
+    {
+     "word": "implants",
+     "likely_original": "implant",
+     "gap_bits": -2.14
+    },
+    {
+     "word": "discovered",
+     "likely_original": "key",
+     "gap_bits": -5.06
+    }
+   ]
+  },
+  {
+   "document": "malware/backdoor.md",
+   "start": 2398,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 3.8344266965122387,
+   "syngap_top3_dirichlet": 4.316226955663389,
+   "js_domain": 0.7086734488981218,
+   "lm_mean_surprisal": 5.933880416622075,
+   "lm_top5_surprisal": 12.393061637878418,
+   "ctx_syngap_top3": -5.601500765032445,
+   "ctx_top_words": [
+    {
+     "word": "access",
+     "likely_original": "approach",
+     "gap_bits": -4.31
+    },
+    {
+     "word": "variety",
+     "likely_original": "form",
+     "gap_bits": -5.53
+    },
+    {
+     "word": "attacks",
+     "likely_original": "attack",
+     "gap_bits": -6.97
+    }
+   ]
+  },
+  {
+   "document": "malware/backdoor.md",
+   "start": 2523,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 3.8819900154054783,
+   "syngap_top3_dirichlet": 4.913775739138159,
+   "js_domain": 0.7301374349499535,
+   "lm_mean_surprisal": 6.889323966378674,
+   "lm_top5_surprisal": 16.247178077697754,
+   "ctx_syngap_top3": -2.7392515183698074,
+   "ctx_top_words": [
+    {
+     "word": "creation",
+     "likely_original": "introduction",
+     "gap_bits": -1.91
+    },
+    {
+     "word": "prerequisites",
+     "likely_original": "requirement",
+     "gap_bits": -2.92
+    },
+    {
+     "word": "manufacturer",
+     "likely_original": "maker",
+     "gap_bits": -3.39
+    }
+   ]
+  },
+  {
+   "document": "malware/backdoor.md",
+   "start": 2747,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 7.511122782156295,
+   "syngap_top3_dirichlet": 9.272357076908188,
+   "js_domain": 0.6553302411831552,
+   "lm_mean_surprisal": 5.899710524626958,
+   "lm_top5_surprisal": 15.063339042663575,
+   "ctx_syngap_top3": -2.3565401385227838,
+   "ctx_top_words": [
+    {
+     "word": "abuse",
+     "likely_original": "misuse",
+     "gap_bits": 0.43
+    },
+    {
+     "word": "executed",
+     "likely_original": "run",
+     "gap_bits": -2.81
+    },
+    {
+     "word": "proper",
+     "likely_original": "right",
+     "gap_bits": -4.69
+    }
+   ]
+  },
+  {
+   "document": "malware/backdoor.md",
+   "start": 3154,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 6.732864570880188,
+   "syngap_top3_dirichlet": 8.53673804924611,
+   "js_domain": 0.6240354522566403,
+   "lm_mean_surprisal": 5.782507688726279,
+   "lm_top5_surprisal": 14.363986396789551,
+   "ctx_syngap_top3": -3.7591928536615646,
+   "ctx_top_words": [
+    {
+     "word": "mechanisms",
+     "likely_original": "mechanism",
+     "gap_bits": -3.29
+    },
+    {
+     "word": "require",
+     "likely_original": "involve",
+     "gap_bits": -3.42
+    },
+    {
+     "word": "specified",
+     "likely_original": "set",
+     "gap_bits": -4.56
+    }
+   ]
+  },
+  {
+   "document": "malware/backdoor.md",
+   "start": 3562,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 4.705415602068977,
+   "syngap_top3_dirichlet": 6.148425899887674,
+   "js_domain": 0.8143374845341973,
+   "lm_mean_surprisal": 7.242057344229478,
+   "lm_top5_surprisal": 17.50296821594238,
+   "ctx_syngap_top3": -5.472724156143765,
+   "ctx_top_words": [
+    {
+     "word": "process",
+     "likely_original": "operation",
+     "gap_bits": -4.89
+    },
+    {
+     "word": "elevated",
+     "likely_original": "raised",
+     "gap_bits": -5.73
+    },
+    {
+     "word": "task",
+     "likely_original": "job",
+     "gap_bits": -5.8
+    }
+   ]
+  },
+  {
+   "document": "malware/backdoor.md",
+   "start": 3856,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 0.10238958579338231,
+   "syngap_top3_dirichlet": 0.07562900500965479,
+   "js_domain": 0.7258904893453815,
+   "lm_mean_surprisal": 6.678714304418463,
+   "lm_top5_surprisal": 16.590389442443847,
+   "ctx_syngap_top3": -2.9434199099681186,
+   "ctx_top_words": [
+    {
+     "word": "authoritative",
+     "likely_original": "important",
+     "gap_bits": 1.83
+    },
+    {
+     "word": "network",
+     "likely_original": "web",
+     "gap_bits": -4.88
+    },
+    {
+     "word": "containers",
+     "likely_original": "container",
+     "gap_bits": -5.78
+    }
+   ]
+  },
+  {
+   "document": "malware/backdoor.md",
+   "start": 4135,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 2.4517151979663745,
+   "syngap_top3_dirichlet": 1.8961148810559518,
+   "js_domain": 0.6308551383126973,
+   "lm_mean_surprisal": 6.768946703264326,
+   "lm_top5_surprisal": 16.542506980895997,
+   "ctx_syngap_top3": -2.479031317430781,
+   "ctx_top_words": [
+    {
+     "word": "represented",
+     "likely_original": "present",
+     "gap_bits": 1.57
+    },
+    {
+     "word": "sources",
+     "likely_original": "source",
+     "gap_bits": -3.67
+    },
+    {
+     "word": "being",
+     "likely_original": "be",
+     "gap_bits": -5.33
+    }
+   ]
+  },
+  {
+   "document": "malware/backdoor.md",
+   "start": 4401,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 1.2427985628980303,
+   "syngap_top3_dirichlet": 1.0650142177730417,
+   "js_domain": 0.7955644656772084,
+   "lm_mean_surprisal": 5.478622454036816,
+   "lm_top5_surprisal": 16.62831268310547,
+   "ctx_syngap_top3": 0.6639574806807408,
+   "ctx_top_words": [
+    {
+     "word": "preserved",
+     "likely_original": "save",
+     "gap_bits": 1.74
+    },
+    {
+     "word": "source",
+     "likely_original": "root",
+     "gap_bits": 0.25
+    },
+    {
+     "word": "web",
+     "likely_original": "network",
+     "gap_bits": -0.0
+    }
+   ]
+  },
+  {
+   "document": "malware/password_cracking.md",
+   "start": 0,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 4.216627513494443,
+   "syngap_top3_dirichlet": 4.439316566365505,
+   "js_domain": 0.8606556103282665,
+   "lm_mean_surprisal": 5.817906277670906,
+   "lm_top5_surprisal": 15.073063850402832,
+   "ctx_syngap_top3": 4.7828473700404475,
+   "ctx_top_words": [
+    {
+     "word": "key",
+     "likely_original": "name",
+     "gap_bits": 11.77
+    },
+    {
+     "word": "category",
+     "likely_original": "class",
+     "gap_bits": 1.37
+    },
+    {
+     "word": "origin",
+     "likely_original": "root",
+     "gap_bits": 1.21
+    }
+   ]
+  },
+  {
+   "document": "malware/password_cracking.md",
+   "start": 214,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 6.209381888802085,
+   "syngap_top3_dirichlet": 7.879940355195895,
+   "js_domain": 0.7183609325666426,
+   "lm_mean_surprisal": 5.1004076619654075,
+   "lm_top5_surprisal": 15.709737014770507,
+   "ctx_syngap_top3": -3.86006156403649,
+   "ctx_top_words": [
+    {
+     "word": "feasible",
+     "likely_original": "viable",
+     "gap_bits": -2.89
+    },
+    {
+     "word": "succeed",
+     "likely_original": "win",
+     "gap_bits": -3.61
+    },
+    {
+     "word": "tries",
+     "likely_original": "try",
+     "gap_bits": -5.07
+    }
+   ]
+  },
+  {
+   "document": "malware/password_cracking.md",
+   "start": 602,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 4.830350198867524,
+   "syngap_top3_dirichlet": 4.975154377792527,
+   "js_domain": 0.7439612396479234,
+   "lm_mean_surprisal": 3.7091534963603148,
+   "lm_top5_surprisal": 16.003987121582032,
+   "ctx_syngap_top3": -0.41518079523181467,
+   "ctx_top_words": [
+    {
+     "word": "flow",
+     "likely_original": "period",
+     "gap_bits": 3.18
+    },
+    {
+     "word": "lengths",
+     "likely_original": "length",
+     "gap_bits": -2.12
+    },
+    {
+     "word": "determine",
+     "likely_original": "set",
+     "gap_bits": -2.3
+    }
+   ]
+  },
+  {
+   "document": "malware/password_cracking.md",
+   "start": 1002,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 6.666905501447215,
+   "syngap_top3_dirichlet": 8.010637786890214,
+   "js_domain": 0.7697380318578793,
+   "lm_mean_surprisal": 4.812396422219039,
+   "lm_top5_surprisal": 16.184989166259765,
+   "ctx_syngap_top3": 1.2500388981037152,
+   "ctx_top_words": [
+    {
+     "word": "dictated",
+     "likely_original": "determined",
+     "gap_bits": 3.19
+    },
+    {
+     "word": "numbers",
+     "likely_original": "number",
+     "gap_bits": 1.53
+    },
+    {
+     "word": "grants",
+     "likely_original": "allow",
+     "gap_bits": -0.97
+    }
+   ]
+  },
+  {
+   "document": "malware/password_cracking.md",
+   "start": 1346,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 6.474772283972413,
+   "syngap_top3_dirichlet": 7.5945445243475485,
+   "js_domain": 0.6607409911490882,
+   "lm_mean_surprisal": 4.8160405771190264,
+   "lm_top5_surprisal": 13.872557258605957,
+   "ctx_syngap_top3": -1.2483467881878216,
+   "ctx_top_words": [
+    {
+     "word": "select",
+     "likely_original": "choose",
+     "gap_bits": 1.41
+    },
+    {
+     "word": "perform",
+     "likely_original": "execute",
+     "gap_bits": -2.56
+    },
+    {
+     "word": "start",
+     "likely_original": "go",
+     "gap_bits": -2.6
+    }
+   ]
+  },
+  {
+   "document": "malware/password_cracking.md",
+   "start": 1743,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 2.4973613798791856,
+   "syngap_top3_dirichlet": 1.9961430990362559,
+   "js_domain": 0.8104336612546299,
+   "lm_mean_surprisal": 4.614852882388819,
+   "lm_top5_surprisal": 12.554866600036622,
+   "ctx_syngap_top3": -4.748346825285505,
+   "ctx_top_words": [
+    {
+     "word": "perform",
+     "likely_original": "execute",
+     "gap_bits": -3.68
+    },
+    {
+     "word": "attack",
+     "likely_original": "attempt",
+     "gap_bits": -4.67
+    },
+    {
+     "word": "dictionary",
+     "likely_original": "lexicon",
+     "gap_bits": -5.89
+    }
+   ]
+  },
+  {
+   "document": "malware/password_cracking.md",
+   "start": 1922,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 6.427442302241238,
+   "syngap_top3_dirichlet": 7.670046540353737,
+   "js_domain": 0.6395107623416986,
+   "lm_mean_surprisal": 4.9645744508990415,
+   "lm_top5_surprisal": 16.516989707946777,
+   "ctx_syngap_top3": -1.617084291453163,
+   "ctx_top_words": [
+    {
+     "word": "almost",
+     "likely_original": "nearly",
+     "gap_bits": -0.75
+    },
+    {
+     "word": "throttling",
+     "likely_original": "choke",
+     "gap_bits": -1.63
+    },
+    {
+     "word": "introduce",
+     "likely_original": "present",
+     "gap_bits": -2.46
+    }
+   ]
+  },
+  {
+   "document": "malware/password_cracking.md",
+   "start": 2419,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 5.8631157020704245,
+   "syngap_top3_dirichlet": 6.683120760242818,
+   "js_domain": 0.6893417294271789,
+   "lm_mean_surprisal": 5.684726703581004,
+   "lm_top5_surprisal": 16.825840950012207,
+   "ctx_syngap_top3": 2.7736621196963824,
+   "ctx_top_words": [
+    {
+     "word": "forcing",
+     "likely_original": "force",
+     "gap_bits": 11.02
+    },
+    {
+     "word": "requirement",
+     "likely_original": "necessary",
+     "gap_bits": 1.15
+    },
+    {
+     "word": "exact",
+     "likely_original": "demand",
+     "gap_bits": -3.85
+    }
+   ]
+  },
+  {
+   "document": "malware/password_cracking.md",
+   "start": 2843,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 0.3046111069351678,
+   "syngap_top3_dirichlet": -0.3829728306482026,
+   "js_domain": 0.9225587432287233,
+   "lm_mean_surprisal": 5.051644199390527,
+   "lm_top5_surprisal": 16.186380195617676,
+   "ctx_syngap_top3": 1.6753946605410117,
+   "ctx_top_words": [
+    {
+     "word": "privileges",
+     "likely_original": "privilege",
+     "gap_bits": 2.38
+    },
+    {
+     "word": "modify",
+     "likely_original": "change",
+     "gap_bits": 2.32
+    },
+    {
+     "word": "read",
+     "likely_original": "show",
+     "gap_bits": 0.32
+    }
+   ]
+  },
+  {
+   "document": "malware/password_cracking.md",
+   "start": 3043,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 4.813775301817244,
+   "syngap_top3_dirichlet": 5.200328952167415,
+   "js_domain": 0.6608699005947559,
+   "lm_mean_surprisal": 6.200505888079936,
+   "lm_top5_surprisal": 15.92918529510498,
+   "ctx_syngap_top3": -3.6756971841678023,
+   "ctx_top_words": [
+    {
+     "word": "forcing",
+     "likely_original": "force",
+     "gap_bits": 3.63
+    },
+    {
+     "word": "systematically",
+     "likely_original": "consistently",
+     "gap_bits": -3.18
+    },
+    {
+     "word": "guess",
+     "likely_original": "judge",
+     "gap_bits": -11.47
+    }
+   ]
+  },
+  {
+   "document": "malware/password_cracking.md",
+   "start": 3441,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 6.7589959690111066,
+   "syngap_top3_dirichlet": 7.658581055332898,
+   "js_domain": 0.695492989695287,
+   "lm_mean_surprisal": 5.958292499640466,
+   "lm_top5_surprisal": 14.884681892395019,
+   "ctx_syngap_top3": -0.7201027819731584,
+   "ctx_top_words": [
+    {
+     "word": "forcing",
+     "likely_original": "force",
+     "gap_bits": 4.29
+    },
+    {
+     "word": "gathered",
+     "likely_original": "collected",
+     "gap_bits": -3.07
+    },
+    {
+     "word": "attempt",
+     "likely_original": "try",
+     "gap_bits": -3.39
+    }
+   ]
+  },
+  {
+   "document": "malware/password_cracking.md",
+   "start": 3846,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 5.6350970735292565,
+   "syngap_top3_dirichlet": 6.944041440865252,
+   "js_domain": 0.778990108908745,
+   "lm_mean_surprisal": 4.222382358547048,
+   "lm_top5_surprisal": 16.788993072509765,
+   "ctx_syngap_top3": -0.2077144551173357,
+   "ctx_top_words": [
+    {
+     "word": "forcing",
+     "likely_original": "force",
+     "gap_bits": 3.73
+    },
+    {
+     "word": "credential",
+     "likely_original": "certificate",
+     "gap_bits": -2.13
+    },
+    {
+     "word": "dumping",
+     "likely_original": "dump",
+     "gap_bits": -2.22
+    }
+   ]
+  },
+  {
+   "document": "malware/password_cracking.md",
+   "start": 4248,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 7.292707489820915,
+   "syngap_top3_dirichlet": 7.931371670261687,
+   "js_domain": 0.6981780325110641,
+   "lm_mean_surprisal": 7.175255256814215,
+   "lm_top5_surprisal": 19.14993190765381,
+   "ctx_syngap_top3": 1.0423720901211102,
+   "ctx_top_words": [
+    {
+     "word": "change",
+     "likely_original": "modify",
+     "gap_bits": 2.82
+    },
+    {
+     "word": "therefore",
+     "likely_original": "thus",
+     "gap_bits": 0.78
+    },
+    {
+     "word": "match",
+     "likely_original": "check",
+     "gap_bits": -0.47
+    }
+   ]
+  },
+  {
+   "document": "malware/password_cracking.md",
+   "start": 4649,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 2.1526988381193135,
+   "syngap_top3_dirichlet": 2.792400571461652,
+   "js_domain": 0.7327737399733505,
+   "lm_mean_surprisal": 6.142386964539446,
+   "lm_top5_surprisal": 15.86971378326416,
+   "ctx_syngap_top3": -2.611820121712905,
+   "ctx_top_words": [
+    {
+     "word": "devices",
+     "likely_original": "device",
+     "gap_bits": -0.78
+    },
+    {
+     "word": "containers",
+     "likely_original": "container",
+     "gap_bits": -1.67
+    },
+    {
+     "word": "affected",
+     "likely_original": "impact",
+     "gap_bits": -5.39
+    }
+   ]
+  },
+  {
+   "document": "malware/password_cracking.md",
+   "start": 4976,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 2.493961855216577,
+   "syngap_top3_dirichlet": 1.9448683206035915,
+   "js_domain": 0.6288115829179283,
+   "lm_mean_surprisal": 6.771455947933795,
+   "lm_top5_surprisal": 16.542506980895997,
+   "ctx_syngap_top3": -2.395128315043015,
+   "ctx_top_words": [
+    {
+     "word": "represented",
+     "likely_original": "present",
+     "gap_bits": 1.71
+    },
+    {
+     "word": "sources",
+     "likely_original": "source",
+     "gap_bits": -3.63
+    },
+    {
+     "word": "being",
+     "likely_original": "be",
+     "gap_bits": -5.27
+    }
+   ]
+  },
+  {
+   "document": "malware/password_cracking.md",
+   "start": 5243,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 2.9149877389810883,
+   "syngap_top3_dirichlet": 2.84632590840606,
+   "js_domain": 0.8635842514675194,
+   "lm_mean_surprisal": 5.177352870505008,
+   "lm_top5_surprisal": 15.589165687561035,
+   "ctx_syngap_top3": 2.428847594089651,
+   "ctx_top_words": [
+    {
+     "word": "source",
+     "likely_original": "reference",
+     "gap_bits": 3.88
+    },
+    {
+     "word": "role",
+     "likely_original": "use",
+     "gap_bits": 3.41
+    },
+    {
+     "word": "brute",
+     "likely_original": "animal",
+     "gap_bits": 0.0
+    }
+   ]
+  },
+  {
+   "document": "malware/password_cracking.md",
+   "start": 5600,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": -1.1978991189697676,
+   "syngap_top3_dirichlet": -1.8448753584536186,
+   "js_domain": 0.8682206661235845,
+   "lm_mean_surprisal": 7.910934653967227,
+   "lm_top5_surprisal": 15.309600830078125,
+   "ctx_syngap_top3": 1.5655110081036885,
+   "ctx_top_words": [
+    {
+     "word": "technical",
+     "likely_original": "expert",
+     "gap_bits": 1.91
+    },
+    {
+     "word": "source",
+     "likely_original": "reference",
+     "gap_bits": 1.52
+    },
+    {
+     "word": "review",
+     "likely_original": "inspection",
+     "gap_bits": 1.27
+    }
+   ]
+  },
+  {
+   "document": "spoofing/arp_spoofing.md",
+   "start": 0,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 0.8501172869364352,
+   "syngap_top3_dirichlet": 0.8657166067134714,
+   "js_domain": 0.8584552534621409,
+   "lm_mean_surprisal": 5.926498812235381,
+   "lm_top5_surprisal": 16.188350677490234,
+   "ctx_syngap_top3": 6.728838982797849,
+   "ctx_top_words": [
+    {
+     "word": "key",
+     "likely_original": "name",
+     "gap_bits": 15.84
+    },
+    {
+     "word": "category",
+     "likely_original": "class",
+     "gap_bits": 3.83
+    },
+    {
+     "word": "status",
+     "likely_original": "position",
+     "gap_bits": 0.51
+    }
+   ]
+  },
+  {
+   "document": "spoofing/arp_spoofing.md",
+   "start": 234,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 9.556739631006941,
+   "syngap_top3_dirichlet": 11.457272721001013,
+   "js_domain": 0.6458942035309218,
+   "lm_mean_surprisal": 4.762512423068402,
+   "lm_top5_surprisal": 14.451232528686523,
+   "ctx_syngap_top3": -1.8836358198507999,
+   "ctx_top_words": [
+    {
+     "word": "objectives",
+     "likely_original": "aim",
+     "gap_bits": -0.88
+    },
+    {
+     "word": "aids",
+     "likely_original": "aid",
+     "gap_bits": -1.46
+    },
+    {
+     "word": "corrupted",
+     "likely_original": "corrupt",
+     "gap_bits": -3.31
+    }
+   ]
+  },
+  {
+   "document": "spoofing/arp_spoofing.md",
+   "start": 630,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 5.8103350934847855,
+   "syngap_top3_dirichlet": 7.606379419036499,
+   "js_domain": 0.699100248623347,
+   "lm_mean_surprisal": 6.294418199639767,
+   "lm_top5_surprisal": 14.570464706420898,
+   "ctx_syngap_top3": -3.22458622418344,
+   "ctx_top_words": [
+    {
+     "word": "clients",
+     "likely_original": "client",
+     "gap_bits": 0.11
+    },
+    {
+     "word": "corrupted",
+     "likely_original": "corrupt",
+     "gap_bits": -4.41
+    },
+    {
+     "word": "browsers",
+     "likely_original": "browser",
+     "gap_bits": -5.37
+    }
+   ]
+  },
+  {
+   "document": "spoofing/arp_spoofing.md",
+   "start": 890,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 6.996444277364502,
+   "syngap_top3_dirichlet": 8.71340523152889,
+   "js_domain": 0.6801576744674906,
+   "lm_mean_surprisal": 4.561195891383049,
+   "lm_top5_surprisal": 16.973687362670898,
+   "ctx_syngap_top3": -0.611404452463224,
+   "ctx_top_words": [
+    {
+     "word": "point",
+     "likely_original": "level",
+     "gap_bits": 2.83
+    },
+    {
+     "word": "check",
+     "likely_original": "determine",
+     "gap_bits": -2.29
+    },
+    {
+     "word": "identify",
+     "likely_original": "discover",
+     "gap_bits": -2.38
+    }
+   ]
+  },
+  {
+   "document": "spoofing/arp_spoofing.md",
+   "start": 1283,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 7.8624764188309255,
+   "syngap_top3_dirichlet": 9.764689145878197,
+   "js_domain": 0.6430803238391821,
+   "lm_mean_surprisal": 5.025384826315567,
+   "lm_top5_surprisal": 16.506820487976075,
+   "ctx_syngap_top3": 1.8260750338279952,
+   "ctx_top_words": [
+    {
+     "word": "remember",
+     "likely_original": "retrieve",
+     "gap_bits": 3.66
+    },
+    {
+     "word": "bogus",
+     "likely_original": "fake",
+     "gap_bits": 1.47
+    },
+    {
+     "word": "cause",
+     "likely_original": "get",
+     "gap_bits": 0.35
+    }
+   ]
+  },
+  {
+   "document": "spoofing/arp_spoofing.md",
+   "start": 1675,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 6.924238984902008,
+   "syngap_top3_dirichlet": 7.568283745349302,
+   "js_domain": 0.6811510613423114,
+   "lm_mean_surprisal": 3.9753206939416943,
+   "lm_top5_surprisal": 14.507154083251953,
+   "ctx_syngap_top3": 6.420483559796897,
+   "ctx_top_words": [
+    {
+     "word": "interpose",
+     "likely_original": "inject",
+     "gap_bits": 13.06
+    },
+    {
+     "word": "targeted",
+     "likely_original": "target",
+     "gap_bits": 3.94
+    },
+    {
+     "word": "users",
+     "likely_original": "user",
+     "gap_bits": 2.27
+    }
+   ]
+  },
+  {
+   "document": "spoofing/arp_spoofing.md",
+   "start": 2099,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 3.22456273761263,
+   "syngap_top3_dirichlet": 2.997650800286881,
+   "js_domain": 0.7580172944103925,
+   "lm_mean_surprisal": 5.234717751559856,
+   "lm_top5_surprisal": 13.97079029083252,
+   "ctx_syngap_top3": 0.8343998825682016,
+   "ctx_top_words": [
+    {
+     "word": "intercept",
+     "likely_original": "stop",
+     "gap_bits": 2.77
+    },
+    {
+     "word": "bogus",
+     "likely_original": "fake",
+     "gap_bits": 0.74
+    },
+    {
+     "word": "modify",
+     "likely_original": "change",
+     "gap_bits": -1.01
+    }
+   ]
+  },
+  {
+   "document": "spoofing/arp_spoofing.md",
+   "start": 2340,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 4.200730893795099,
+   "syngap_top3_dirichlet": 5.068345425045132,
+   "js_domain": 0.66131598025203,
+   "lm_mean_surprisal": 6.120865052199819,
+   "lm_top5_surprisal": 16.15276966094971,
+   "ctx_syngap_top3": 5.975657097034855,
+   "ctx_top_words": [
+    {
+     "word": "targeted",
+     "likely_original": "target",
+     "gap_bits": 7.84
+    },
+    {
+     "word": "medium",
+     "likely_original": "sensitive",
+     "gap_bits": 7.17
+    },
+    {
+     "word": "calculations",
+     "likely_original": "computation",
+     "gap_bits": 2.92
+    }
+   ]
+  },
+  {
+   "document": "spoofing/arp_spoofing.md",
+   "start": 2662,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 6.130419744492582,
+   "syngap_top3_dirichlet": 6.926426640372117,
+   "js_domain": 0.7070422538025118,
+   "lm_mean_surprisal": 5.347838356130793,
+   "lm_top5_surprisal": 17.630221939086915,
+   "ctx_syngap_top3": 1.785825298788647,
+   "ctx_top_words": [
+    {
+     "word": "networked",
+     "likely_original": "network",
+     "gap_bits": 3.7
+    },
+    {
+     "word": "transmitted",
+     "likely_original": "send",
+     "gap_bits": 2.93
+    },
+    {
+     "word": "behaviors",
+     "likely_original": "behavior",
+     "gap_bits": -1.28
+    }
+   ]
+  },
+  {
+   "document": "spoofing/arp_spoofing.md",
+   "start": 3085,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 6.317072185102236,
+   "syngap_top3_dirichlet": 7.863516146540344,
+   "js_domain": 0.6462222120787159,
+   "lm_mean_surprisal": 4.715700927615455,
+   "lm_top5_surprisal": 13.971941947937012,
+   "ctx_syngap_top3": 5.113577406542997,
+   "ctx_top_words": [
+    {
+     "word": "networked",
+     "likely_original": "network",
+     "gap_bits": 7.76
+    },
+    {
+     "word": "link",
+     "likely_original": "connection",
+     "gap_bits": 6.36
+    },
+    {
+     "word": "segment",
+     "likely_original": "section",
+     "gap_bits": 1.22
+    }
+   ]
+  },
+  {
+   "document": "spoofing/arp_spoofing.md",
+   "start": 3490,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 5.140389681063511,
+   "syngap_top3_dirichlet": 6.310028223890504,
+   "js_domain": 0.7362099567744584,
+   "lm_mean_surprisal": 5.275893796156061,
+   "lm_top5_surprisal": 12.297381019592285,
+   "ctx_syngap_top3": 2.6065225675702095,
+   "ctx_top_words": [
+    {
+     "word": "networked",
+     "likely_original": "network",
+     "gap_bits": 6.88
+    },
+    {
+     "word": "directly",
+     "likely_original": "now",
+     "gap_bits": 2.58
+    },
+    {
+     "word": "information",
+     "likely_original": "data",
+     "gap_bits": -1.65
+    }
+   ]
+  },
+  {
+   "document": "spoofing/arp_spoofing.md",
+   "start": 3718,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 7.119584547145453,
+   "syngap_top3_dirichlet": 8.12132616673581,
+   "js_domain": 0.6565525478487781,
+   "lm_mean_surprisal": 4.838685290554743,
+   "lm_top5_surprisal": 15.403984451293946,
+   "ctx_syngap_top3": 2.0294282468385063,
+   "ctx_top_words": [
+    {
+     "word": "networked",
+     "likely_original": "network",
+     "gap_bits": 7.59
+    },
+    {
+     "word": "gratuitous",
+     "likely_original": "free",
+     "gap_bits": 3.48
+    },
+    {
+     "word": "requesting",
+     "likely_original": "request",
+     "gap_bits": -4.98
+    }
+   ]
+  },
+  {
+   "document": "spoofing/arp_spoofing.md",
+   "start": 4116,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 5.445663664828968,
+   "syngap_top3_dirichlet": 6.616596395238989,
+   "js_domain": 0.6933247928613564,
+   "lm_mean_surprisal": 6.596299108862877,
+   "lm_top5_surprisal": 15.167093849182129,
+   "ctx_syngap_top3": 3.376262903213501,
+   "ctx_top_words": [
+    {
+     "word": "gratuitous",
+     "likely_original": "free",
+     "gap_bits": 7.74
+    },
+    {
+     "word": "reply",
+     "likely_original": "response",
+     "gap_bits": 2.27
+    },
+    {
+     "word": "particular",
+     "likely_original": "specific",
+     "gap_bits": 0.12
+    }
+   ]
+  },
+  {
+   "document": "spoofing/arp_spoofing.md",
+   "start": 4271,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 4.71524239408913,
+   "syngap_top3_dirichlet": 5.946367382492352,
+   "js_domain": 0.6330726052937797,
+   "lm_mean_surprisal": 4.928671097803234,
+   "lm_top5_surprisal": 16.818838119506836,
+   "ctx_syngap_top3": 0.3355947529101589,
+   "ctx_top_words": [
+    {
+     "word": "wrongly",
+     "likely_original": "incorrectly",
+     "gap_bits": 4.36
+    },
+    {
+     "word": "means",
+     "likely_original": "way",
+     "gap_bits": -0.99
+    },
+    {
+     "word": "therefore",
+     "likely_original": "thus",
+     "gap_bits": -2.37
+    }
+   ]
+  },
+  {
+   "document": "spoofing/arp_spoofing.md",
+   "start": 4763,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": -1.1169733519813494,
+   "syngap_top3_dirichlet": -1.151729708738145,
+   "js_domain": 0.734699194369832,
+   "lm_mean_surprisal": 6.601820820841777,
+   "lm_top5_surprisal": 16.70256175994873,
+   "ctx_syngap_top3": -2.9171697047616667,
+   "ctx_top_words": [
+    {
+     "word": "authoritative",
+     "likely_original": "important",
+     "gap_bits": 3.36
+    },
+    {
+     "word": "content",
+     "likely_original": "message",
+     "gap_bits": -5.82
+    },
+    {
+     "word": "source",
+     "likely_original": "reference",
+     "gap_bits": -6.29
+    }
+   ]
+  },
+  {
+   "document": "spoofing/arp_spoofing.md",
+   "start": 5004,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 2.420468006357796,
+   "syngap_top3_dirichlet": 2.588223450459994,
+   "js_domain": 0.6042853489000082,
+   "lm_mean_surprisal": 6.012551795500323,
+   "lm_top5_surprisal": 17.354942321777344,
+   "ctx_syngap_top3": 2.0020245822476377,
+   "ctx_top_words": [
+    {
+     "word": "role",
+     "likely_original": "use",
+     "gap_bits": 3.72
+    },
+    {
+     "word": "represented",
+     "likely_original": "present",
+     "gap_bits": 2.29
+    },
+    {
+     "word": "middle",
+     "likely_original": "eye",
+     "gap_bits": 0.0
+    }
+   ]
+  },
+  {
+   "document": "spoofing/arp_spoofing.md",
+   "start": 5500,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": -1.291241726588683,
+   "syngap_top3_dirichlet": -1.8448753584536188,
+   "js_domain": 0.8670784883459762,
+   "lm_mean_surprisal": 7.910934653967227,
+   "lm_top5_surprisal": 15.309600830078125,
+   "ctx_syngap_top3": 1.5655110081036885,
+   "ctx_top_words": [
+    {
+     "word": "technical",
+     "likely_original": "expert",
+     "gap_bits": 1.91
+    },
+    {
+     "word": "source",
+     "likely_original": "reference",
+     "gap_bits": 1.52
+    },
+    {
+     "word": "review",
+     "likely_original": "inspection",
+     "gap_bits": 1.27
+    }
+   ]
+  },
+  {
+   "document": "spoofing/dns_spoofing.md",
+   "start": 0,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": 0.9040626910048092,
+   "syngap_top3_dirichlet": 0.9218774887166715,
+   "js_domain": 0.8610825579650812,
+   "lm_mean_surprisal": 5.731637210407847,
+   "lm_top5_surprisal": 15.862168312072754,
+   "ctx_syngap_top3": 5.952976059653641,
+   "ctx_top_words": [
+    {
+     "word": "key",
+     "likely_original": "name",
+     "gap_bits": 12.08
+    },
+    {
+     "word": "category",
+     "likely_original": "family",
+     "gap_bits": 4.3
+    },
+    {
+     "word": "status",
+     "likely_original": "position",
+     "gap_bits": 1.48
+    }
+   ]
+  },
+  {
+   "document": "spoofing/dns_spoofing.md",
+   "start": 206,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": 5.9416803012035055,
+   "syngap_top3_dirichlet": 7.835644602306786,
+   "js_domain": 0.6000371234913583,
+   "lm_mean_surprisal": 6.033900107611387,
+   "lm_top5_surprisal": 16.60981330871582,
+   "ctx_syngap_top3": 4.255529626340528,
+   "ctx_top_words": [
+    {
+     "word": "tampering",
+     "likely_original": "monkey",
+     "gap_bits": 10.17
+    },
+    {
+     "word": "routing",
+     "likely_original": "route",
+     "gap_bits": 5.73
+    },
+    {
+     "word": "route",
+     "likely_original": "path",
+     "gap_bits": -3.13
+    }
+   ]
+  },
+  {
+   "document": "spoofing/dns_spoofing.md",
+   "start": 666,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": 2.8389062964468312,
+   "syngap_top3_dirichlet": 2.476697161037272,
+   "js_domain": 0.7700997257396345,
+   "lm_mean_surprisal": 7.770067407001563,
+   "lm_top5_surprisal": 17.06386489868164,
+   "ctx_syngap_top3": 9.32257620889383,
+   "ctx_top_words": [
+    {
+     "word": "path",
+     "likely_original": "track",
+     "gap_bits": 11.5
+    },
+    {
+     "word": "low",
+     "likely_original": "first",
+     "gap_bits": 11.11
+    },
+    {
+     "word": "distribute",
+     "likely_original": "broadcast",
+     "gap_bits": 5.36
+    }
+   ]
+  },
+  {
+   "document": "spoofing/dns_spoofing.md",
+   "start": 823,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": 5.843972487192363,
+   "syngap_top3_dirichlet": 6.310108053177806,
+   "js_domain": 0.6439886141922416,
+   "lm_mean_surprisal": 4.410114223851573,
+   "lm_top5_surprisal": 15.036113929748534,
+   "ctx_syngap_top3": 2.0768660076961774,
+   "ctx_top_words": [
+    {
+     "word": "position",
+     "likely_original": "place",
+     "gap_bits": 3.27
+    },
+    {
+     "word": "networking",
+     "likely_original": "network",
+     "gap_bits": 3.02
+    },
+    {
+     "word": "transmitted",
+     "likely_original": "send",
+     "gap_bits": -0.06
+    }
+   ]
+  },
+  {
+   "document": "spoofing/dns_spoofing.md",
+   "start": 1241,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": 5.987228441433182,
+   "syngap_top3_dirichlet": 7.124348220351447,
+   "js_domain": 0.6882275741536418,
+   "lm_mean_surprisal": 6.31443773239528,
+   "lm_top5_surprisal": 16.43532371520996,
+   "ctx_syngap_top3": 1.7393753484357148,
+   "ctx_top_words": [
+    {
+     "word": "networking",
+     "likely_original": "network",
+     "gap_bits": 2.83
+    },
+    {
+     "word": "controlled",
+     "likely_original": "control",
+     "gap_bits": 1.38
+    },
+    {
+     "word": "information",
+     "likely_original": "data",
+     "gap_bits": 1.01
+    }
+   ]
+  },
+  {
+   "document": "spoofing/dns_spoofing.md",
+   "start": 1548,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": 8.343055352703042,
+   "syngap_top3_dirichlet": 10.284830504686795,
+   "js_domain": 0.7447035975732178,
+   "lm_mean_surprisal": 5.735792356922365,
+   "lm_top5_surprisal": 17.33428249359131,
+   "ctx_syngap_top3": -0.3072359690753122,
+   "ctx_top_words": [
+    {
+     "word": "position",
+     "likely_original": "status",
+     "gap_bits": 2.65
+    },
+    {
+     "word": "tokens",
+     "likely_original": "token",
+     "gap_bits": -1.66
+    },
+    {
+     "word": "leverage",
+     "likely_original": "leveraging",
+     "gap_bits": -1.92
+    }
+   ]
+  },
+  {
+   "document": "spoofing/dns_spoofing.md",
+   "start": 1948,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": 5.833265701864652,
+   "syngap_top3_dirichlet": 7.3485538999245925,
+   "js_domain": 0.7483994103296956,
+   "lm_mean_surprisal": 5.320072734603118,
+   "lm_top5_surprisal": 19.294332885742186,
+   "ctx_syngap_top3": 5.374875193510282,
+   "ctx_top_words": [
+    {
+     "word": "citation",
+     "likely_original": "quote",
+     "gap_bits": 15.43
+    },
+    {
+     "word": "web",
+     "likely_original": "network",
+     "gap_bits": 1.81
+    },
+    {
+     "word": "position",
+     "likely_original": "status",
+     "gap_bits": -1.12
+    }
+   ]
+  },
+  {
+   "document": "spoofing/dns_spoofing.md",
+   "start": 2354,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": 3.0210091045705862,
+   "syngap_top3_dirichlet": 3.643849661852533,
+   "js_domain": 0.9103488243305915,
+   "lm_mean_surprisal": 5.219352090317788,
+   "lm_top5_surprisal": 16.020556640625,
+   "ctx_syngap_top3": -7.808045784321924,
+   "ctx_top_words": [
+    {
+     "word": "weaker",
+     "likely_original": "weak",
+     "gap_bits": -5.3
+    },
+    {
+     "word": "encryption",
+     "likely_original": "encoding",
+     "gap_bits": -8.94
+    },
+    {
+     "word": "version",
+     "likely_original": "edition",
+     "gap_bits": -9.19
+    }
+   ]
+  },
+  {
+   "document": "spoofing/dns_spoofing.md",
+   "start": 2541,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": 6.1424673848269835,
+   "syngap_top3_dirichlet": 7.887920224815704,
+   "js_domain": 0.6291438964625715,
+   "lm_mean_surprisal": 5.302053923117389,
+   "lm_top5_surprisal": 15.5381441116333,
+   "ctx_syngap_top3": 1.7463129175982128,
+   "ctx_top_words": [
+    {
+     "word": "manipulation",
+     "likely_original": "handling",
+     "gap_bits": 2.57
+    },
+    {
+     "word": "position",
+     "likely_original": "status",
+     "gap_bits": 1.35
+    },
+    {
+     "word": "transmitted",
+     "likely_original": "send",
+     "gap_bits": 1.32
+    }
+   ]
+  },
+  {
+   "document": "spoofing/dns_spoofing.md",
+   "start": 2966,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": -0.6386735742952941,
+   "syngap_top3_dirichlet": -0.6733095167212083,
+   "js_domain": 0.7271758181910131,
+   "lm_mean_surprisal": 6.73095954688584,
+   "lm_top5_surprisal": 16.6694242477417,
+   "ctx_syngap_top3": -1.5994740494158275,
+   "ctx_top_words": [
+    {
+     "word": "authoritative",
+     "likely_original": "important",
+     "gap_bits": 2.63
+    },
+    {
+     "word": "network",
+     "likely_original": "web",
+     "gap_bits": -1.65
+    },
+    {
+     "word": "devices",
+     "likely_original": "device",
+     "gap_bits": -5.78
+    }
+   ]
+  },
+  {
+   "document": "spoofing/dns_spoofing.md",
+   "start": 3225,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": 2.520830725043093,
+   "syngap_top3_dirichlet": 1.9448683206035924,
+   "js_domain": 0.6351682621613437,
+   "lm_mean_surprisal": 6.771455947933795,
+   "lm_top5_surprisal": 16.542506980895997,
+   "ctx_syngap_top3": -2.395128315043015,
+   "ctx_top_words": [
+    {
+     "word": "represented",
+     "likely_original": "present",
+     "gap_bits": 1.71
+    },
+    {
+     "word": "sources",
+     "likely_original": "source",
+     "gap_bits": -3.63
+    },
+    {
+     "word": "being",
+     "likely_original": "be",
+     "gap_bits": -5.27
+    }
+   ]
+  },
+  {
+   "document": "spoofing/dns_spoofing.md",
+   "start": 3492,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": -0.07680629758117104,
+   "syngap_top3_dirichlet": -0.01031320476067421,
+   "js_domain": 0.7395537858682161,
+   "lm_mean_surprisal": 6.006766781911783,
+   "lm_top5_surprisal": 17.470723342895507,
+   "ctx_syngap_top3": 1.481256551584617,
+   "ctx_top_words": [
+    {
+     "word": "role",
+     "likely_original": "part",
+     "gap_bits": 2.75
+    },
+    {
+     "word": "preserved",
+     "likely_original": "save",
+     "gap_bits": 1.69
+    },
+    {
+     "word": "security",
+     "likely_original": "protection",
+     "gap_bits": -0.0
+    }
+   ]
+  },
+  {
+   "document": "injection/uploading.md",
+   "start": 0,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": 1.7233499813029358,
+   "syngap_top3_dirichlet": 1.724770936310593,
+   "js_domain": 0.8501749560841111,
+   "lm_mean_surprisal": 6.324203361151488,
+   "lm_top5_surprisal": 16.59426803588867,
+   "ctx_syngap_top3": 8.887470381392632,
+   "ctx_top_words": [
+    {
+     "word": "key",
+     "likely_original": "name",
+     "gap_bits": 14.46
+    },
+    {
+     "word": "uploading",
+     "likely_original": "upload",
+     "gap_bits": 8.6
+    },
+    {
+     "word": "category",
+     "likely_original": "class",
+     "gap_bits": 3.61
+    }
+   ]
+  },
+  {
+   "document": "injection/uploading.md",
+   "start": 236,
+   "label": 1,
+   "split": "held_out",
+   "syngap_top3_domain": 5.3265364281762455,
+   "syngap_top3_dirichlet": 6.102324011022609,
+   "js_domain": 0.6023295560287055,
+   "lm_mean_surprisal": 5.867582936118218,
+   "lm_top5_surprisal": 15.944533157348634,
+   "ctx_syngap_top3": 0.23110205959528685,
+   "ctx_top_words": [
+    {
+     "word": "interfaces",
+     "likely_original": "interface",
+     "gap_bits": 1.64
+    },
+    {
+     "word": "correct",
+     "likely_original": "right",
+     "gap_bits": 0.09
+    },
+    {
+     "word": "particularly",
+     "likely_original": "especially",
+     "gap_bits": -1.04
+    }
+   ]
+  },
+  {
+   "document": "injection/uploading.md",
+   "start": 643,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": 3.8273715308705136,
+   "syngap_top3_dirichlet": 3.933042575372769,
+   "js_domain": 0.7504491429515623,
+   "lm_mean_surprisal": 7.066358307082402,
+   "lm_top5_surprisal": 14.093378067016602,
+   "ctx_syngap_top3": -0.15288413067658743,
+   "ctx_top_words": [
+    {
+     "word": "administrators",
+     "likely_original": "administrator",
+     "gap_bits": 0.05
+    },
+    {
+     "word": "interfaces",
+     "likely_original": "interface",
+     "gap_bits": -0.0
+    },
+    {
+     "word": "correct",
+     "likely_original": "right",
+     "gap_bits": -0.5
+    }
+   ]
+  },
+  {
+   "document": "injection/uploading.md",
+   "start": 776,
+   "label": 1,
+   "split": "held_out",
+   "syngap_top3_domain": 4.573061122247388,
+   "syngap_top3_dirichlet": 5.221406216667656,
+   "js_domain": 0.6753687352271603,
+   "lm_mean_surprisal": 3.7604366319024334,
+   "lm_top5_surprisal": 17.387675857543947,
+   "ctx_syngap_top3": -0.03784596495097503,
+   "ctx_top_words": [
+    {
+     "word": "view",
+     "likely_original": "see",
+     "gap_bits": 0.31
+    },
+    {
+     "word": "broad",
+     "likely_original": "wide",
+     "gap_bits": 0.07
+    },
+    {
+     "word": "give",
+     "likely_original": "have",
+     "gap_bits": -0.49
+    }
+   ]
+  },
+  {
+   "document": "injection/uploading.md",
+   "start": 1168,
+   "label": 1,
+   "split": "held_out",
+   "syngap_top3_domain": 7.568356836325354,
+   "syngap_top3_dirichlet": 9.306691444872515,
+   "js_domain": 0.7358708417681625,
+   "lm_mean_surprisal": 3.0699031011705906,
+   "lm_top5_surprisal": 16.48823776245117,
+   "ctx_syngap_top3": 1.623718423579703,
+   "ctx_top_words": [
+    {
+     "word": "files",
+     "likely_original": "file",
+     "gap_bits": 5.73
+    },
+    {
+     "word": "techniques",
+     "likely_original": "technique",
+     "gap_bits": 1.57
+    },
+    {
+     "word": "attempt",
+     "likely_original": "try",
+     "gap_bits": -2.42
+    }
+   ]
+  },
+  {
+   "document": "injection/uploading.md",
+   "start": 1602,
+   "label": 1,
+   "split": "held_out",
+   "syngap_top3_domain": 6.322734430983843,
+   "syngap_top3_dirichlet": 7.094344931212203,
+   "js_domain": 0.7608859728158394,
+   "lm_mean_surprisal": 4.853171046859786,
+   "lm_top5_surprisal": 12.75645866394043,
+   "ctx_syngap_top3": 0.8828314857867857,
+   "ctx_top_words": [
+    {
+     "word": "allow",
+     "likely_original": "provide",
+     "gap_bits": 4.14
+    },
+    {
+     "word": "adversary",
+     "likely_original": "opponent",
+     "gap_bits": 1.35
+    },
+    {
+     "word": "execute",
+     "likely_original": "action",
+     "gap_bits": -2.84
+    }
+   ]
+  },
+  {
+   "document": "injection/uploading.md",
+   "start": 1819,
+   "label": 1,
+   "split": "held_out",
+   "syngap_top3_domain": 7.895725374626784,
+   "syngap_top3_dirichlet": 9.47094873699461,
+   "js_domain": 0.6862107780587493,
+   "lm_mean_surprisal": 5.940513355184138,
+   "lm_top5_surprisal": 13.528552436828614,
+   "ctx_syngap_top3": -1.383590351314827,
+   "ctx_top_words": [
+    {
+     "word": "object",
+     "likely_original": "target",
+     "gap_bits": 4.97
+    },
+    {
+     "word": "incorrectly",
+     "likely_original": "wrong",
+     "gap_bits": -4.03
+    },
+    {
+     "word": "directly",
+     "likely_original": "immediately",
+     "gap_bits": -5.1
+    }
+   ]
+  },
+  {
+   "document": "injection/uploading.md",
+   "start": 2121,
+   "label": 1,
+   "split": "held_out",
+   "syngap_top3_domain": 4.848187880167908,
+   "syngap_top3_dirichlet": 5.11004471555641,
+   "js_domain": 0.7695684389457382,
+   "lm_mean_surprisal": 6.077172247360546,
+   "lm_top5_surprisal": 14.212208938598632,
+   "ctx_syngap_top3": 4.033139849920796,
+   "ctx_top_words": [
+    {
+     "word": "low",
+     "likely_original": "first",
+     "gap_bits": 9.08
+    },
+    {
+     "word": "publishes",
+     "likely_original": "release",
+     "gap_bits": 2.38
+    },
+    {
+     "word": "server",
+     "likely_original": "host",
+     "gap_bits": 0.63
+    }
+   ]
+  },
+  {
+   "document": "injection/uploading.md",
+   "start": 2412,
+   "label": 1,
+   "split": "held_out",
+   "syngap_top3_domain": 1.1863723260057029,
+   "syngap_top3_dirichlet": 1.1492580146570965,
+   "js_domain": 0.8356959208598199,
+   "lm_mean_surprisal": 4.4902357866875775,
+   "lm_top5_surprisal": 16.867055892944336,
+   "ctx_syngap_top3": 5.227130060908773,
+   "ctx_top_words": [
+    {
+     "word": "low",
+     "likely_original": "first",
+     "gap_bits": 8.84
+    },
+    {
+     "word": "run",
+     "likely_original": "execute",
+     "gap_bits": 6.81
+    },
+    {
+     "word": "commands",
+     "likely_original": "command",
+     "gap_bits": 0.03
+    }
+   ]
+  },
+  {
+   "document": "injection/uploading.md",
+   "start": 2835,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": 1.7350775425662726,
+   "syngap_top3_dirichlet": 1.7487647093099508,
+   "js_domain": 0.6386154401541005,
+   "lm_mean_surprisal": 5.940442483225375,
+   "lm_top5_surprisal": 16.562602615356447,
+   "ctx_syngap_top3": 2.367346614104463,
+   "ctx_top_words": [
+    {
+     "word": "host",
+     "likely_original": "server",
+     "gap_bits": 5.38
+    },
+    {
+     "word": "glitch",
+     "likely_original": "bug",
+     "gap_bits": 3.32
+    },
+    {
+     "word": "public",
+     "likely_original": "world",
+     "gap_bits": -1.6
+    }
+   ]
+  },
+  {
+   "document": "injection/uploading.md",
+   "start": 3123,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": 2.2884101092301976,
+   "syngap_top3_dirichlet": 2.249194212891256,
+   "js_domain": 0.7830321805831683,
+   "lm_mean_surprisal": 5.969356450542903,
+   "lm_top5_surprisal": 15.527970886230468,
+   "ctx_syngap_top3": 3.762901942349951,
+   "ctx_top_words": [
+    {
+     "word": "exploited",
+     "likely_original": "used",
+     "gap_bits": 10.5
+    },
+    {
+     "word": "websites",
+     "likely_original": "site",
+     "gap_bits": 4.12
+    },
+    {
+     "word": "web",
+     "likely_original": "network",
+     "gap_bits": -3.33
+    }
+   ]
+  },
+  {
+   "document": "injection/uploading.md",
+   "start": 3528,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": 2.488042776895685,
+   "syngap_top3_dirichlet": 2.192004299886413,
+   "js_domain": 0.7973012584707647,
+   "lm_mean_surprisal": 6.3563061650683945,
+   "lm_top5_surprisal": 19.534228897094728,
+   "ctx_syngap_top3": -1.3123888172364484,
+   "ctx_top_words": [
+    {
+     "word": "involve",
+     "likely_original": "require",
+     "gap_bits": -0.56
+    },
+    {
+     "word": "exploitation",
+     "likely_original": "using",
+     "gap_bits": -1.58
+    },
+    {
+     "word": "alternatively",
+     "likely_original": "instead",
+     "gap_bits": -1.79
+    }
+   ]
+  },
+  {
+   "document": "injection/uploading.md",
+   "start": 4084,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": 2.415565284719925,
+   "syngap_top3_dirichlet": 2.3414894334762075,
+   "js_domain": 0.6273113066275299,
+   "lm_mean_surprisal": 4.9513543850175505,
+   "lm_top5_surprisal": 15.383472633361816,
+   "ctx_syngap_top3": 6.660629030423782,
+   "ctx_top_words": [
+    {
+     "word": "path",
+     "likely_original": "way",
+     "gap_bits": 9.1
+    },
+    {
+     "word": "escape",
+     "likely_original": "run",
+     "gap_bits": 7.09
+    },
+    {
+     "word": "allow",
+     "likely_original": "provide",
+     "gap_bits": 3.79
+    }
+   ]
+  },
+  {
+   "document": "injection/uploading.md",
+   "start": 4580,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": 1.912215969691914,
+   "syngap_top3_dirichlet": 1.9156911640351428,
+   "js_domain": 0.7452581507135285,
+   "lm_mean_surprisal": 6.02304326914528,
+   "lm_top5_surprisal": 15.550234985351562,
+   "ctx_syngap_top3": -0.471809365961235,
+   "ctx_top_words": [
+    {
+     "word": "targeting",
+     "likely_original": "target",
+     "gap_bits": 2.4
+    },
+    {
+     "word": "related",
+     "likely_original": "link",
+     "gap_bits": -0.71
+    },
+    {
+     "word": "defenses",
+     "likely_original": "defense",
+     "gap_bits": -3.11
+    }
+   ]
+  },
+  {
+   "document": "injection/uploading.md",
+   "start": 4973,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": -0.09948393106313998,
+   "syngap_top3_dirichlet": -0.12797709400699434,
+   "js_domain": 0.726506677794524,
+   "lm_mean_surprisal": 6.566184293544949,
+   "lm_top5_surprisal": 16.56562747955322,
+   "ctx_syngap_top3": -2.9087961768964306,
+   "ctx_top_words": [
+    {
+     "word": "authoritative",
+     "likely_original": "important",
+     "gap_bits": 1.93
+    },
+    {
+     "word": "network",
+     "likely_original": "web",
+     "gap_bits": -4.9
+    },
+    {
+     "word": "containers",
+     "likely_original": "container",
+     "gap_bits": -5.76
+    }
+   ]
+  },
+  {
+   "document": "injection/uploading.md",
+   "start": 5259,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": 2.5064760038926255,
+   "syngap_top3_dirichlet": 1.957916499788001,
+   "js_domain": 0.6318311789006775,
+   "lm_mean_surprisal": 6.771455947933795,
+   "lm_top5_surprisal": 16.542506980895997,
+   "ctx_syngap_top3": -2.395128315043015,
+   "ctx_top_words": [
+    {
+     "word": "represented",
+     "likely_original": "present",
+     "gap_bits": 1.71
+    },
+    {
+     "word": "sources",
+     "likely_original": "source",
+     "gap_bits": -3.63
+    },
+    {
+     "word": "being",
+     "likely_original": "be",
+     "gap_bits": -5.27
+    }
+   ]
+  },
+  {
+   "document": "injection/uploading.md",
+   "start": 5526,
+   "label": 0,
+   "split": "held_out",
+   "syngap_top3_domain": 0.7359324244954267,
+   "syngap_top3_dirichlet": 0.6896947333312324,
+   "js_domain": 0.7654276098524329,
+   "lm_mean_surprisal": 6.376351876150215,
+   "lm_top5_surprisal": 17.36053009033203,
+   "ctx_syngap_top3": 2.71891112839027,
+   "ctx_top_words": [
+    {
+     "word": "role",
+     "likely_original": "part",
+     "gap_bits": 5.92
+    },
+    {
+     "word": "preserved",
+     "likely_original": "save",
+     "gap_bits": 2.24
+    },
+    {
+     "word": "facing",
+     "likely_original": "present",
+     "gap_bits": -0.0
+    }
+   ]
+  },
+  {
+   "document": "injection/xss.md",
+   "start": 0,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 2.9671546527967485,
+   "syngap_top3_dirichlet": 3.3408571783471355,
+   "js_domain": 0.850103700540231,
+   "lm_mean_surprisal": 6.13299406280602,
+   "lm_top5_surprisal": 16.551273918151857,
+   "ctx_syngap_top3": 4.435086912281501,
+   "ctx_top_words": [
+    {
+     "word": "key",
+     "likely_original": "name",
+     "gap_bits": 10.02
+    },
+    {
+     "word": "category",
+     "likely_original": "class",
+     "gap_bits": 2.36
+    },
+    {
+     "word": "status",
+     "likely_original": "position",
+     "gap_bits": 0.92
+    }
+   ]
+  },
+  {
+   "document": "injection/xss.md",
+   "start": 229,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 8.021783052759803,
+   "syngap_top3_dirichlet": 9.814042904351156,
+   "js_domain": 0.5533265668360571,
+   "lm_mean_surprisal": 5.0538273789576795,
+   "lm_top5_surprisal": 14.87402114868164,
+   "ctx_syngap_top3": -5.264846048162629,
+   "ctx_top_words": [
+    {
+     "word": "injecting",
+     "likely_original": "inject",
+     "gap_bits": -0.12
+    },
+    {
+     "word": "exploits",
+     "likely_original": "exploit",
+     "gap_bits": -7.8
+    },
+    {
+     "word": "controls",
+     "likely_original": "check",
+     "gap_bits": -7.87
+    }
+   ]
+  },
+  {
+   "document": "injection/xss.md",
+   "start": 633,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 7.8749377857888625,
+   "syngap_top3_dirichlet": 9.671113550837765,
+   "js_domain": 0.717919004249688,
+   "lm_mean_surprisal": 5.426247499527081,
+   "lm_top5_surprisal": 12.289991569519042,
+   "ctx_syngap_top3": -1.668075412356605,
+   "ctx_top_words": [
+    {
+     "word": "injecting",
+     "likely_original": "inject",
+     "gap_bits": 0.01
+    },
+    {
+     "word": "controls",
+     "likely_original": "control",
+     "gap_bits": -0.42
+    },
+    {
+     "word": "detect",
+     "likely_original": "find",
+     "gap_bits": -4.59
+    }
+   ]
+  },
+  {
+   "document": "injection/xss.md",
+   "start": 909,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 7.366297104610506,
+   "syngap_top3_dirichlet": 8.6874241731742,
+   "js_domain": 0.6745711045078507,
+   "lm_mean_surprisal": 4.83809994995468,
+   "lm_top5_surprisal": 16.545348358154296,
+   "ctx_syngap_top3": 2.1900734084968767,
+   "ctx_top_words": [
+    {
+     "word": "inputs",
+     "likely_original": "input",
+     "gap_bits": 2.87
+    },
+    {
+     "word": "survey",
+     "likely_original": "study",
+     "gap_bits": 2.45
+    },
+    {
+     "word": "analyze",
+     "likely_original": "examine",
+     "gap_bits": 1.24
+    }
+   ]
+  },
+  {
+   "document": "injection/xss.md",
+   "start": 1315,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 5.486748755339375,
+   "syngap_top3_dirichlet": 5.778138417373796,
+   "js_domain": 0.6372168095266122,
+   "lm_mean_surprisal": 5.097604417528298,
+   "lm_top5_surprisal": 14.183876419067383,
+   "ctx_syngap_top3": -0.002856840015738271,
+   "ctx_top_words": [
+    {
+     "word": "make",
+     "likely_original": "take",
+     "gap_bits": 0.63
+    },
+    {
+     "word": "follow",
+     "likely_original": "watch",
+     "gap_bits": 0.58
+    },
+    {
+     "word": "special",
+     "likely_original": "particular",
+     "gap_bits": -1.22
+    }
+   ]
+  },
+  {
+   "document": "injection/xss.md",
+   "start": 1669,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 9.091888722120881,
+   "syngap_top3_dirichlet": 10.694669539440119,
+   "js_domain": 0.6532023769125641,
+   "lm_mean_surprisal": 5.355087142121258,
+   "lm_top5_surprisal": 15.333652877807618,
+   "ctx_syngap_top3": 0.3591393641351412,
+   "ctx_top_words": [
+    {
+     "word": "gathered",
+     "likely_original": "collected",
+     "gap_bits": 2.48
+    },
+    {
+     "word": "identified",
+     "likely_original": "identify",
+     "gap_bits": -0.03
+    },
+    {
+     "word": "potential",
+     "likely_original": "possible",
+     "gap_bits": -1.37
+    }
+   ]
+  },
+  {
+   "document": "injection/xss.md",
+   "start": 2062,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 6.10224060564536,
+   "syngap_top3_dirichlet": 7.145502682871668,
+   "js_domain": 0.6839704503835111,
+   "lm_mean_surprisal": 4.073669266170812,
+   "lm_top5_surprisal": 14.641921043395996,
+   "ctx_syngap_top3": -1.7175611125809762,
+   "ctx_top_words": [
+    {
+     "word": "represents",
+     "likely_original": "present",
+     "gap_bits": -0.5
+    },
+    {
+     "word": "actually",
+     "likely_original": "really",
+     "gap_bits": -1.17
+    },
+    {
+     "word": "probes",
+     "likely_original": "probe",
+     "gap_bits": -3.48
+    }
+   ]
+  },
+  {
+   "document": "injection/xss.md",
+   "start": 2459,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 8.671792481083685,
+   "syngap_top3_dirichlet": 10.49592947215739,
+   "js_domain": 0.7269520196569987,
+   "lm_mean_surprisal": 3.857894919675318,
+   "lm_top5_surprisal": 14.408212280273437,
+   "ctx_syngap_top3": -0.5460418808700828,
+   "ctx_top_words": [
+    {
+     "word": "list",
+     "likely_original": "number",
+     "gap_bits": 3.34
+    },
+    {
+     "word": "known",
+     "likely_original": "experience",
+     "gap_bits": -1.09
+    },
+    {
+     "word": "contain",
+     "likely_original": "carry",
+     "gap_bits": -3.89
+    }
+   ]
+  },
+  {
+   "document": "injection/xss.md",
+   "start": 2869,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 7.6835083584581225,
+   "syngap_top3_dirichlet": 9.51200954988196,
+   "js_domain": 0.6726337297837071,
+   "lm_mean_surprisal": 4.825007174254487,
+   "lm_top5_surprisal": 15.88942928314209,
+   "ctx_syngap_top3": 0.8036467389125997,
+   "ctx_top_words": [
+    {
+     "word": "develop",
+     "likely_original": "produce",
+     "gap_bits": 7.77
+    },
+    {
+     "word": "analyze",
+     "likely_original": "examine",
+     "gap_bits": -0.85
+    },
+    {
+     "word": "sends",
+     "likely_original": "send",
+     "gap_bits": -4.51
+    }
+   ]
+  },
+  {
+   "document": "injection/xss.md",
+   "start": 3275,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 6.997986247438891,
+   "syngap_top3_dirichlet": 8.719573939136252,
+   "js_domain": 0.6632246386651786,
+   "lm_mean_surprisal": 5.768385883121963,
+   "lm_top5_surprisal": 16.38106575012207,
+   "ctx_syngap_top3": 4.337819220954164,
+   "ctx_top_words": [
+    {
+     "word": "develop",
+     "likely_original": "produce",
+     "gap_bits": 8.44
+    },
+    {
+     "word": "attacks",
+     "likely_original": "attack",
+     "gap_bits": 2.92
+    },
+    {
+     "word": "sends",
+     "likely_original": "send",
+     "gap_bits": 1.66
+    }
+   ]
+  },
+  {
+   "document": "injection/xss.md",
+   "start": 3676,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 5.87343717595489,
+   "syngap_top3_dirichlet": 7.700604819913501,
+   "js_domain": 0.5968543833028914,
+   "lm_mean_surprisal": 5.395500354627057,
+   "lm_top5_surprisal": 16.066556930541992,
+   "ctx_syngap_top3": 3.2480856220548353,
+   "ctx_top_words": [
+    {
+     "word": "develop",
+     "likely_original": "produce",
+     "gap_bits": 6.91
+    },
+    {
+     "word": "performs",
+     "likely_original": "execute",
+     "gap_bits": 2.35
+    },
+    {
+     "word": "create",
+     "likely_original": "make",
+     "gap_bits": 0.48
+    }
+   ]
+  },
+  {
+   "document": "injection/xss.md",
+   "start": 4079,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 7.163627730787058,
+   "syngap_top3_dirichlet": 8.93891010767782,
+   "js_domain": 0.709416425385187,
+   "lm_mean_surprisal": 5.539489563890646,
+   "lm_top5_surprisal": 16.56133117675781,
+   "ctx_syngap_top3": 2.188342122040922,
+   "ctx_top_words": [
+    {
+     "word": "develop",
+     "likely_original": "produce",
+     "gap_bits": 4.1
+    },
+    {
+     "word": "performs",
+     "likely_original": "execute",
+     "gap_bits": 2.09
+    },
+    {
+     "word": "loaded",
+     "likely_original": "load",
+     "gap_bits": 0.38
+    }
+   ]
+  },
+  {
+   "document": "injection/xss.md",
+   "start": 4477,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 8.250935298079558,
+   "syngap_top3_dirichlet": 10.033749202338944,
+   "js_domain": 0.6988027255247539,
+   "lm_mean_surprisal": 4.774709124652738,
+   "lm_top5_surprisal": 16.086911010742188,
+   "ctx_syngap_top3": 0.41092341393232346,
+   "ctx_top_words": [
+    {
+     "word": "develop",
+     "likely_original": "produce",
+     "gap_bits": 9.28
+    },
+    {
+     "word": "exposes",
+     "likely_original": "display",
+     "gap_bits": -3.87
+    },
+    {
+     "word": "web",
+     "likely_original": "network",
+     "gap_bits": -4.18
+    }
+   ]
+  },
+  {
+   "document": "injection/xss.md",
+   "start": 4847,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 4.617158011711671,
+   "syngap_top3_dirichlet": 5.834652660599219,
+   "js_domain": 0.7820496936030499,
+   "lm_mean_surprisal": 5.909265601838177,
+   "lm_top5_surprisal": 14.456045150756836,
+   "ctx_syngap_top3": -1.1317755356431007,
+   "ctx_top_words": [
+    {
+     "word": "information",
+     "likely_original": "data",
+     "gap_bits": 2.19
+    },
+    {
+     "word": "exposes",
+     "likely_original": "display",
+     "gap_bits": -2.02
+    },
+    {
+     "word": "invalid",
+     "likely_original": "handicap",
+     "gap_bits": -3.57
+    }
+   ]
+  },
+  {
+   "document": "injection/xss.md",
+   "start": 4989,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 3.6964497022305856,
+   "syngap_top3_dirichlet": 4.297310462086775,
+   "js_domain": 0.7209026408308509,
+   "lm_mean_surprisal": 5.477973512300236,
+   "lm_top5_surprisal": 15.086896705627442,
+   "ctx_syngap_top3": -1.541028274562753,
+   "ctx_top_words": [
+    {
+     "word": "scripting",
+     "likely_original": "script",
+     "gap_bits": 1.02
+    },
+    {
+     "word": "targeted",
+     "likely_original": "target",
+     "gap_bits": -0.34
+    },
+    {
+     "word": "hosts",
+     "likely_original": "server",
+     "gap_bits": -5.3
+    }
+   ]
+  },
+  {
+   "document": "injection/xss.md",
+   "start": 5322,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 4.574873915362912,
+   "syngap_top3_dirichlet": 4.984412921072699,
+   "js_domain": 0.6623826256499786,
+   "lm_mean_surprisal": 6.268457556961374,
+   "lm_top5_surprisal": 16.3497371673584,
+   "ctx_syngap_top3": 4.24616403117155,
+   "ctx_top_words": [
+    {
+     "word": "exploiting",
+     "likely_original": "exploit",
+     "gap_bits": 17.2
+    },
+    {
+     "word": "site",
+     "likely_original": "website",
+     "gap_bits": -1.89
+    },
+    {
+     "word": "achieve",
+     "likely_original": "accomplish",
+     "gap_bits": -2.57
+    }
+   ]
+  },
+  {
+   "document": "injection/xss.md",
+   "start": 5672,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 1.0123494856924389,
+   "syngap_top3_dirichlet": 1.0262230970089838,
+   "js_domain": 0.904528296617412,
+   "lm_mean_surprisal": 5.100058458315648,
+   "lm_top5_surprisal": 18.556225967407226,
+   "ctx_syngap_top3": 3.6122889291921942,
+   "ctx_top_words": [
+    {
+     "word": "run",
+     "likely_original": "execute",
+     "gap_bits": 9.49
+    },
+    {
+     "word": "commands",
+     "likely_original": "command",
+     "gap_bits": 0.73
+    },
+    {
+     "word": "facing",
+     "likely_original": "face",
+     "gap_bits": 0.62
+    }
+   ]
+  },
+  {
+   "document": "injection/xss.md",
+   "start": 5928,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 1.6860668333196067,
+   "syngap_top3_dirichlet": 1.6975969536021145,
+   "js_domain": 0.6321866400005729,
+   "lm_mean_surprisal": 5.940442483225375,
+   "lm_top5_surprisal": 16.562602615356447,
+   "ctx_syngap_top3": 2.367346614104463,
+   "ctx_top_words": [
+    {
+     "word": "host",
+     "likely_original": "server",
+     "gap_bits": 5.38
+    },
+    {
+     "word": "glitch",
+     "likely_original": "bug",
+     "gap_bits": 3.32
+    },
+    {
+     "word": "public",
+     "likely_original": "world",
+     "gap_bits": -1.6
+    }
+   ]
+  },
+  {
+   "document": "injection/xss.md",
+   "start": 6216,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 2.5449200290312346,
+   "syngap_top3_dirichlet": 2.519144053311026,
+   "js_domain": 0.7818801434619241,
+   "lm_mean_surprisal": 5.969356450542903,
+   "lm_top5_surprisal": 15.527970886230468,
+   "ctx_syngap_top3": 1.0862407016466022,
+   "ctx_top_words": [
+    {
+     "word": "exploited",
+     "likely_original": "used",
+     "gap_bits": 10.5
+    },
+    {
+     "word": "web",
+     "likely_original": "network",
+     "gap_bits": -3.33
+    },
+    {
+     "word": "administration",
+     "likely_original": "establishment",
+     "gap_bits": -3.91
+    }
+   ]
+  },
+  {
+   "document": "injection/xss.md",
+   "start": 6621,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 2.5575367566528153,
+   "syngap_top3_dirichlet": 2.2032919888732483,
+   "js_domain": 0.7949587171459228,
+   "lm_mean_surprisal": 6.3563061650683945,
+   "lm_top5_surprisal": 19.534228897094728,
+   "ctx_syngap_top3": -1.3123888172364484,
+   "ctx_top_words": [
+    {
+     "word": "involve",
+     "likely_original": "require",
+     "gap_bits": -0.56
+    },
+    {
+     "word": "exploitation",
+     "likely_original": "using",
+     "gap_bits": -1.58
+    },
+    {
+     "word": "alternatively",
+     "likely_original": "instead",
+     "gap_bits": -1.79
+    }
+   ]
+  },
+  {
+   "document": "injection/xss.md",
+   "start": 7177,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 2.621241342113802,
+   "syngap_top3_dirichlet": 2.5687850888527315,
+   "js_domain": 0.6225116607660158,
+   "lm_mean_surprisal": 4.9513543850175505,
+   "lm_top5_surprisal": 15.383472633361816,
+   "ctx_syngap_top3": 8.802428401540965,
+   "ctx_top_words": [
+    {
+     "word": "host",
+     "likely_original": "server",
+     "gap_bits": 10.22
+    },
+    {
+     "word": "path",
+     "likely_original": "way",
+     "gap_bits": 9.1
+    },
+    {
+     "word": "escape",
+     "likely_original": "run",
+     "gap_bits": 7.09
+    }
+   ]
+  },
+  {
+   "document": "injection/xss.md",
+   "start": 7673,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 2.2473556434124644,
+   "syngap_top3_dirichlet": 2.255625869795724,
+   "js_domain": 0.7436564515484119,
+   "lm_mean_surprisal": 6.02304326914528,
+   "lm_top5_surprisal": 15.550234985351562,
+   "ctx_syngap_top3": -0.471809365961235,
+   "ctx_top_words": [
+    {
+     "word": "targeting",
+     "likely_original": "target",
+     "gap_bits": 2.4
+    },
+    {
+     "word": "related",
+     "likely_original": "link",
+     "gap_bits": -0.71
+    },
+    {
+     "word": "defenses",
+     "likely_original": "defense",
+     "gap_bits": -3.11
+    }
+   ]
+  },
+  {
+   "document": "injection/xss.md",
+   "start": 8066,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": -0.10171984399936207,
+   "syngap_top3_dirichlet": -0.12797709400699434,
+   "js_domain": 0.7211943163610287,
+   "lm_mean_surprisal": 6.566184293544949,
+   "lm_top5_surprisal": 16.56562747955322,
+   "ctx_syngap_top3": -2.9087961768964306,
+   "ctx_top_words": [
+    {
+     "word": "authoritative",
+     "likely_original": "important",
+     "gap_bits": 1.93
+    },
+    {
+     "word": "network",
+     "likely_original": "web",
+     "gap_bits": -4.9
+    },
+    {
+     "word": "containers",
+     "likely_original": "container",
+     "gap_bits": -5.76
+    }
+   ]
+  },
+  {
+   "document": "injection/xss.md",
+   "start": 8352,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 2.4393498070760007,
+   "syngap_top3_dirichlet": 1.9141030737267162,
+   "js_domain": 0.625504203550011,
+   "lm_mean_surprisal": 6.771455947933795,
+   "lm_top5_surprisal": 16.542506980895997,
+   "ctx_syngap_top3": -2.395128315043015,
+   "ctx_top_words": [
+    {
+     "word": "represented",
+     "likely_original": "present",
+     "gap_bits": 1.71
+    },
+    {
+     "word": "sources",
+     "likely_original": "source",
+     "gap_bits": -3.63
+    },
+    {
+     "word": "being",
+     "likely_original": "be",
+     "gap_bits": -5.27
+    }
+   ]
+  },
+  {
+   "document": "injection/xss.md",
+   "start": 8619,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 3.85733883403353,
+   "syngap_top3_dirichlet": 4.717166115584045,
+   "js_domain": 0.7939075142470898,
+   "lm_mean_surprisal": 5.791482975017214,
+   "lm_top5_surprisal": 17.443729400634766,
+   "ctx_syngap_top3": 1.5139388611035731,
+   "ctx_top_words": [
+    {
+     "word": "role",
+     "likely_original": "part",
+     "gap_bits": 4.11
+    },
+    {
+     "word": "web",
+     "likely_original": "network",
+     "gap_bits": 0.44
+    },
+    {
+     "word": "facing",
+     "likely_original": "present",
+     "gap_bits": 0.0
+    }
+   ]
+  },
+  {
+   "document": "injection/xss.md",
+   "start": 8970,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": -1.2441332402293466,
+   "syngap_top3_dirichlet": -1.8125289065188037,
+   "js_domain": 0.8647085792974546,
+   "lm_mean_surprisal": 7.910934653967227,
+   "lm_top5_surprisal": 15.309600830078125,
+   "ctx_syngap_top3": 1.5655110081036885,
+   "ctx_top_words": [
+    {
+     "word": "technical",
+     "likely_original": "expert",
+     "gap_bits": 1.91
+    },
+    {
+     "word": "source",
+     "likely_original": "reference",
+     "gap_bits": 1.52
+    },
+    {
+     "word": "review",
+     "likely_original": "inspection",
+     "gap_bits": 1.27
+    }
+   ]
+  },
+  {
+   "document": "injection/sql_injection.md",
+   "start": 0,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 0.9055353507581175,
+   "syngap_top3_dirichlet": 0.9218774887166722,
+   "js_domain": 0.8562044025031906,
+   "lm_mean_surprisal": 6.075742284519415,
+   "lm_top5_surprisal": 16.98233108520508,
+   "ctx_syngap_top3": 6.000812593537073,
+   "ctx_top_words": [
+    {
+     "word": "key",
+     "likely_original": "name",
+     "gap_bits": 12.68
+    },
+    {
+     "word": "category",
+     "likely_original": "class",
+     "gap_bits": 2.69
+    },
+    {
+     "word": "status",
+     "likely_original": "position",
+     "gap_bits": 2.64
+    }
+   ]
+  },
+  {
+   "document": "injection/sql_injection.md",
+   "start": 208,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 6.299145004102516,
+   "syngap_top3_dirichlet": 7.226944224398899,
+   "js_domain": 0.7228000150191322,
+   "lm_mean_surprisal": 5.5066644628020835,
+   "lm_top5_surprisal": 14.616867065429688,
+   "ctx_syngap_top3": -5.118351124867331,
+   "ctx_top_words": [
+    {
+     "word": "exploits",
+     "likely_original": "exploit",
+     "gap_bits": -1.27
+    },
+    {
+     "word": "performs",
+     "likely_original": "execute",
+     "gap_bits": -6.41
+    },
+    {
+     "word": "actions",
+     "likely_original": "action",
+     "gap_bits": -7.67
+    }
+   ]
+  },
+  {
+   "document": "injection/sql_injection.md",
+   "start": 630,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 3.2410933113905234,
+   "syngap_top3_dirichlet": 3.0881434513925528,
+   "js_domain": 0.698369275761185,
+   "lm_mean_surprisal": 4.012340533705921,
+   "lm_top5_surprisal": 17.71087589263916,
+   "ctx_syngap_top3": 2.5587825943754674,
+   "ctx_top_words": [
+    {
+     "word": "survey",
+     "likely_original": "study",
+     "gap_bits": 6.83
+    },
+    {
+     "word": "sites",
+     "likely_original": "site",
+     "gap_bits": 0.71
+    },
+    {
+     "word": "flow",
+     "likely_original": "period",
+     "gap_bits": 0.14
+    }
+   ]
+  },
+  {
+   "document": "injection/sql_injection.md",
+   "start": 1069,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 6.0682224722934786,
+   "syngap_top3_dirichlet": 6.691611658605642,
+   "js_domain": 0.6960090359809162,
+   "lm_mean_surprisal": 3.858444555923913,
+   "lm_top5_surprisal": 14.28517417907715,
+   "ctx_syngap_top3": -1.5604223856547226,
+   "ctx_top_words": [
+    {
+     "word": "create",
+     "likely_original": "produce",
+     "gap_bits": 0.29
+    },
+    {
+     "word": "attempt",
+     "likely_original": "try",
+     "gap_bits": -1.07
+    },
+    {
+     "word": "suspects",
+     "likely_original": "suspect",
+     "gap_bits": -3.9
+    }
+   ]
+  },
+  {
+   "document": "injection/sql_injection.md",
+   "start": 1408,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 6.0682224722934786,
+   "syngap_top3_dirichlet": 6.826900260657286,
+   "js_domain": 0.7325223128458515,
+   "lm_mean_surprisal": 4.7165401889778185,
+   "lm_top5_surprisal": 16.582482528686523,
+   "ctx_syngap_top3": -1.9539660598384216,
+   "ctx_top_words": [
+    {
+     "word": "hidden",
+     "likely_original": "secret",
+     "gap_bits": 0.17
+    },
+    {
+     "word": "create",
+     "likely_original": "produce",
+     "gap_bits": -1.78
+    },
+    {
+     "word": "parenthesis",
+     "likely_original": "digression",
+     "gap_bits": -4.25
+    }
+   ]
+  },
+  {
+   "document": "injection/sql_injection.md",
+   "start": 1814,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 5.961727323998818,
+   "syngap_top3_dirichlet": 7.177253373013952,
+   "js_domain": 0.7031578414908249,
+   "lm_mean_surprisal": 4.52684081543456,
+   "lm_top5_surprisal": 15.675521278381348,
+   "ctx_syngap_top3": -0.3684641676954925,
+   "ctx_top_words": [
+    {
+     "word": "try",
+     "likely_original": "attempt",
+     "gap_bits": -0.17
+    },
+    {
+     "word": "hypothesize",
+     "likely_original": "speculate",
+     "gap_bits": -0.23
+    },
+    {
+     "word": "engineering",
+     "likely_original": "engineer",
+     "gap_bits": -0.71
+    }
+   ]
+  },
+  {
+   "document": "injection/sql_injection.md",
+   "start": 2211,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 6.29375555924495,
+   "syngap_top3_dirichlet": 7.5948639146146775,
+   "js_domain": 0.6903833183537863,
+   "lm_mean_surprisal": 4.2925670610843865,
+   "lm_top5_surprisal": 15.596874809265136,
+   "ctx_syngap_top3": -1.3110314706961315,
+   "ctx_top_words": [
+    {
+     "word": "information",
+     "likely_original": "data",
+     "gap_bits": 1.73
+    },
+    {
+     "word": "extract",
+     "likely_original": "pull",
+     "gap_bits": -1.82
+    },
+    {
+     "word": "delete",
+     "likely_original": "edit",
+     "gap_bits": -3.84
+    }
+   ]
+  },
+  {
+   "document": "injection/sql_injection.md",
+   "start": 2609,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 6.586774650179467,
+   "syngap_top3_dirichlet": 6.725536863299173,
+   "js_domain": 0.6280725849599116,
+   "lm_mean_surprisal": 5.178002627267641,
+   "lm_top5_surprisal": 18.34368724822998,
+   "ctx_syngap_top3": -2.6700974145981795,
+   "ctx_top_words": [
+    {
+     "word": "hypothesized",
+     "likely_original": "suppose",
+     "gap_bits": -0.34
+    },
+    {
+     "word": "complete",
+     "likely_original": "finish",
+     "gap_bits": -3.67
+    },
+    {
+     "word": "causes",
+     "likely_original": "have",
+     "gap_bits": -4.01
+    }
+   ]
+  },
+  {
+   "document": "injection/sql_injection.md",
+   "start": 3017,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 5.68947937368161,
+   "syngap_top3_dirichlet": 6.865820544696741,
+   "js_domain": 0.6935213685512017,
+   "lm_mean_surprisal": 4.770926229298849,
+   "lm_top5_surprisal": 16.386710929870606,
+   "ctx_syngap_top3": -2.210592169004182,
+   "ctx_top_words": [
+    {
+     "word": "try",
+     "likely_original": "test",
+     "gap_bits": 0.16
+    },
+    {
+     "word": "protected",
+     "likely_original": "saved",
+     "gap_bits": -3.34
+    },
+    {
+     "word": "goal",
+     "likely_original": "end",
+     "gap_bits": -3.45
+    }
+   ]
+  },
+  {
+   "document": "injection/sql_injection.md",
+   "start": 3436,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 8.529506387192093,
+   "syngap_top3_dirichlet": 9.159908373774117,
+   "js_domain": 0.6211120232357267,
+   "lm_mean_surprisal": 4.629457280790413,
+   "lm_top5_surprisal": 15.608503913879394,
+   "ctx_syngap_top3": -2.895356808168193,
+   "ctx_top_words": [
+    {
+     "word": "entail",
+     "likely_original": "mean",
+     "gap_bits": 2.62
+    },
+    {
+     "word": "crafting",
+     "likely_original": "craft",
+     "gap_bits": -5.09
+    },
+    {
+     "word": "executing",
+     "likely_original": "execute",
+     "gap_bits": -6.22
+    }
+   ]
+  },
+  {
+   "document": "injection/sql_injection.md",
+   "start": 3984,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 5.15901468856107,
+   "syngap_top3_dirichlet": 6.022704484008499,
+   "js_domain": 0.6788353736036766,
+   "lm_mean_surprisal": 5.082241658421801,
+   "lm_top5_surprisal": 13.03826904296875,
+   "ctx_syngap_top3": 0.13761336833704263,
+   "ctx_top_words": [
+    {
+     "word": "execute",
+     "likely_original": "perform",
+     "gap_bits": 6.36
+    },
+    {
+     "word": "data",
+     "likely_original": "information",
+     "gap_bits": -2.53
+    },
+    {
+     "word": "queries",
+     "likely_original": "query",
+     "gap_bits": -3.42
+    }
+   ]
+  },
+  {
+   "document": "injection/sql_injection.md",
+   "start": 4202,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 6.794145663101606,
+   "syngap_top3_dirichlet": 8.573497165901797,
+   "js_domain": 0.6865514915683771,
+   "lm_mean_surprisal": 5.514362271609975,
+   "lm_top5_surprisal": 14.388128280639648,
+   "ctx_syngap_top3": 4.718005049566273,
+   "ctx_top_words": [
+    {
+     "word": "low",
+     "likely_original": "first",
+     "gap_bits": 7.2
+    },
+    {
+     "word": "execute",
+     "likely_original": "perform",
+     "gap_bits": 4.29
+    },
+    {
+     "word": "employed",
+     "likely_original": "use",
+     "gap_bits": 2.65
+    }
+   ]
+  },
+  {
+   "document": "injection/sql_injection.md",
+   "start": 4495,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 0.7182173584069673,
+   "syngap_top3_dirichlet": 0.6007123549236711,
+   "js_domain": 0.9099670960176655,
+   "lm_mean_surprisal": 4.0284970697237545,
+   "lm_top5_surprisal": 17.03193645477295,
+   "ctx_syngap_top3": 2.6342915574853882,
+   "ctx_top_words": [
+    {
+     "word": "run",
+     "likely_original": "execute",
+     "gap_bits": 7.4
+    },
+    {
+     "word": "modify",
+     "likely_original": "change",
+     "gap_bits": 0.5
+    },
+    {
+     "word": "control",
+     "likely_original": "see",
+     "gap_bits": -0.0
+    }
+   ]
+  },
+  {
+   "document": "injection/sql_injection.md",
+   "start": 4873,
+   "label": 1,
+   "split": "development",
+   "syngap_top3_domain": 2.473243279178502,
+   "syngap_top3_dirichlet": 2.4462461350861395,
+   "js_domain": 0.6139995134619953,
+   "lm_mean_surprisal": 5.436632026565595,
+   "lm_top5_surprisal": 13.949323272705078,
+   "ctx_syngap_top3": 1.506953499590357,
+   "ctx_top_words": [
+    {
+     "word": "exploited",
+     "likely_original": "exploit",
+     "gap_bits": 9.0
+    },
+    {
+     "word": "attempt",
+     "likely_original": "seek",
+     "gap_bits": -1.31
+    },
+    {
+     "word": "adversaries",
+     "likely_original": "adversary",
+     "gap_bits": -3.17
+    }
+   ]
+  },
+  {
+   "document": "injection/sql_injection.md",
+   "start": 5272,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 1.8979683388616113,
+   "syngap_top3_dirichlet": 1.8904120654094025,
+   "js_domain": 0.8205517921590761,
+   "lm_mean_surprisal": 6.328201272480036,
+   "lm_top5_surprisal": 16.562364196777345,
+   "ctx_syngap_top3": 0.9608303841402327,
+   "ctx_top_words": [
+    {
+     "word": "exposed",
+     "likely_original": "open",
+     "gap_bits": 1.58
+    },
+    {
+     "word": "citation",
+     "likely_original": "quote",
+     "gap_bits": 1.2
+    },
+    {
+     "word": "administration",
+     "likely_original": "establishment",
+     "gap_bits": 0.1
+    }
+   ]
+  },
+  {
+   "document": "injection/sql_injection.md",
+   "start": 5669,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 2.579177847617752,
+   "syngap_top3_dirichlet": 2.4845906007699328,
+   "js_domain": 0.7279307981995764,
+   "lm_mean_surprisal": 5.633917603267801,
+   "lm_top5_surprisal": 17.958534812927248,
+   "ctx_syngap_top3": 0.6704643931007013,
+   "ctx_top_words": [
+    {
+     "word": "alternatively",
+     "likely_original": "instead",
+     "gap_bits": 1.66
+    },
+    {
+     "word": "involve",
+     "likely_original": "require",
+     "gap_bits": 0.25
+    },
+    {
+     "word": "services",
+     "likely_original": "service",
+     "gap_bits": 0.1
+    }
+   ]
+  },
+  {
+   "document": "injection/sql_injection.md",
+   "start": 6089,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 2.413141564513777,
+   "syngap_top3_dirichlet": 2.3335127293567,
+   "js_domain": 0.6235590685717942,
+   "lm_mean_surprisal": 4.9513543850175505,
+   "lm_top5_surprisal": 15.383472633361816,
+   "ctx_syngap_top3": 8.802428401540965,
+   "ctx_top_words": [
+    {
+     "word": "host",
+     "likely_original": "server",
+     "gap_bits": 10.22
+    },
+    {
+     "word": "path",
+     "likely_original": "way",
+     "gap_bits": 9.1
+    },
+    {
+     "word": "escape",
+     "likely_original": "run",
+     "gap_bits": 7.09
+    }
+   ]
+  },
+  {
+   "document": "injection/sql_injection.md",
+   "start": 6517,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 2.226130224612041,
+   "syngap_top3_dirichlet": 2.171245372910618,
+   "js_domain": 0.708570397515024,
+   "lm_mean_surprisal": 6.1800857916565555,
+   "lm_top5_surprisal": 14.962932205200195,
+   "ctx_syngap_top3": 0.23501262503365675,
+   "ctx_top_words": [
+    {
+     "word": "targeting",
+     "likely_original": "target",
+     "gap_bits": 1.43
+    },
+    {
+     "word": "related",
+     "likely_original": "link",
+     "gap_bits": 0.93
+    },
+    {
+     "word": "adversaries",
+     "likely_original": "opponent",
+     "gap_bits": -1.65
+    }
+   ]
+  },
+  {
+   "document": "injection/sql_injection.md",
+   "start": 6975,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": -0.10082428543919224,
+   "syngap_top3_dirichlet": -0.12797709400699495,
+   "js_domain": 0.7228197123729848,
+   "lm_mean_surprisal": 6.566184293544949,
+   "lm_top5_surprisal": 16.56562747955322,
+   "ctx_syngap_top3": -2.9087961768964306,
+   "ctx_top_words": [
+    {
+     "word": "authoritative",
+     "likely_original": "important",
+     "gap_bits": 1.93
+    },
+    {
+     "word": "network",
+     "likely_original": "web",
+     "gap_bits": -4.9
+    },
+    {
+     "word": "containers",
+     "likely_original": "container",
+     "gap_bits": -5.76
+    }
+   ]
+  },
+  {
+   "document": "injection/sql_injection.md",
+   "start": 7261,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 2.4768583508221376,
+   "syngap_top3_dirichlet": 1.9458697905212103,
+   "js_domain": 0.6274636004895419,
+   "lm_mean_surprisal": 6.771455947933795,
+   "lm_top5_surprisal": 16.542506980895997,
+   "ctx_syngap_top3": -2.395128315043015,
+   "ctx_top_words": [
+    {
+     "word": "represented",
+     "likely_original": "present",
+     "gap_bits": 1.71
+    },
+    {
+     "word": "sources",
+     "likely_original": "source",
+     "gap_bits": -3.63
+    },
+    {
+     "word": "being",
+     "likely_original": "be",
+     "gap_bits": -5.27
+    }
+   ]
+  },
+  {
+   "document": "injection/sql_injection.md",
+   "start": 7528,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": 0.633193665376595,
+   "syngap_top3_dirichlet": 0.3187915425353687,
+   "js_domain": 0.8195372749472675,
+   "lm_mean_surprisal": 5.6046836512391565,
+   "lm_top5_surprisal": 16.700692176818848,
+   "ctx_syngap_top3": 3.2745079142429554,
+   "ctx_top_words": [
+    {
+     "word": "role",
+     "likely_original": "part",
+     "gap_bits": 5.85
+    },
+    {
+     "word": "source",
+     "likely_original": "reference",
+     "gap_bits": 3.97
+    },
+    {
+     "word": "validation",
+     "likely_original": "proof",
+     "gap_bits": -0.0
+    }
+   ]
+  },
+  {
+   "document": "injection/sql_injection.md",
+   "start": 7895,
+   "label": 0,
+   "split": "development",
+   "syngap_top3_domain": -1.249195187970087,
+   "syngap_top3_dirichlet": -1.8448753584536186,
+   "js_domain": 0.8659279137004148,
+   "lm_mean_surprisal": 7.910934653967227,
+   "lm_top5_surprisal": 15.309600830078125,
+   "ctx_syngap_top3": 1.5655110081036885,
+   "ctx_top_words": [
+    {
+     "word": "technical",
+     "likely_original": "expert",
+     "gap_bits": 1.91
+    },
+    {
+     "word": "source",
+     "likely_original": "reference",
+     "gap_bits": 1.52
+    },
+    {
+     "word": "review",
+     "likely_original": "inspection",
+     "gap_bits": 1.27
+    }
+   ]
+  }
+ ]
+}
