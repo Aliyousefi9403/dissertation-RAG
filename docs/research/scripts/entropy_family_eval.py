@@ -20,6 +20,7 @@ Usage: cd backend && PYTHONPATH=. python ../docs/research/scripts/entropy_family
 
 import json
 import math
+import os
 import sys
 from collections import Counter
 from pathlib import Path
@@ -46,7 +47,7 @@ from entropy_detection_eval import (  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[3] / "backend"
 MU = 2000
-LM_NAME = "distilgpt2"
+LM_NAME = os.environ.get("AEGIS_LM", "distilgpt2")  # default is the deployed detector's model
 CANDIDATE_WORDS, CANDIDATE_SYNONYMS = 10, 5
 torch.manual_seed(0)
 
