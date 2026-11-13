@@ -21,6 +21,7 @@ from app.defence.entropy_filter import DetectorUnavailable
 from app.generation.prompt import RAG_PROMPT, SYSTEM_PROMPT
 
 POLICY_VERSION = "runtime-monitor-v2"
+POLICY_VERSION_CONTEXTUAL = "runtime-monitor-v3"  # blame="contextual"
 # V1: phi1 flagged any rare word outside the trusted vocabulary.
 RARE_ZIPF = 3.5
 MIN_WORD_LENGTH = 3
@@ -339,6 +340,46 @@ def diagnose(
     return suspects
 
 
+def contextual_scorer(source_state: str) -> Callable[[Document], dict[str, Any]]:
+    """Score a passage with the contextual synonym gap (same threshold as the contextual filter)."""
+    from app.config import get_knowledge_base_path
+    from app.defence import contextual_filter as cf
+    from app.defence.entropy_filter import _relative_document, reference_for
+
+    root = get_knowledge_base_path(source_state)
+    reference = reference_for(str(root))
+
+    def score(doc: Document) -> dict[str, Any]:
+        name = _relative_document(doc.metadata.get("source", ""), root)
+        key = (str(root), name, doc.page_content)
+        if key not in cf._SCORE_CACHE:
+            cf._SCORE_CACHE[key] = cf.score_text(doc.page_content, name, reference)
+        return cf._SCORE_CACHE[key]
+
+    return score
+
+
+def diagnose_contextual(
+    violations: list[Violation],
+    passages: list[Document],
+    scorer: Callable[[Document], dict[str, Any]],
+) -> dict[str, list[str]]:
+    """v3 blame: passages that contain a phi1 witness, or whose contextual synonym gap is flagged."""
+    witnesses = {w for v in violations for w in v.witnesses}
+    suspects = {}
+    for doc in passages:
+        seen = set(words(doc.page_content)) | base_words(doc.page_content)
+        hit = sorted(w for w in witnesses if w in seen or base_form(w) in seen)
+        verdict = scorer(doc)
+        if verdict["flagged"]:
+            hit += [
+                f"{t['word']}<-{t['likely_original']}" for t in verdict["top_words"]
+            ]
+        if hit:
+            suspects[passage_key(doc)] = hit
+    return suspects
+
+
 # ============================================================
 # Memory
 # ============================================================
@@ -413,10 +454,19 @@ def monitored_answer(
     ontology: TrustedOntology | None = None,
     search_fn: Callable | None = None,
     capture: dict | None = None,
+    blame: str = "rare_words",
+    scorer: Callable[[Document], dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
-    """Answer `question` from `source_state` under the runtime monitor. Returns answer and final sources."""
+    """Answer `question` from `source_state` under the runtime monitor. Returns answer and final sources.
+
+    blame="rare_words" is policy v2 (default). blame="contextual" is v3: only the blame step differs.
+    """
     if mode not in ("verify", "restore"):
         raise ValueError(f"unknown mode {mode}")
+    if blame not in ("rare_words", "contextual"):
+        raise ValueError(f"unknown blame {blame}")
+    if blame == "contextual" and scorer is None:
+        scorer = contextual_scorer(source_state)
     from app.generation.rag_chain import build_sources
 
     if search_fn is None:
@@ -447,7 +497,10 @@ def monitored_answer(
         trace.append(step)
         if not violations:
             break
-        suspects = diagnose(violations, [d for d, _ in kept], ontology)
+        if blame == "contextual":
+            suspects = diagnose_contextual(violations, [d for d, _ in kept], scorer)
+        else:
+            suspects = diagnose(violations, [d for d, _ in kept], ontology)
         added = [
             k
             for k, ws in suspects.items()
@@ -508,7 +561,9 @@ def monitored_answer(
             generation_status="ok",
             sources=build_sources(final_sources),
             monitor={
-                "policy_version": POLICY_VERSION,
+                "policy_version": POLICY_VERSION_CONTEXTUAL
+                if blame == "contextual"
+                else POLICY_VERSION,
                 "mode": mode,
                 "attack": attack,
                 "outcome": outcome,

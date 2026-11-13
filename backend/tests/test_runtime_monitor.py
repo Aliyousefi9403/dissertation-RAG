@@ -309,3 +309,88 @@ def test_restore_adds_the_trusted_reference_only_in_restore_mode(ontology, tmp_p
             s for s in out["sources"] if s["source"].startswith("trusted-mitre:")
         ]
         assert bool(trusted) == (mode == "restore")
+
+
+# --- v3: blame with the contextual synonym gap ---
+
+RARE_BUT_CLEAN = Document(
+    page_content="The adversary exfiltrates telemetry through a covert tunnel.",
+    metadata={"source": "kb/backdoor.md", "start_index": 900},
+)
+REFUSAL = "The retrieved context does not provide this information."
+
+
+def _scorer(flagged_texts):
+    def score(doc):
+        flagged = doc.page_content in flagged_texts
+        return {
+            "flagged": flagged,
+            "top_words": [
+                {"word": "engraft", "likely_original": "implant", "gap_bits": 9.0}
+            ]
+            if flagged
+            else [],
+        }
+
+    return score
+
+
+def _refusing_run(tmp_path, ontology, name, **kwargs):
+    memory = rm.QuarantineMemory(tmp_path / f"{name}.jsonl")
+    capture = {}
+    rm.monitored_answer(
+        "How does Backdoor work?",
+        "poisoned",
+        memory=memory,
+        llm_factory=_runnable(StubLLM([REFUSAL] * 3)),
+        ontology=ontology,
+        search_fn=lambda q, k: [
+            (POISONED, 0.9),
+            (RARE_BUT_CLEAN, 0.8),
+            (CLEAN[0], 0.7),
+        ],
+        capture=capture,
+        **kwargs,
+    )
+    return memory, capture
+
+
+def test_v3_blames_only_the_flagged_passage_after_a_refusal(ontology, tmp_path):
+    v2, capture2 = _refusing_run(tmp_path, ontology, "v2")
+    assert rm.passage_key(RARE_BUT_CLEAN) in v2  # v2 blames any rare word
+    assert capture2["monitor"]["policy_version"] == "runtime-monitor-v2"
+
+    v3, capture3 = _refusing_run(
+        tmp_path,
+        ontology,
+        "v3",
+        blame="contextual",
+        scorer=_scorer({POISONED.page_content}),
+    )
+    assert rm.passage_key(POISONED) in v3
+    assert rm.passage_key(RARE_BUT_CLEAN) not in v3
+    assert capture3["monitor"]["policy_version"] == "runtime-monitor-v3"
+
+
+def test_v3_still_blames_the_passage_holding_a_phi1_witness(ontology):
+    violation = rm.Violation("phi1_lexical", "x", ["engraft"])
+    suspects = rm.diagnose_contextual([violation], [POISONED, CLEAN[0]], _scorer(set()))
+    assert list(suspects) == [rm.passage_key(POISONED)]
+
+
+def test_v3_quarantines_nothing_when_no_passage_is_flagged(ontology, tmp_path):
+    memory, capture = _refusing_run(
+        tmp_path, ontology, "none", blame="contextual", scorer=_scorer(set())
+    )
+    assert not memory.keys and capture["monitor"]["generations"] == 1
+
+
+def test_unknown_blame_is_rejected(ontology, tmp_path):
+    with pytest.raises(ValueError):
+        rm.monitored_answer(
+            "q",
+            "poisoned",
+            memory=rm.QuarantineMemory(tmp_path / "m.jsonl"),
+            llm_factory=None,
+            blame="other",
+        )

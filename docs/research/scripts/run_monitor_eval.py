@@ -12,9 +12,11 @@ Judges, model, temperature, timeouts and record format are those of run_defence_
 Usage (from backend/, Qdrant running, LLM_API_KEY set):
   PYTHONPATH=. python ../docs/research/scripts/run_monitor_eval.py ../pilot-runs/<MAIN_RUN_ID> ../pilot-runs
 Pass an existing run folder instead of ../pilot-runs to resume it in place (records and memories are kept).
+Set AEGIS_MONITOR_BLAME=contextual for policy v3 (blame with the contextual synonym gap); default is v2.
 """
 
 import json
+import os
 import sys
 import time
 import uuid
@@ -34,6 +36,8 @@ CONDITIONS = {
     "clean_monitor": ("clean", "verify"),
     "textfooler_monitor": ("textfooler", "verify"),
 }
+BLAME = os.environ.get("AEGIS_MONITOR_BLAME", "rare_words")
+POLICY = rm.POLICY_VERSION_CONTEXTUAL if BLAME == "contextual" else rm.POLICY_VERSION
 CODE = [
     "backend/app/defence/runtime_monitor.py",
     "backend/app/generation/prompt.py",
@@ -42,6 +46,11 @@ CODE = [
     "docs/research/scripts/run_monitor_eval.py",
     "docs/research/scripts/run_defence_eval.py",
 ]
+if BLAME == "contextual":
+    CODE += [
+        "backend/app/defence/contextual_filter.py",
+        "backend/app/defence/entropy_filter.py",
+    ]
 
 
 def main(main_run_dir, output):
@@ -66,6 +75,7 @@ def main(main_run_dir, output):
             if manifest["code_sha256"].get(f) != current[f]
             and not f.endswith("run_monitor_eval.py")
         ]
+        assert manifest["monitor"]["policy_version"] == POLICY, "blame setting differs"
         assert not changed, f"code changed since the run started: {changed}"
         with (out / "run_log.jsonl").open("a") as log:
             log.write(
@@ -100,7 +110,8 @@ def main(main_run_dir, output):
                 },
                 "schedule": main_manifest["schedule"],
                 "monitor": {
-                    "policy_version": rm.POLICY_VERSION,
+                    "policy_version": POLICY,
+                    "blame": BLAME,
                     "rare_zipf": rm.RARE_ZIPF,
                     "max_rounds": rm.MAX_ROUNDS,
                     "candidate_k": rm.CANDIDATE_K,
@@ -141,6 +152,7 @@ def main(main_run_dir, output):
                         llm_factory=llm_factory,
                         mode=mode,
                         capture=capture,
+                        blame=BLAME,
                     )["answer"]
                 except Exception as error:  # recorded, never hidden
                     answer = None
