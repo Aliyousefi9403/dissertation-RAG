@@ -32,6 +32,7 @@ RUNS = (
     "pilot-runs/20261019T200851Z-textfooler-33c7d2a707874d2ca57cb5b7851984e9",
     "pilot-runs/20261027T225951Z-monitor-7435694678804a8fb151bed0f2cb853d",
     "pilot-runs/20261028T123228Z-monitor-43fcd4fbcf96415caaed3c805d5d62f7",
+    "pilot-runs/20261113T170328Z-monitor-de32cefdd7f44aed9546fe1464a38877",
 )
 CTX = f"{RES}/contextual-defence/live-paired/summary.json"
 DIAG = f"{RES}/adaptive-attack/second-order-diagnostic.json"
@@ -77,6 +78,18 @@ CLAIMS = [
     ("Monitor v2 TextFooler: exposure delta", f"{RES}/runtime-monitor/live-v2/summary.json", ["comparisons", "textfooler_monitor_vs_textfooler", "exposure", "delta"], -0.2348),
     ("Monitor v2 TextFooler: quarantined with edited text", f"{RES}/runtime-monitor/live-v2/summary.json", ["monitor", "textfooler_monitor", "quarantined_with_edited_text"], 26),
     ("Monitor v2 PWWS: quarantined with edited text", f"{RES}/runtime-monitor/live-v2/summary.json", ["monitor", "monitor", "quarantined_with_edited_text"], 10),
+    ("Monitor v3 verify: exposure", f"{RES}/runtime-monitor/live-v3/summary.json", ["comparisons", "monitor_vs_poisoned", "exposure", "a"], 0.2348),
+    ("Monitor v3 verify: correctness", f"{RES}/runtime-monitor/live-v3/summary.json", ["comparisons", "monitor_vs_poisoned", "correctness", "a"], 0.5417),
+    ("Monitor v3 verify: correctness vs contextual p", f"{RES}/runtime-monitor/live-v3/summary.json", ["comparisons", "monitor_vs_contextual", "correctness", "wilcoxon_p"], 0.0085),
+    ("Monitor v3 restore: correctness", f"{RES}/runtime-monitor/live-v3/summary.json", ["comparisons", "monitor_restore_vs_poisoned", "correctness", "a"], 0.7917),
+    ("Monitor v3 PWWS: quarantined passages", f"{RES}/runtime-monitor/live-v3/summary.json", ["monitor", "monitor", "quarantined_passages"], 13),
+    ("Monitor v3 PWWS: quarantined with edited text", f"{RES}/runtime-monitor/live-v3/summary.json", ["monitor", "monitor", "quarantined_with_edited_text"], 11),
+    ("Monitor v3 clean: quarantined passages", f"{RES}/runtime-monitor/live-v3/summary.json", ["monitor", "clean_monitor", "quarantined_passages"], 4),
+    ("Monitor v3 clean: correctness delta", f"{RES}/runtime-monitor/live-v3/summary.json", ["comparisons", "clean_monitor_vs_clean", "correctness", "delta"], -0.0227),
+    ("Monitor v3 TextFooler: quarantined with edited text", f"{RES}/runtime-monitor/live-v3/summary.json", ["monitor", "textfooler_monitor", "quarantined_with_edited_text"], 31),
+    ("Monitor v3 TextFooler: correctness delta", f"{RES}/runtime-monitor/live-v3/summary.json", ["comparisons", "textfooler_monitor_vs_textfooler", "correctness", "delta"], -0.0549),
+    ("Monitor v3 TextFooler: correctness p", f"{RES}/runtime-monitor/live-v3/summary.json", ["comparisons", "textfooler_monitor_vs_textfooler", "correctness", "wilcoxon_p"], 0.0458),
+    ("Monitor v3: phi3 trace violations (PWWS verify)", f"{RES}/runtime-monitor/live-v3/summary.json", ["monitor", "monitor", "phi3_trace_violations"], 0),
     ("Monitor v2: phi3 trace violations (PWWS verify)", f"{RES}/runtime-monitor/live-v2/summary.json", ["monitor", "monitor", "phi3_trace_violations"], 0),
     (
         "Main run: clean correctness",
