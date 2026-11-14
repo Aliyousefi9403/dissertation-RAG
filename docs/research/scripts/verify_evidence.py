@@ -90,6 +90,9 @@ CLAIMS = [
     ("Monitor v3 TextFooler: correctness delta", f"{RES}/runtime-monitor/live-v3/summary.json", ["comparisons", "textfooler_monitor_vs_textfooler", "correctness", "delta"], -0.0549),
     ("Monitor v3 TextFooler: correctness p", f"{RES}/runtime-monitor/live-v3/summary.json", ["comparisons", "textfooler_monitor_vs_textfooler", "correctness", "wilcoxon_p"], 0.0458),
     ("Monitor v3: phi3 trace violations (PWWS verify)", f"{RES}/runtime-monitor/live-v3/summary.json", ["monitor", "monitor", "phi3_trace_violations"], 0),
+    ("LTL replay: drafts checked", f"{RES}/runtime-monitor/ltl-replay/summary.json", ["total", "drafts_checked"], 1248),
+    ("LTL replay: verdicts equal to the live run", f"{RES}/runtime-monitor/ltl-replay/summary.json", ["total", "verdicts_equal_to_recorded"], 1248),
+    ("LTL replay: phi3 violations", f"{RES}/runtime-monitor/ltl-replay/summary.json", ["total", "phi3_violations"], 0),
     ("Monitor v2: phi3 trace violations (PWWS verify)", f"{RES}/runtime-monitor/live-v2/summary.json", ["monitor", "monitor", "phi3_trace_violations"], 0),
     (
         "Main run: clean correctness",
