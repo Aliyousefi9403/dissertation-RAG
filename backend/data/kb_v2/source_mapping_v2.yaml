@@ -1,0 +1,1235 @@
+version: 2
+attacks:
+  tcp_syn_flood:
+    display_name: TCP SYN Flood
+    category: ddos
+    output_path: data/kb_v2/knowledge_base/ddos/tcp_syn_flood.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-482
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1498.001
+      role: network_dos_context
+      required: true
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1499.001
+      role: tcp_state_exhaustion_context
+      required: false
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  udp_flood:
+    display_name: UDP Flood
+    category: ddos
+    output_path: data/kb_v2/knowledge_base/ddos/udp_flood.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-486
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1498.001
+      role: network_dos_context
+      required: true
+    - system: CAPEC
+      id: CAPEC-495
+      role: udp_fragmentation_context
+      required: false
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  http_flood:
+    display_name: HTTP Flood
+    category: ddos
+    output_path: data/kb_v2/knowledge_base/ddos/http_flood.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-488
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1499.003
+      role: application_exhaustion_context
+      required: true
+    - system: CAPEC
+      id: CAPEC-469
+      role: http_dos_context
+      required: false
+    - system: OWASP
+      document: Denial of Service Cheat Sheet
+      role: prevention_and_mitigation
+      required: false
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  icmp_flood:
+    display_name: ICMP Flood
+    category: ddos
+    output_path: data/kb_v2/knowledge_base/ddos/icmp_flood.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-487
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1498.001
+      role: network_dos_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  port_scanning:
+    display_name: Port Scanning
+    category: reconnaissance
+    output_path: data/kb_v2/knowledge_base/reconnaissance/port_scanning.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-300
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1046
+      role: network_service_scanning_context
+      required: true
+    - system: CAPEC
+      id: CAPEC-287
+      role: tcp_syn_scan_context
+      required: false
+    - system: CAPEC
+      id: CAPEC-308
+      role: udp_scan_context
+      required: false
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  vulnerability_scanning:
+    display_name: Vulnerability Scanning
+    category: reconnaissance
+    output_path: data/kb_v2/knowledge_base/reconnaissance/vulnerability_scanning.md
+    primary_source:
+      system: MITRE_ATTACK_ENTERPRISE
+      id: T1595.002
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1046
+      role: network_service_scanning_context
+      required: false
+    - system: NIST
+      document: NIST SP 800-115
+      role: testing_and_detection_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  os_fingerprinting:
+    display_name: Operating System Fingerprinting
+    category: reconnaissance
+    output_path: data/kb_v2/knowledge_base/reconnaissance/os_fingerprinting.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-312
+      role: active_fingerprinting_mechanism
+      required: true
+    supporting_sources:
+    - system: CAPEC
+      id: CAPEC-313
+      role: passive_fingerprinting_context
+      required: true
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1046
+      role: network_reconnaissance_context
+      required: false
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  arp_spoofing:
+    display_name: ARP Spoofing
+    category: spoofing
+    output_path: data/kb_v2/knowledge_base/spoofing/arp_spoofing.md
+    primary_source:
+      system: MITRE_ATTACK_ENTERPRISE
+      id: T1557.002
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: CAPEC
+      id: CAPEC-141
+      role: cache_poisoning_context
+      required: false
+    - system: MITRE_ATTACK_ICS
+      id: T0830
+      role: ics_man_in_the_middle_context
+      required: false
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  dns_spoofing:
+    display_name: DNS Spoofing
+    category: spoofing
+    output_path: data/kb_v2/knowledge_base/spoofing/dns_spoofing.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-598
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: CAPEC
+      id: CAPEC-142
+      role: dns_cache_poisoning_context
+      required: false
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1557
+      role: adversary_in_the_middle_context
+      required: false
+    - system: NIST
+      document: NIST SP 800-81-2
+      role: dns_security_guidance
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  xss:
+    display_name: Cross-Site Scripting
+    category: injection
+    output_path: data/kb_v2/knowledge_base/injection/xss.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-63
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1190
+      role: public_facing_application_context
+      required: false
+    - system: OWASP
+      document: Cross Site Scripting Prevention Cheat Sheet
+      role: prevention_and_mitigation
+      required: true
+    - system: OWASP
+      document: Web Security Testing Guide - Testing for XSS
+      role: detection_and_testing
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  sql_injection:
+    display_name: SQL Injection
+    category: injection
+    output_path: data/kb_v2/knowledge_base/injection/sql_injection.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-66
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1190
+      role: adversary_context
+      required: true
+    - system: MITRE_ATTACK_ICS
+      id: T0819
+      role: iot_ics_context
+      required: false
+    - system: OWASP
+      document: SQL Injection Prevention Cheat Sheet
+      role: prevention_and_mitigation
+      required: true
+    - system: NIST
+      document: NIST SP 800-53 SI-10
+      role: input_validation_guidance
+      required: false
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  uploading:
+    display_name: Malicious File Upload
+    category: injection
+    output_path: data/kb_v2/knowledge_base/injection/uploading.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-17
+      role: malicious_file_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1190
+      role: public_facing_application_context
+      required: false
+    - system: OWASP
+      document: File Upload Cheat Sheet
+      role: prevention_and_mitigation
+      required: true
+    - system: CWE
+      id: CWE-434
+      role: dangerous_file_type_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  backdoor:
+    display_name: Backdoor
+    category: malware
+    output_path: data/kb_v2/knowledge_base/malware/backdoor.md
+    primary_source:
+      system: MITRE_ATTACK_ENTERPRISE
+      id: T1053
+      role: persistence_context
+      required: false
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1543
+      role: service_based_persistence_context
+      required: true
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1505.003
+      role: web_shell_context
+      required: false
+    - system: CAPEC
+      id: CAPEC-523
+      role: malicious_software_context
+      required: false
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  password_cracking:
+    display_name: Password Cracking
+    category: malware
+    output_path: data/kb_v2/knowledge_base/malware/password_cracking.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-49
+      role: password_brute_force_mechanism
+      required: true
+    supporting_sources:
+    - system: CAPEC
+      id: CAPEC-16
+      role: dictionary_attack_context
+      required: true
+    - system: CAPEC
+      id: CAPEC-55
+      role: rainbow_table_context
+      required: false
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1110
+      role: brute_force_context
+      required: true
+    - system: NIST
+      document: NIST SP 800-63B
+      role: authentication_mitigation_guidance
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  accessing_functionality_not_properly_constrained_by_acls:
+    display_name: Accessing Functionality Not Properly Constrained by ACLs
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/accessing_functionality_not_properly_constrained_by_acls.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-1
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1574.010
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  inducing_account_lockout:
+    display_name: Inducing Account Lockout
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/inducing_account_lockout.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-2
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1531
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  cause_web_server_misclassification:
+    display_name: Cause Web Server Misclassification
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/cause_web_server_misclassification.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-11
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1036.006
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  subverting_environment_variable_values:
+    display_name: Subverting Environment Variable Values
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/subverting_environment_variable_values.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-13
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1562.003
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  embedding_scripts_within_scripts:
+    display_name: Embedding Scripts within Scripts
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/embedding_scripts_within_scripts.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-19
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1027.009
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  exploitation_of_trusted_identifiers:
+    display_name: Exploitation of Trusted Identifiers
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/exploitation_of_trusted_identifiers.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-21
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1134
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  forced_deadlock:
+    display_name: Forced Deadlock
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/forced_deadlock.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-25
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1499.004
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  hijacking_a_privileged_thread_of_execution:
+    display_name: Hijacking a Privileged Thread of Execution
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/hijacking_a_privileged_thread_of_execution.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-30
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1055.003
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  accessing_intercepting_modifying_http_cookies:
+    display_name: Accessing/Intercepting/Modifying HTTP Cookies
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/accessing_intercepting_modifying_http_cookies.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-31
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1539
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  utilizing_rest_s_trust_in_the_system_resource_to_obtain_sensitive_data:
+    display_name: Utilizing REST's Trust in the System Resource to Obtain Sensitive
+      Data
+    category: communications
+    output_path: data/kb_v2/knowledge_base/communications/utilizing_rest_s_trust_in_the_system_resource_to_obtain_sensitive_data.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-57
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1040
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  reusing_session_ids_aka_session_replay:
+    display_name: Reusing Session IDs (aka Session Replay)
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/reusing_session_ids_aka_session_replay.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-60
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1134.001
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  sniff_application_code:
+    display_name: Sniff Application Code
+    category: communications
+    output_path: data/kb_v2/knowledge_base/communications/sniff_application_code.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-65
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1040
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  adversary_in_the_middle_aitm:
+    display_name: Adversary in the Middle (AiTM)
+    category: communications
+    output_path: data/kb_v2/knowledge_base/communications/adversary_in_the_middle_aitm.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-94
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1557
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  phishing:
+    display_name: Phishing
+    category: social_engineering
+    output_path: data/kb_v2/knowledge_base/social_engineering/phishing.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-98
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1566
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  brute_force:
+    display_name: Brute Force
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/brute_force.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-112
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1110
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  directory_indexing:
+    display_name: Directory Indexing
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/directory_indexing.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-127
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1083
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  symlink_attack:
+    display_name: Symlink Attack
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/symlink_attack.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-132
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1547.009
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  redirect_access_to_libraries:
+    display_name: Redirect Access to Libraries
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/redirect_access_to_libraries.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-159
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1574.008
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  spear_phishing:
+    display_name: Spear Phishing
+    category: social_engineering
+    output_path: data/kb_v2/knowledge_base/social_engineering/spear_phishing.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-163
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1534
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  exploiting_incorrectly_configured_access_control_security_levels:
+    display_name: Exploiting Incorrectly Configured Access Control Security Levels
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/exploiting_incorrectly_configured_access_control_security_levels.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-180
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1574.010
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  session_credential_falsification_through_forging:
+    display_name: Session Credential Falsification through Forging
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/session_credential_falsification_through_forging.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-196
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1134.002
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  leverage_alternate_encoding:
+    display_name: Leverage Alternate Encoding
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/leverage_alternate_encoding.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-267
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1027
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  modification_of_registry_run_keys:
+    display_name: Modification of Registry Run Keys
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/modification_of_registry_run_keys.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-270
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1547.001
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  modification_of_windows_service_configuration:
+    display_name: Modification of Windows Service Configuration
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/modification_of_windows_service_configuration.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-478
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1574.011
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  task_impersonation:
+    display_name: Task Impersonation
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/task_impersonation.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-504
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1036.004
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  kerberoasting:
+    display_name: Kerberoasting
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/kerberoasting.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-509
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1558.003
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  xml_flood:
+    display_name: XML Flood
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/xml_flood.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-528
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1499.002
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  use_of_known_domain_credentials:
+    display_name: Use of Known Domain Credentials
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/use_of_known_domain_credentials.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-560
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1078
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  windows_admin_shares_with_stolen_credentials:
+    display_name: Windows Admin Shares with Stolen Credentials
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/windows_admin_shares_with_stolen_credentials.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-561
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1021.002
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  password_spraying:
+    display_name: Password Spraying
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/password_spraying.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-565
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1110.003
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  session_hijacking:
+    display_name: Session Hijacking
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/session_hijacking.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-593
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1185
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  credential_stuffing:
+    display_name: Credential Stuffing
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/credential_stuffing.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-600
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1110.004
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  collect_data_from_clipboard:
+    display_name: Collect Data from Clipboard
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/collect_data_from_clipboard.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-637
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1115
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  altered_component_firmware:
+    display_name: Altered Component Firmware
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/altered_component_firmware.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-638
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1542.002
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  inclusion_of_code_in_existing_process:
+    display_name: Inclusion of Code in Existing Process
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/inclusion_of_code_in_existing_process.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-640
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1505.005
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  use_of_captured_hashes_pass_the_hash:
+    display_name: Use of Captured Hashes (Pass The Hash)
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/use_of_captured_hashes_pass_the_hash.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-644
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1550.002
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  collect_data_from_registries:
+    display_name: Collect Data from Registries
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/collect_data_from_registries.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-647
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1005
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  use_of_known_kerberos_credentials:
+    display_name: Use of Known Kerberos Credentials
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/use_of_known_kerberos_credentials.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-652
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1558
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  root_jailbreak_detection_evasion_via_hooking:
+    display_name: Root/Jailbreak Detection Evasion via Hooking
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/root_jailbreak_detection_evasion_via_hooking.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-660
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1055
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  adversary_in_the_browser_aitb:
+    display_name: Adversary in the Browser (AiTB)
+    category: communications
+    output_path: data/kb_v2/knowledge_base/communications/adversary_in_the_browser_aitb.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-662
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1185
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  exploitation_of_thunderbolt_protection_flaws:
+    display_name: Exploitation of Thunderbolt Protection Flaws
+    category: communications
+    output_path: data/kb_v2/knowledge_base/communications/exploitation_of_thunderbolt_protection_flaws.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-665
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1211
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  bluesmacking:
+    display_name: BlueSmacking
+    category: communications
+    output_path: data/kb_v2/knowledge_base/communications/bluesmacking.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-666
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1498.001
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  key_negotiation_of_bluetooth_attack_knob:
+    display_name: Key Negotiation of Bluetooth Attack (KNOB)
+    category: software
+    output_path: data/kb_v2/knowledge_base/software/key_negotiation_of_bluetooth_attack_knob.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-668
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1565.002
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  alteration_of_a_software_update:
+    display_name: Alteration of a Software Update
+    category: social_engineering
+    output_path: data/kb_v2/knowledge_base/social_engineering/alteration_of_a_software_update.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-669
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1195.002
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  system_location_discovery:
+    display_name: System Location Discovery
+    category: communications
+    output_path: data/kb_v2/knowledge_base/communications/system_location_discovery.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-694
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1614
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
+  repo_jacking:
+    display_name: Repo Jacking
+    category: social_engineering
+    output_path: data/kb_v2/knowledge_base/social_engineering/repo_jacking.md
+    primary_source:
+      system: CAPEC
+      id: CAPEC-695
+      role: attack_mechanism
+      required: true
+    supporting_sources:
+    - system: MITRE_ATTACK_ENTERPRISE
+      id: T1195.001
+      role: adversary_context
+      required: true
+    extraction:
+      use_llm: false
+      preserve_source_text: true
+      generate_markdown: true
+      human_review_required: true
