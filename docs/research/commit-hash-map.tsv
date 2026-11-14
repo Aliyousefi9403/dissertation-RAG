@@ -1,0 +1,122 @@
+old_hash	new_hash	date	subject
+f6a41645fdf1	05fcd0769335	2026-08-02	Add PWWS adversarial attack POC, KB builder from MITRE ATT&CK + CAPEC, LLM generation layer
+b670331c97ee	3d5d17edad42	2026-10-16	Sync local project state from review snapshot
+6c2b051abad6	75959333c6fc	2026-10-16	Add experimental evidence check (POST /guarded-chat) and remove fabricated UI metrics
+6750634df581	85843645fa42	2026-10-16	Document evaluation methods, metrics and verified pilot results
+c49c0d8d0c59	c5785bca4937	2026-10-16	Add PDD review, benchmark review with retrieval pre-check
+59df80e5922a	f6e068862cdc	2026-10-16	Evidence check policy v2: tolerate quote edge punctuation, add abstained outcome
+569c3ca4b07a	9f81e873eea0	2026-10-16	Freeze benchmark v1, configurable benchmark path, formatting-only control
+069cd3aa117c	3cdb7f938390	2026-10-16	Submission-ready PDD, run analysis script, abstained UI test
+2c45ecc70656	8a8b2ba4fb3d	2026-10-16	Rewrite README: current scope, setup, tests and reproduction commands
+1595cee54393	a74ec3261e5e	2026-10-16	Main run v1 (44 questions x 3, live): records, analysis and results
+6e3e5b62de5c	8fcf50b90c81	2026-10-16	Relative-entropy / synonym-gap detector for PWWS chunks, with control and filter preview
+afb91f487da8	aae0cc0cbf23	2026-10-16	PDD: relative-entropy detector and retrieval filter as core detection method
+6d3723115733	666b846403e6	2026-10-17	Entropy-filter defence: synonym-gap retrieval filter and live defended state
+a63815e3aa65	35aa1217c341	2026-10-17	Enable Defended mode in the UI; filter explanations evaluation
+3611478e3baa	d6c55c56c60b	2026-10-17	Defence docs and evidence: change record, matched control, figures, report builder
+151196fe6299	4942fbc9536b	2026-10-17	Live defence evaluation: records, paired analysis, results section 12
+476c5377d08c	c81e2f693623	2026-10-17	Defended mode: entropy shield visual
+36dde073b2fd	f5fe2540aa11	2026-10-17	Report for Nikos: how relative entropy was applied, with evidence
+eaf10c177919	9e39a8c28d3f	2026-10-17	Threshold sweep, blind judge-check sheet, evidence index
+20563cc9705b	9d7fa88a1840	2026-10-17	Repair feasibility: can the detector restore PWWS originals?
+97c263d8bde0	867fd3c28f13	2026-10-17	Plan A: repair-then-rescore defence (entropy-repair-v1, system state repaired)
+7c070cb50911	637212a4a49a	2026-10-17	Plan B: adaptive (detector-aware) PWWS attack, create-only
+65276029e568	4eb62623a655	2026-10-18	One-command local start script; ignore root node_modules
+c7e5b309537b	cea41d7e7721	2026-10-18	start-aegisrag.sh: never pick Python from inside .venv
+e05222826f37	98ac3116dbd2	2026-10-18	Detector evaluation accepts the adaptive and rerun attack corpora; ignore model weights
+c3dd36b522e7	0a302bc202b2	2026-10-18	start-aegisrag.sh installs only what the app needs
+92142a925e5c	6038c17b01ee	2026-10-18	Live repair-then-rescore evaluation: drop beats repair
+99810619b6cf	885067798001	2026-10-18	Entropy-family detector evaluation: Dirichlet reference, Jensen-Shannon, LM surprisal, contextual synonym gap
+b3a215e8b730	077450c6b116	2026-10-18	Entropy-family detectors on the poisoned corpus
+8a21b161f9cf	20ba75eb2fb3	2026-10-18	Adaptive attacker evades the deployed detector; LM-reference contextual synonym gap survives it
+134c4b15a24a	fdb5f53dc2c7	2026-10-18	Report for Nikos v2 builder and Figure 5 (entropy-family AUROC across corpora)
+d1514abe46b9	f0e626d056a9	2026-10-18	Matched control corpus: unrestricted PWWS with the retrained surrogate (39/88 sections)
+cfe158a94d2f	20f1b961eac6	2026-10-18	PDD: forward-looking proposal with the full detector and adaptive-attacker plan
+ba200798d449	e844202c7ce1	2026-10-18	Matched-control detector results, Figure 5, report for Nikos version 2
+094da95834b8	4082e3d97808	2026-10-18	Report for Nikos v2: cite the commit that holds all its evidence (ba20079)
+6f0a063e15db	1618f3721163	2026-10-18	Report for Nikos: short, first-person 2-page version
+1adbe70d4513	e8c0274265ac	2026-10-18	Plan A: contextual synonym-gap defence (contextual-filter-v1, system state contextual)
+b0b17399615c	355dabc7df27	2026-10-18	Contextual filter: cache scores per passage; runner gains the contextual mode
+9ea6b4853cc0	5e44b8ae751d	2026-10-18	Plan B: second-order adaptive attack (adaptive_lm) aimed at the contextual detector
+26fcf05d3286	2874a9e5c207	2026-10-18	Plan C: TextFooler variant (second attack) with the same retrained surrogate
+23d4b19accfc	ada5cfc8aceb	2026-10-18	PDD: contextual defence mode, two adaptive attackers and TextFooler in the core plan; email draft for Nikos
+6c83fa4e27ac	d458fe3eeca6	2026-10-18	Remove the email draft for Nikos
+08b47c7cd077	fc728024d9e9	2026-10-18	Survive container restarts: per-file checkpoints for attacks, in-place resume for live runs
+2a676366ccf0	26949008a30b	2026-10-18	Document-clustered bootstrap intervals for detector AUROCs; Figure 6 (robustness across corpora)
+f3a618f9d5e5	3fc05b78dce9	2026-10-18	Attack workers: cap LM batches at 4 (OOM at 16 whole sections); file locks so several --resume workers can share a corpus
+cb5453319584	b14e98a67914	2026-10-18	Live contextual-defence run (792 records, none unavailable) and paired analysis
+9909ba0e1d37	45096ecfd6ef	2026-10-18	Results §17: live contextual-filter defence
+491322b01704	4627618bf05e	2026-10-18	Second-order attack: 0 of 57 attackable sections; swap-level diagnostic; budgeted variant
+2f10a15946df	8934d4d632a2	2026-10-18	Second-order adaptive corpus (adaptive_lm): manifest, per-file parts and run log
+77e8be8f0bd9	612465737887	2026-10-18	Paper draft (Markdown): testbed, relative-entropy detectors, live defences, adaptive attackers; TextFooler and budgeted attacker pending
+9296bdaa4630	a011ccda53d4	2026-10-19	TextFooler corpus (49 of 57 attackable sections) and word-frequency detector results on it
+c3c440bcd10b	13153ad4f615	2026-10-19	Detector family on the TextFooler corpus (contextual gap 0.91, word-frequency gap 0.90)
+2c7d8983cddb	5c0771ddbffe	2026-10-19	Budgeted second-order attack at 4.46 bits: 0 of 57; budget levels, boot-aware locks, import-time code hash
+7dcf4940f966	a80236090ce1	2026-10-19	Evidence index: contextual live run, TextFooler, second-order attacks and diagnostic (all claims match, all runs intact)
+539ac4afc894	b1854a15a831	2026-10-19	AUROC intervals: also report detection at the frozen deployed thresholds per corpus
+186da118e5c3	09ed23c4657c	2026-10-19	Paper build: Pandoc to Word (styled tables) and PDF
+5ad524318e81	614af159f6f0	2026-10-19	Second-order attack, 20-bit budget: 0 of 57 sections
+420730a11c13	6190c1c5b549	2026-10-19	Second-order attack, 100-bit budget: 5 of 57 sections; word-frequency detectors on it
+16b0a3cb85e6	f8812139c47f	2026-10-19	Detector family on the 100-bit second-order corpus (contextual gap 0.78 on 6 edited chunks)
+268bd7ce450a	777912b00143	2026-10-19	Figure 7: second-order attacker success vs language-model budget
+732d55134725	2e6eb6403d58	2026-10-19	e2e: align three stale assertions with the current layout (26/26 pass)
+78e74eac6b91	2a1866e58f7c	2026-10-19	Second-order attack, 300-bit budget: 8 of 57 sections; word-frequency detectors on it
+99ca889448a3	35dade0c34d1	2026-10-19	Results §18 (TextFooler, second-order attackers 0/4.46/20/100/300 bits), intervals, Figures 6-7, evidence index 73/73
+ae5d971a734f	753f137c23a0	2026-10-19	Paper: complete draft with TextFooler and second-order budget results; PDF via MathML/Chromium, editable Word file
+1f6c837c47c5	4dc99cb795d5	2026-10-19	DECISIONS: ADR-008 relative-entropy defences, adaptive attackers and resumable runs
+d70fa41cf9b5	2670bdf1337c	2026-10-19	PDD rebuilt to Project Handbook 2026/27 §4.5: cover page, required sections, 1,407 words, Harvard references, Gantt chart, Appendix A placeholder
+a89f692d3648	a4266d22fa75	2026-10-19	Evidence-check evaluation script: labels and metrics fixed before the run
+cc2c04a1c396	4d3438c53755	2026-10-19	TextFooler live defence: research-only config state, create-only corpus indexing, runner mode textfooler
+f3f69aced04e	8bd5a58db841	2026-10-21	Evidence-check evaluation (O8): 352 verifier records; precision 0.28, recall 0.20, false alarms 0.31 (§19); evidence index 77/77
+3b1671f8af09	d2201b7aaedb	2026-10-21	Analysis script for the live TextFooler run (exposure and strata from the TextFooler manifest)
+e524237ebcdf	10c5f64b6968	2026-10-21	Paper §5.6: answer-level evidence check results
+e0f2fbaf8d88	10a41fd6512c	2026-10-21	Demo video plan (handbook §6.3): running order, demo script, debugger walkthrough, checklist
+b560a7b4fb5e	867ada07044e	2026-10-21	Live TextFooler defence run (1,188 records): contextual filter cuts exposure 82% -> 52%, word-frequency filter does not (§20); paper and evidence index 83/83
+95181d265a8b	f383398347e0	2026-10-21	Paper rebuilt with §5.5 live TextFooler and §5.6 evidence check
+ad9330520238	687aaff15f42	2026-10-22	Remove local tooling configuration and generated graph files from version control; screenshot path from SHOTS_DIR
+0c1666551807	2f72f4e228db	2026-10-22	Project briefing (Word and PDF) and PDF of the results write-up
+445f796c141e	26227098cdf2	2026-10-23	Evidence pack: figures, run register, traced claims, and shareable zip of all documents
+43b6a822087f	ecc043b0265a	2026-10-27	Perplexity-filter baselines (§21): whole-passage perplexity clearly weaker, windowed perplexity close; evidence index updated
+e9bcbba09f74	e52e8ac1c7bb	2026-10-27	arXiv/IEEE LaTeX version of the paper: 241-word abstract, perplexity baselines, updated related work, BibTeX, upload bundle
+a6ba197c8e78	be797d5072d0	2026-10-27	Judge check complete: 75 blind manual grades, weighted kappa 0.82 (§22); paper and evidence index updated
+4ba93c5188ba	819594948ceb	2026-10-27	ADR-009: approved plan for the runtime verification monitor
+39498acbef67	a129e87a1c42	2026-10-27	Runtime verification monitor (runtime-monitor-v1): trusted MITRE specification, feedback regeneration, quarantine memory; 12 tests; offline dry check (0/132 clean answers flagged by the lexical check, 2/2 confident errors flagged)
+f6c1aa60dde9	94c4544a5def	2026-10-27	Runner for the live runtime-monitor evaluation (four conditions, per-condition quarantine memory, resumable)
+35255ae716f7	4698c5eb144e	2026-10-27	Analysis script for the runtime-monitor run (paired comparisons, memory effect by repetition, quarantine precision, phi3 trace check)
+b91db7d581b1	8e852a2870b1	2026-10-27	Live runtime-monitor run (1,584 records, 4 memories): restore lifts correctness 0.555 -> 0.773, verify cuts exposure, memory removes repeated misinformation, phi3 holds (§23); evidence index 107/107
+46d49cb684a8	62e98da628b7	2026-10-27	Paper §5.7 runtime monitor (250-word abstract), ADR-009 outcome, briefing and evidence pack rebuilt
+ac350d8a8216	429ae12638ee	2026-10-27	Evidence pack: claims table regenerated (107/107), monitor run in the register
+ceae634d6f24	a5025de99327	2026-10-28	ADR-010: approved plan for Verified mode, distinct defence views and public deployment
+1c50fea76677	c1dc58a9d827	2026-10-28	Verified mode in /chat (runtime monitor), monitor memory endpoints, QDRANT_URL from env, optional rate limit; 4 API tests
+7c8e07701cf5	6f8deeb011c2	2026-10-28	Verified mode in the interface with distinct views per defence (repair ledger, context lens, monitor trace and memory); runtime-monitor-v2 (phi1 only for words copied from the context)
+621519dd39df	504c92254c22	2026-10-28	Readability clean-up (ADR-011): format code added since October, project banner style, hide evidence folders in editor and GitHub; behaviour unchanged
+16a1a7e51d7f	63b409476041	2026-10-28	Evidence index: new fingerprints of the reformatted defence code (behaviour unchanged, ADR-011)
+18f900d6d335	47c918010b9b	2026-10-28	Mode introductions before the first question, defence views centred above the living core, clearer memory message; editor hides generated data automatically; browser tests for Repaired, Contextual and Verified views (27/27)
+4b9793aa3ace	e19380827716	2026-10-28	Mode introductions, centred defence views, clearer memory message, editor settings that hide generated data, browser tests for the new views (27/27)
+e41d40c3cc96	d597465ff976	2026-10-28	Ignore browser-test output folders
+7baedf532fba	b57345c70d03	2026-10-28	Each defence mode has its own centrepiece and particle colour: shield (Defended), repair loom (Repaired), context lens (Contextual), monitor gate (Verified); explanation cards removed; tests 27/27
+85fe6a39d495	8b7cc857aed3	2026-10-28	Shorten comments and docstrings
+6e7f2398a306	7cac6ea9c183	2026-10-28	Rebuild arXiv bundle
+c7e644c5a45b	a75621e96e23	2026-10-28	Ignore Qdrant marker file
+496528ddf296	6602583ea433	2026-10-30	Paper: audit claims against results, plainer wording
+cae17ba0bfdb	bf0db33a6a3f	2026-10-30	Update bibliography output
+0d6430889053	445414e1cbd4	2026-10-30	Monitor v2 live run, analysis and paper section
+af87dbfc9a53	c7eb2fbab35c	2026-10-30	Runtime monitor report
+6d937de432f4	156979794e27	2026-11-01	Paper: add co-authors
+8f1d370ff470	a9619114371f	2026-11-01	PDD: add runtime monitor objective, plan and risks
+06098719c9ee	2102409d288a	2026-11-03	Correct the Engraft attribution; add v2 write-up section
+d994e0958704	d62829e5cd96	2026-11-13	Paper: restructure into seven sections, longer introduction, diagrams drawn in LaTeX
+51884f6505c2	bf4bf826f2ee	2026-11-13	Paper: fit detector figure to the column
+2d85789a1e41	719ac804e1d6	2026-11-13	Journal roadmap; reference language model selectable in the detector script
+c65ef24dff83	ffac3b6bd782	2026-11-13	Add contextual detector results with gpt2 and first gpt2-medium corpus
+da4d043e6e36	82a379ceb5a4	2026-11-13	Record reference-model results in the evidence manifest
+5f33903ffe88	0f42766cb9bd	2026-11-13	Monitor v3: optional blame step using the contextual synonym gap (default unchanged)
+991af8bee879	9eb0f354ff45	2026-11-13	Add gpt2-medium result for the retrained-surrogate corpus; monitor v3 run in progress (partial records)
+19244a135066	1f3f39d104b4	2026-11-13	Monitor v3 live run (1,584 records), analysis, evidence claims; gpt2-medium TextFooler and control results
+a776d05d980f	bd25da6a36c7	2026-11-13	Add gpt2-medium result for the adaptive corpus; reference-model experiment complete
+9d6dd704c186	d76dcb866f3b	2026-11-14	Add blind sheet for a second human grader (same 75 answers)
+c3384526245d	fe73e0e5f4bd	2026-11-14	Monitor properties as LTL formulas with generated monitors; replay equals the live verdicts on all 1,248 drafts. Add BAE and detector-aware attack scripts
+e7114c77a7c6	c935f148c334	2026-11-14	Knowledge base v2 (60 attack types) built from the same pinned MITRE files; roadmap status
+1c26ff5ce24a	0eede6397b64	2026-11-14	Detector-aware attack corpus and summary: 5 of 39 sections evade, 13 of 550 edits kept
+857a646123cf	ec13d8f7b4f7	2026-11-14	BAE-poisoned corpus (14 of 57 attacked sections); detector scores on the detector-aware corpus
+46e3f73986a3	b852f5c031bb	2026-11-14	Detector scores on the BAE corpus (contextual AUROC 0.59); v2 surrogate training data and script

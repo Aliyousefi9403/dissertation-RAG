@@ -1,6 +1,6 @@
 # Journal roadmap (branch `tdsc`)
 
-The dissertation version is frozen on branch `dissertation-v1.0` (commit `51884f6`, same as `main`).
+The dissertation version is frozen on branch `dissertation-v1.0` (commit `bf4bf82`, same as `main`).
 Nothing on this branch changes that version, its run records or its results. New work adds new
 files, new corpora under new folder names, new vector collections under new names and new run
 folders.
@@ -37,3 +37,9 @@ Order: W1 → W2 → W3 → W4 → W5, with W6 and W7 in parallel when people ar
 - Thresholds for new experiments are fixed on development data before held-out data is scored.
 - Negative results are reported.
 - `verify_evidence.py` must report 0 problems before each commit.
+
+## Commit hashes
+
+Commit messages were tidied on 14 Nov 2026, which changed every commit hash; dates, authors and
+file contents are unchanged. Hashes quoted in older documents (for example in `DECISIONS.md`) are
+listed against their current hash in `docs/research/commit-hash-map.tsv`.
