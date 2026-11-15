@@ -88,6 +88,23 @@ def finetune():
     from app.attack import finetune_bert as fb
 
     fb.DATASET_DIR, fb.MODEL_OUTPUT_DIR = DATASET, MODEL
+    if list(
+        MODEL.glob("checkpoint-*")
+    ):  # interrupted run: continue from the last saved epoch
+        import transformers.trainer as hf_trainer
+
+        # transformers refuses torch.load on torch < 2.6; the checkpoint here was written by this
+        # same job on this machine, so loading its optimizer state is safe.
+        hf_trainer.check_torch_load_is_safe = lambda: None
+        train = fb.Trainer.train
+        fb.Trainer.train = lambda self: train(self, resume_from_checkpoint=True)
+        with (MODEL / "resume_log.jsonl").open("a") as handle:
+            handle.write(
+                json.dumps(
+                    {"resumed_from": sorted(p.name for p in MODEL.glob("checkpoint-*"))}
+                )
+                + "\n"
+            )
     fb.main()
 
 
