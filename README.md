@@ -5,8 +5,8 @@
 Ali Yousefi, with Nikos Komninos and Hafizul Asad
 Department of Computer Science, City St George's, University of London
 
-Paper: *Reading the Poison: Detecting Word-Substitution Poisoning of a Cybersecurity RAG Knowledge Base
-with Relative Entropy and Runtime Verification* ([PDF](docs/paper/arxiv/AegisRAG-paper.pdf)).
+Paper: *Detecting Word-Substitution Poisoning of a RAG Knowledge Base with Relative Entropy and Runtime
+Verification* ([PDF](docs/paper/arxiv/AegisRAG-paper.pdf)).
 
 ---
 
