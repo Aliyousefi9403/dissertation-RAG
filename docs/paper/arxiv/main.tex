@@ -30,8 +30,10 @@
 
 \title{Reading the Poison: Detecting Word-Substitution Poisoning of a Cybersecurity RAG Knowledge Base with Relative Entropy and Runtime Verification}
 
-\author{Ali~Yousefi, Hafizul~Asad, and Nikos~Komninos%
-\IEEEcompsocitemizethanks{\IEEEcompsocthanksitem The authors are with the Department of Computer Science, City St George's, University of London, London, UK.}}
+\author{Ali~Yousefi, Nikos~Komninos, and Hafizul~Asad\\[0.6em]
+\normalsize Department of Computer Science, School of Science and Technology\\
+\normalsize City St George's, University of London (UK)\\[0.3em]
+\small \texttt{yousefi.ali@icloud.com}, \texttt{Nikos.Komninos.1@city.ac.uk}, \texttt{Hafizul.Asad@citystgeorges.ac.uk}}
 
 \markboth{Preprint, 2026}{Yousefi \MakeLowercase{\textit{et al.}}: Detecting Word-Substitution Poisoning of a RAG Knowledge Base}
 
@@ -499,14 +501,14 @@ The memory is only as accurate as the blame step. On TextFooler 26 of the 27 qua
 
 \textbf{Ethics.} The attacks edit a local copy of public MITRE material. No real system is attacked and no malware is run. No personal data is used; question and passage text is sent to a commercial LLM API. Detection scores are evidence for a person to review, not proof that a passage is clean or that an answer is true. We evaluate attackers who know the detector and report where it fails, so that it is not over-trusted.
 
-\textbf{Reproducibility.} Code, corpora, attack manifests, run records and analysis scripts are at \url{https://github.com/Aliyousefi9403/dissertation-RAG}. A verification script re-hashes all run records and checks the main numbers reported here against the result files that produced them.
+\textbf{Reproducibility.} Code, corpora, attack manifests, run records and analysis scripts are at \url{https://github.com/Aliyousefi9403/dissertation-RAG/tree/dissertation-v1.0} (branch \texttt{dissertation-v1.0}, the version this paper describes). A verification script re-hashes all run records and checks the main numbers reported here against the result files that produced them.
 
 % =====================================================================
 \section{Conclusion}\label{sec:conclusion}
 We studied an attacker who poisons a cybersecurity RAG knowledge base by swapping words for synonyms. The attack does most of its damage by removing evidence: the model refuses more often and is wrong only occasionally. A local relative-entropy score, the synonym gap, finds the edited passages, most reliably with a small language model as its reference, and attackers constrained to evade it lose most or all of their successful attacks. Filtering the flagged passages makes the system safer but does not bring the answers back. A runtime monitor that checks answers against trusted MITRE data adds a memory with a verifiable safety property and, with a trusted fallback, restores correctness. Detection tells a system what not to trust; getting the answer back needs something it can trust. Future work is a more precise blame step for the monitor, sentence-level checks of answers against trusted statements, stronger adaptive attackers, and larger knowledge bases with more than one generator model.
 
 \section*{Acknowledgment}
-The relative-entropy approach was suggested by N.~Komninos, and the runtime-verification monitor by H.~Asad. AI tools were used to help with coding, analysis and drafting; the first author checked all code, numbers and references.
+This project was supervised by N.~Komninos. The relative-entropy approach was suggested by N.~Komninos, and the runtime-verification monitor by H.~Asad. AI tools were used to help with coding, analysis and drafting; the first author checked all code, numbers and references.
 
 \bibliographystyle{IEEEtran}
 \bibliography{refs}
