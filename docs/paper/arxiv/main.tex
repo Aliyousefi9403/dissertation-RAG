@@ -26,9 +26,21 @@
   lab/.style={font=\scriptsize, align=center},
 }
 
+\makeatletter
+\def\figurename{Figure}
+\long\def\@makecaption#1#2{%
+\ifx\@captype\@IEEEtablestring%
+\footnotesize\bgroup\par\centering\@IEEEtabletopskipstrut{\normalfont\sffamily\footnotesize #1}\\{\normalfont\sffamily\footnotesize #2}\par\addvspace{0.5\baselineskip}\egroup%
+\@IEEEtablecaptionsepspace
+\else
+\@IEEEfigurecaptionsepspace
+\hbox to\hsize{\normalfont\sffamily\footnotesize #1~--~#2\hfil}%
+\fi}
+\makeatother
+
 \begin{document}
 
-\title{Reading the Poison: Detecting Word-Substitution Poisoning of a Cybersecurity RAG Knowledge Base with Relative Entropy and Runtime Verification}
+\title{Detecting Word-Substitution Poisoning of a RAG Knowledge Base with Relative Entropy and Runtime Verification}
 
 \author{Ali~Yousefi, Nikos~Komninos, and Hafizul~Asad\\[0.6em]
 \normalsize Department of Computer Science, School of Science and Technology\\
@@ -121,11 +133,11 @@ The rest of the paper is organised as follows. Section~\ref{sec:related} reviews
 \draw[arr] (mem.south) -- ++(0,-0.75) -| node[font=\footnotesize, below, pos=0.25]{quarantined passages are never retrieved again} (kb.south);
 \draw[arr] (mon.north) -- ++(0,0.6) -| node[font=\footnotesize, above, pos=0.25]{rule broken: retrieve again and retry with feedback (at most twice)} (ret.north);
 \end{tikzpicture}}
-\caption{AegisRAG overview. The attacker (red) can edit the knowledge base and nothing else. The defences (green) sit in two places: a retrieval filter that scores candidate passages before the language model sees them, and a runtime monitor that checks the draft answer against trusted MITRE data before the user sees it. The filter and the monitor are evaluated separately.}\label{fig:overview}
+\caption{AegisRAG overview}\label{fig:overview}
 \end{figure*}
 
 \subsection{The RAG system}
-Fig.~\ref{fig:overview} shows the system. A FastAPI backend embeds the question with all-MiniLM-L6-v2, retrieves passages from a Qdrant vector store, and asks gpt-4o-mini (temperature 0) to answer, using a fixed prompt that tells the model to answer only from the context and to say so when the context is not enough. Without a defence, the 3 most similar passages go to the model. Documents are split into 500-character passages with 100 characters of overlap. A web interface shows answers from the clean and the poisoned knowledge base side by side and lets the user switch each defence on.
+Figure~\ref{fig:overview} shows the system. A FastAPI backend embeds the question with all-MiniLM-L6-v2, retrieves passages from a Qdrant vector store, and asks gpt-4o-mini (temperature 0) to answer, using a fixed prompt that tells the model to answer only from the context and to say so when the context is not enough. Without a defence, the 3 most similar passages go to the model. Documents are split into 500-character passages with 100 characters of overlap. A web interface shows answers from the clean and the poisoned knowledge base side by side and lets the user switch each defence on.
 
 The knowledge base contains 18 documents of MITRE ATT\&CK and CAPEC material on 14 attack types in 5 categories (DDoS, injection, malware, reconnaissance and spoofing), split into 200 passages.
 
@@ -147,10 +159,10 @@ The attacker can edit text in the knowledge base. It cannot change the questions
 \node[box, fill=white, right=6mm of o, text width=40mm, align=left] (e) {\textbf{After:} ``An attacker \emph{engraft malicious package} into the \emph{arrangement} in the \emph{cater concatenation} distribution \emph{groove}''};
 \draw[arr] (o) -- (e);
 \end{tikzpicture}}
-\caption{How the knowledge base is poisoned. A section is rewritten only if the attack manages to change the surrogate classifier's prediction. 31 of the 88 eligible sections are already misclassified and are skipped. The text boxes show a real example from the attack manifest (the passage discussed in Section~\ref{sec:mechanism}).}\label{fig:attack}
+\caption{How the knowledge base is poisoned}\label{fig:attack}
 \end{figure}
 
-Fig.~\ref{fig:attack} shows how we build the poisoned knowledge base. We train a DistilBERT classifier to predict the attack type of a section, on the same material. It acts as a \emph{surrogate}: the attacker does not attack the RAG system directly but rewrites a section whenever PWWS (run with TextAttack) flips the classifier's label. Of 88 eligible sections, 31 are already misclassified and are skipped, and PWWS succeeds on 38 of the remaining 57. The adaptive experiments in Section~\ref{sec:adaptive} use a retrained surrogate, on which plain PWWS succeeds on 39. The original and the edited text of every section are kept in an attack manifest.
+Figure~\ref{fig:attack} shows how we build the poisoned knowledge base. We train a DistilBERT classifier to predict the attack type of a section, on the same material. It acts as a \emph{surrogate}: the attacker does not attack the RAG system directly but rewrites a section whenever PWWS (run with TextAttack) flips the classifier's label. Of 88 eligible sections, 31 are already misclassified and are skipped, and PWWS succeeds on 38 of the remaining 57. The adaptive experiments in Section~\ref{sec:adaptive} use a retrained surrogate, on which plain PWWS succeeds on 39. The original and the edited text of every section are kept in an attack manifest.
 
 \textbf{Layout-only control.} The poisoning script also flattens the layout of the sections it rewrites. To separate the effect of the words from the effect of the layout, a control corpus applies the same flattening to the same sections but keeps the original words. Retrieval on the control is the same as on the clean corpus, so the layout change alone does not explain the damage.
 
@@ -186,14 +198,14 @@ Let a passage contain the words $w_1,\dots,w_n$ with empirical distribution $p$,
 \draw[arr] (w) -- (g);
 \draw[arr] (syn) -- (g);
 \end{tikzpicture}}
-\caption{The synonym gap for one word. The score asks how many bits more probable the best synonym is than the word that was actually written. The passage score is the mean of the three largest gaps, and the detector can report the word and its likely original.}\label{fig:gap}
+\caption{The synonym gap for one word}\label{fig:gap}
 \end{figure}
 
 \textbf{Synonym gap.} For each content word $w$ with WordNet synonyms $S(w)$ we compute
 \begin{equation}
 g(w)=\max_{s\in S(w)}\big[\log_2 q(s)-\log_2 q(w)\big],
 \end{equation}
-the number of bits by which the most probable synonym beats the word that was used (Fig.~\ref{fig:gap}). This is the log-ratio term of KL, evaluated where a substitution would have happened. A passage's score is the mean of its three largest gaps.
+the number of bits by which the most probable synonym beats the word that was used (Figure~\ref{fig:gap}). This is the log-ratio term of KL, evaluated where a substitution would have happened. A passage's score is the mean of its three largest gaps.
 
 \textbf{References.} The score depends on $q$, and we compare four choices. (i) General English word frequencies. (ii) A \emph{domain} reference: word counts from the rest of the knowledge base, leaving out the passage's own document, mixed 50/50 with English. It does not need a clean copy of the poisoned document. (iii) The same counts with a Dirichlet prior, $q(w)=\frac{c(w)+\mu q_{\mathrm{en}}(w)}{N+\mu}$ with $\mu=2000$~\cite{zhai2004smoothing}. (iv) A \emph{contextual} reference from a small language model, distilgpt2~\cite{radford2019gpt2}, which judges a word in its sentence rather than on its own. For (iv) we take the 10 words with the largest domain gap and, for each, its 5 most probable synonyms $s$, and compute
 \begin{equation}
@@ -206,7 +218,7 @@ that is, how much more probable the whole passage becomes when $w$ is replaced b
 All scores use only information a defender would have. The attack labels are used only for evaluation. Thresholds were set once, on development documents, at a 10\% false-positive rate, and were not changed afterwards.
 
 \subsection{Retrieval filters}\label{sec:filters}
-A filter retrieves 10 candidates instead of 3, scores them, and passes 3 on to the language model (Fig.~\ref{fig:overview}). We test three:
+A filter retrieves 10 candidates instead of 3, scores them, and passes 3 on to the language model (Figure~\ref{fig:overview}). We test three:
 \begin{itemize}
 \item \emph{Drop (frequency)} removes candidates whose word-frequency synonym gap is above the threshold (7.23 bits).
 \item \emph{Repair} first replaces each word whose gap is above 9.5 bits with its likely original, and keeps the passage if it then scores under the threshold.
@@ -244,10 +256,10 @@ $\varphi_1$ and $\varphi_2$ are checked by code on each answer. $\varphi_3$ is a
 \draw[arr] (t.north) |- node[lab, above, pos=0.75]{yes: retry with feedback} (r.east);
 \draw[arr] (t.east) -- ++(0.45,0) |- node[lab, right, pos=0.25]{no} (f.east);
 \end{tikzpicture}}
-\caption{The runtime monitor loop. A broken rule leads to blame, quarantine and at most two retries with feedback. What happens to a violation that remains depends on the mode.}\label{fig:monitor}
+\caption{The runtime monitor loop}\label{fig:monitor}
 \end{figure}
 
-\textbf{Loop.} Fig.~\ref{fig:monitor} shows the loop. When $\varphi_1$ or $\varphi_2$ is violated, the monitor blames the retrieved passages that contain rare words outside the trusted vocabulary and adds them to an append-only memory, keyed by a hash of each passage's source and text. It then retrieves again without them and asks the model again, giving it the rejected answer and the violated property as feedback. This is repeated at most twice.
+\textbf{Loop.} Figure~\ref{fig:monitor} shows the loop. When $\varphi_1$ or $\varphi_2$ is violated, the monitor blames the retrieved passages that contain rare words outside the trusted vocabulary and adds them to an append-only memory, keyed by a hash of each passage's source and text. It then retrieves again without them and asks the model again, giving it the rejected answer and the violated property as feedback. This is repeated at most twice.
 
 \textbf{Modes.} In \emph{verify} mode, a remaining $\varphi_1$ violation withholds the answer and a remaining $\varphi_2$ violation releases the refusal. In \emph{restore} mode, a remaining $\varphi_2$ violation instead adds the trusted MITRE entry for the attack as an extra source and the model answers again. Restore mode gives the model information that the clean system never sees, so we treat it as an upper bound on what a trusted source can add, not as a defence comparable with the filters.
 
@@ -287,12 +299,12 @@ Not edited (17) & .824$\to$.765 & .765$\to$.750 & $-$.015 [$-$.083, .069]\\
 \legend{Correct,Partial,Wrong,Refusal}
 \end{axis}
 \end{tikzpicture}
-\caption{What happens to the answers. Poisoning turns correct answers into refusals (grey). Filters and the monitor in verify mode remove the wrong answers but add more refusals. Only the trusted fallback (restore) turns refusals back into answers. All rows except ``Clean'' use the PWWS-poisoned knowledge base.}\label{fig:outcomes}
+\caption{What happens to the answers}\label{fig:outcomes}
 \end{figure}
 
 Poisoning lowers correctness from 0.714 to 0.555 (Table~\ref{tab:attack}). The drop comes from the 27 questions whose source section was edited. On the 17 questions answered from untouched sections of the same poisoned corpus, the change is small and not significant. Together with the layout-only control, this points to the word substitutions as the cause.
 
-Most of the damage is lost evidence (Fig.~\ref{fig:outcomes}). An edited passage looks less like the question, so it can fall out of the top 3, and the model, told to answer only from the context, declines. Refusals rise from 26 to 45 of 132 answers. Of the 48 answers whose correctness falls by at least 0.25, 27 are refusals and 31 have no relevant passage in the top 3. Wrong answers rise only from 0 to 2. Both are to the same question, and in both the model repeats a substituted phrase, ``Engraft Malicious Package'' (originally ``implants malicious software''), as if it were the name of an attack stage.
+Most of the damage is lost evidence (Figure~\ref{fig:outcomes}). An edited passage looks less like the question, so it can fall out of the top 3, and the model, told to answer only from the context, declines. Refusals rise from 26 to 45 of 132 answers. Of the 48 answers whose correctness falls by at least 0.25, 27 are refusals and 31 have no relevant passage in the top 3. Wrong answers rise only from 0 to 2. Both are to the same question, and in both the model repeats a substituted phrase, ``Engraft Malicious Package'' (originally ``implants malicious software''), as if it were the name of an attack stage.
 
 \subsection{Finding the edited passages}\label{sec:detection}
 \begin{table*}[t]
@@ -316,7 +328,7 @@ Contextual synonym gap & 0.95 [.87, .99] & 0.97 [.93, 1.0] & 0.91 [.84, .97] & 0
 \end{tabular}
 \end{table*}
 
-We score every passage and ask how well each score separates edited from unedited passages, using the area under the ROC curve (AUROC). Table~\ref{tab:detect} and Fig.~\ref{fig:robust} show four things.
+We score every passage and ask how well each score separates edited from unedited passages, using the area under the ROC curve (AUROC). Table~\ref{tab:detect} and Figure~\ref{fig:robust} show four things.
 
 \emph{Whole-passage scores are weak.} Letter frequencies keep their English statistics when words are swapped, so letter KL is below chance. Word KL against the domain reference does better (0.72 to 0.83), but it also scores 0.62 on the control, where no word changed. Part of what it picks up is therefore which sections were attacked, not the edits themselves.
 
@@ -358,7 +370,7 @@ m y p n
 \legend{Word-frequency synonym gap,Contextual synonym gap}
 \end{axis}
 \end{tikzpicture}
-\caption{The two synonym-gap detectors on every corpus, with document-clustered 95\% intervals. A good detector is far to the right on the attacked corpora and at 0.5 on the control.}\label{fig:robust}
+\caption{The two synonym-gap detectors on every corpus}\label{fig:robust}
 \end{figure}
 
 \subsection{Filtering at retrieval time}\label{sec:defences}
@@ -378,7 +390,7 @@ m y p n
 \draw[dashed, gray] (rel axis cs:0,0.7516) -- (rel axis cs:1,0.7516) node[pos=0.02, above right, font=\scriptsize, text=gray!70!black]{clean, no attack (0.714)};
 \end{axis}
 \end{tikzpicture}
-\caption{Every defence on the PWWS-poisoned knowledge base. All of them lower exposure to edited text, but only the monitor's trusted fallback raises correctness.}\label{fig:defences}
+\caption{Every defence on the PWWS-poisoned knowledge base}\label{fig:defences}
 \end{figure}
 
 \begin{table}[t]
@@ -398,7 +410,7 @@ Drop (ctx.) & .204$^{b}$ & .485$^{c}$ & 0 & 63 & $-$.013\\
 \end{tabular}
 \end{table}
 
-All three filters remove the two wrong answers (Table~\ref{tab:defence}, Fig.~\ref{fig:defences}). The contextual filter halves how often edited text reaches the model and has the smallest cost on clean data; it flags 8.4\% of clean candidates, against 10.9\% for the word-frequency filter. None of the filters restores correctness, and the contextual filter lowers it further. The reason is visible in Fig.~\ref{fig:outcomes}: when the passage that answers a question is the edited one, removing it leaves the model without evidence, and it refuses. Repair does not help either, because word-level WordNet repair restores too few substitutions (recall 0.12 at precision 0.89). Filtering makes the poisoned knowledge base safer to read, but not useful again.
+All three filters remove the two wrong answers (Table~\ref{tab:defence}, Figure~\ref{fig:defences}). The contextual filter halves how often edited text reaches the model and has the smallest cost on clean data; it flags 8.4\% of clean candidates, against 10.9\% for the word-frequency filter. None of the filters restores correctness, and the contextual filter lowers it further. The reason is visible in Figure~\ref{fig:outcomes}: when the passage that answers a question is the edited one, removing it leaves the model without evidence, and it refuses. Repair does not help either, because word-level WordNet repair restores too few substitutions (recall 0.12 at precision 0.89). Filtering makes the poisoned knowledge base safer to read, but not useful again.
 
 We also tried checking the \emph{answer} instead of the passages: a separate verifier call splits each draft answer into claims, judges each claim against the retrieved passages, and must quote its evidence word for word. Replayed on 352 recorded answers, it was not a useful error detector. Only 28\% of the answers it flagged were wrong (precision 0.28 [0.13, 0.48]); it flagged 20\% of the incorrect answers and 31\% of the correct ones. The typical error here is an incomplete answer in which every statement is grounded (68 of 89 partial answers passed), and a grounding check cannot see what is missing.
 
@@ -428,7 +440,7 @@ A \emph{first-order} attacker only swaps to words that are at least as frequent 
 
 A \emph{second-order} attacker must also keep each passage at least as probable under the detector's language model. It succeeds on no section. To see why, we looked at the 550 swaps that unrestricted PWWS used in its 39 successful attacks. 109 of them (20\%) satisfy the frequency rule, only 9 (1.6\%) leave the passage at least as probable under the language model, and 5 satisfy both. The median swap makes its passage 17.9 bits less probable. Our reading is that natural text sits close to a local maximum of language-model likelihood, and the swaps that move a classifier tend to move the text away from it.
 
-We then relaxed the rule (Fig.~\ref{fig:budget}). With an allowed loss of up to 4.46 bits (the contextual threshold) or 20 bits, the attacker still succeeds on no section. At 100 bits it succeeds on 5 sections; the contextual detector scores their 6 edited passages at an AUROC of 0.78, and the fixed filter flags 3 of the 6, so 3 edited passages get through. At 300 bits the rule no longer constrains the attacker, and it produces exactly the same corpus as the first-order attacker, whose edits the contextual filter flags 10 of 13. In this family of attackers, those that respect the detector's rule do not succeed, and those that succeed leave most, but not all, of their edits detectable. These conclusions rest on 6 and 13 edited passages.
+We then relaxed the rule (Figure~\ref{fig:budget}). With an allowed loss of up to 4.46 bits (the contextual threshold) or 20 bits, the attacker still succeeds on no section. At 100 bits it succeeds on 5 sections; the contextual detector scores their 6 edited passages at an AUROC of 0.78, and the fixed filter flags 3 of the 6, so 3 edited passages get through. At 300 bits the rule no longer constrains the attacker, and it produces exactly the same corpus as the first-order attacker, whose edits the contextual filter flags 10 of 13. In this family of attackers, those that respect the detector's rule do not succeed, and those that succeed leave most, but not all, of their edits detectable. These conclusions rest on 6 and 13 edited passages.
 
 \begin{figure}[t]
 \centering
@@ -443,7 +455,7 @@ We then relaxed the rule (Fig.~\ref{fig:budget}). With an allowed loss of up to 
 \addplot[fill=ink, draw=none] coordinates {(0,0) (4.46,0) (20,0) (100,5) (300,8) (no rule,39)};
 \end{axis}
 \end{tikzpicture}
-\caption{Second-order attacker: sections it attacks successfully as it is allowed to make each passage less probable under the language model. ``No rule'' is unrestricted PWWS. The fixed contextual filter flags 3 of the 6 edited passages at 100 bits and 10 of 13 at 300 bits.}\label{fig:budget}
+\caption{Second-order attacker and the language-model budget}\label{fig:budget}
 \end{figure}
 
 \subsection{A second attack: TextFooler}\label{sec:textfooler}
@@ -485,7 +497,7 @@ The phrase ``Engraft Malicious Package'' reaches the user in 3 of 3 repetitions 
 
 The memory is only as accurate as the blame step. On TextFooler 26 of the 27 quarantined passages contain edited text, but on PWWS only 10 of 18 do. In the PWWS verify condition every quarantine was triggered by $\varphi_2$, that is, by a refusal, and the passages blamed were those with rare words outside the MITRE vocabulary. An ordinary word such as ``ingested'' was enough to quarantine an unedited passage.
 
-\textbf{Restore mode.} With the trusted fallback, correctness rises from 0.555 to 0.786 and refusals fall from 45 to 7 (Fig.~\ref{fig:outcomes}). The monitor falls back in 58 of 132 answers. The result is numerically above the unattacked system (0.714), but the difference is not significant. The gain comes from the trusted MITRE entry, which covers most of our questions because the knowledge base was built from MITRE material; it would be smaller for content without a trusted counterpart. The monitor's part is deciding when to fall back and which passages to stop using.
+\textbf{Restore mode.} With the trusted fallback, correctness rises from 0.555 to 0.786 and refusals fall from 45 to 7 (Figure~\ref{fig:outcomes}). The monitor falls back in 58 of 132 answers. The result is numerically above the unattacked system (0.714), but the difference is not significant. The gain comes from the trusted MITRE entry, which covers most of our questions because the knowledge base was built from MITRE material; it would be smaller for content without a trusted counterpart. The monitor's part is deciding when to fall back and which passages to stop using.
 
 % =====================================================================
 \section{Discussion}\label{sec:discussion}
