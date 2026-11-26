@@ -466,7 +466,7 @@ Run live with the same thresholds, TextFooler also reaches the generator more of
 \subsection{The runtime monitor}\label{sec:monitor}
 We ran the monitor in four conditions: PWWS with verify mode, PWWS with restore mode, clean data with verify mode, and TextFooler with verify mode. Each condition starts with an empty memory, so repetitions 2 and 3 meet the same attack again and show what the memory adds.
 
-\textbf{Two versions.} The first version of $\varphi_1$ flagged any rare word outside the trusted vocabulary, including words the model chose itself. In a first live run it withheld 10 answers, one of them on clean data, partly because of words from the knowledge base's OWASP and NIST material, which the MITRE files do not contain. We changed $\varphi_1$ to count only words copied from the retrieved passages and repeated the full run. Table~\ref{tab:monitor} reports the second run. Both runs are kept.
+\textbf{Two versions.} The first version of $\varphi_1$ flagged any rare word outside the trusted vocabulary, including words the model chose itself. In a first live run it withheld 10 answers, one of them on clean data, because of rare words the model had written itself (for example ``misinformation'' and ``feasibility''), which appear neither in the knowledge base nor in the MITRE files. We changed $\varphi_1$ to count only words copied from the retrieved passages and repeated the full run. Table~\ref{tab:monitor} reports the second run. Both runs are kept.
 
 \begin{table}[t]
 \caption{Runtime monitor, live, second version (44 questions $\times$ 3; question-level paired comparisons; $p$: Wilcoxon). One TextFooler answer was lost to a network error and is excluded.}\label{tab:monitor}

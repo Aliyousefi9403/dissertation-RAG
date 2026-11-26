@@ -156,7 +156,7 @@ Before any live run, the rules were applied to answers already recorded in the m
 
 # 9. Version 1, the problem found, and version 2
 
-**Version 1** flagged under φ1 any rare word outside the MITRE vocabulary, including words the model chose itself (for example "emphasizing"). In its live run it withheld **10 answers**, one of them on clean data, partly because of words from the knowledge base's OWASP and NIST material, which the MITRE files do not contain.
+**Version 1** flagged under φ1 any rare word outside the MITRE vocabulary, including words the model chose itself (for example "emphasizing"). In its live run it withheld **10 answers**, one of them on clean data, because of rare words the model wrote itself (for example "misinformation" and "feasibility"), which appear neither in the knowledge base nor in the MITRE files. (Corrected 26 Nov 2026: an earlier version said these words came from OWASP and NIST material in the knowledge base; they do not.)
 
 **The fix.** φ1 now counts only rare words that also occur in the retrieved passages. A tampered word that the model repeats is the actual signal of poisoning; a word the model chose itself is not. The full live run was repeated with v2. Both runs are kept, and the change is recorded in `DECISIONS.md` (ADR-009 addendum).
 
