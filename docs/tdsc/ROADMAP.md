@@ -56,3 +56,14 @@ listed against their current hash in `docs/research/commit-hash-map.tsv`.
 | Report development and held-out AUROCs separately for every detector in Table 2 | Split the table | To do (text only) |
 | Practical cost of false quarantines ("ingested") and how reliable the named-word explanations are | v3 blame step results; measure how often the named word is the true substituted word | Partly done (W2) |
 | Define abbreviations in table captions; define "lost evidence"; neutral wording in a few places | Editing pass | To do (text only) |
+
+### Third review (XSci referee report, 26 Nov 2026): Major Revision for TDSC and for Computers & Security
+
+| Concern | Plan | Status |
+|---|---|---|
+| Detection claim rests on development data; held-out favours word frequency (0.94 vs 0.88); not separable from windowed perplexity | Use knowledge base v2 (46 new attack types, never seen) as an independent test corpus with thresholds frozen from v1; add the DistilBERT masked-LM detector (Nikos); state interpretability as the advantage | Planned (W4 + new) |
+| Adaptive attacker never minimises the detector score; attack goal is a label flip, not answer harm | Detector-aware attacker done (5 of 39 sections evade, 13 of 550 edits kept); add an attacker that targets retrieval displacement or answer corruption; foreground the 100-bit half-evasion | Partly done (W3) |
+| Judge leniency differs by condition (0.02 to 0.14), larger than the defence differences; no estimate for restore mode | Second grader; extend the blind sample with monitor and restore-mode answers and report leniency per condition | In progress (W6), extension new |
+| Minor: caveat restore mode in abstract; computational cost; reconcile counts (8.4% / 10.4% / 9–14%, 200 vs 191); cite DISP (Zhou et al. 2019) and Machine Against the RAG (Shafran et al. 2025); threat-model write access and budget; test the contextual blame step (done: v3); runtime-verification framing (done: generated LTL monitors) | Editing pass plus timings | To do |
+
+Note: the "garbled" passages the report quotes ("vation behind ...", a truncated Reproducibility paragraph) are text-extraction artefacts of the two-column PDF; the source and the PDF are intact.
