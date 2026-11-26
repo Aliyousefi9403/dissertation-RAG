@@ -43,3 +43,16 @@ Order: W1 → W2 → W3 → W4 → W5, with W6 and W7 in parallel when people ar
 Commit messages and tooling files were tidied on 14 and 17 Nov 2026, which changed every commit hash; dates, authors and
 file contents are unchanged. Hashes quoted in older documents (for example in `DECISIONS.md`) are
 listed against their current hash in `docs/research/commit-hash-map.tsv`.
+
+## Reviewer feedback to address (XSci AI reviews of arXiv:2611.27410, Nov 2026)
+
+| Point raised | Plan for the journal version | Status |
+|---|---|---|
+| Restore mode is an upper bound that relies on trusted MITRE data; say so in the abstract and results, not only in the discussion | Reword the abstract, results and conclusion; separate detection, mitigation and restoration claims | To do (text only) |
+| Small benchmark (44 questions, 18 documents, 200 passages); temper external-validity claims | Knowledge base v2 (60 attack types) and benchmark v2 (~150 questions) | In progress (W4) |
+| Sensitivity to retrieval depth, chunk size and prompt, since the main harm is lost evidence from top-k | New experiment: retrieval-only sweep of k and chunk size (offline), then a small live check of k and prompt | New |
+| Grading procedure and rater reliability; only one human grader | Second blind grader (sheet sent), fuller description of rubric and partial credit | In progress (W6) |
+| Attack scope beyond synonym substitution | Detector-aware attacker and BAE results (BAE is a stated limitation); add a limitations paragraph on paraphrase, metadata, chunk-boundary and multi-passage attacks | Partly done (W3) |
+| Report development and held-out AUROCs separately for every detector in Table 2 | Split the table | To do (text only) |
+| Practical cost of false quarantines ("ingested") and how reliable the named-word explanations are | v3 blame step results; measure how often the named word is the true substituted word | Partly done (W2) |
+| Define abbreviations in table captions; define "lost evidence"; neutral wording in a few places | Editing pass | To do (text only) |
