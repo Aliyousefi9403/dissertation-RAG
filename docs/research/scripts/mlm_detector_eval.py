@@ -19,7 +19,7 @@ attacker fools. Wall-clock seconds per passage are recorded for the cost compari
 
 Usage (from backend/):
   PYTHONPATH=. python ../docs/research/scripts/mlm_detector_eval.py OUT.json CORPUS [FAMILY.json]
-CORPUS as in entropy_family_eval.py. FAMILY.json (optional): that script's output for the same
+CORPUS as in entropy_family_eval.py (including kb_v2). FAMILY.json (optional): that script's output for the same
 corpus; rows are matched by (document, start) to compare with the distilgpt2 scores.
 """
 
@@ -52,6 +52,7 @@ from entropy_detection_eval import (
     tokens,
     tpr_at_fpr,
 )
+from entropy_family_eval import held_out_documents
 
 ROOT = Path(__file__).resolve().parents[3] / "backend"
 MLM_NAME = "distilbert-base-uncased"
@@ -121,6 +122,8 @@ def word_job(mlm, text, start, end):
 
 
 def corpus_root(corpus):
+    if corpus == "kb_v2":
+        return ROOT / "data/kb_v2/poisoned_pwws/knowledge_base"
     if corpus == "poisoned":
         return get_knowledge_base_path("poisoned")
     if corpus.startswith("poisoned"):
@@ -148,10 +151,12 @@ def clustered_ci(rows, key, base=None):
 
 
 def main(out, corpus, family=None):
-    attacked = corpus.startswith("poisoned")
+    attacked = corpus.startswith("poisoned") or corpus == "kb_v2"
     root = corpus_root(corpus)
     manifest = (
-        ROOT / f"data/{corpus if attacked else 'poisoned'}/pwws_attack_manifest.jsonl"
+        root.parent / "pwws_attack_manifest.jsonl"
+        if attacked and corpus != "poisoned"
+        else ROOT / "data/poisoned/pwws_attack_manifest.jsonl"
     )
     documents = add_document_metadata(
         DirectoryLoader(
@@ -175,11 +180,7 @@ def main(out, corpus, family=None):
             spans[entry["file"]] += edited_spans(
                 texts[entry["file"]], entry, "adversarial" if attacked else "original"
             )
-    held_out = set(
-        json.loads((ROOT / "data/evaluation/benchmark_v1_record.json").read_text())[
-            "held_out_documents"
-        ]
-    )
+    held_out = held_out_documents(corpus, texts)
     doc_counts = {name: Counter(tokens(t)) for name, t in texts.items()}
     total = sum(doc_counts.values(), Counter())
     total_n = sum(total.values())

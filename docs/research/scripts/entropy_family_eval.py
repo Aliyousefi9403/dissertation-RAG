@@ -15,7 +15,7 @@ Extends entropy_detection_eval.py (same chunks, labels, split and AUROC) with:
 
 No API calls; the LM runs locally. The PWWS manifest is used only for labels.
 
-Usage: cd backend && PYTHONPATH=. python ../docs/research/scripts/entropy_family_eval.py OUT.json [poisoned|control|poisoned_adaptive|poisoned_pwws_rerun]
+Usage: cd backend && PYTHONPATH=. python ../docs/research/scripts/entropy_family_eval.py OUT.json [poisoned|control|poisoned_adaptive|poisoned_pwws_rerun|kb_v2]
 """
 
 import json
@@ -47,7 +47,9 @@ from entropy_detection_eval import (  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[3] / "backend"
 MU = 2000
-LM_NAME = os.environ.get("AEGIS_LM", "distilgpt2")  # default is the deployed detector's model
+LM_NAME = os.environ.get(
+    "AEGIS_LM", "distilgpt2"
+)  # default is the deployed detector's model
 CANDIDATE_WORDS, CANDIDATE_SYNONYMS = 10, 5
 torch.manual_seed(0)
 
@@ -83,6 +85,18 @@ class LanguageModel:
         return [-sum(s) for s in self.token_surprisals(texts)]
 
 
+def held_out_documents(corpus, texts):
+    """kb_v2: the documents knowledge base v1 does not have (the 46 added attack types)."""
+    if corpus == "kb_v2":
+        v1 = ROOT / "data/raw/knowledge_base"
+        return {name for name in texts if not (v1 / name).exists()}
+    return set(
+        json.loads((ROOT / "data/evaluation/benchmark_v1_record.json").read_text())[
+            "held_out_documents"
+        ]
+    )
+
+
 def replace_word(text, word, synonym):
     import re
 
@@ -93,18 +107,23 @@ def replace_word(text, word, synonym):
 
 
 def main(out, corpus="poisoned"):
-    attacked = corpus.startswith(
-        "poisoned"
-    )  # every attack corpus (data/poisoned*/ with an attack manifest)
+    # kb_v2: knowledge base v2 poisoned with PWWS (data/kb_v2/poisoned_pwws); its 46 new documents
+    # are the held-out split and the 18 v1 documents (left clean) the development split.
+    attacked = corpus.startswith("poisoned") or corpus == "kb_v2"
+    data_dir = ROOT / (
+        "data/kb_v2/poisoned_pwws" if corpus == "kb_v2" else f"data/{corpus}"
+    )
     root = (
         get_knowledge_base_path("poisoned")
         if corpus == "poisoned"
-        else ROOT / f"data/{corpus}/knowledge_base"
+        else data_dir / "knowledge_base"
         if attacked
         else ROOT / "data/control/knowledge_base"
     )
     manifest_path = (
-        ROOT / f"data/{corpus if attacked else 'poisoned'}/pwws_attack_manifest.jsonl"
+        data_dir / "pwws_attack_manifest.jsonl"
+        if attacked
+        else ROOT / "data/poisoned/pwws_attack_manifest.jsonl"
     )
     documents = add_document_metadata(
         DirectoryLoader(
@@ -130,11 +149,7 @@ def main(out, corpus="poisoned"):
             spans[entry["file"]] += edited_spans(
                 texts[entry["file"]], entry, "adversarial" if attacked else "original"
             )
-    held_out = set(
-        json.loads((ROOT / "data/evaluation/benchmark_v1_record.json").read_text())[
-            "held_out_documents"
-        ]
-    )
+    held_out = held_out_documents(corpus, texts)
     doc_counts = {name: Counter(tokens(t)) for name, t in texts.items()}
     total = sum(doc_counts.values(), Counter())
     total_n = sum(total.values())
