@@ -5,7 +5,10 @@ properties are the formulas in app.defence.ltl_monitor (PHI1, PHI2, PHI3), and t
 generated from them by formula progression. For every recorded draft the atomic propositions are
 recomputed from the recorded answer, question, attack and retrieved passages, the generated
 monitors are stepped, and their verdicts are compared with the violations the live run recorded.
-phi3 is monitored per passage over the whole run trace of each condition.
+phi3 is monitored per passage over the whole run trace of each condition. The restore generation
+(restore mode, after the last round) is generated from the passages retrieved for the last round
+plus the trusted MITRE text; its step records no context keys, so it is given the last round's keys
+(the first version of this replay did not step phi3 for it, and so missed violations there).
 
 Offline apart from the passage lookup in Qdrant; no model calls.
 
@@ -75,7 +78,7 @@ def replay(run_dir, ontology, questions, texts):
         )
         phi3 = ltl.ParametricMonitor(ltl.PHI3)
         drafts = agree = phi1_violations = phi2_violations = 0
-        disagreements, phi3_violated = [], set()
+        disagreements, phi3_violated, restore_violations = [], set(), []
         for unit in manifest["schedule"]:
             path = run / "observations" / f"{unit['index']:06d}-{condition}-rag.json"
             monitor = json.loads(path.read_text())["capture"].get("monitor")
@@ -86,7 +89,16 @@ def replay(run_dir, ontology, questions, texts):
             for step in monitor["rounds"]:
                 if "context_keys" in step:
                     keys = step["context_keys"]
-                    phi3_violated |= set(phi3.step({f"in_context_{k}" for k in keys}))
+                if "context_keys" in step or step["round"] == "restore":
+                    hit = set(phi3.step({f"in_context_{k}" for k in keys}))
+                    if step["round"] == "restore" and hit - phi3_violated:
+                        restore_violations.append(
+                            {
+                                "index": unit["index"],
+                                "passages": sorted(hit - phi3_violated),
+                            }
+                        )
+                    phi3_violated |= hit
                 props = propositions(
                     step["answer"],
                     question,
@@ -125,6 +137,7 @@ def replay(run_dir, ontology, questions, texts):
             "phi2_violations": phi2_violations,
             "phi3_passages_monitored": len(phi3.instances),
             "phi3_violations": len(phi3_violated),
+            "phi3_violations_in_restore_generations": restore_violations,
         }
     return result
 

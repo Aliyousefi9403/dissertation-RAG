@@ -1,0 +1,366 @@
+{
+ "max_rounds": 2,
+ "designs": {
+  "as_run": {
+   "verify": {
+    "states": 234,
+    "transitions": 447,
+    "properties": {
+     "P1_phi3_quarantined_never_in_context": {
+      "ctl": "AG ((quarantined -> AG (!(in_context))))",
+      "holds": true
+     },
+     "P2_memory_is_permanent": {
+      "ctl": "AG ((quarantined -> AG (quarantined)))",
+      "holds": true
+     },
+     "P3_every_question_ends": {
+      "ctl": "AG (AF (done))",
+      "holds": true
+     },
+     "P4_bounded_generations": {
+      "ctl": "AG (generations_bounded)",
+      "holds": true
+     },
+     "P5_phi1_no_released_answer_copies_rare_words": {
+      "ctl": "AG (((done & !(withheld)) -> !(rare_copied)))",
+      "holds": true
+     },
+     "P6_availability_covered_questions_get_an_answer": {
+      "ctl": "AG (((new_question & covered) -> AF ((done & answered))))",
+      "holds": false,
+      "counterexample": [
+       {
+        "mode": "verify",
+        "phase": "new",
+        "covered": 1,
+        "round": 0,
+        "quarantined": 0,
+        "in_context": 0,
+        "rare_copied": 0,
+        "refusal": 0,
+        "outcome": "-"
+       }
+      ]
+     },
+     "E1_a_restored_answer_can_still_refuse": {
+      "ctl": "EF ((done & (restored & refusal)))",
+      "holds": false
+     }
+    }
+   },
+   "restore": {
+    "states": 292,
+    "transitions": 553,
+    "properties": {
+     "P1_phi3_quarantined_never_in_context": {
+      "ctl": "AG ((quarantined -> AG (!(in_context))))",
+      "holds": false,
+      "counterexample": [
+       {
+        "mode": "restore",
+        "phase": "new",
+        "covered": 1,
+        "round": 0,
+        "quarantined": 0,
+        "in_context": 0,
+        "rare_copied": 0,
+        "refusal": 0,
+        "outcome": "-"
+       },
+       {
+        "mode": "restore",
+        "phase": "drafted",
+        "covered": 1,
+        "round": 0,
+        "quarantined": 0,
+        "in_context": 0,
+        "rare_copied": 0,
+        "refusal": 1,
+        "outcome": "-"
+       },
+       {
+        "mode": "restore",
+        "phase": "blamed",
+        "covered": 1,
+        "round": 0,
+        "quarantined": 0,
+        "in_context": 0,
+        "rare_copied": 0,
+        "refusal": 1,
+        "outcome": "-"
+       },
+       {
+        "mode": "restore",
+        "phase": "new",
+        "covered": 1,
+        "round": 1,
+        "quarantined": 0,
+        "in_context": 0,
+        "rare_copied": 0,
+        "refusal": 1,
+        "outcome": "-"
+       },
+       {
+        "mode": "restore",
+        "phase": "drafted",
+        "covered": 1,
+        "round": 1,
+        "quarantined": 0,
+        "in_context": 0,
+        "rare_copied": 0,
+        "refusal": 1,
+        "outcome": "-"
+       },
+       {
+        "mode": "restore",
+        "phase": "blamed",
+        "covered": 1,
+        "round": 1,
+        "quarantined": 0,
+        "in_context": 0,
+        "rare_copied": 0,
+        "refusal": 1,
+        "outcome": "-"
+       },
+       {
+        "mode": "restore",
+        "phase": "new",
+        "covered": 1,
+        "round": 2,
+        "quarantined": 0,
+        "in_context": 0,
+        "rare_copied": 0,
+        "refusal": 1,
+        "outcome": "-"
+       },
+       {
+        "mode": "restore",
+        "phase": "drafted",
+        "covered": 1,
+        "round": 2,
+        "quarantined": 0,
+        "in_context": 1,
+        "rare_copied": 0,
+        "refusal": 1,
+        "outcome": "-"
+       },
+       {
+        "mode": "restore",
+        "phase": "final",
+        "covered": 1,
+        "round": 2,
+        "quarantined": 1,
+        "in_context": 0,
+        "rare_copied": 0,
+        "refusal": 1,
+        "outcome": "ctx"
+       },
+       {
+        "mode": "restore",
+        "phase": "restored",
+        "covered": 1,
+        "round": 2,
+        "quarantined": 1,
+        "in_context": 1,
+        "rare_copied": 0,
+        "refusal": 0,
+        "outcome": "restored"
+       }
+      ]
+     },
+     "P2_memory_is_permanent": {
+      "ctl": "AG ((quarantined -> AG (quarantined)))",
+      "holds": true
+     },
+     "P3_every_question_ends": {
+      "ctl": "AG (AF (done))",
+      "holds": true
+     },
+     "P4_bounded_generations": {
+      "ctl": "AG (generations_bounded)",
+      "holds": true
+     },
+     "P5_phi1_no_released_answer_copies_rare_words": {
+      "ctl": "AG (((done & !(withheld)) -> !(rare_copied)))",
+      "holds": false,
+      "counterexample": [
+       {
+        "mode": "restore",
+        "phase": "new",
+        "covered": 1,
+        "round": 0,
+        "quarantined": 0,
+        "in_context": 0,
+        "rare_copied": 0,
+        "refusal": 0,
+        "outcome": "-"
+       },
+       {
+        "mode": "restore",
+        "phase": "drafted",
+        "covered": 1,
+        "round": 0,
+        "quarantined": 0,
+        "in_context": 0,
+        "rare_copied": 0,
+        "refusal": 1,
+        "outcome": "-"
+       },
+       {
+        "mode": "restore",
+        "phase": "final",
+        "covered": 1,
+        "round": 0,
+        "quarantined": 0,
+        "in_context": 0,
+        "rare_copied": 0,
+        "refusal": 1,
+        "outcome": "-"
+       },
+       {
+        "mode": "restore",
+        "phase": "restored",
+        "covered": 1,
+        "round": 0,
+        "quarantined": 0,
+        "in_context": 0,
+        "rare_copied": 1,
+        "refusal": 0,
+        "outcome": "restored"
+       },
+       {
+        "mode": "restore",
+        "phase": "done",
+        "covered": 1,
+        "round": 0,
+        "quarantined": 0,
+        "in_context": 0,
+        "rare_copied": 1,
+        "refusal": 0,
+        "outcome": "restored"
+       }
+      ]
+     },
+     "P6_availability_covered_questions_get_an_answer": {
+      "ctl": "AG (((new_question & covered) -> AF ((done & answered))))",
+      "holds": false,
+      "counterexample": [
+       {
+        "mode": "restore",
+        "phase": "new",
+        "covered": 1,
+        "round": 0,
+        "quarantined": 0,
+        "in_context": 0,
+        "rare_copied": 0,
+        "refusal": 0,
+        "outcome": "-"
+       }
+      ]
+     },
+     "E1_a_restored_answer_can_still_refuse": {
+      "ctl": "EF ((done & (restored & refusal)))",
+      "holds": true
+     }
+    }
+   }
+  },
+  "strict": {
+   "verify": {
+    "states": 234,
+    "transitions": 447,
+    "properties": {
+     "P1_phi3_quarantined_never_in_context": {
+      "ctl": "AG ((quarantined -> AG (!(in_context))))",
+      "holds": true
+     },
+     "P2_memory_is_permanent": {
+      "ctl": "AG ((quarantined -> AG (quarantined)))",
+      "holds": true
+     },
+     "P3_every_question_ends": {
+      "ctl": "AG (AF (done))",
+      "holds": true
+     },
+     "P4_bounded_generations": {
+      "ctl": "AG (generations_bounded)",
+      "holds": true
+     },
+     "P5_phi1_no_released_answer_copies_rare_words": {
+      "ctl": "AG (((done & !(withheld)) -> !(rare_copied)))",
+      "holds": true
+     },
+     "P6_availability_covered_questions_get_an_answer": {
+      "ctl": "AG (((new_question & covered) -> AF ((done & answered))))",
+      "holds": false,
+      "counterexample": [
+       {
+        "mode": "verify",
+        "phase": "new",
+        "covered": 1,
+        "round": 0,
+        "quarantined": 0,
+        "in_context": 0,
+        "rare_copied": 0,
+        "refusal": 0,
+        "outcome": "-"
+       }
+      ]
+     },
+     "E1_a_restored_answer_can_still_refuse": {
+      "ctl": "EF ((done & (restored & refusal)))",
+      "holds": false
+     }
+    }
+   },
+   "restore": {
+    "states": 288,
+    "transitions": 549,
+    "properties": {
+     "P1_phi3_quarantined_never_in_context": {
+      "ctl": "AG ((quarantined -> AG (!(in_context))))",
+      "holds": true
+     },
+     "P2_memory_is_permanent": {
+      "ctl": "AG ((quarantined -> AG (quarantined)))",
+      "holds": true
+     },
+     "P3_every_question_ends": {
+      "ctl": "AG (AF (done))",
+      "holds": true
+     },
+     "P4_bounded_generations": {
+      "ctl": "AG (generations_bounded)",
+      "holds": true
+     },
+     "P5_phi1_no_released_answer_copies_rare_words": {
+      "ctl": "AG (((done & !(withheld)) -> !(rare_copied)))",
+      "holds": true
+     },
+     "P6_availability_covered_questions_get_an_answer": {
+      "ctl": "AG (((new_question & covered) -> AF ((done & answered))))",
+      "holds": false,
+      "counterexample": [
+       {
+        "mode": "restore",
+        "phase": "new",
+        "covered": 1,
+        "round": 0,
+        "quarantined": 0,
+        "in_context": 0,
+        "rare_copied": 0,
+        "refusal": 0,
+        "outcome": "-"
+       }
+      ]
+     },
+     "E1_a_restored_answer_can_still_refuse": {
+      "ctl": "EF ((done & (restored & refusal)))",
+      "holds": true
+     }
+    }
+   }
+  }
+ }
+}

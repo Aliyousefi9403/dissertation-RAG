@@ -22,6 +22,9 @@ from app.generation.prompt import RAG_PROMPT, SYSTEM_PROMPT
 
 POLICY_VERSION = "runtime-monitor-v2"
 POLICY_VERSION_CONTEXTUAL = "runtime-monitor-v3"  # blame="contextual"
+STRICT_RESTORE_SUFFIX = (
+    "+strict-restore"  # strict_restore=True (found by the CTL design check)
+)
 # V1: phi1 flagged any rare word outside the trusted vocabulary.
 RARE_ZIPF = 3.5
 MIN_WORD_LENGTH = 3
@@ -456,10 +459,15 @@ def monitored_answer(
     capture: dict | None = None,
     blame: str = "rare_words",
     scorer: Callable[[Document], dict[str, Any]] | None = None,
+    strict_restore: bool = False,
 ) -> dict[str, Any]:
     """Answer `question` from `source_state` under the runtime monitor. Returns answer and final sources.
 
     blame="rare_words" is policy v2 (default). blame="contextual" is v3: only the blame step differs.
+    strict_restore=True closes two gaps of the restore step that the CTL design check found (both
+    occur in the recorded runs): restore drops passages quarantined in the last round from its
+    context (otherwise phi3 is violated), and a restored answer that violates phi1 is withheld
+    like a draft (otherwise it is released). The default keeps the behaviour of the recorded runs.
     """
     if mode not in ("verify", "restore"):
         raise ValueError(f"unknown mode {mode}")
@@ -537,6 +545,8 @@ def monitored_answer(
                     "trusted_reference": True,
                 },
             )
+            if strict_restore:
+                kept = [(d, s) for d, s in kept if passage_key(d) not in memory]
             final_sources = kept + [(trusted, 1.0)]
             answer = _generate(question, final_sources, llm_factory, None)
             violations = check(
@@ -546,11 +556,14 @@ def monitored_answer(
                 {
                     "round": "restore",
                     "trusted_ids": ids,
+                    "context_keys": [passage_key(d) for d, _ in kept],
                     "answer": answer,
                     "violations": [asdict(v) for v in violations],
                 }
             )
             outcome = "restored"
+            if strict_restore and any(v.spec == "phi1_lexical" for v in violations):
+                answer, outcome = WITHHELD, "withheld"
         elif lexical:
             answer, outcome = WITHHELD, "withheld"
         else:
@@ -561,9 +574,12 @@ def monitored_answer(
             generation_status="ok",
             sources=build_sources(final_sources),
             monitor={
-                "policy_version": POLICY_VERSION_CONTEXTUAL
-                if blame == "contextual"
-                else POLICY_VERSION,
+                "policy_version": (
+                    POLICY_VERSION_CONTEXTUAL
+                    if blame == "contextual"
+                    else POLICY_VERSION
+                )
+                + (STRICT_RESTORE_SUFFIX if strict_restore else ""),
                 "mode": mode,
                 "attack": attack,
                 "outcome": outcome,

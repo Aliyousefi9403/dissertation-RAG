@@ -1,0 +1,449 @@
+{
+ "monitor_run": "20261028T123228Z-monitor-43fcd4fbcf96415caaed3c805d5d62f7",
+ "main_run": "20261016T222418Z-8160ce1aa8a04e559bc15ee060f7587e",
+ "pairs": 132,
+ "comparisons": {
+  "monitor_vs_poisoned": {
+   "correctness": {
+    "a": 0.5152,
+    "b": 0.5549,
+    "delta": -0.0398,
+    "ci95": [
+     -0.0852,
+     -0.0
+    ],
+    "wilcoxon_p": 0.0742,
+    "questions": 44
+   },
+   "faithfulness": {
+    "a": 0.9318,
+    "b": 0.9432,
+    "delta": -0.0114,
+    "ci95": [
+     -0.0568,
+     0.0341
+    ],
+    "wilcoxon_p": 0.6445,
+    "questions": 44
+   },
+   "hit3": {
+    "a": 0.447,
+    "b": 0.5682,
+    "delta": -0.1212,
+    "ci95": [
+     -0.2197,
+     -0.0379
+    ],
+    "wilcoxon_p": 0.0312,
+    "questions": 44
+   },
+   "exposure": {
+    "a": 0.2576,
+    "b": 0.4091,
+    "delta": -0.1515,
+    "ci95": [
+     -0.2652,
+     -0.0606
+    ],
+    "wilcoxon_p": 0.0156,
+    "questions": 44
+   }
+  },
+  "monitor_restore_vs_poisoned": {
+   "correctness": {
+    "a": 0.786,
+    "b": 0.5549,
+    "delta": 0.2311,
+    "ci95": [
+     0.1364,
+     0.3352
+    ],
+    "wilcoxon_p": 0.0001,
+    "questions": 44
+   },
+   "faithfulness": {
+    "a": 0.9795,
+    "b": 0.9432,
+    "delta": 0.0364,
+    "ci95": [
+     -0.0091,
+     0.0841
+    ],
+    "wilcoxon_p": 0.1719,
+    "questions": 44
+   },
+   "hit3": {
+    "a": 0.447,
+    "b": 0.5682,
+    "delta": -0.1212,
+    "ci95": [
+     -0.2197,
+     -0.0379
+    ],
+    "wilcoxon_p": 0.0312,
+    "questions": 44
+   },
+   "exposure": {
+    "a": 0.2576,
+    "b": 0.4091,
+    "delta": -0.1515,
+    "ci95": [
+     -0.2652,
+     -0.0606
+    ],
+    "wilcoxon_p": 0.0156,
+    "questions": 44
+   }
+  },
+  "monitor_vs_contextual": {
+   "correctness": {
+    "a": 0.5152,
+    "b": 0.4848,
+    "delta": 0.0303,
+    "ci95": [
+     -0.0019,
+     0.0682
+    ],
+    "wilcoxon_p": 0.0962,
+    "questions": 44
+   },
+   "faithfulness": {
+    "a": 0.9318,
+    "b": 0.9394,
+    "delta": -0.0076,
+    "ci95": [
+     -0.0492,
+     0.0341
+    ],
+    "wilcoxon_p": 0.7305,
+    "questions": 44
+   },
+   "hit3": {
+    "a": 0.447,
+    "b": 0.3864,
+    "delta": 0.0606,
+    "ci95": [
+     0.0076,
+     0.1288
+    ],
+    "wilcoxon_p": null,
+    "questions": 44
+   },
+   "exposure": {
+    "a": 0.2576,
+    "b": 0.2045,
+    "delta": 0.053,
+    "ci95": [
+     -0.0303,
+     0.1439
+    ],
+    "wilcoxon_p": 0.375,
+    "questions": 44
+   }
+  },
+  "monitor_restore_vs_clean": {
+   "correctness": {
+    "a": 0.786,
+    "b": 0.714,
+    "delta": 0.072,
+    "ci95": [
+     -0.0038,
+     0.1515
+    ],
+    "wilcoxon_p": 0.0852,
+    "questions": 44
+   },
+   "faithfulness": {
+    "a": 0.9795,
+    "b": 0.9848,
+    "delta": -0.0053,
+    "ci95": [
+     -0.0432,
+     0.0303
+    ],
+    "wilcoxon_p": null,
+    "questions": 44
+   },
+   "hit3": {
+    "a": 0.447,
+    "b": 0.7045,
+    "delta": -0.2576,
+    "ci95": [
+     -0.3939,
+     -0.1212
+    ],
+    "wilcoxon_p": 0.0029,
+    "questions": 44
+   },
+   "exposure": {
+    "a": 0.2576,
+    "b": 0,
+    "delta": 0.2576,
+    "ci95": [
+     0.1364,
+     0.3939
+    ],
+    "wilcoxon_p": 0.0005,
+    "questions": 44
+   }
+  },
+  "clean_monitor_vs_clean": {
+   "correctness": {
+    "a": 0.7083,
+    "b": 0.714,
+    "delta": -0.0057,
+    "ci95": [
+     -0.0227,
+     0.0114
+    ],
+    "wilcoxon_p": 0.375,
+    "questions": 44
+   },
+   "faithfulness": {
+    "a": 0.9848,
+    "b": 0.9848,
+    "delta": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "wilcoxon_p": null,
+    "questions": 44
+   },
+   "hit3": {
+    "a": 0.7045,
+    "b": 0.7045,
+    "delta": 0,
+    "ci95": [
+     0,
+     0
+    ],
+    "wilcoxon_p": null,
+    "questions": 44
+   },
+   "exposure": {
+    "a": 0,
+    "b": 0,
+    "delta": 0,
+    "ci95": [
+     0,
+     0
+    ],
+    "wilcoxon_p": null,
+    "questions": 44
+   }
+  },
+  "textfooler_monitor_vs_textfooler": {
+   "correctness": {
+    "a": 0.5417,
+    "b": 0.5644,
+    "delta": -0.0227,
+    "ci95": [
+     -0.0871,
+     0.0473
+    ],
+    "wilcoxon_p": 0.2548,
+    "questions": 44
+   },
+   "faithfulness": {
+    "a": 0.9697,
+    "b": 0.9773,
+    "delta": -0.0076,
+    "ci95": [
+     -0.0568,
+     0.0417
+    ],
+    "wilcoxon_p": 0.9375,
+    "questions": 44
+   },
+   "hit3": {
+    "a": 0.5606,
+    "b": 0.5909,
+    "delta": -0.0303,
+    "ci95": [
+     -0.1136,
+     0.0455
+    ],
+    "wilcoxon_p": 0.625,
+    "questions": 44
+   },
+   "exposure": {
+    "a": 0.5833,
+    "b": 0.8182,
+    "delta": -0.2348,
+    "ci95": [
+     -0.3561,
+     -0.1136
+    ],
+    "wilcoxon_p": 0.001,
+    "questions": 44
+   }
+  }
+ },
+ "outcomes": {
+  "monitor": {
+   "abstained": 57,
+   "correct": 42,
+   "partial": 33
+  },
+  "monitor_restore": {
+   "correct": 90,
+   "partial": 34,
+   "abstained": 7,
+   "incorrect": 1
+  },
+  "clean_monitor": {
+   "correct": 65,
+   "partial": 40,
+   "abstained": 26,
+   "incorrect": 1
+  },
+  "textfooler_monitor": {
+   "abstained": 53,
+   "partial": 30,
+   "correct": 48,
+   "unavailable": 1
+  },
+  "poisoned": {
+   "abstained": 45,
+   "correct": 49,
+   "partial": 36,
+   "incorrect": 2
+  },
+  "clean": {
+   "correct": 67,
+   "partial": 39,
+   "abstained": 26
+  },
+  "textfooler": {
+   "abstained": 54,
+   "partial": 28,
+   "correct": 50
+  },
+  "contextual": {
+   "abstained": 63,
+   "correct": 36,
+   "partial": 33
+  }
+ },
+ "monitor": {
+  "monitor": {
+   "outcomes": {
+    "released_refusal": 57,
+    "released": 75
+   },
+   "generations_total": 145,
+   "quarantined_passages": 18,
+   "quarantined_with_edited_text": 10,
+   "quarantined_without_edited_text": 8,
+   "phi3_trace_violations": 0,
+   "by_repetition": {
+    "repetition_1": {
+     "round0_violation": 0.4091,
+     "round0_lexical": 0,
+     "generations": 1.2273,
+     "skipped_quarantined": 0.7273,
+     "correctness": 0.5341,
+     "exposure": 0.2727
+    },
+    "repetitions_2_3": {
+     "round0_violation": 0.4432,
+     "round0_lexical": 0,
+     "generations": 1.0341,
+     "skipped_quarantined": 1.375,
+     "correctness": 0.5057,
+     "exposure": 0.25
+    }
+   }
+  },
+  "monitor_restore": {
+   "outcomes": {
+    "restored": 58,
+    "released": 74
+   },
+   "generations_total": 203,
+   "quarantined_passages": 18,
+   "quarantined_with_edited_text": 10,
+   "quarantined_without_edited_text": 8,
+   "phi3_trace_violations": 2,
+   "by_repetition": {
+    "repetition_1": {
+     "round0_violation": 0.3864,
+     "round0_lexical": 0.0227,
+     "generations": 1.5909,
+     "skipped_quarantined": 0.7273,
+     "correctness": 0.7727,
+     "exposure": 0.2727
+    },
+    "repetitions_2_3": {
+     "round0_violation": 0.4773,
+     "round0_lexical": 0,
+     "generations": 1.5114,
+     "skipped_quarantined": 1.375,
+     "correctness": 0.7926,
+     "exposure": 0.25
+    }
+   }
+  },
+  "clean_monitor": {
+   "outcomes": {
+    "released": 106,
+    "released_refusal": 26
+   },
+   "generations_total": 132,
+   "quarantined_passages": 0,
+   "quarantined_with_edited_text": 0,
+   "quarantined_without_edited_text": 0,
+   "phi3_trace_violations": 0,
+   "by_repetition": {
+    "repetition_1": {
+     "round0_violation": 0.1818,
+     "round0_lexical": 0,
+     "generations": 1,
+     "skipped_quarantined": 0,
+     "correctness": 0.7273,
+     "exposure": 0
+    },
+    "repetitions_2_3": {
+     "round0_violation": 0.2045,
+     "round0_lexical": 0,
+     "generations": 1,
+     "skipped_quarantined": 0,
+     "correctness": 0.6989,
+     "exposure": 0
+    }
+   }
+  },
+  "textfooler_monitor": {
+   "outcomes": {
+    "released_refusal": 53,
+    "released": 78,
+    "null": 1
+   },
+   "generations_total": 147,
+   "quarantined_passages": 27,
+   "quarantined_with_edited_text": 26,
+   "quarantined_without_edited_text": 1,
+   "phi3_trace_violations": 0,
+   "by_repetition": {
+    "repetition_1": {
+     "round0_violation": 0.3636,
+     "round0_lexical": 0.0227,
+     "generations": 1.3182,
+     "skipped_quarantined": 1.25,
+     "correctness": 0.593,
+     "exposure": 0.6047
+    },
+    "repetitions_2_3": {
+     "round0_violation": 0.4318,
+     "round0_lexical": 0,
+     "generations": 1.0114,
+     "skipped_quarantined": 2.8068,
+     "correctness": 0.517,
+     "exposure": 0.5682
+    }
+   }
+  }
+ },
+ "method": "analyse_defence.py: question-level means, cluster bootstrap (B=10000, seed 20261016),\ntwo-sided Wilcoxon on non-zero question differences."
+}

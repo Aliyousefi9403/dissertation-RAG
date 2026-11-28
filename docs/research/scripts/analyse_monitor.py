@@ -202,8 +202,12 @@ def main(run_dir, out_dir):
             defaultdict(lambda: defaultdict(list)),
         )
         for r, m in zip(rows, mon):
+            keys = []
             for step in m.get("rounds", []):
-                if set(step.get("context_keys", [])) & quarantined_before:
+                # The restore generation reuses the last round's passages; runs before
+                # strict_restore record no keys for it (the first analysis skipped it).
+                keys = step.get("context_keys", keys)
+                if set(keys) & quarantined_before:
                     phi3_violations += 1
                 quarantined_before |= set(step.get("quarantined", []))
             rounds = m.get("rounds", [])

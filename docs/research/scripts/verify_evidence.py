@@ -94,6 +94,19 @@ CLAIMS = [
     ("LTL replay: verdicts equal to the live run", f"{RES}/runtime-monitor/ltl-replay/summary.json", ["total", "verdicts_equal_to_recorded"], 1248),
     ("LTL replay: phi3 violations", f"{RES}/runtime-monitor/ltl-replay/summary.json", ["total", "phi3_violations"], 0),
     ("Monitor v2: phi3 trace violations (PWWS verify)", f"{RES}/runtime-monitor/live-v2/summary.json", ["monitor", "monitor", "phi3_trace_violations"], 0),
+    # Correction (2026-11-28): the first phi3 checks skipped the restore generation, which reuses
+    # the last round's passages; counted, phi3 is violated there (found by the CTL design check).
+    ("phi3 corrected: v1 restore", f"{RES}/runtime-monitor/live-phi3-corrected/summary.json", ["monitor", "monitor_restore", "phi3_trace_violations"], 2),
+    ("phi3 corrected: v2 restore", f"{RES}/runtime-monitor/live-v2-phi3-corrected/summary.json", ["monitor", "monitor_restore", "phi3_trace_violations"], 2),
+    ("phi3 corrected: v3 restore", f"{RES}/runtime-monitor/live-v3-phi3-corrected/summary.json", ["monitor", "monitor_restore", "phi3_trace_violations"], 1),
+    ("phi3 corrected: v2 verify", f"{RES}/runtime-monitor/live-v2-phi3-corrected/summary.json", ["monitor", "monitor", "phi3_trace_violations"], 0),
+    ("LTL replay v2 (with restore steps): drafts", f"{RES}/runtime-monitor/ltl-replay-v2/summary.json", ["total", "drafts_checked"], 1873),
+    ("LTL replay v2 (with restore steps): phi3 violations", f"{RES}/runtime-monitor/ltl-replay-v2/summary.json", ["total", "phi3_violations"], 5),
+    ("CTL: as-run restore violates phi3", f"{RES}/model-check/summary.json", ["designs", "as_run", "restore", "properties", "P1_phi3_quarantined_never_in_context", "holds"], False),
+    ("CTL: as-run restore releases phi1 violations", f"{RES}/model-check/summary.json", ["designs", "as_run", "restore", "properties", "P5_phi1_no_released_answer_copies_rare_words", "holds"], False),
+    ("CTL: strict restore satisfies phi3", f"{RES}/model-check/summary.json", ["designs", "strict", "restore", "properties", "P1_phi3_quarantined_never_in_context", "holds"], True),
+    ("CTL: strict restore satisfies phi1 on release", f"{RES}/model-check/summary.json", ["designs", "strict", "restore", "properties", "P5_phi1_no_released_answer_copies_rare_words", "holds"], True),
+    ("CTL: verify mode satisfies phi3", f"{RES}/model-check/summary.json", ["designs", "as_run", "verify", "properties", "P1_phi3_quarantined_never_in_context", "holds"], True),
     (
         "Main run: clean correctness",
         MAIN,

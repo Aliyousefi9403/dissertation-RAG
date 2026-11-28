@@ -394,3 +394,66 @@ def test_unknown_blame_is_rejected(ontology, tmp_path):
             llm_factory=None,
             blame="other",
         )
+
+
+# --- strict restore: the two gaps found by the CTL design check ---
+
+
+def _restore(tmp_path, ontology, answers, strict, search_fn, **kwargs):
+    llm = StubLLM(answers)
+    capture = {}
+    memory = rm.QuarantineMemory(tmp_path / f"strict-{strict}.jsonl")
+    out = rm.monitored_answer(
+        "How does Backdoor work?",
+        "poisoned",
+        mode="restore",
+        memory=memory,
+        llm_factory=_runnable(llm),
+        ontology=ontology,
+        search_fn=search_fn,
+        capture=capture,
+        strict_restore=strict,
+        **kwargs,
+    )
+    return out, capture["monitor"], memory, llm
+
+
+def test_strict_restore_drops_passages_quarantined_in_the_last_round(
+    ontology, tmp_path, monkeypatch
+):
+    # One round only, so the refusal's blame lands in the last round; restore follows.
+    monkeypatch.setattr(rm, "MAX_ROUNDS", 0)
+    answers = [REFUSAL, "The adversary implants malicious software."]
+    for strict in (False, True):
+        out, monitor, memory, llm = _restore(
+            tmp_path, ontology, answers, strict, search
+        )
+        assert out["outcome"] == "restored"
+        restore = monitor["rounds"][-1]
+        assert restore["round"] == "restore"
+        assert rm.passage_key(POISONED) in memory
+        assert (rm.passage_key(POISONED) in restore["context_keys"]) == (not strict)
+        assert ("engraft" in llm.prompts[-1].lower()) == (not strict)
+        assert monitor["policy_version"].endswith("+strict-restore") == strict
+
+
+def test_strict_restore_withholds_a_restored_answer_that_violates_phi1(
+    ontology, tmp_path
+):
+    # Nothing is blamed (contextual scorer flags nothing), so restore keeps the passage with
+    # the rare word, and the restored answer copies it.
+    tainted = CLEAN[:2] + [POISONED]
+    answers = [REFUSAL, "They engraft the implant."]
+    for strict, expected in ((False, "restored"), (True, "withheld")):
+        out, monitor, _, _ = _restore(
+            tmp_path,
+            ontology,
+            answers,
+            strict,
+            lambda q, k: [(d, 0.5) for d in tainted],
+            blame="contextual",
+            scorer=_scorer(set()),
+        )
+        assert out["outcome"] == expected
+        assert monitor["final_violations"][0]["spec"] == "phi1_lexical"
+        assert (out["answer"] == rm.WITHHELD) == strict

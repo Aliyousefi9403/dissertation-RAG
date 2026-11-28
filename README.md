@@ -90,7 +90,7 @@ each passage as probable under the language model, at budgets of 0, 4.46, 20, 10
 | Monitor, verify mode (TextFooler) | exposure 0.82 → 0.58 (p = 0.001) |
 | Monitor, restore mode | correctness 0.555 → 0.786 (p = 0.0001), refusals 45 → 7 |
 | Monitor on clean data | correctness 0.708 vs 0.714, nothing quarantined |
-| φ3 checked over the full trace of the monitor run | 0 violations |
+| φ3 checked over the full trace of the monitor run | 0 violations in verify mode; 2 of 58 restore fallbacks reused a passage quarantined in the same answer (found by the CTL design check, corrected 28 Nov 2026) |
 
 Costs and failure cases are reported in the paper with every gain, including the monitor's imprecise
 blame step (on PWWS, 10 of the 18 quarantined passages were edited).

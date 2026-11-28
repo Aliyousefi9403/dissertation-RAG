@@ -197,6 +197,8 @@ Before any live run, the rules were applied to answers already recorded in the m
 | Fell back to MITRE | — | 58 | — | — |
 | φ3 violations in traces | 0 | 0 | 0 | 0 |
 
+**Correction (28 Nov 2026):** the φ3 check skipped the restore-mode fallback generation, which is made from the last round's passages and recorded no passage list. Counted, φ3 is violated in the restore condition: 2 fallbacks in the v1 run, 2 of 58 in the v2 run, 1 in the v3 run, each because a passage quarantined in that round stayed in the fallback's context; verify-mode conditions have none. Found by the CTL design check (`docs/research/scripts/monitor_model_check.py`, `results/model-check/`); corrected counts in `results/runtime-monitor/*-phi3-corrected/` and `ltl-replay-v2/`. The fix is `strict_restore=True` in `monitored_answer`.
+
 **Memory across repetitions (repetition 1 → repetitions 2–3):**
 
 | | PWWS | TextFooler |
@@ -211,7 +213,7 @@ Before any live run, the rules were applied to answers already recorded in the m
 **What worked.**
 
 - The monitor reduced how often edited text reached the model on both attacks, and on PWWS it left no wrong answers.
-- φ3 held in every trace: the memory never re-admitted a quarantined passage.
+- φ3 held in every verify-mode trace: retrieval never re-admitted a quarantined passage. (Corrected 28 Nov 2026: in restore mode the fallback reused a passage quarantined in the same answer in 2 of 58 fallbacks; see the note in §10.)
 - On clean data it quarantined nothing and withheld nothing.
 - With the trusted fallback, correctness recovered to the level of the unattacked system and refusals fell to 7.
 

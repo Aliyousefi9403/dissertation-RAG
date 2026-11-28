@@ -719,6 +719,8 @@ At frozen thresholds (edited chunks flagged; false-positive rate on unedited chu
 | Generations (baseline 132) | 145 | 199 | 132 | 149 |
 | φ3 violations in the replayed trace | 0 | 0 | 0 | 0 |
 
+**Correction (28 Nov 2026):** the φ3 check skipped the restore-mode fallback generation, which is made from the last round's passages and recorded no passage list. Counted, φ3 is violated in the restore condition: 2 fallbacks in the v1 run, 2 of 58 in the v2 run, 1 in the v3 run, each because a passage quarantined in that round stayed in the fallback's context; verify-mode conditions have none. Found by the CTL design check (`docs/research/scripts/monitor_model_check.py`, `results/model-check/`); corrected counts in `results/runtime-monitor/*-phi3-corrected/` and `ltl-replay-v2/`. The fix is `strict_restore=True` in `monitored_answer`.
+
 **Memory across repetitions** (repetition 1 → repetitions 2–3): quarantined passages skipped at the first retrieval 0.68 → 1.32 per answer (PWWS) and 1.39 → 2.81 (TextFooler); edited-text exposure 0.318 → 0.261 (PWWS) and 0.614 → 0.568 (TextFooler); generations per answer 1.18 → 1.06 and 1.36 → 1.01. The repeated poisoned phrase "Engraft Malicious Package" reached the user in 3 of 3 repetitions without the monitor and in 0 of 3 with it: in repetition 1 a passage quarantined after an earlier question was already skipped; in repetition 2 a second, overlapping passage surfaced, was caught by φ1 and quarantined; in repetition 3 both were skipped and no violation occurred.
 
 **Findings.**
