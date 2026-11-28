@@ -25,6 +25,7 @@ corpus; rows are matched by (document, start) to compare with the distilgpt2 sco
 
 import json
 import math
+import os
 import random
 import re
 import sys
@@ -58,7 +59,7 @@ CANDIDATE_WORDS, CANDIDATE_SYNONYMS, TOP = 10, 5, 3
 BATCH, MAX_TOKENS = 32, 256
 SEED, B = 20261016, 2000
 torch.manual_seed(0)
-torch.set_num_threads(2)
+torch.set_num_threads(int(os.environ.get("AEGIS_THREADS", "2")))
 
 
 class MaskedLM:
