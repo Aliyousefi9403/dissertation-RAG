@@ -28,13 +28,24 @@ from app.defence import runtime_monitor as rm
 from app.evaluation.pilot_records import sha256, utc_now, write_new_json
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from run_defence_eval import TIMEOUT, judge, llm_factory  # noqa: E402
+from run_defence_eval import TIMEOUT, judge, llm_factory
 
-CONDITIONS = {
+ALL_CONDITIONS = {
     "monitor": ("poisoned", "verify"),
     "monitor_restore": ("poisoned", "restore"),
     "clean_monitor": ("clean", "verify"),
     "textfooler_monitor": ("textfooler", "verify"),
+    # Restore mode on the clean corpus: how much of the restore gain is rescuing answers the clean
+    # system already refused, rather than repairing poisoning (review point).
+    "clean_monitor_restore": ("clean", "restore"),
+}
+# AEGIS_MONITOR_CONDITIONS=a,b selects conditions; the default is the original four.
+CONDITIONS = {
+    c: ALL_CONDITIONS[c]
+    for c in os.environ.get(
+        "AEGIS_MONITOR_CONDITIONS",
+        "monitor,monitor_restore,clean_monitor,textfooler_monitor",
+    ).split(",")
 }
 BLAME = os.environ.get("AEGIS_MONITOR_BLAME", "rare_words")
 POLICY = rm.POLICY_VERSION_CONTEXTUAL if BLAME == "contextual" else rm.POLICY_VERSION
@@ -154,7 +165,7 @@ def main(main_run_dir, output):
                         capture=capture,
                         blame=BLAME,
                     )["answer"]
-                except Exception as error:  # recorded, never hidden
+                except Exception as error:  # noqa: BLE001  recorded, never hidden
                     answer = None
                     capture.setdefault(
                         "error",
