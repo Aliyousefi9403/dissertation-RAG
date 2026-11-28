@@ -67,3 +67,11 @@ listed against their current hash in `docs/research/commit-hash-map.tsv`.
 | Minor: caveat restore mode in abstract; computational cost; reconcile counts (8.4% / 10.4% / 9–14%, 200 vs 191); cite DISP (Zhou et al. 2019) and Machine Against the RAG (Shafran et al. 2025); threat-model write access and budget; test the contextual blame step (done: v3); runtime-verification framing (done: generated LTL monitors) | Editing pass plus timings | To do |
 
 Note: the "garbled" passages the report quotes ("vation behind ...", a truncated Reproducibility paragraph) are text-extraction artefacts of the two-column PDF; the source and the PDF are intact.
+
+## Reproducing the live runs in a fresh container
+
+The recorded runs identify each passage by a hash of its source path, offset and text. The clean and
+PWWS collections were indexed from `/home/user/AegisRAG/backend/...`; re-index them from a copy of
+`backend` at that path (the TextFooler collection was indexed from `/home/user/dissertation-rag/backend`),
+otherwise recorded passage keys do not match. Checked on 28 Nov 2026: all 57 clean, 65 PWWS and 66
+TextFooler passage keys of the v2 monitor run match the re-indexed collections.
